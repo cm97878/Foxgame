@@ -1,0 +1,228 @@
+body {
+    background: rgb(37, 37, 37);
+    color: rgb(206, 206, 206);
+    text-align: center;
+    
+}
+
+/* .general_margin {
+    margin: 5px;
+    outline: 1px solid rgb(97, 97, 97);
+} */
+
+#vueWrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.general_outline {
+    outline: 1px solid rgb(97, 97, 97);
+}
+
+#window_border {
+    width: 95vw;
+    height: 95vh;
+    align-items: flex-start;
+    margin: 10px;
+    display: flex;
+    justify-content: space-evenly;
+    outline: 1px solid rgb(179, 11, 11);
+    padding: 5px;
+}
+
+#right_side_container {
+    display: flex;
+    flex-direction: column;
+    min-width: 600px;
+    min-height: 600px;
+    width: 50%;
+    height: 100%;
+    margin-left: 8px;
+}
+
+#centering {
+    width: 200px;
+    height: 100px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+#info_section {
+    width: 50%;
+    height: 100%;
+    min-width: 800px;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+#info_top_buttons_container {
+    height: 120px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: top;
+    justify-content: center;
+}
+
+.info_buttons {
+    outline: 1px solid rgb(0, 140, 255);
+    border: none;
+    background-color: rgb(71, 71, 71);
+    color: rgb(247, 247, 247);
+    
+    text-align: center;
+    height: 30px;
+    width: 120px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 12pt;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 10px;
+}
+    .info_buttons:hover {
+        background-color: rgb(0, 140, 255);
+        color: rgb(12, 12, 12);
+    }
+
+
+/* #region combat */
+
+.combat_graphics_container {
+    display: flex;
+    width: 100%;
+}
+
+
+.combat_graphic {
+    flex-grow: 2;
+    min-height: 240px;
+}
+
+#info_soul_graphic {
+    flex-grow: 1;
+    min-height: 180px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.stats_flex_container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.stats_container {
+    min-width: 180px;
+    width: 48%;
+    min-height: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: start;
+}
+
+
+.combat_stats {
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+}
+
+.info_hp_bar_outline {
+    width: 100%;
+    height: 30px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    background: rgb(170, 16, 16);
+    z-index: -2;
+}
+
+.hp_bar_background {
+    height: 100%;
+    width: 100%;
+    background-color: rgb(25, 139, 53);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
+}
+
+#info_combat_log {
+    width: 100%;
+    height: 165px;
+}
+
+
+
+/* youre gonna want to have like, 3 boxes on top row 2 on bottom, and then absolutely position a bordered box with a background on top of them */
+
+/* #endregion info */
+
+
+/* #region soul upgrades */
+
+
+
+/* #endregion */
+
+
+/* #region currency */
+#currency_section {
+    text-align: center;
+    height: 150px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+}
+
+#soul_counter_container {
+    font-size: 24pt;
+    color: rgb(247, 247, 247);
+    height: 80px;
+    justify-content: center;
+    margin-bottom: 1px;
+    line-height: .8;
+    min-width: 100px;
+}
+
+#soul_bead_counters_container {
+    font-size: 8pt;
+    margin-top: 10px;
+    background-color: white;
+    color: black;
+}
+
+#currency_empty_space_filler {
+    height: 150px;
+}
+
+/* #endregion */
+
+/* #region map */
+#map_section {
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#map_description {
+    height: 100px;
+
+}
+
+#map_network {
+    height: 100%;
+    width: 100%;
+    outline: 1px solid rgb(97, 97, 97);
+}
+
+/* #endregion */
