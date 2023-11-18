@@ -9,8 +9,8 @@
                 a lil soul icon will go here <br />
                 <button @click="startFight(mapStuff.enemyList.rat)">test</button>
                 <button @click="runTurn()">go</button>
-                <button @click="addItem">Add</button>
-                <button @click="removeItem">Subtract</button>
+                <button @click="addItem(), removeItem()">Tick</button>
+                <!-- <button @click="removeItem">Subtract</button> -->
             </div>
             <div id="info_enemy_graphic" class="general_outline combat_graphic">
                 enemy will go here
@@ -18,7 +18,10 @@
         </div>
 
         <div id="turn_carousel" class="general_outline">
-            <CarouselIcon v-for="(item) in carousel_array" :key="item.id" :icon="item.type" />
+            <div id="carousel_line" class="general_outline"></div>
+            <TransitionGroup name="carousel">
+                <CarouselIcon v-for="(item) in carousel_array" :key="item.id" :icon="item.type" />
+            </TransitionGroup>
         </div>
 
         <div class="stats_flex_container">
@@ -87,12 +90,29 @@ const carousel_array = ref([
     {
         id: 3,
         type: "player"
+    },
+    {
+        id: 4,
+        type: "player"
+    },
+    {
+        id: 5,
+        type: "enemy"
+    },
+    {
+        id: 6,
+        type: "player"
+    },
+    {
+        id: 7,
+        type: "player"
     }
 ])
-const arrayIndex = ref(4)
+const arrayIndex = ref(8)
 
 const addItem = function() {
     carousel_array.value.push({id: arrayIndex.value, type: "player"})
+    arrayIndex.value++;
 }
 const removeItem = function() {
     carousel_array.value.shift();

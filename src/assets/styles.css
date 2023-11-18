@@ -115,16 +115,43 @@ body {
     height: 40px;
     margin-top: 8px;
     margin-bottom: 8px;
-    width: 50%
+    width: 50%;
+    position: relative;
+}
+
+#carousel_line {
+    width: 270px;
+    position: absolute;
 }
 
 .carousel_item {
     margin-left: 4px;
     margin-right: 4px;
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
+    z-index: 1;
 }
 
+.carousel-move,
+.carousel-enter-active,
+.carousel-leave-active {
+    transition: all 0.4s ease;
+}
+
+.carousel-enter-from,
+.carousel-leave-to {
+    opacity: 0;
+}
+.carousel-enter-from {
+    transform: translateX(24px);
+}
+.carousel-leave-to {
+    transform: translateX(-100px);
+}
+
+.carousel-leave-active {
+    position: absolute;
+  }
 
 
 
