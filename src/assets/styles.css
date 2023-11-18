@@ -5,11 +5,6 @@ body {
     
 }
 
-/* .general_margin {
-    margin: 5px;
-    outline: 1px solid rgb(97, 97, 97);
-} */
-
 #vueWrapper {
     display: flex;
     justify-content: center;
@@ -30,6 +25,9 @@ body {
     padding: 5px;
 }
 
+
+
+
 #right_side_container {
     display: flex;
     flex-direction: column;
@@ -40,16 +38,7 @@ body {
     margin-left: 8px;
 }
 
-#centering {
-    width: 200px;
-    height: 100px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin: auto;
-}
-
-#info_section {
+#left_side_container {
     width: 50%;
     height: 100%;
     min-width: 800px;
@@ -58,6 +47,8 @@ body {
     flex-wrap: wrap;
     flex-direction: column;
 }
+
+
 
 #info_top_buttons_container {
     height: 120px;
@@ -91,6 +82,13 @@ body {
 
 /* #region combat */
 
+#combat_tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
 .combat_graphics_container {
     display: flex;
     width: 100%;
@@ -108,6 +106,27 @@ body {
     margin-left: 0px;
     margin-right: 0px;
 }
+
+
+#turn_carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    width: 50%
+}
+
+.carousel_item {
+    margin-left: 4px;
+    margin-right: 4px;
+    width: 20px;
+    height: 20px;
+}
+
+
+
 
 .stats_flex_container {
     display: flex;

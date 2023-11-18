@@ -1,5 +1,5 @@
 <template>
-    <div v-show="active === 'soulUpgrades'" class="general_margin">
+    <div v-show="active === 'soulUpgrades'">
         yippee!
     </div>
 </template>
