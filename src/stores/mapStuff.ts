@@ -20,6 +20,7 @@ export const useMapStuff = defineStore('mapStuff', {
                 attack: new Decimal("2"),
                 defense: new Decimal("0"),
                 hp: new Decimal("7"),
+                spd: 300,
                 soulAbsorb: new Decimal("0"),
                 soulKill: new Decimal("0"),
             }

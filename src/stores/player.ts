@@ -13,7 +13,8 @@ export const usePlayer = defineStore('player', {
             attack: new Decimal("3"),
             defense: new Decimal("0"),
             maxHealth: new Decimal("15"),
-            currentHealth: new Decimal("10")
+            currentHealth: new Decimal("10"),
+            spd: 200
         }
     }),
     getters: {
@@ -48,6 +49,11 @@ export const usePlayer = defineStore('player', {
         },
         getHpMaxDisplay(): string {
             return this.getHpMax.toString().replace("+","");
+        },
+
+        getSpd(): number {
+            let finalSpd = this.baseStats.spd;
+            return finalSpd;
         },
 
 

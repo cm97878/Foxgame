@@ -96,12 +96,12 @@ body {
 
 
 .combat_graphic {
-    flex-grow: 2;
+    width: 37.5%;
     min-height: 240px;
 }
 
 #info_soul_graphic {
-    flex-grow: 1;
+    width: 25%;
     min-height: 180px;
     margin-left: 0px;
     margin-right: 0px;
@@ -151,7 +151,24 @@ body {
 
 .carousel-leave-active {
     position: absolute;
-  }
+}
+
+
+
+
+.attack-text-leave-active {
+    transition: opacity 0.8s ease;
+}
+.attack-text-enter-active {
+    transition: opacity 1ms;
+}
+
+.attack-text-leave-to,
+.attack-text-enter-from {
+    opacity: 0;
+}
+
+
 
 
 

@@ -3,17 +3,21 @@
 
         <div class="combat_graphics_container">
             <div id="info_player_graphic" class="general_outline combat_graphic">
-                Player will go here
+                <Transition name="attack-text">
+                    <div v-show="playerDamage">{{player.getAtkDisplay + " damage!"}}</div>
+                </Transition>
             </div>
             <div id="info_soul_graphic">
                 a lil soul icon will go here <br />
-                <button @click="startFight(mapStuff.enemyList.rat)">test</button>
-                <button @click="runTurn()">go</button>
-                <button @click="addItem(), removeItem()">Tick</button>
+                <button @click="startFight(mapStuff.enemyList.rat)">test</button> <br />
+                
+                <!-- <button @click="removeItem()">Tick</button> -->
                 <!-- <button @click="removeItem">Subtract</button> -->
             </div>
             <div id="info_enemy_graphic" class="general_outline combat_graphic">
-                enemy will go here
+                <Transition name="attack-text">
+                    <span v-show="enemyDamage">{{ enemyAtk.toString() + " damage!" }}</span>
+                </Transition>
             </div>
         </div>
 
@@ -35,6 +39,7 @@
                     Def: {{ player.getDefDisplay }} <br />
 
                 </div>
+                <button @click="playerAttack('')" :disabled="!playerTurn">go</button>
             </div>
 
             <div v-show="fighting" class="general_outline stats_container" >
@@ -53,7 +58,7 @@
         </div>
 
         <div id="info_combat_log">
-
+            {{ battleResult }}
         </div>
     </div>
 </template>
@@ -64,6 +69,7 @@ import { useMapStuff } from '@/stores/mapStuff';
 import Decimal from 'break_infinity.js';
 import { ref, computed } from 'vue';
 import type { Enemy } from '../types/enemy';
+import type { CarouselItem } from '../types/carouselItem';
 import CarouselIcon from './CarouselIcon.vue';
 const player = usePlayer();
 const mapStuff = useMapStuff();
@@ -74,48 +80,23 @@ const props = defineProps({
     active: String
 })
 
-const carousel_array = ref([
-    {
-        id: 0,
-        type: "player"
-    },
-    {
-        id: 1,
-        type: "enemy"
-    },
-    {
-        id: 2,
-        type: "player"
-    },
-    {
-        id: 3,
-        type: "player"
-    },
-    {
-        id: 4,
-        type: "player"
-    },
-    {
-        id: 5,
-        type: "enemy"
-    },
-    {
-        id: 6,
-        type: "player"
-    },
-    {
-        id: 7,
-        type: "player"
-    }
-])
-const arrayIndex = ref(8)
+const carousel_array = ref<CarouselItem[]>([])
+const arrayIndex = ref(0)
 
-const addItem = function() {
-    carousel_array.value.push({id: arrayIndex.value, type: "player"})
+const addItem = function(type:string) {
+    carousel_array.value.push({id: arrayIndex.value, type: type})
     arrayIndex.value++;
 }
-const removeItem = function() {
+const incrementCarousel = function() {
     carousel_array.value.shift();
+    for(; carousel_array.value.length < 8; arrCount++) {
+        if(arrCount%player.getSpd === 0) {
+            addItem("player");
+        }
+        if(arrCount%enemySpd.value === 0) {
+            addItem("enemy");
+        }
+    }
 }
 
 
@@ -126,25 +107,89 @@ const enemyAtk = ref(new Decimal(0));
 const enemyDef = ref(new Decimal(0));
 const enemyHpMax = ref(new Decimal(0));
 const enemyHpCurr = ref(new Decimal(0));
+const enemySpd = ref(0);
+var arrCount = 0;
+const playerTurn = ref(false);
+const playerDamage = ref(false);
+const enemyDamage = ref(false);
+
+const win = ref("");
+const battleResult = ref("");
 
 const startFight = function(enemy:Enemy) {
+    player.baseStats.currentHealth = player.baseStats.maxHealth;
+    battleResult.value = "";
+
     fighting.value = true
     enemyName.value = enemy.name;
     enemyAtk.value = enemy.attack;
     enemyDef.value = enemy.defense;
     enemyHpMax.value = enemy.hp;
     enemyHpCurr.value = enemy.hp;
+    enemySpd.value = enemy.spd;
 
+    carousel_array.value = [];
+
+    for(arrCount = 1; carousel_array.value.length < 8; arrCount++) {
+        if(arrCount%player.getSpd === 0) {
+            addItem("player");
+        }
+        if(arrCount%enemySpd.value === 0) {
+            addItem("enemy");
+        }
+    }
+    runTurn();
 }
 
 const runTurn = function() {
-    enemyHpCurr.value = Decimal.subtract(enemyHpCurr.value, player.getAtk);
-    if(enemyHpCurr.value.gte(0)) {
-        player.damage(enemyAtk.value);
+    if(player.baseStats.currentHealth.lte(0)){
+        battleResult.value = "lose :(";
+        carousel_array.value = [];
     }
-    else{
-        console.log("you win!")
+    else if(enemyHpCurr.value.lte(0)) {
+        battleResult.value = "win! :3"
+        carousel_array.value = [];
     }
+    else if(carousel_array.value[0].type === "player") {
+        playerTurn.value = true;
+    }
+    else {
+        runEnemyTurn();
+    }
+}
+
+const playerAttack = function(attack:string) {
+    playerTurn.value = false;
+    //only one attack, this can be added later but just make a separate function to determine
+    //specific attack effects, or a switch case or something idk
+    //for now this shall be flavored as Claw
+
+    //play animation
+    
+    playerDamage.value = true;
+    setTimeout(function(){
+        playerDamage.value = false;
+        enemyHpCurr.value = Decimal.subtract(enemyHpCurr.value, Decimal.subtract(player.getAtk, enemyDef.value));
+    }, 400)
+    setTimeout(function(){
+        incrementCarousel();
+        runTurn(); 
+    }, 800)
+}
+
+const runEnemyTurn = function() {
+    //enemy ai should go here, but thats. way down the line
+
+    
+    enemyDamage.value = true;
+    setTimeout(function() {
+        enemyDamage.value = false;
+        player.damage(Decimal.subtract(enemyAtk.value, player.getDef));
+    }, 400)
+    setTimeout(function(){
+        incrementCarousel();
+        runTurn(); 
+    }, 800)
 }
 
 const enemyHpRatio = computed(() : string => {

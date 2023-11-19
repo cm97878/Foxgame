@@ -5,6 +5,7 @@ export interface Enemy {
     attack: Decimal;
     defense: Decimal;
     hp: Decimal;
+    spd: number;
     soulAbsorb: Decimal;
     soulKill: Decimal;
   }
