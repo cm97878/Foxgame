@@ -82,6 +82,18 @@ const props = defineProps({
     active: String
 })
 
+/** 
+ * TODO: Need to figure out how to format the actual fight page.
+ * Areas might in general have more than just combat, so this should be
+ * decided at some point. Will you be able to fish at the river?
+ * Will you gather herbs? Could just keep the combat space as it is
+ * right now but could also have it be its own sorta tab thingy?
+ * Could do a like, tab style w/ a general info, combat, gathering
+ * Put picture, description, overview (enemies, can gather, can fish, etc)
+ * on the general info and then the actions can be done at the individual tabs
+ * 
+ * also im totally putting off making the nodemap lol thats gonna be so annoying
+*/
 
 
 //sets up the carousel, empty ref array, start index
@@ -105,8 +117,6 @@ const incrementCarousel = function() {
         }
     }
 }
-
-
 
 
 //stats
