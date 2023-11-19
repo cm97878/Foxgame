@@ -9,11 +9,12 @@ export const usePlayer = defineStore('player', {
         unlocks: {
 
         },
+        name: "Fox",
         baseStats: {
             attack: new Decimal("3"),
             defense: new Decimal("0"),
             maxHealth: new Decimal("15"),
-            currentHealth: new Decimal("10"),
+            currentHealth: new Decimal("15"),
             spd: 200
         }
     }),

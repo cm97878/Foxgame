@@ -3,6 +3,7 @@
 
         <div class="combat_graphics_container">
             <div id="info_player_graphic" class="general_outline combat_graphic">
+                {{ player.name }} <br />
                 <Transition name="attack-text">
                     <div v-show="playerDamage">{{player.getAtkDisplay + " damage!"}}</div>
                 </Transition>
@@ -15,6 +16,7 @@
                 <!-- <button @click="removeItem">Subtract</button> -->
             </div>
             <div id="info_enemy_graphic" class="general_outline combat_graphic">
+                {{ enemyName }} <br />
                 <Transition name="attack-text">
                     <span v-show="enemyDamage">{{ enemyAtk.toString() + " damage!" }}</span>
                 </Transition>
@@ -80,13 +82,18 @@ const props = defineProps({
     active: String
 })
 
+
+
+//sets up the carousel, empty ref array, start index
 const carousel_array = ref<CarouselItem[]>([])
 const arrayIndex = ref(0)
 
+//adds item, increments index
 const addItem = function(type:string) {
     carousel_array.value.push({id: arrayIndex.value, type: type})
     arrayIndex.value++;
 }
+//shifts array, loops arrCount (battle turn timer) until another turn is added
 const incrementCarousel = function() {
     carousel_array.value.shift();
     for(; carousel_array.value.length < 8; arrCount++) {
@@ -101,25 +108,37 @@ const incrementCarousel = function() {
 
 
 
+
+//stats
 const fighting = ref(false);
-const enemyName = ref("");
+const enemyName = ref("Not Fighting");
 const enemyAtk = ref(new Decimal(0));
 const enemyDef = ref(new Decimal(0));
 const enemyHpMax = ref(new Decimal(0));
 const enemyHpCurr = ref(new Decimal(0));
 const enemySpd = ref(0);
-var arrCount = 0;
-const playerTurn = ref(false);
+const enemySoulKill = ref(new Decimal(0));
+const enemySoulAbsorb = ref(new Decimal(0));
+
+var arrCount = 0; //battle turn timer
+const playerTurn = ref(false); //controls whether player can click actions
+
+
+//stuff for testing, will delete later
 const playerDamage = ref(false);
 const enemyDamage = ref(false);
-
 const win = ref("");
 const battleResult = ref("");
 
+
+
 const startFight = function(enemy:Enemy) {
-    player.baseStats.currentHealth = player.baseStats.maxHealth;
+    //heal player, this may be redundant.. currHealth should maybe be var in combatPanel instead?
+    //i dont plan to have damage persist for other things
+    player.baseStats.currentHealth = player.baseStats.maxHealth; 
     battleResult.value = "";
 
+    //fighting true, enemy values equal to passed enemy
     fighting.value = true
     enemyName.value = enemy.name;
     enemyAtk.value = enemy.attack;
@@ -127,9 +146,14 @@ const startFight = function(enemy:Enemy) {
     enemyHpMax.value = enemy.hp;
     enemyHpCurr.value = enemy.hp;
     enemySpd.value = enemy.spd;
-
+    enemySoulAbsorb.value = enemy.soulAbsorb;
+    enemySoulKill.value = enemy.soulKill;
+    
+    //reset array stuff
     carousel_array.value = [];
+    arrayIndex.value = 0;
 
+    //initial 8-turn population of carousel
     for(arrCount = 1; carousel_array.value.length < 8; arrCount++) {
         if(arrCount%player.getSpd === 0) {
             addItem("player");
@@ -141,17 +165,20 @@ const startFight = function(enemy:Enemy) {
     runTurn();
 }
 
+//check if battle is over and handle, otherwise run turn based on upcoming carousel item
 const runTurn = function() {
     if(player.baseStats.currentHealth.lte(0)){
         battleResult.value = "lose :(";
         carousel_array.value = [];
     }
     else if(enemyHpCurr.value.lte(0)) {
-        battleResult.value = "win! :3"
+        battleResult.value = "win! :3";
+        enemyName.value = "dead lul";
+        player.addSoul(enemySoulKill.value);
         carousel_array.value = [];
     }
     else if(carousel_array.value[0].type === "player") {
-        playerTurn.value = true;
+        playerTurn.value = true; //just enables player buttons that will do stuff
     }
     else {
         runEnemyTurn();
@@ -164,13 +191,18 @@ const playerAttack = function(attack:string) {
     //specific attack effects, or a switch case or something idk
     //for now this shall be flavored as Claw
 
-    //play animation
+
+    //play animation here someday
     
+
+    //for now, show dmg text immediately, wait .4s, fadeout and deal damage
     playerDamage.value = true;
     setTimeout(function(){
         playerDamage.value = false;
         enemyHpCurr.value = Decimal.subtract(enemyHpCurr.value, Decimal.subtract(player.getAtk, enemyDef.value));
     }, 400)
+
+    //wait another .4s past first, increment turn, run next turn
     setTimeout(function(){
         incrementCarousel();
         runTurn(); 
@@ -180,7 +212,6 @@ const playerAttack = function(attack:string) {
 const runEnemyTurn = function() {
     //enemy ai should go here, but thats. way down the line
 
-    
     enemyDamage.value = true;
     setTimeout(function() {
         enemyDamage.value = false;
@@ -192,6 +223,17 @@ const runEnemyTurn = function() {
     }, 800)
 }
 
+
+
+
+
+
+
+
+
+
+
+
 const enemyHpRatio = computed(() : string => {
     let x = enemyHpCurr.value.dividedBy(enemyHpMax.value).times(100)
     if(x.gte("0")) {
@@ -202,29 +244,9 @@ const enemyHpRatio = computed(() : string => {
     }
 })
 
+
+
 defineExpose({enemyHpRatio})
-
-const up = function() {
-    // player.baseStats.currentHealth = Decimal.subtract(player.baseStats.currentHealth, 1);
-    console.log(enemyHpRatio)
-}
-
-const down = function() {
-    player.subtractSoul(1)
-
-
-}
-
-
-//TODO//
-//Make a new store, for map data - should be mostly just things like the enemy list
-//area names and descriptions may change, and likely will end up doing so - BUT!
-//you also may consider just having areas in the same other store, and having an
-//additional variable that prompts it to look for changes in the savefile.
-//or something like, parse the area data through getters and use special characters to denote
-//grabbing from the save file. maybe
-//run this by malth lmao
-//hi malth
 
 </script>
 
