@@ -41,7 +41,10 @@
                     Def: {{ player.getDefDisplay }} <br />
 
                 </div>
-                <button @click="playerAttack('')" :disabled="!playerTurn">go</button>
+                <div>
+                    <button @click="playerAction('attack')" :disabled="!playerTurn">Attack</button>
+                    <button @click="playerAction('wait')" :disabled="!playerTurn">Wait</button>
+                </div>
             </div>
 
             <div v-show="fighting" class="general_outline stats_container" >
@@ -202,7 +205,7 @@ const runTurn = function() {
     }
 }
 
-const playerAttack = function(attack:string) {
+const playerAction = function(action:string) {
     playerTurn.value = false;
     //only one attack, this can be added later but just make a separate function to determine
     //specific attack effects, or a switch case or something idk
@@ -210,14 +213,21 @@ const playerAttack = function(attack:string) {
 
 
     //play animation here someday
-    
-
-    //for now, show dmg text immediately, wait .4s, fadeout and deal damage
-    playerDamage.value = true;
-    setTimeout(function(){
-        playerDamage.value = false;
-        enemyHpCurr.value = Decimal.subtract(enemyHpCurr.value, Decimal.subtract(player.getAtk, enemyDef.value));
-    }, 400)
+    //Should probably make something neater then Timeouts in the future... -Malt
+    //Maybe use enums too? -M
+    switch(action) {
+        case "attack": {
+            //for now, show dmg text immediately, wait .4s, fadeout and deal damage
+            playerDamage.value = true;
+            setTimeout(function(){
+                playerDamage.value = false;
+                enemyHpCurr.value = Decimal.subtract(enemyHpCurr.value, Decimal.subtract(player.getAtk, enemyDef.value));
+            }, 400)
+        }
+        case "wait": {
+            //nothing, possibly add a regen later.
+        }
+    }
 
     //wait another .4s past first, increment turn, run next turn
     setTimeout(function(){
@@ -239,17 +249,6 @@ const runEnemyTurn = function() {
         runTurn(); 
     }, 800)
 }
-
-
-
-
-
-
-
-
-
-
-
 
 const enemyHpRatio = computed(() : string => {
     let x = enemyHpCurr.value.dividedBy(enemyHpMax.value).times(100)
