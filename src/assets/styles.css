@@ -83,6 +83,8 @@ button {
 .combat_actions {
     button {
         padding: 10px;
+        margin-top: 4px;
+        margin-right: 8px;
     }
 }
 
