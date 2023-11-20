@@ -31,7 +31,7 @@
         </div>
 
         <div class="stats_flex_container">
-            <div class="general_outline stats_container">
+            <div class="stats_container">
                 <div class="general_outline info_hp_bar_outline">
                     <div id="info_player_hp_bar_solid" class="hp_bar_background"></div>
                     {{ player.getHpCurrDisplay + " / " + player.getHpMaxDisplay }}
@@ -41,13 +41,13 @@
                     Def: {{ player.getDefDisplay }} <br />
 
                 </div>
-                <div>
+                <div class="combat_actions">
                     <button @click="playerAction('attack')" :disabled="!playerTurn">Attack</button>
                     <button @click="playerAction('wait')" :disabled="!playerTurn">Wait</button>
                 </div>
             </div>
 
-            <div v-show="fighting" class="general_outline stats_container" >
+            <div v-show="fighting" class="stats_container" >
                 <div class="general_outline info_hp_bar_outline">
                     <div id="info_enemy_hp_bar_solid" class="hp_bar_background"></div>
                     {{ enemyHpCurr + " / " + enemyHpMax }}
