@@ -24,7 +24,7 @@
         </div>
 
 
-        <div id="turn_carousel" class="general_outline" v-show="fighting">
+        <div id="turn_carousel" class="general_outline">
             <div id="carousel_line" class="general_outline"></div>
             <TransitionGroup name="carousel">
                 <CarouselIcon v-for="(item) in carousel_array" :key="item.id" :icon="item.type" />
@@ -44,7 +44,7 @@
                     Def: {{ player.getDefDisplay }} <br />
 
                 </div>
-                <div class="combat_actions" v-show="fighting">
+                <div class="combat_actions">
                     <button @click="playerAction('attack')" :disabled="!playerTurn">Attack</button>
                     <button @click="playerAction('wait')" :disabled="!playerTurn">Wait</button>
                 </div>

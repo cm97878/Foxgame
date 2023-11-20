@@ -7,6 +7,7 @@
                     <button @click="showPanel(Panels.COMBAT)" v-show="combatUnlock" class="info_buttons">Combat</button>
                     <button @click="showPanel(Panels.SOUL_UPGRADES)" v-show="soulUnlock" class="info_buttons">Soul</button>
                 </div>
+                
                 <CombatPanel v-bind:active="leftMainPanelActive" />
                 <SoulUpgradePanel v-bind:active="leftMainPanelActive" />
             </div>
@@ -23,19 +24,8 @@
                     <div id="soul_bead_counters_container">
                         0
                     </div>
-                    <div id="currency_empty_space_filler">
-                    
-                    </div>
                 </div>
-
-                <div id="map_section">
-                    <div id="map_description">
-
-                    </div>
-                    <div id="map_network">
-
-                    </div>
-                </div>
+                <OvermapPanel />
             </div>
 
 
@@ -50,6 +40,7 @@
 import Decimal from 'break_infinity.js';
 import CombatPanel from './components/CombatPanel.vue'
 import SoulUpgradePanel from './components/SoulUpgradePanel.vue'
+import OvermapPanel from './components/OvermapPanel.vue';
 import { Panels } from './enums/panels';
 import { usePlayer } from './stores/player';
 import { ref, computed } from 'vue';

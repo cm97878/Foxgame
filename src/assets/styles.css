@@ -2,7 +2,8 @@ body {
     background: rgb(37, 37, 37);
     color: rgb(206, 206, 206);
     text-align: center;
-    
+    margin: 0;
+    padding: 0;
 }
 
 
@@ -54,7 +55,8 @@ button:hover {
     min-width: 480px;
     min-height: 480px;
     border: 2px solid rgb(179, 11, 11);
-    width: 50%
+    width: 50%;
+    height: 100%;
 }
 
 #left_side_container {
@@ -270,21 +272,17 @@ button:hover {
     color: black;
 }
 
-#currency_empty_space_filler {
-    height: 150px;
-}
-
 /* #endregion */
 
 /* #region map */
-#map_section {
+#maps_container {
     text-align: center;
-    height: 100%;
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
-#map_description {
+#map_keynodes {
     height: 100px;
 
 }
@@ -292,7 +290,15 @@ button:hover {
 #map_network {
     height: 100%;
     width: 100%;
+    min-height: 400px;
     outline: 1px solid rgb(97, 97, 97);
+    /* overflow: hidden;
+    user-select: none;
+    cursor: all-scroll; */
+}
+
+.map_item {
+    position: absolute;
 }
 
 /* #endregion */
