@@ -5,50 +5,61 @@ body {
     
 }
 
+
+button {
+    outline: 1px solid rgb(0, 140, 255);
+    border: none;
+    background-color: rgb(71, 71, 71);
+    color: rgb(247, 247, 247);
+    transition: background-color 0.2s, color 0.4s, box-shadow 0.02s ease-out;
+}
+
+button:active {
+    box-shadow: inset 0px 0px 5px rgb(15, 15, 15);
+}
+
+button[disabled] {
+    background-color: rgb(117, 117, 117) !important;
+    pointer-events: none;
+}
+
+button:hover {
+    background-color: rgb(0, 140, 255);
+    color: rgb(12, 12, 12);
+}
+
+
+
 #vueWrapper {
     display: flex;
     justify-content: center;
 }
 
 .general_outline {
-    outline: 1px solid rgb(97, 97, 97);
+    outline: 2px solid rgb(97, 97, 97);
 }
 
 #window_border {
     width: 95vw;
     height: 95vh;
-    align-items: flex-start;
+    align-items: stretch;
     margin: 10px;
     display: flex;
-    justify-content: space-evenly;
-    outline: 1px solid rgb(179, 11, 11);
-    padding: 5px;
 }
 
-
-
-
-#right_side_container {
+.app_container {
     display: flex;
     flex-direction: column;
-    min-width: 600px;
-    min-height: 600px;
-    width: 50%;
-    height: 100%;
-    margin-left: 8px;
+    padding: 10px;
+    min-width: 480px;
+    min-height: 480px;
+    border: 2px solid rgb(179, 11, 11);
+    width: 50%
 }
 
 #left_side_container {
-    width: 50%;
-    height: 100%;
-    min-width: 800px;
-    text-align: center;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
+    border-right: 5px solid rgb(179, 11, 11);
 }
-
-
 
 #info_top_buttons_container {
     height: 120px;
@@ -59,25 +70,18 @@ body {
 }
 
 .info_buttons {
-    outline: 1px solid rgb(0, 140, 255);
-    border: none;
-    background-color: rgb(71, 71, 71);
-    color: rgb(247, 247, 247);
-    
-    text-align: center;
     height: 30px;
     width: 120px;
     padding-left: 10px;
     padding-right: 10px;
     font-size: 12pt;
-    margin-left: 5px;
-    margin-right: 5px;
-    margin-top: 10px;
+    margin: 10px 5px 0;
 }
-    .info_buttons:hover {
-        background-color: rgb(0, 140, 255);
-        color: rgb(12, 12, 12);
-    }
+
+.info_buttons:hover {
+    background-color: rgb(0, 140, 255);
+    color: rgb(12, 12, 12);
+}
 
 
 /* #region combat */
@@ -92,6 +96,14 @@ body {
 .combat_graphics_container {
     display: flex;
     width: 100%;
+}
+
+.combat_actions {
+    button {
+        padding: 10px;
+        margin-top: 4px;
+        margin-right: 8px;
+    }
 }
 
 
@@ -113,14 +125,13 @@ body {
     justify-content: center;
     align-items: center;
     height: 40px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    width: 50%;
+    margin: 8px 0;
     position: relative;
+    width: 390px
 }
 
 #carousel_line {
-    width: 270px;
+    width: 300px;
     position: absolute;
 }
 
@@ -154,8 +165,6 @@ body {
 }
 
 
-
-
 .attack-text-leave-active {
     transition: opacity 0.8s ease;
 }
@@ -167,8 +176,6 @@ body {
 .attack-text-enter-from {
     opacity: 0;
 }
-
-
 
 
 

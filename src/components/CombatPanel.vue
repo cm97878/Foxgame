@@ -23,15 +23,18 @@
             </div>
         </div>
 
-        <div id="turn_carousel" class="general_outline">
+
+        <div id="turn_carousel" class="general_outline" v-show="fighting">
             <div id="carousel_line" class="general_outline"></div>
             <TransitionGroup name="carousel">
                 <CarouselIcon v-for="(item) in carousel_array" :key="item.id" :icon="item.type" />
             </TransitionGroup>
         </div>
 
+        
+
         <div class="stats_flex_container">
-            <div class="general_outline stats_container">
+            <div class="stats_container">
                 <div class="general_outline info_hp_bar_outline">
                     <div id="info_player_hp_bar_solid" class="hp_bar_background"></div>
                     {{ player.getHpCurrDisplay + " / " + player.getHpMaxDisplay }}
@@ -41,19 +44,19 @@
                     Def: {{ player.getDefDisplay }} <br />
 
                 </div>
-                <div>
+                <div class="combat_actions" v-show="fighting">
                     <button @click="playerAction('attack')" :disabled="!playerTurn">Attack</button>
                     <button @click="playerAction('wait')" :disabled="!playerTurn">Wait</button>
                 </div>
             </div>
 
-            <div v-show="fighting" class="general_outline stats_container" >
+            <div v-show="fighting" class="stats_container" >
                 <div class="general_outline info_hp_bar_outline">
                     <div id="info_enemy_hp_bar_solid" class="hp_bar_background"></div>
                     {{ enemyHpCurr + " / " + enemyHpMax }}
                 </div>
                 <div class="general_outline combat_stats">
-                    <div style="width: 100%; height: 100%" v-show="fighting">
+                    <div style="width: 100%; height: 100%">
                         Atk: {{ enemyAtk }} <br />
                         Def: {{ enemyDef }} <br />
                         
@@ -196,6 +199,7 @@ const runTurn = function() {
         enemyName.value = "dead lul";
         player.addSoul(enemySoulKill.value);
         carousel_array.value = [];
+        fighting.value = false;
     }
     else if(carousel_array.value[0].type === "player") {
         playerTurn.value = true; //just enables player buttons that will do stuff

@@ -1,11 +1,8 @@
 <template>
     <div id="vueWrapper">
-        <div id="window_border" class="general_outline">
+        <div id="window_border">
 
-
-
-
-            <div id="left_side_container">
+            <div id="left_side_container" class="app_container">
                 <div id="info_top_buttons_container">
                     <button @click="showPanel(Panels.COMBAT)" v-show="combatUnlock" class="info_buttons">Combat</button>
                     <button @click="showPanel(Panels.SOUL_UPGRADES)" v-show="soulUnlock" class="info_buttons">Soul</button>
@@ -17,7 +14,7 @@
 
 
 
-            <div id="right_side_container">
+            <div id="right_side_container" class="app_container">
                 <div id="currency_section">
                     <div id="soul_counter_container">
                         {{ player.currencies.soul.toNumber() }}<br />
