@@ -10,7 +10,7 @@
             </div>
             <div id="info_soul_graphic">
                 a lil soul icon will go here <br />
-                <button @click="startFight(mapStuff.enemyList.rat)">test</button> <br />
+                <button @click="startRandomFight(mapStuff.enemyList)">test</button> <br />
                 
                 <!-- <button @click="removeItem()">Tick</button> -->
                 <!-- <button @click="removeItem">Subtract</button> -->
@@ -173,6 +173,13 @@ const startFight = function(enemy:Enemy) {
         }
     }
     runTurn();
+}
+
+const startRandomFight = function(enemyList:Array<Enemy>) {
+    //Pull random encounter out of the enemyList
+    const encounterIdx = Math.floor(Math.random() * enemyList.length );
+    console.log(encounterIdx)
+    return startFight(enemyList[encounterIdx]);
 }
 
 //check if battle is over and handle, otherwise run turn based on upcoming carousel item
