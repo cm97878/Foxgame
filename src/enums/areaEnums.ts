@@ -1,8 +1,8 @@
 export enum SpecialAreaId {
-    HOME,
-    SHRINE
+    HOME = "Home",
+    SHRINE = "Shrine"
 }
 
 export enum Zone {
-    FOREST
+    FOREST = "forest"
 }

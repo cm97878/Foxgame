@@ -116,7 +116,7 @@ export const useMapStuff = defineStore('mapStuff', {
     }),
     getters: {
         isSpecial(): Boolean {
-            return !!this.selectedNode.data.areaSpecialID;
+            return this.selectedNode.data.areaSpecialID;
         },
         getAreaName(): string {
             return this.hasData ? this.selectedNode.data.areaName : "";
@@ -137,7 +137,7 @@ export const useMapStuff = defineStore('mapStuff', {
     actions: {
         setTextAppend() {
             if(this.hasData && (Math.floor(Math.random() * 100) <= 20)) {
-                switch(this.selectedNode.data.randomZone) {
+                switch(this.selectedNode.data.zone) {
                     case "forest": {
                         this.areaData.random.descAppend = this.areaData.random.forest[Math.floor(Math.random() * 3)]
                         break;
