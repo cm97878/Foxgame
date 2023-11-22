@@ -3,42 +3,29 @@
         <div id="map_keynodes">
 
         </div>
-        <div id="map_network">
+        <VueFlow v-model="mapStuff.elements" class="general_outline">
 
-        </div>
+        </VueFlow>
     </div>
 </template>
 
 
 <script setup lang="ts">
+import { useMapStuff } from '@/stores/mapStuff';
+import { VueFlow, useVueFlow } from '@vue-flow/core';
+
 const name = "overmappanel";
-// var nodes = new vis.DataSet([
-//         {id: 1, label: 'Node 1'},
-//         {id: 2, label: 'Node 2'},
-//         {id: 3, label: 'Node 3'},
-//         {id: 4, label: 'Node 4'},
-//         {id: 5, label: 'Node 5'}
-//     ]);
+const mapStuff = useMapStuff();
 
-//     // create an array with edges
-//     var edges = new vis.DataSet([
-//         {from: 1, to: 3},
-//         {from: 1, to: 2},
-//         {from: 2, to: 4},
-//         {from: 2, to: 5}
-//     ]);
-
-//     // create a network
-//     var container = document.getElementById('mynetwork');
-
-//     // provide the data in the vis format
-//     var data = {
-//         nodes: nodes,
-//         edges: edges
-//     };
-//     var options = {};
-
-//     // initialize your network!
-//     var network = new vis.Network(container, data, options);
+const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick } = useVueFlow();
+onPaneReady((instance) => {
+    nodesDraggable.value = false;
+    elementsSelectable.value = true;
+    instance.setCenter(0, 0, {zoom: 1})
+    console.log("test")
+})
+onNodeClick((node) => {
+    console.log(node.node.label);
+})
 
 </script>
