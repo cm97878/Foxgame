@@ -3,6 +3,7 @@ import Decimal from 'break_infinity.js'
 import type { Enemy } from '@/types/enemy'
 import type { GraphNode } from '@vue-flow/core'
 import type { AreaData } from '@/types/areaData'
+import { SpecialAreaId, Zone } from '@/enums/areaEnums'
 
 /* 
 name: "",
@@ -51,41 +52,41 @@ export const useMapStuff = defineStore('mapStuff', {
             {
                 id: '1',
                 type: 'input',
-                label: 'Node 1',
+                label: 'Home',
                 position: { x: 0, y: 0 },
                 class: 'light',
                 data: {
-                    areaSpecial: true, //Isn't needed, shows default if not true
+                    areaSpecialID: SpecialAreaId.HOME, //Absence of this is a regular area.
                     areaName: "Home",
-                    randomZone: "Special nodes will handle this stuff differently.",
+                    zone: Zone.FOREST,
                     description: "You can just put whatever here.",
                 } as AreaData
             },
             {
                 id: '2',
-                label: 'Node 2',
+                label: '',
                 position: { x: 100, y: 100 },
                 class: 'light',
                 data: {
                     areaName: "Dense Foliage",
-                    randomZone: "forest",
+                    zone: Zone.FOREST,
                     description: "this be some dense foliage"
                 } as AreaData
             },
             {
                 id: '3',
-                label: 'Node 3',
+                label: '',
                 position: { x: 400, y: 100 },
                 class: 'light',
                 data: {
                     areaName: "Small Clearing",
-                    randomZone: "forest",
+                    zone: Zone.FOREST,
                     description: "A specific clearing description."
                 } as AreaData
             },
             {
                 id: '4',
-                label: 'Node 4',
+                label: '???',
                 position: { x: 400, y: 200 },
                 class: 'light',
                 hidden: false,
@@ -115,46 +116,24 @@ export const useMapStuff = defineStore('mapStuff', {
     }),
     getters: {
         isSpecial(): Boolean {
-            if(this.selectedNode.data.areaSpecial) {
-                return true
-            }
-            else {
-                return false;
-            }
+            return !!this.selectedNode.data.areaSpecialID;
         },
         getAreaName(): string {
-            if(this.hasData) {
-                return this.selectedNode.data.areaName;            
-            }
-            else {
-                return "No data"
-            }
+            return this.hasData ? this.selectedNode.data.areaName : "";
         },
         getDescription(): string {
-            if(this.hasData) {
-                return this.selectedNode.data.description;      
-            }
-            else {
-                
-                return "No data"
-            }
+            return this.hasData ? this.selectedNode.data.description  : "";
         },
         getDescAppend(): string {
-            if(this.hasData) {
-                return this.areaData.random.descAppend; 
-            }
-            else return "no data"
+            return this.hasData ? this.areaData.random.descAppend  : "";
         },
         hasData(): Boolean {
-            if(Object.keys(this.selectedNode.data).length === 0) {
-                return false;
-            }
-            else return true;
+            return Object.keys(this.selectedNode.data).length !== 0
         },
 
 
 
-    },
+},
     actions: {
         setTextAppend() {
             if(this.hasData && (Math.floor(Math.random() * 100) <= 20)) {

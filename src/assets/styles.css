@@ -1,5 +1,7 @@
+/* Styles needed for Vue Flow to function. */
 @import '@vue-flow/core/dist/style.css';
-@import '@vue-flow/core/dist/theme-default.css';
+/* Custom theme */
+@import 'custom-flow-theme.css';
 
 
 body {
@@ -304,5 +306,10 @@ button:hover {
 .map_item {
     position: absolute;
 }
+
+.vue-flow {
+    background: #bbeaff;
+}
+
 
 /* #endregion */

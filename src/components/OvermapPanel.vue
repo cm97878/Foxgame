@@ -1,6 +1,7 @@
 <template>
     <div id="maps_container">
         <div id="map_keynodes">
+            {{ mapStuff.getAreaName }} <br />
             <div v-show="mapStuff.isSpecial">
                 special 
                 <!-- every special tab will look way different, but also this isnt where this shit will
@@ -9,7 +10,6 @@
                 <button @click="mapStuff.elements[3].hidden = true">Hide node 4</button>
             </div>
             <div v-show="!mapStuff.isSpecial">
-                {{ mapStuff.getAreaName }} <br />
                 {{ mapStuff.getDescription }} {{ mapStuff.getDescAppend }}
             </div>
         </div>
@@ -27,7 +27,7 @@ import { VueFlow, useVueFlow } from '@vue-flow/core';
 const name = "overmappanel";
 const mapStuff = useMapStuff();
 
-const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick, findNode } = useVueFlow();
+const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick, findNode, findEdge, getConnectedEdges } = useVueFlow();
 onPaneReady((instance) => {
     nodesDraggable.value = false;
     elementsSelectable.value = true;
@@ -35,8 +35,15 @@ onPaneReady((instance) => {
     mapStuff.selectedNode = findNode("1")!;
 })
 onNodeClick((node) => {
-    mapStuff.selectedNode = findNode(node.node.id)!;
-    mapStuff.setTextAppend()
+    //Check adjacency.
+    //debugger;
+    console.log(node.node.id)
+    const isConnected = getConnectedEdges(mapStuff.selectedNode.id).find( connection => connection.target || connection.source === node.node.id)
+
+    if (isConnected) {
+        mapStuff.selectedNode = findNode(node.node.id)!;
+        mapStuff.setTextAppend()
+    }
 })
 
 </script>

@@ -1,6 +1,8 @@
+import type { SpecialAreaId, Zone } from "@/enums/areaEnums"
+
 export interface AreaData {
-    areaSpecial?: Boolean,
+    areaSpecialID?: SpecialAreaId
     areaName: string,
-    randomZone: string,
+    zone: Zone,
     description: string
 }
