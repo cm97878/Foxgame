@@ -43,6 +43,7 @@ import SoulUpgradePanel from './components/SoulUpgradePanel.vue'
 import OvermapPanel from './components/OvermapPanel.vue';
 import { Panels } from './enums/panels';
 import { usePlayer } from './stores/player';
+import { useMapStuff } from './stores/mapStuff';
 import { ref, computed } from 'vue';
 const player = usePlayer();
 

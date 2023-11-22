@@ -1,7 +1,17 @@
 <template>
     <div id="maps_container">
         <div id="map_keynodes">
-
+            <div v-show="mapStuff.isSpecial">
+                special 
+                <!-- every special tab will look way different, but also this isnt where this shit will
+                display, so who cares lmao. -->
+                <br />
+                <button @click="mapStuff.elements[3].hidden = true">Hide node 4</button>
+            </div>
+            <div v-show="!mapStuff.isSpecial">
+                {{ mapStuff.getAreaName }} <br />
+                {{ mapStuff.getDescription }} {{ mapStuff.getDescAppend }}
+            </div>
         </div>
         <VueFlow v-model="mapStuff.elements" class="general_outline">
 
@@ -17,15 +27,16 @@ import { VueFlow, useVueFlow } from '@vue-flow/core';
 const name = "overmappanel";
 const mapStuff = useMapStuff();
 
-const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick } = useVueFlow();
+const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick, findNode } = useVueFlow();
 onPaneReady((instance) => {
     nodesDraggable.value = false;
     elementsSelectable.value = true;
     instance.setCenter(0, 0, {zoom: 1})
-    console.log("test")
+    mapStuff.selectedNode = findNode("1")!;
 })
 onNodeClick((node) => {
-    console.log(node.node.label);
+    mapStuff.selectedNode = findNode(node.node.id)!;
+    mapStuff.setTextAppend()
 })
 
 </script>
