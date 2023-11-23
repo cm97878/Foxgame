@@ -4,7 +4,10 @@ export enum Panels {
 }
 
 export enum Tab {
+    //World
     COMBAT = "combat",
+    AREA_ACTIONS = "areaActions",
+
+    //Soul
     SOUL_UPGRADES = "soulUpgrades",
-    AREA_ACTIONS = "areaActions"
 }
