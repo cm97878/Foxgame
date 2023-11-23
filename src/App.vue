@@ -8,8 +8,18 @@
                     <button @click="showPanel(Panels.SOUL_UPGRADES)" v-show="soulUnlock" class="info_buttons">Soul</button>
                 </div>
                 
-                <CombatPanel v-bind:active="leftMainPanelActive" />
-                <SoulUpgradePanel v-bind:active="leftMainPanelActive" />
+                <div class="tab_container">
+                    <span :class="{ selected: activeTab === Panels.COMBAT }" @click="showPanel(Panels.COMBAT)" class="tab">
+                        Combat
+                    </span>
+                    <span :class="{ selected: activeTab === Panels.SOUL_UPGRADES }" @click="showPanel(Panels.SOUL_UPGRADES)" class="tab">
+                        World
+                    </span>
+                </div>
+                <div class="content-container">
+                    <CombatPanel v-bind:active="activeTab" />
+                    <SoulUpgradePanel v-bind:active="activeTab" />
+                </div>
             </div>
 
 
@@ -49,11 +59,11 @@ const player = usePlayer();
 
 const name = "app";
 
-const leftMainPanelActive = ref(Panels.COMBAT);
+const activeTab = ref(Panels.COMBAT);
 const combatUnlock = ref(true);
 const soulUnlock = ref(true);
 
 function showPanel (panel:Panels) {
-    leftMainPanelActive.value = panel;
+    activeTab.value = panel;
 }
 </script>

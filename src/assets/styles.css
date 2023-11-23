@@ -70,10 +70,10 @@ button:hover {
 }
 
 #info_top_buttons_container {
-    height: 120px;
+    height: 80px;
+    min-height: 80px;
     display: flex;
     flex-wrap: wrap;
-    align-items: top;
     justify-content: center;
 }
 
@@ -83,7 +83,7 @@ button:hover {
     padding-left: 10px;
     padding-right: 10px;
     font-size: 12pt;
-    margin: 10px 5px 0;
+    margin: 5px 5px 0;
 }
 
 .info_buttons:hover {
@@ -313,3 +313,32 @@ button:hover {
 
 
 /* #endregion */
+
+.content_container {
+    height: 100%
+}
+
+.tab_container {
+    display:flex
+
+}
+
+.selected {
+    color: gold !important;
+}
+
+.tab {
+    align-items: center;
+    color: inherit;
+    background: grey;
+    border-width: 1px;
+    border-style: solid solid none;
+    padding: .75em 1em;
+    margin: 0 4px;
+    text-decoration: none;
+}
+
+.tab:hover {
+    cursor: pointer;
+    color: #9ec93d;
+}
