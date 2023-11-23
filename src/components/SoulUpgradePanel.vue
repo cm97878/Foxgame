@@ -6,7 +6,7 @@
 
 
 <script setup lang="ts">
-const name = "soulupgradepanel";
+const name = "soulUpgradePanel";
 
 let props = defineProps({
     active: String

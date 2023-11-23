@@ -6,4 +6,5 @@ export enum Panels {
 export enum Tab {
     COMBAT = "combat",
     SOUL_UPGRADES = "soulUpgrades",
+    AREA_ACTIONS = "areaActions"
 }
