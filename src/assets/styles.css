@@ -314,13 +314,8 @@ button:hover {
 
 /* #endregion */
 
-.content_container {
-    height: 100%
-}
-
 .tab_container {
     display:flex
-
 }
 
 .selected {

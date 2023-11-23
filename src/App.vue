@@ -4,22 +4,25 @@
 
             <div id="left_side_container" class="app_container">
                 <div id="info_top_buttons_container">
-                    <button @click="showPanel(Panels.COMBAT)" v-show="combatUnlock" class="info_buttons">Combat</button>
-                    <button @click="showPanel(Panels.SOUL_UPGRADES)" v-show="soulUnlock" class="info_buttons">Soul</button>
+                    <button @click="showPanel(Panels.WORLD)" v-show="combatUnlock" class="info_buttons">Combat</button>
+                    <button @click="showPanel(Panels.SOUL)" v-show="soulUnlock" class="info_buttons">Soul</button>
                 </div>
                 
-                <div class="tab_container">
-                    <span :class="{ selected: activeTab === Panels.COMBAT }" @click="showPanel(Panels.COMBAT)" class="tab">
-                        Combat
-                    </span>
-                    <span :class="{ selected: activeTab === Panels.SOUL_UPGRADES }" @click="showPanel(Panels.SOUL_UPGRADES)" class="tab">
-                        World
-                    </span>
+                <div v-show="activePanel == Panels.WORLD">
+                    <div class="tab_container">
+                        <span :class="{ selected: activeTab === Tab.COMBAT }" @click="showTab(Tab.COMBAT)" class="tab">
+                            Combat
+                        </span>
+                        <span :class="{ selected: activeTab === Tab.SOUL_UPGRADES }" @click="showTab(Tab.SOUL_UPGRADES)" class="tab">
+                            World
+                        </span>
+                    </div>
+                    <div class="content-container">
+                        <CombatPanel v-bind:active="activeTab" />
+                        <SoulUpgradePanel v-bind:active="activeTab" />
+                    </div>
                 </div>
-                <div class="content-container">
-                    <CombatPanel v-bind:active="activeTab" />
-                    <SoulUpgradePanel v-bind:active="activeTab" />
-                </div>
+                
             </div>
 
 
@@ -51,7 +54,7 @@ import Decimal from 'break_infinity.js';
 import CombatPanel from './components/CombatPanel.vue'
 import SoulUpgradePanel from './components/SoulUpgradePanel.vue'
 import OvermapPanel from './components/OvermapPanel.vue';
-import { Panels } from './enums/panels';
+import { Panels, Tab } from './enums/panels';
 import { usePlayer } from './stores/player';
 import { useMapStuff } from './stores/mapStuff';
 import { ref, computed } from 'vue';
@@ -59,11 +62,24 @@ const player = usePlayer();
 
 const name = "app";
 
-const activeTab = ref(Panels.COMBAT);
+const activePanel = ref(Panels.WORLD);
+const activeTab = ref(Tab.COMBAT);
 const combatUnlock = ref(true);
 const soulUnlock = ref(true);
 
 function showPanel (panel:Panels) {
+    activePanel.value = panel;
+    switch(panel) {
+        case Panels.WORLD:
+            activeTab.value = Tab.COMBAT;
+            break;
+        case Panels.SOUL:
+            activeTab.value = Tab.COMBAT;
+            break;
+    }
+}
+
+function showTab (panel:Tab) {
     activeTab.value = panel;
 }
 </script>
