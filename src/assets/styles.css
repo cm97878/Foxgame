@@ -62,12 +62,8 @@ button:hover {
     padding: 10px;
     min-width: 480px;
     min-height: 480px;
-    border: 2px solid rgb(179, 11, 11);
+    border: 4px solid rgb(179, 11, 11);
     width: 50%;
-}
-
-#left_side_container {
-    border-right: 5px solid rgb(179, 11, 11);
 }
 
 #info_top_buttons_container {
