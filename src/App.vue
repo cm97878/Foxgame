@@ -58,34 +58,34 @@
 
 
 <script setup lang="ts">
-import Decimal from 'break_infinity.js';
-import AreaActionsPanel from './components/AreaActions.vue' 
-import CombatPanel from './components/CombatPanel.vue'
-import SoulUpgradePanel from './components/SoulUpgradePanel.vue'
-import OvermapPanel from './components/OvermapPanel.vue';
-import { Panels, Tab } from './enums/panels';
-import { usePlayer } from './stores/player';
-import { useMapStuff } from './stores/mapStuff';
-import { ref, computed } from 'vue';
-const player = usePlayer();
+    import AreaActionsPanel from './components/AreaActions.vue' 
+    import CombatPanel from './components/CombatPanel.vue'
+    import SoulUpgradePanel from './components/SoulUpgradePanel.vue'
+    import OvermapPanel from './components/OvermapPanel.vue';
+    import { Panels, Tab } from './enums/panels';
+    import { usePlayer } from './stores/player';
+    import { ref } from 'vue';
+    const player = usePlayer();
 
-const name = "app";
+    const name = "app";
 
-const activePanel = ref(Panels.WORLD);
-const activeTabWorld = ref(Tab.COMBAT);
-const activeTabSoul = ref(Tab.SOUL_UPGRADES);
-const combatUnlock = ref(true);
-const soulUnlock = ref(true);
+    const activePanel = ref(Panels.WORLD);
+    const activeTabWorld = ref(Tab.COMBAT);
+    const activeTabSoul = ref(Tab.SOUL_UPGRADES);
+    const combatUnlock = ref(true);
+    const soulUnlock = ref(true);
 
-function showPanel (panel:Panels) {
-    activePanel.value = panel;
-}
+    function showPanel (panel:Panels) {
+        activePanel.value = panel;
+    }
 
-function showTabWorld (tab:Tab) {
-    activeTabWorld.value = tab;
-}
+    function showTabWorld (tab:Tab) {
+        activeTabWorld.value = tab;
+    }
 
-function showTabSoul (tab:Tab) {
-    activeTabSoul.value = tab;
-}
+    function showTabSoul (tab:Tab) {
+        activeTabSoul.value = tab;
+    }
+
+    
 </script>

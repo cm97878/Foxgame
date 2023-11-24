@@ -75,10 +75,11 @@
 import { usePlayer } from '@/stores/player';
 import { useMapStuff } from '@/stores/mapStuff';
 import Decimal from 'break_infinity.js';
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import type { Enemy } from '../types/enemy';
 import type { CarouselItem } from '../types/carouselItem';
 import CarouselIcon from './CarouselIcon.vue';
+import { storeToRefs } from 'pinia';
 const player = usePlayer();
 const mapStuff = useMapStuff();
 
@@ -145,6 +146,13 @@ const playerDamage = ref(false);
 const enemyDamage = ref(false);
 const win = ref("");
 const battleResult = ref("");
+const { encounterSignal$ } = storeToRefs(mapStuff)
+
+//Signals
+watch( encounterSignal$, (signal) => {
+    console.log('tock!');
+    startFight(signal);
+})
 
 
 

@@ -17,6 +17,7 @@ soulKill: new Decimal("0"),
 
 export const useMapStuff = defineStore('mapStuff', {
     state: () => ({
+        encounterSignal$: {} as Enemy,
         selectedNode: {data: {}} as GraphNode,
         enemyList: [
             {
@@ -130,10 +131,7 @@ export const useMapStuff = defineStore('mapStuff', {
         hasData(): Boolean {
             return Object.keys(this.selectedNode.data).length !== 0
         },
-
-
-
-},
+    },
     actions: {
         setTextAppend() {
             if(this.hasData && (Math.floor(Math.random() * 100) <= 20)) {
@@ -151,5 +149,15 @@ export const useMapStuff = defineStore('mapStuff', {
                 this.areaData.random.descAppend = "";
             }
         },
+        callRandomEncounter(zone: Zone) {
+            console.log('tick!')
+            switch(zone) {
+                case Zone.FOREST: {
+                    const encounterIdx = Math.floor(Math.random() * this.enemyList.length );
+                    this.encounterSignal$ = this.enemyList[encounterIdx];
+                    console.log(this.encounterSignal$)
+                }
+            }
+        }
     }
 })

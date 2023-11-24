@@ -23,6 +23,7 @@
 <script setup lang="ts">
 import { useMapStuff } from '@/stores/mapStuff';
 import { VueFlow, useVueFlow } from '@vue-flow/core';
+import { Zone } from '@/enums/areaEnums'
 
 const name = "overmappanel";
 const mapStuff = useMapStuff();
@@ -43,6 +44,7 @@ onNodeClick((node) => {
     if (isConnected) {
         mapStuff.selectedNode = findNode(node.node.id)!;
         mapStuff.setTextAppend()
+        mapStuff.callRandomEncounter(Zone.FOREST)
     }
 })
 
