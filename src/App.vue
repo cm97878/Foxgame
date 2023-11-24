@@ -1,60 +1,58 @@
 <template>
-    <div id="vueWrapper">
-        <div id="window_border">
+    <div id="window_border">
 
-            <div id="left_side_container" class="app_container">
-                <div id="info_top_buttons_container">
-                    <button @click="showPanel(Panels.WORLD)" v-show="combatUnlock" class="info_buttons">World</button>
-                    <button @click="showPanel(Panels.SOUL)" v-show="soulUnlock" class="info_buttons">Soul</button>
+        <div id="left_side_container" class="app_container">
+            <div id="info_top_buttons_container">
+                <button @click="showPanel(Panels.WORLD)" v-show="combatUnlock" class="info_buttons">World</button>
+                <button @click="showPanel(Panels.SOUL)" v-show="soulUnlock" class="info_buttons">Soul</button>
+            </div>
+            
+            <div v-show="activePanel == Panels.WORLD">
+                <div class="tab_container">
+                    <span :class="{ selected: activeTabWorld === Tab.COMBAT }" @click="showTabWorld(Tab.COMBAT)" class="tab">
+                        Combat
+                    </span>
+                    <span :class="{ selected: activeTabWorld === Tab.AREA_ACTIONS }" @click="showTabWorld(Tab.AREA_ACTIONS)" class="tab">
+                        Area
+                    </span>
                 </div>
-                
-                <div v-show="activePanel == Panels.WORLD">
-                    <div class="tab_container">
-                        <span :class="{ selected: activeTabWorld === Tab.COMBAT }" @click="showTabWorld(Tab.COMBAT)" class="tab">
-                            Combat
-                        </span>
-                        <span :class="{ selected: activeTabWorld === Tab.AREA_ACTIONS }" @click="showTabWorld(Tab.AREA_ACTIONS)" class="tab">
-                            Area
-                        </span>
-                    </div>
-                    <div class="content-container">
-                        <CombatPanel v-bind:active="activeTabWorld" />
-                        <AreaActionsPanel v-bind:active="activeTabWorld" />
-                    </div>
-                </div>
-
-                <div v-show="activePanel == Panels.SOUL">
-                    <div class="tab_container">
-                        <span :class="{ selected: activeTabSoul === Tab.SOUL_UPGRADES }" @click="showTabSoul(Tab.SOUL_UPGRADES)" class="tab">
-                            Soul Upgrades
-                        </span>
-                    </div>
-                    <div class="content-container">
-                        <SoulUpgradePanel v-bind:active="activeTabSoul" />
-                    </div>
+                <div class="content-container">
+                    <CombatPanel v-bind:active="activeTabWorld" />
+                    <AreaActionsPanel v-bind:active="activeTabWorld" />
                 </div>
             </div>
 
-
-
-
-            <div id="right_side_container" class="app_container">
-                <div id="currency_section">
-                    <div id="soul_counter_container">
-                        {{ player.currencies.soul.toNumber() }}<br />
-                        <span style="font-size: 16pt;">Soul</span>
-                    </div>
-                    <div id="soul_bead_counters_container">
-                        0
-                    </div>
+            <div v-show="activePanel == Panels.SOUL">
+                <div class="tab_container">
+                    <span :class="{ selected: activeTabSoul === Tab.SOUL_UPGRADES }" @click="showTabSoul(Tab.SOUL_UPGRADES)" class="tab">
+                        Soul Upgrades
+                    </span>
                 </div>
-                <OvermapPanel />
+                <div class="content-container">
+                    <SoulUpgradePanel v-bind:active="activeTabSoul" />
+                </div>
             </div>
-
-
-
-
         </div>
+
+
+
+
+        <div id="right_side_container" class="app_container">
+            <div id="currency_section">
+                <div id="soul_counter_container">
+                    {{ player.currencies.soul.toNumber() }}<br />
+                    <span style="font-size: 16pt;">Soul</span>
+                </div>
+                <div id="soul_bead_counters_container">
+                    0
+                </div>
+            </div>
+            <OvermapPanel />
+        </div>
+
+
+
+
     </div>
 </template>
 
