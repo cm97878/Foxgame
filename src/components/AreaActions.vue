@@ -1,12 +1,12 @@
 <template>
-    <div v-show="active === 'soulUpgrades'">
+    <div v-show="active === 'areaActions'">
         yippee!
     </div>
 </template>
 
 
 <script setup lang="ts">
-const name = "soulUpgradePanel";
+const name = "areaActionsPanel";
 
 let props = defineProps({
     active: String

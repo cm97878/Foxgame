@@ -36,9 +36,9 @@ onPaneReady((instance) => {
 })
 onNodeClick((node) => {
     //Check adjacency.
-    //debugger;
-    console.log(node.node.id)
-    const isConnected = getConnectedEdges(mapStuff.selectedNode.id).find( connection => connection.target || connection.source === node.node.id)
+    const isConnected = getConnectedEdges(mapStuff.selectedNode.id).find( 
+        connection => (connection.target === node.node.id || connection.source === node.node.id)
+    )
 
     if (isConnected) {
         mapStuff.selectedNode = findNode(node.node.id)!;
