@@ -1,13 +1,60 @@
 import { defineStore } from 'pinia'
 import Decimal from 'break_infinity.js'
+import type { Upgrade } from '@/types/upgrade';
+import { UpgradePurchaseType } from '@/enums/upgradeType';
 
 export const usePlayer = defineStore('player', {
     state: () => ({
         currencies: {
             soul: new Decimal("0"),
         },
-        unlocks: {
-
+        
+        //FIXME: i think this may want to be either reworked or moved to its own store. only thing thats
+        //gotta be saved is show (unlocked) and bought, and we can bind those values to stuff in this store
+        //but for now this works
+        upgrades: {
+            /*
+                show: false,
+                bought: false,
+                title: "",
+                type: UpgradePurchaseType.SOUL,
+                description: "",
+                cost: new Decimal("0")
+            */
+            soul: [
+                {
+                    show: true,
+                    bought: false,
+                    type: UpgradePurchaseType.SOUL,
+                    title: "upgrade 1",
+                    description: "unbought, cant afford",
+                    cost: new Decimal("100")
+                },
+                {
+                    show: true,
+                    bought: false,
+                    type: UpgradePurchaseType.SOUL,
+                    title: "upgrade 2",
+                    description: "unbought, can afford",
+                    cost: new Decimal("0")
+                },
+                {
+                    show: true,
+                    bought: true,
+                    type: UpgradePurchaseType.SOUL,
+                    title: "upgrade 3",
+                    description: "bought",
+                    cost: new Decimal("0")
+                },
+                {
+                    show: false,
+                    bought: true,
+                    type: UpgradePurchaseType.SOUL,
+                    title: "upgrade 4",
+                    description: "bought",
+                    cost: new Decimal("0")
+                }
+            ] as Array<Upgrade>
         },
         name: "Fox",
         baseStats: {
@@ -80,6 +127,7 @@ export const usePlayer = defineStore('player', {
             if(this.currencies.soul.gte(soulCompare)) {
                 return true;
             }
+            else return false;
         },
         damage(damageAmnt:Decimal|number, AP:Boolean=false) {
             if(AP) {

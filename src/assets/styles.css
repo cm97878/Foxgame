@@ -242,7 +242,10 @@ button:hover {
 
 
 /* #region soul upgrades */
-
+.bought {
+    background-color: aqua;
+    pointer-events: none;
+}
 
 
 /* #endregion */
