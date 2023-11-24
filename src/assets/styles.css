@@ -50,9 +50,10 @@ button:hover {
     width: 95vw;
     height: 95vh;
     align-items: stretch;
-    margin: 10px;
+    margin: 6px;
     display: flex;
     background-image: linear-gradient(rgb(53, 53, 53), rgb(25, 25, 25));
+    border: 4px ridge rgb(179, 11, 11);
     /* background: rgb(37, 37, 37); */
 }
 
@@ -62,8 +63,11 @@ button:hover {
     padding: 10px;
     min-width: 480px;
     min-height: 480px;
-    border: 4px solid rgb(179, 11, 11);
     width: 50%;
+}
+
+#left_side_container {
+    border-right: 4px solid rgb(179, 11, 11);
 }
 
 #info_top_buttons_container {
@@ -101,6 +105,28 @@ button:hover {
 .combat_graphics_container {
     display: flex;
     width: 100%;
+
+    .combat_graphic {
+        width: 37.5%;
+        min-height: 240px;
+        border: 4px ridge rgb(125, 125, 125);
+    }
+    
+    .combat_graphic.not_fighting {
+        background-color: grey;
+    }
+
+    .name_box {
+        font-size: 20px;
+        border-bottom: 2px solid rgb(125, 125, 125);
+    }
+
+    #info_soul_graphic {
+        width: 25%;
+        min-height: 180px;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
 }
 
 .combat_actions {
@@ -110,20 +136,6 @@ button:hover {
         margin-right: 8px;
     }
 }
-
-
-.combat_graphic {
-    width: 37.5%;
-    min-height: 240px;
-}
-
-#info_soul_graphic {
-    width: 25%;
-    min-height: 180px;
-    margin-left: 0px;
-    margin-right: 0px;
-}
-
 
 #turn_carousel {
     display: flex;
@@ -216,7 +228,7 @@ button:hover {
     align-items: center;
     font-size: 24px;
     background: rgb(170, 16, 16);
-    z-index: -2;
+    z-index: 0;
 }
 
 .hp_bar_background {

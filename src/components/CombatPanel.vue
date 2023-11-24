@@ -2,8 +2,8 @@
     <div v-show="active === 'combat'" id="combat_tab">
 
         <div class="combat_graphics_container">
-            <div id="info_player_graphic" class="general_outline combat_graphic">
-                {{ player.name }} <br />
+            <div id="info_player_graphic" class="combat_graphic">
+                <div class="name_box">{{ player.name }}</div>
                 <Transition name="attack-text">
                     <div v-show="playerDamage">{{player.getAtkDisplay + " damage!"}}</div>
                 </Transition>
@@ -12,14 +12,14 @@
                 a lil soul icon will go here <br />
                 <button @click="startRandomFight(mapStuff.enemyList)">test</button> <br />
                 
-                <!-- <button @click="removeItem()">Tick</button> -->
-                <!-- <button @click="removeItem">Subtract</button> -->
             </div>
-            <div id="info_enemy_graphic" class="general_outline combat_graphic">
-                {{ enemyName }} <br />
+            <div v-if="fighting" id="info_enemy_graphic" class="combat_graphic">
+                <div class="name_box">{{ enemyName }}</div>
                 <Transition name="attack-text">
                     <span v-show="enemyDamage">{{ enemyAtk.toString() + " damage!" }}</span>
                 </Transition>
+            </div>
+            <div v-else class="combat_graphic not_fighting">
             </div>
         </div>
 
