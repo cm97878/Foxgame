@@ -26,7 +26,7 @@
         <div id="turn_carousel" class="general_outline">
             <div id="carousel_line" class="general_outline"></div>
             <TransitionGroup name="carousel">
-                <CarouselIcon v-for="(item) in carousel_array" :key="item.id" :icon="item.type" />
+                <CarouselIcon v-for="(item) in combatStore.carouselArray" :key="item.turnNumber" :icon="item.type" />
             </TransitionGroup>
         </div>
 
@@ -44,8 +44,8 @@
 
                 </div>
                 <div class="combat_actions">
-                    <button @click="playerAction('attack')" :disabled="!playerTurn">Attack</button>
-                    <button @click="playerAction('wait')" :disabled="!playerTurn">Wait</button>
+                    <button @click="playerAction('attack')" :disabled="!combatStore.playerTurn">Attack</button>
+                    <button @click="playerAction('wait')" :disabled="!combatStore.playerTurn">Wait</button>
                 </div>
             </div>
 
@@ -74,10 +74,7 @@
 import { usePlayer } from '@/stores/player';
 import { useMapStore } from '@/stores/mapStore';
 import { useCombatStore } from '@/stores/combatStore';
-import Decimal from 'break_infinity.js';
 import { ref, computed, watch } from 'vue';
-import type { Enemy } from '../types/enemy';
-import type { CarouselItem } from '../types/carouselItem';
 import CarouselIcon from './CarouselIcon.vue';
 import { storeToRefs } from 'pinia';
 const player = usePlayer();
@@ -90,149 +87,22 @@ const props = defineProps({
     active: String
 })
 
-/** 
- * TODO: Need to figure out how to format the actual fight page.
- * Areas might in general have more than just combat, so this should be
- * decided at some point. Will you be able to fish at the river?
- * Will you gather herbs? Could just keep the combat space as it is
- * right now but could also have it be its own sorta tab thingy?
- * Could do a like, tab style w/ a general info, combat, gathering
- * Put picture, description, overview (enemies, can gather, can fish, etc)
- * on the general info and then the actions can be done at the individual tabs
-*/
-
-
-//sets up the carousel, empty ref array, start index
-const carousel_array = ref<CarouselItem[]>([])
-const arrayIndex = ref(0)
-
-//adds item, increments index
-const addItem = function(type:string) {
-    carousel_array.value.push({id: arrayIndex.value, type: type})
-    arrayIndex.value++;
-}
-//shifts array, loops arrCount (battle turn timer) until another turn is added
-const incrementCarousel = function() {
-    carousel_array.value.shift();
-    for(; carousel_array.value.length < 8; arrCount++) {
-        if(arrCount%player.getSpd === 0) {
-            addItem("player");
-        }
-        if(arrCount%combatStore.currentOpponent.spd === 0) {
-            addItem("enemy");
-        }
-    }
-}
-
-
-//stats
-
-var arrCount = 0; //battle turn timer
-const playerTurn = ref(false); //controls whether player can click actions
 
 
 //stuff for testing, will delete later
 const playerDamage = ref(false);
 const enemyDamage = ref(false);
-const win = ref("");
+// const win = ref("");
 const battleResult = ref("");
 const { encounterSignal$ } = storeToRefs(mapStore)
 const { activeCombat } = storeToRefs(combatStore)
 
 //Signals
-watch( encounterSignal$, (signal) => startFight(signal))
-watch( activeCombat, (signal: Boolean) => {
-    console.log(signal);
-    if (signal) {
-        runTurn();
-    }
-})
+watch( encounterSignal$, (signal) => combatStore.startCombat(signal))
 
-const startFight = function(enemy:Enemy) {
-    //heal player, this may be redundant.. currHealth should maybe be var in combatPanel instead?
-    //i dont plan to have damage persist for other things
-    player.baseStats.currentHealth = player.baseStats.maxHealth; 
-    battleResult.value = "";
-
-    //reset array stuff
-    carousel_array.value = [];
-    arrayIndex.value = 0;
-
-    //initial 8-turn population of carousel
-    for(arrCount = 1; carousel_array.value.length < 8; arrCount++) {
-        if(arrCount%player.getSpd === 0) {
-            addItem("player");
-        }
-        if(arrCount%enemy.spd === 0) {
-            addItem("enemy");
-        }
-    }
-    combatStore.startCombat(enemy)
-}
-
-//check if battle is over and handle, otherwise run turn based on upcoming carousel item
-const runTurn = function() {
-    if(player.baseStats.currentHealth.lte(0)){
-        battleResult.value = "lose :(";
-        carousel_array.value = [];
-    }
-    else if(combatStore.getOpponentHP.lte(0)) {
-        battleResult.value = "win! :3";
-        player.addSoul(combatStore.getOpponentStats.soulKill);
-        carousel_array.value = [];
-        combatStore.activeCombat = false;
-    }
-    else if(carousel_array.value[0].type === "player") {
-        playerTurn.value = true; //just enables player buttons that will do stuff
-    }
-    else {
-        runEnemyTurn();
-    }
-}
 
 const playerAction = function(action:string) {
-    playerTurn.value = false;
-    //only one attack, this can be added later but just make a separate function to determine
-    //specific attack effects, or a switch case or something idk
-    //for now this shall be flavored as Claw
-
-
-    //play animation here someday
-    //Should probably make something neater then Timeouts in the future... -Malt
-    //Maybe use enums too? -M
-    switch(action) {
-        case "attack": {
-            //for now, show dmg text immediately, wait .4s, fadeout and deal damage
-            playerDamage.value = true;
-            setTimeout(function(){
-                playerDamage.value = false;
-                combatStore.dealDamage(player.getAtk)
-            }, 400)
-        }
-        case "wait": {
-            //nothing, possibly add a regen later.
-        }
-    }
-
-    //wait another .4s past first, increment turn, run next turn
-    setTimeout(function(){
-        incrementCarousel();
-        runTurn(); 
-    }, 800)
-}
-
-const runEnemyTurn = function() {
-    //enemy ai should go here, but thats. way down the line
-
-    enemyDamage.value = true;
-    setTimeout(function() {
-        enemyDamage.value = false;
-        player.damage(Decimal.subtract(combatStore.getOpponentStats.attack, player.getDef));
-    }, 400)
-    setTimeout(function(){
-        incrementCarousel();
-        runTurn(); 
-    }, 800)
+    combatStore.processPlayerTurn(action);
 }
 
 const enemyHpRatio = computed(() : string => {
