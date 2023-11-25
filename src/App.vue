@@ -40,7 +40,7 @@
         <div id="right_side_container" class="app_container">
             <div id="currency_section">
                 <div id="soul_counter_container">
-                    {{ player.currencies.soul.toNumber() }}<br />
+                    {{ player.getSoulDisplay }}<br />
                     <span style="font-size: 16pt;">Soul</span>
                 </div>
                 <div id="soul_bead_counters_container">
@@ -94,6 +94,6 @@ function showTabSoul (tab:Tab) {
 }
 
 onMounted(() =>{
-    saves.load();
+    // saves.load();
 })
 </script>

@@ -23,16 +23,21 @@ export const useUpgradeStore = defineStore('upgradeStore', {
             title: "",
             type: UpgradePurchaseType.SOUL,
             description: "",
-            cost: new Decimal("0")
+            cost: new Decimal("0"),
+            effect: null,
         */
         soul: new Map<number, Upgrade>([
             [0, {
                 show: true,
                 bought: false,
                 type: UpgradePurchaseType.SOUL,
-                title: "upgrade 1",
-                description: "unbought, cant afford",
-                cost: new Decimal("100")
+                title: "Sharpen claws",
+                description: "Sharpen your claws. +1 attack.",
+                cost: new Decimal("1"),
+                effect: function() {
+                    const player = usePlayer();
+                    player.addAtk(1);
+                }
             }],
             [1, {
                 show: true,
@@ -40,7 +45,8 @@ export const useUpgradeStore = defineStore('upgradeStore', {
                 type: UpgradePurchaseType.SOUL,
                 title: "upgrade 2",
                 description: "unbought, can afford",
-                cost: new Decimal("0")
+                cost: new Decimal("0"),
+                effect: null,
             }],
             [2, {
                 show: true,
@@ -48,7 +54,8 @@ export const useUpgradeStore = defineStore('upgradeStore', {
                 type: UpgradePurchaseType.SOUL,
                 title: "upgrade 3",
                 description: "bought",
-                cost: new Decimal("0")
+                cost: new Decimal("0"),
+                effect: null,
             }],
             [3, {
                 show: false,
@@ -56,9 +63,16 @@ export const useUpgradeStore = defineStore('upgradeStore', {
                 type: UpgradePurchaseType.SOUL,
                 title: "upgrade 4",
                 description: "bought, not unlocked, shouldnt see this",
-                cost: new Decimal("0")
+                cost: new Decimal("0"),
+                effect: null,
             }]
         ])
 
-    })
+    }),
+    actions: {
+        addAtk(atk:Decimal|number) {
+            const player = usePlayer();
+            player.addAtk(atk);
+        }
+    }
 })

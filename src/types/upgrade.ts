@@ -9,4 +9,5 @@ export interface Upgrade {
     title: string;
     description: string;
     cost: Decimal;
+    effect: function;
   }

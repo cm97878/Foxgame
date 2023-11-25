@@ -57,6 +57,15 @@ export const usePlayer = defineStore('player', {
         },
 
 
+        getSoul(): Decimal {
+            let finalSoul = this.currencies.soul;
+            return finalSoul;
+        },
+        getSoulDisplay(): string {
+            return this.getSoul.toString().replace("+","");
+        },
+
+
 
         playerHpRatio(): string {
             let x = this.getHpCurr.dividedBy(this.getHpMax).times(100)
@@ -88,6 +97,12 @@ export const usePlayer = defineStore('player', {
             else {
                 this.baseStats.currentHealth = Decimal.subtract(this.baseStats.currentHealth, damageAmnt);
             }
+        },
+
+
+
+        addAtk(amnt:Decimal|number) {
+            this.baseStats.attack = Decimal.add(this.baseStats.attack, amnt);
         }
     }
 

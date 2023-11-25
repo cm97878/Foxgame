@@ -6,7 +6,9 @@
             :is_bought="item[1].bought"
             :title="item[1].title"
             :description="item[1].description"
+            :map_key="item[0]"
             :cost="item[1].cost"
+            :effect="item[1].effect"
         />
     </div>
 </template>
@@ -25,5 +27,4 @@ const player = usePlayer();
 let props = defineProps({
     active: String
 })
-console.log(upgrade.soul.entries())
 </script>
