@@ -8,54 +8,6 @@ export const usePlayer = defineStore('player', {
         currencies: {
             soul: new Decimal("0"),
         },
-        
-        //FIXME: i think this may want to be either reworked or moved to its own store. only thing thats
-        //gotta be saved is show (unlocked) and bought, and we can bind those values to stuff in this store
-        //but for now this works
-        upgrades: {
-            /*
-                show: false,
-                bought: false,
-                title: "",
-                type: UpgradePurchaseType.SOUL,
-                description: "",
-                cost: new Decimal("0")
-            */
-            soul: [
-                {
-                    show: true,
-                    bought: false,
-                    type: UpgradePurchaseType.SOUL,
-                    title: "upgrade 1",
-                    description: "unbought, cant afford",
-                    cost: new Decimal("100")
-                },
-                {
-                    show: true,
-                    bought: false,
-                    type: UpgradePurchaseType.SOUL,
-                    title: "upgrade 2",
-                    description: "unbought, can afford",
-                    cost: new Decimal("0")
-                },
-                {
-                    show: true,
-                    bought: true,
-                    type: UpgradePurchaseType.SOUL,
-                    title: "upgrade 3",
-                    description: "bought",
-                    cost: new Decimal("0")
-                },
-                {
-                    show: false,
-                    bought: true,
-                    type: UpgradePurchaseType.SOUL,
-                    title: "upgrade 4",
-                    description: "bought",
-                    cost: new Decimal("0")
-                }
-            ] as Array<Upgrade>
-        },
         name: "Fox",
         baseStats: {
             attack: new Decimal("3"),
@@ -63,7 +15,7 @@ export const usePlayer = defineStore('player', {
             maxHealth: new Decimal("15"),
             currentHealth: new Decimal("15"),
             spd: 200
-        }
+        },
     }),
     getters: {
         //get base stats

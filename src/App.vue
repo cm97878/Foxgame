@@ -47,6 +47,8 @@
                     0
                 </div>
             </div>
+            <button @click="saves.save()">Save</button>
+            <button @click="saves.load()">Load</button>
             <OvermapPanel />
         </div>
 
@@ -66,8 +68,10 @@ import OvermapPanel from './components/OvermapPanel.vue';
 import { Panels, Tab } from './enums/panels';
 import { usePlayer } from './stores/player';
 import { useMapStuff } from './stores/mapStuff';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { useSaveStore } from './stores/saveStore';
 const player = usePlayer();
+const saves = useSaveStore();
 
 const name = "app";
 
@@ -88,4 +92,8 @@ function showTabWorld (tab:Tab) {
 function showTabSoul (tab:Tab) {
     activeTabSoul.value = tab;
 }
+
+onMounted(() =>{
+    saves.load();
+})
 </script>
