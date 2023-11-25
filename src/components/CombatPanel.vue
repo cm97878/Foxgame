@@ -10,7 +10,7 @@
             </div>
             <div id="info_soul_graphic">
                 a lil soul icon will go here <br />
-                <button @click="startRandomFight(mapStuff.enemyList)">test</button> <br />
+                <button @click="mapStuff.callRandomEncounter(Zone.FOREST)">test</button> <br />
                 
             </div>
             <div v-if="fighting" id="info_enemy_graphic" class="combat_graphic">
@@ -73,15 +73,16 @@
 
 <script setup lang="ts">
 import { usePlayer } from '@/stores/player';
-import { useMapStuff } from '@/stores/mapStuff';
+import { useMapStore } from '@/stores/mapStore';
 import Decimal from 'break_infinity.js';
 import { ref, computed, watch } from 'vue';
 import type { Enemy } from '../types/enemy';
 import type { CarouselItem } from '../types/carouselItem';
 import CarouselIcon from './CarouselIcon.vue';
 import { storeToRefs } from 'pinia';
+import { Zone } from '@/enums/areaEnums'
 const player = usePlayer();
-const mapStuff = useMapStuff();
+const mapStuff = useMapStore();
 
 const name = "combatpanel";
 
@@ -98,8 +99,6 @@ const props = defineProps({
  * Could do a like, tab style w/ a general info, combat, gathering
  * Put picture, description, overview (enemies, can gather, can fish, etc)
  * on the general info and then the actions can be done at the individual tabs
- * 
- * also im totally putting off making the nodemap lol thats gonna be so annoying
 */
 
 
@@ -189,13 +188,6 @@ const startFight = function(enemy:Enemy) {
     runTurn();
 }
 
-const startRandomFight = function(enemyList:Array<Enemy>) {
-    //Pull random encounter out of the enemyList
-    const encounterIdx = Math.floor(Math.random() * enemyList.length );
-    console.log(encounterIdx)
-    return startFight(enemyList[encounterIdx]);
-}
-
 //check if battle is over and handle, otherwise run turn based on upcoming carousel item
 const runTurn = function() {
     if(player.baseStats.currentHealth.lte(0)){
@@ -271,8 +263,6 @@ const enemyHpRatio = computed(() : string => {
         return "0%"
     }
 })
-
-
 
 defineExpose({enemyHpRatio})
 

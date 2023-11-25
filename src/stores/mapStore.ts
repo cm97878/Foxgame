@@ -5,17 +5,7 @@ import type { GraphNode } from '@vue-flow/core'
 import type { AreaData } from '@/types/areaData'
 import { SpecialAreaId, Zone } from '@/enums/areaEnums'
 
-/* 
-name: "",
-attack: new Decimal("0"),
-defense: new Decimal("0"),
-hp: new Decimal("0"),
-soulAbsorb: new Decimal("0"),
-soulKill: new Decimal("0"), 
-*/
-
-
-export const useMapStuff = defineStore('mapStuff', {
+export const useMapStore = defineStore('mapStuff', {
     state: () => ({
         encounterSignal$: {} as Enemy,
         selectedNode: {data: {}} as GraphNode,
@@ -150,12 +140,10 @@ export const useMapStuff = defineStore('mapStuff', {
             }
         },
         callRandomEncounter(zone: Zone) {
-            console.log('tick!')
             switch(zone) {
                 case Zone.FOREST: {
                     const encounterIdx = Math.floor(Math.random() * this.enemyList.length );
                     this.encounterSignal$ = this.enemyList[encounterIdx];
-                    console.log(this.encounterSignal$)
                 }
             }
         }
