@@ -10,13 +10,12 @@
             </div>
             <div id="info_soul_graphic">
                 a lil soul icon will go here <br />
-                <button @click="mapStuff.callRandomEncounter(Zone.FOREST)">test</button> <br />
                 
             </div>
-            <div v-if="fighting" id="info_enemy_graphic" class="combat_graphic">
-                <div class="name_box">{{ enemyName }}</div>
+            <div v-if="combatStore.activeCombat" id="info_enemy_graphic" class="combat_graphic">
+                <div class="name_box">{{ combatStore.getOpponentStats.name }}</div>
                 <Transition name="attack-text">
-                    <span v-show="enemyDamage">{{ enemyAtk.toString() + " damage!" }}</span>
+                    <span v-show="enemyDamage">{{ combatStore.getOpponentStats.attack + " damage!" }}</span>
                 </Transition>
             </div>
             <div v-else class="combat_graphic not_fighting">
@@ -50,15 +49,15 @@
                 </div>
             </div>
 
-            <div v-show="fighting" class="stats_container" >
+            <div v-show="combatStore.activeCombat" class="stats_container" >
                 <div class="general_outline info_hp_bar_outline">
                     <div id="info_enemy_hp_bar_solid" class="hp_bar_background"></div>
-                    {{ enemyHpCurr + " / " + enemyHpMax }}
+                    {{ combatStore.getOpponentHP + " / " + combatStore.getOpponentStats.maxHP }}
                 </div>
                 <div class="general_outline combat_stats">
                     <div style="width: 100%; height: 100%">
-                        Atk: {{ enemyAtk }} <br />
-                        Def: {{ enemyDef }} <br />
+                        Atk: {{ combatStore.getOpponentStats.attack }} <br />
+                        Def: {{ combatStore.getOpponentStats.defense }} <br />
                         
                     </div>
                 </div>
@@ -74,15 +73,16 @@
 <script setup lang="ts">
 import { usePlayer } from '@/stores/player';
 import { useMapStore } from '@/stores/mapStore';
+import { useCombatStore } from '@/stores/combatStore';
 import Decimal from 'break_infinity.js';
 import { ref, computed, watch } from 'vue';
 import type { Enemy } from '../types/enemy';
 import type { CarouselItem } from '../types/carouselItem';
 import CarouselIcon from './CarouselIcon.vue';
 import { storeToRefs } from 'pinia';
-import { Zone } from '@/enums/areaEnums'
 const player = usePlayer();
-const mapStuff = useMapStore();
+const mapStore = useMapStore();
+const combatStore = useCombatStore();
 
 const name = "combatpanel";
 
@@ -118,7 +118,7 @@ const incrementCarousel = function() {
         if(arrCount%player.getSpd === 0) {
             addItem("player");
         }
-        if(arrCount%enemySpd.value === 0) {
+        if(arrCount%combatStore.currentOpponent.spd === 0) {
             addItem("enemy");
         }
     }
@@ -126,15 +126,6 @@ const incrementCarousel = function() {
 
 
 //stats
-const fighting = ref(false);
-const enemyName = ref("Not Fighting");
-const enemyAtk = ref(new Decimal(0));
-const enemyDef = ref(new Decimal(0));
-const enemyHpMax = ref(new Decimal(0));
-const enemyHpCurr = ref(new Decimal(0));
-const enemySpd = ref(0);
-const enemySoulKill = ref(new Decimal(0));
-const enemySoulAbsorb = ref(new Decimal(0));
 
 var arrCount = 0; //battle turn timer
 const playerTurn = ref(false); //controls whether player can click actions
@@ -145,15 +136,17 @@ const playerDamage = ref(false);
 const enemyDamage = ref(false);
 const win = ref("");
 const battleResult = ref("");
-const { encounterSignal$ } = storeToRefs(mapStuff)
+const { encounterSignal$ } = storeToRefs(mapStore)
+const { activeCombat } = storeToRefs(combatStore)
 
 //Signals
-watch( encounterSignal$, (signal) => {
-    console.log('tock!');
-    startFight(signal);
+watch( encounterSignal$, (signal) => startFight(signal))
+watch( activeCombat, (signal: Boolean) => {
+    console.log(signal);
+    if (signal) {
+        runTurn();
+    }
 })
-
-
 
 const startFight = function(enemy:Enemy) {
     //heal player, this may be redundant.. currHealth should maybe be var in combatPanel instead?
@@ -161,17 +154,6 @@ const startFight = function(enemy:Enemy) {
     player.baseStats.currentHealth = player.baseStats.maxHealth; 
     battleResult.value = "";
 
-    //fighting true, enemy values equal to passed enemy
-    fighting.value = true
-    enemyName.value = enemy.name;
-    enemyAtk.value = enemy.attack;
-    enemyDef.value = enemy.defense;
-    enemyHpMax.value = enemy.hp;
-    enemyHpCurr.value = enemy.hp;
-    enemySpd.value = enemy.spd;
-    enemySoulAbsorb.value = enemy.soulAbsorb;
-    enemySoulKill.value = enemy.soulKill;
-    
     //reset array stuff
     carousel_array.value = [];
     arrayIndex.value = 0;
@@ -181,11 +163,11 @@ const startFight = function(enemy:Enemy) {
         if(arrCount%player.getSpd === 0) {
             addItem("player");
         }
-        if(arrCount%enemySpd.value === 0) {
+        if(arrCount%enemy.spd === 0) {
             addItem("enemy");
         }
     }
-    runTurn();
+    combatStore.startCombat(enemy)
 }
 
 //check if battle is over and handle, otherwise run turn based on upcoming carousel item
@@ -194,12 +176,11 @@ const runTurn = function() {
         battleResult.value = "lose :(";
         carousel_array.value = [];
     }
-    else if(enemyHpCurr.value.lte(0)) {
+    else if(combatStore.getOpponentHP.lte(0)) {
         battleResult.value = "win! :3";
-        enemyName.value = "dead lul";
-        player.addSoul(enemySoulKill.value);
+        player.addSoul(combatStore.getOpponentStats.soulKill);
         carousel_array.value = [];
-        fighting.value = false;
+        combatStore.activeCombat = false;
     }
     else if(carousel_array.value[0].type === "player") {
         playerTurn.value = true; //just enables player buttons that will do stuff
@@ -225,7 +206,7 @@ const playerAction = function(action:string) {
             playerDamage.value = true;
             setTimeout(function(){
                 playerDamage.value = false;
-                enemyHpCurr.value = Decimal.subtract(enemyHpCurr.value, Decimal.subtract(player.getAtk, enemyDef.value));
+                combatStore.dealDamage(player.getAtk)
             }, 400)
         }
         case "wait": {
@@ -246,7 +227,7 @@ const runEnemyTurn = function() {
     enemyDamage.value = true;
     setTimeout(function() {
         enemyDamage.value = false;
-        player.damage(Decimal.subtract(enemyAtk.value, player.getDef));
+        player.damage(Decimal.subtract(combatStore.getOpponentStats.attack, player.getDef));
     }, 400)
     setTimeout(function(){
         incrementCarousel();
@@ -255,7 +236,7 @@ const runEnemyTurn = function() {
 }
 
 const enemyHpRatio = computed(() : string => {
-    let x = enemyHpCurr.value.dividedBy(enemyHpMax.value).times(100)
+    let x = combatStore.getOpponentHP.dividedBy(combatStore.getOpponentStats.maxHP).times(100)
     if(x.gte("0")) {
         return ( x + "%")
     } 

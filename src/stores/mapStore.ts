@@ -14,7 +14,7 @@ export const useMapStore = defineStore('mapStuff', {
                 name: "Rat",
                 attack: new Decimal("2"),
                 defense: new Decimal("0"),
-                hp: new Decimal("7"),
+                maxHP: new Decimal("7"),
                 spd: 300,
                 soulAbsorb: new Decimal("1"),
                 soulKill: new Decimal("1"),
@@ -23,7 +23,7 @@ export const useMapStore = defineStore('mapStuff', {
                 name: "Dog",
                 attack: new Decimal("3"),
                 defense: new Decimal("1"),
-                hp: new Decimal("10"),
+                maxHP: new Decimal("10"),
                 spd: 300,
                 soulAbsorb: new Decimal("1"),
                 soulKill: new Decimal("1"),
@@ -32,7 +32,7 @@ export const useMapStore = defineStore('mapStuff', {
                 name: "Mouse",
                 attack: new Decimal("1"),
                 defense: new Decimal("0"),
-                hp: new Decimal("5"),
+                maxHP: new Decimal("5"),
                 spd: 100,
                 soulAbsorb: new Decimal("1"),
                 soulKill: new Decimal("1"),
@@ -123,7 +123,7 @@ export const useMapStore = defineStore('mapStuff', {
         },
     },
     actions: {
-        setTextAppend() {
+        setTextAppend(): void {
             if(this.hasData && (Math.floor(Math.random() * 100) <= 20)) {
                 switch(this.selectedNode.data.zone) {
                     case "forest": {
@@ -139,7 +139,7 @@ export const useMapStore = defineStore('mapStuff', {
                 this.areaData.random.descAppend = "";
             }
         },
-        callRandomEncounter(zone: Zone) {
+        callRandomEncounter(zone: Zone): void {
             switch(zone) {
                 case Zone.FOREST: {
                     const encounterIdx = Math.floor(Math.random() * this.enemyList.length );

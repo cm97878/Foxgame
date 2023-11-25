@@ -5,8 +5,8 @@ export interface Enemy {
     name: string;
     attack: Decimal;
     defense: Decimal;
-    hp: Decimal;
+    maxHP: Decimal;
     spd: number;
     soulAbsorb: Decimal;
     soulKill: Decimal;
-  }
+}
