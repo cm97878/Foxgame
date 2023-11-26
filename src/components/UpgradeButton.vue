@@ -8,7 +8,7 @@
 
 
 <script setup lang="ts">
-import { UpgradePurchaseType } from '@/enums/upgradeType';
+import { UpgradePurchaseType } from '@/enums/upgradePurchaseType';
 import Decimal from 'break_infinity.js';
 import { computed, type PropType } from 'vue';
 import { usePlayer } from '@/stores/player';
@@ -59,4 +59,4 @@ const buy = function() {
 const costDisplay = computed(() => {
     return props.cost.toString().replace("+","");
 })
-</script>
+</script>@/enums/upgradePurchaseType

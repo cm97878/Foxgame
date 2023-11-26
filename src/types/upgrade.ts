@@ -1,4 +1,4 @@
-import type { UpgradePurchaseType } from "@/enums/upgradeType";
+import type { UpgradePurchaseType } from "@/enums/upgradePurchaseType";
 import Decimal from "break_infinity.js";
 
 //TODO: Possible add a zone field here later.

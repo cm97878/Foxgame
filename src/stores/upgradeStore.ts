@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import Decimal from 'break_infinity.js'
 import { usePlayer } from './player'
-import { UpgradePurchaseType } from '@/enums/upgradeType'
+import { UpgradePurchaseType } from '@/enums/upgradePurchaseType'
 import type { Upgrade } from '@/types/upgrade'
 
 
@@ -36,7 +36,7 @@ export const useUpgradeStore = defineStore('upgradeStore', {
                 cost: new Decimal("1"),
                 effect: function() {
                     const player = usePlayer();
-                    player.addAtk(1);
+                    player.addBaseAtk(1);
                 }
             }],
             [1, {
@@ -59,7 +59,7 @@ export const useUpgradeStore = defineStore('upgradeStore', {
             }],
             [3, {
                 show: false,
-                bought: true,
+                bought: false,
                 type: UpgradePurchaseType.SOUL,
                 title: "upgrade 4",
                 description: "bought, not unlocked, shouldnt see this",
@@ -69,10 +69,4 @@ export const useUpgradeStore = defineStore('upgradeStore', {
         ])
 
     }),
-    actions: {
-        addAtk(atk:Decimal|number) {
-            const player = usePlayer();
-            player.addAtk(atk);
-        }
-    }
 })
