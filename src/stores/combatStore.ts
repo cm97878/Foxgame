@@ -75,7 +75,10 @@ export const useCombatStore = defineStore('combat', {
             else {
                 //Run enemy Turn:
                 player.damage(Decimal.subtract(this.getOpponentStats.attack, player.getDef));
-                this.repopulateTurns();
+                setTimeout(() => {
+                    this.repopulateTurns();
+                    this.runTurn();
+                }, 200)
             }
         },
         dealDamage(playerAtk: Decimal): void {
@@ -113,6 +116,7 @@ export const useCombatStore = defineStore('combat', {
         endCombat(): void {
             this.carouselArray=[];
             this.activeCombat = false;
+            this.playerTurn = false;
             this.turnNumber = 0;
             this.turnTimer = 0;
         }
