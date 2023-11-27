@@ -5,25 +5,16 @@ import type { GraphNode } from '@vue-flow/core'
 import type { AreaData } from '@/types/areaData'
 import { SpecialAreaId, Zone } from '@/enums/areaEnums'
 
-/* 
-name: "",
-attack: new Decimal("0"),
-defense: new Decimal("0"),
-hp: new Decimal("0"),
-soulAbsorb: new Decimal("0"),
-soulKill: new Decimal("0"), 
-*/
-
-
-export const useMapStuff = defineStore('mapStuff', {
+export const useMapStore = defineStore('mapStuff', {
     state: () => ({
+        encounterSignal$: {} as Enemy,
         selectedNode: {data: {}} as GraphNode,
         enemyList: [
             {
                 name: "Rat",
                 attack: new Decimal("2"),
                 defense: new Decimal("0"),
-                hp: new Decimal("7"),
+                maxHP: new Decimal("7"),
                 spd: 300,
                 soulAbsorb: new Decimal("1"),
                 soulKill: new Decimal("1"),
@@ -32,7 +23,7 @@ export const useMapStuff = defineStore('mapStuff', {
                 name: "Dog",
                 attack: new Decimal("3"),
                 defense: new Decimal("1"),
-                hp: new Decimal("10"),
+                maxHP: new Decimal("10"),
                 spd: 300,
                 soulAbsorb: new Decimal("1"),
                 soulKill: new Decimal("1"),
@@ -41,7 +32,7 @@ export const useMapStuff = defineStore('mapStuff', {
                 name: "Mouse",
                 attack: new Decimal("1"),
                 defense: new Decimal("0"),
-                hp: new Decimal("5"),
+                maxHP: new Decimal("5"),
                 spd: 100,
                 soulAbsorb: new Decimal("1"),
                 soulKill: new Decimal("1"),
@@ -130,12 +121,9 @@ export const useMapStuff = defineStore('mapStuff', {
         hasData(): Boolean {
             return Object.keys(this.selectedNode.data).length !== 0
         },
-
-
-
-},
+    },
     actions: {
-        setTextAppend() {
+        setTextAppend(): void {
             if(this.hasData && (Math.floor(Math.random() * 100) <= 20)) {
                 switch(this.selectedNode.data.zone) {
                     case "forest": {
@@ -151,5 +139,13 @@ export const useMapStuff = defineStore('mapStuff', {
                 this.areaData.random.descAppend = "";
             }
         },
+        callRandomEncounter(zone: Zone): void {
+            switch(zone) {
+                case Zone.FOREST: {
+                    const encounterIdx = Math.floor(Math.random() * this.enemyList.length );
+                    this.encounterSignal$ = this.enemyList[encounterIdx];
+                }
+            }
+        }
     }
 })
