@@ -10,6 +10,10 @@ export const usePlayer = defineStore('player', {
             maxSoul: new Decimal("10"),
         },
         name: "Fox",
+        tails: {
+            obtained: false,
+            amount: 1,
+        },
         baseStats: {
             attack: new Decimal("3"),
             defense: new Decimal("0"),
@@ -59,8 +63,10 @@ export const usePlayer = defineStore('player', {
 
 
         getSoul(): Decimal {
-            let finalSoul = this.currencies.soul;
-            return finalSoul;
+            return this.currencies.soul;
+        },
+        getMaxSoul(): Decimal {
+            return this.currencies.maxSoul;
         },
         getSoulDisplay(): string {
             return this.getSoul.toString().replace("+","");
@@ -122,6 +128,20 @@ export const usePlayer = defineStore('player', {
         //name this different just cause lower is better, functions different than the others
         modifySpeed(amnt:number) {
             this.baseStats.spd += amnt;
+        },
+
+        modifyMaxSoul(amnt:Decimal|number) {
+            this.currencies.maxSoul = Decimal.add(this.currencies.maxSoul, amnt);
+        },
+
+
+        addTail() {
+            if(this.tails.amount < 9) {
+                this.currencies.maxSoul = Decimal.mul(this.currencies.maxSoul, 10);
+                this.tails.amount++;
+                this.tails.obtained = true;
+                this.currencies.soul = new Decimal("0")
+            }
         }
     }
 

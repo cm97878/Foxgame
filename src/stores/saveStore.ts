@@ -12,8 +12,10 @@ export const useSaveStore = defineStore('saveStore', () =>{
     var saveFile = {
         currencies: {
             soul: player.currencies.soul,
+            maxSoul: player.currencies.maxSoul,
         },
         name: player.name,
+        tails: player.tails,
         baseStats: {
             attack: player.baseStats.attack,
             defense: player.baseStats.defense,
@@ -32,9 +34,11 @@ export const useSaveStore = defineStore('saveStore', () =>{
         console.log(saveFile)
         saveFile = {
             currencies: {
-                soul: player.currencies.soul as Decimal,
+                soul: player.currencies.soul,
+                maxSoul: player.currencies.maxSoul,
             },
             name: player.name,
+            tails: player.tails,
             baseStats: {
                 attack: player.baseStats.attack,
                 defense: player.baseStats.defense,
@@ -61,7 +65,9 @@ export const useSaveStore = defineStore('saveStore', () =>{
     const load = function() {
         saveFile = JSON.parse(localStorage.getItem('kitsune_save') ?? "")
         player.currencies.soul = new Decimal(saveFile.currencies.soul);
+        player.currencies.maxSoul = new Decimal(saveFile.currencies.maxSoul);
         player.name = saveFile.name;
+        player.tails = saveFile.tails;
         player.baseStats = {
             attack: new Decimal(saveFile.baseStats.attack),
             defense: new Decimal(saveFile.baseStats.defense),

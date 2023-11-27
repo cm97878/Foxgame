@@ -59,4 +59,4 @@ const buy = function() {
 const costDisplay = computed(() => {
     return props.cost.toString().replace("+","");
 })
-</script>@/enums/upgradePurchaseType
+</script>
