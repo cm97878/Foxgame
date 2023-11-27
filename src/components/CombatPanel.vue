@@ -4,19 +4,19 @@
         <div class="combat_graphics_container">
             <div id="info_player_graphic" class="combat_graphic">
                 <div class="name_box">{{ player.name }}</div>
-                <Transition name="attack-text">
-                    <div v-show="playerDamage">{{player.getAtkDisplay + " damage!"}}</div>
-                </Transition>
+                <!-- <Transition name="attack-text">
+                    <div v-show="playerDamage">{{ player.getAtkDisplay + " damage!" }}</div>
+                </Transition> -->
             </div>
             <div id="info_soul_graphic">
                 a lil soul icon will go here <br />
-                
+
             </div>
             <div v-if="combatStore.activeCombat" id="info_enemy_graphic" class="combat_graphic">
                 <div class="name_box">{{ combatStore.getOpponentStats.name }}</div>
-                <Transition name="attack-text">
+                <!-- <Transition name="attack-text">
                     <span v-show="enemyDamage">{{ combatStore.getOpponentStats.attack + " damage!" }}</span>
-                </Transition>
+                </Transition> -->
             </div>
             <div v-else class="combat_graphic not_fighting">
             </div>
@@ -30,7 +30,7 @@
             </TransitionGroup>
         </div>
 
-        
+
 
         <div class="stats_flex_container">
             <div class="stats_container">
@@ -49,7 +49,7 @@
                 </div>
             </div>
 
-            <div v-show="combatStore.activeCombat" class="stats_container" >
+            <div v-show="combatStore.activeCombat" class="stats_container">
                 <div class="general_outline info_hp_bar_outline">
                     <div id="info_enemy_hp_bar_solid" class="hp_bar_background"></div>
                     {{ combatStore.getOpponentHP + " / " + combatStore.getOpponentStats.maxHP }}
@@ -58,14 +58,17 @@
                     <div style="width: 100%; height: 100%">
                         Atk: {{ combatStore.getOpponentStats.attack }} <br />
                         Def: {{ combatStore.getOpponentStats.defense }} <br />
-                        
+
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Make this a scrollable area later. -->
         <div id="info_combat_log">
-            {{ battleResult }}
+            <span v-for="(log) in combatStore.logFeed">
+                {{ log }}<br>
+            </span>
         </div>
     </div>
 </template>
@@ -87,35 +90,28 @@ const props = defineProps({
     active: String
 })
 
-
-
 //stuff for testing, will delete later
-const playerDamage = ref(false);
-const enemyDamage = ref(false);
-// const win = ref("");
-const battleResult = ref("");
 const { encounterSignal$ } = storeToRefs(mapStore)
-const { activeCombat } = storeToRefs(combatStore)
 
 //Signals
-watch( encounterSignal$, (signal) => combatStore.startCombat(signal))
+watch(encounterSignal$, (signal) => combatStore.startCombat(signal))
 
 
-const playerAction = function(action:string) {
+const playerAction = function (action: string) {
     combatStore.processPlayerTurn(action);
 }
 
-const enemyHpRatio = computed(() : string => {
+const enemyHpRatio = computed((): string => {
     let x = combatStore.getOpponentHP.dividedBy(combatStore.getOpponentStats.maxHP).times(100)
-    if(x.gte("0")) {
-        return ( x + "%")
-    } 
+    if (x.gte("0")) {
+        return (x + "%")
+    }
     else {
         return "0%"
     }
 })
 
-defineExpose({enemyHpRatio})
+defineExpose({ enemyHpRatio })
 
 </script>
 
@@ -123,6 +119,7 @@ defineExpose({enemyHpRatio})
     #info_player_hp_bar_solid {
         width: v-bind("player.playerHpRatio")
     }
+
     #info_enemy_hp_bar_solid {
         width: v-bind("enemyHpRatio")
     }

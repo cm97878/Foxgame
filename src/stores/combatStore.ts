@@ -21,7 +21,8 @@ export const useCombatStore = defineStore('combat', {
         currentHP: new Decimal("0"),
         carouselArray: <CarouselItem[]>([]),
         turnTimer: 0,
-        turnNumber: 0
+        turnNumber: 0,
+        logFeed: [""]
     }),
     getters: {
         getOpponentStats(): Enemy {
@@ -60,11 +61,11 @@ export const useCombatStore = defineStore('combat', {
             const player = usePlayer();
             //Check for battle end.
             if(player.baseStats.currentHealth.lte(0)){
-                //battleResult.value = "lose :(";
+                this.pushToCombatLog("Defeat..")
                 this.endCombat();
             }
             else if(this.currentHP.lte(0)) {
-                //battleResult.value = "win! :3";
+                this.pushToCombatLog("Victory! Gained " + this.currentOpponent.soulKill + " Soul.")
                 player.addSoul(this.currentOpponent.soulKill);
                 this.endCombat();
             }
@@ -74,16 +75,21 @@ export const useCombatStore = defineStore('combat', {
             }
             else {
                 //Run enemy Turn:
-                player.damage(Decimal.subtract(this.getOpponentStats.attack, player.getDef));
+                const damage = Decimal.subtract(this.getOpponentStats.attack, player.getDef)
+                player.damage(damage);
+                
+                
                 setTimeout(() => {
+                    this.pushToCombatLog("Player took " + damage + " damage!")
                     this.repopulateTurns();
                     this.runTurn();
-                }, 200)
+                }, 300)
             }
         },
         dealDamage(playerAtk: Decimal): void {
-            this.currentHP = Decimal.subtract(this.currentHP, Decimal.subtract(playerAtk, this.currentOpponent.defense));
-            //this.repopulateTurns();
+            const damage = Decimal.subtract(playerAtk, this.currentOpponent.defense)
+            this.currentHP = Decimal.subtract(this.currentHP, damage);
+            this.pushToCombatLog( this.currentOpponent.name + " took " + damage + " damage!" )
         },
         processPlayerTurn(action: string): void {
             const player = usePlayer();
@@ -119,6 +125,15 @@ export const useCombatStore = defineStore('combat', {
             this.playerTurn = false;
             this.turnNumber = 0;
             this.turnTimer = 0;
+        },
+        pushToCombatLog(log: string): void {
+            const tempArray = this.logFeed;
+            tempArray.unshift(log);
+            if (tempArray.length > 7) {
+                tempArray.pop()
+            }
+
+            this.logFeed = tempArray;
         }
     }
 
