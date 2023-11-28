@@ -50,13 +50,12 @@ export const useSaveStore = defineStore('saveStore', () =>{
                 playerUpgrades: [] as Array<SaveUpgradeArray>
             }
         }
-        upgrades.soul.forEach(function(value, key) {
-            let x:SaveUpgradeArray = {
-                key: key,
-                unlocked: value.show,
-                bought: value.bought,
-            }
-            saveFile.unlocks.playerUpgrades.push(x)
+        saveFile.unlocks.playerUpgrades = Array.from(upgrades.soul.entries()).map((entry) => {
+            return {
+                key: entry[0],
+                unlocked: entry[1].show,
+                bought: entry[1].bought,
+            } as SaveUpgradeArray
         })
         localStorage.setItem('kitsune_save', JSON.stringify(saveFile));
         console.log(saveFile)
