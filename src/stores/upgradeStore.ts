@@ -4,17 +4,6 @@ import { usePlayer } from './player'
 import { UpgradePurchaseType } from '@/enums/upgradePurchaseType'
 import type { Upgrade } from '@/types/upgrade'
 
-
-
-/* 
-name: "",
-attack: new Decimal("0"),
-defense: new Decimal("0"),
-hp: new Decimal("0"),
-soulAbsorb: new Decimal("0"),
-soulKill: new Decimal("0"), 
-*/
-
 export const useUpgradeStore = defineStore('upgradeStore', {
     state: () => ({
         /*
