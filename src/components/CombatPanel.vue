@@ -26,7 +26,7 @@
         <div id="turn_carousel" class="general_outline">
             <div id="carousel_line" class="general_outline"></div>
             <TransitionGroup name="carousel">
-                <CarouselIcon v-for="(item) in combatStore.carouselArray" :key="item.turnNumber" :icon="item.type" />
+                <CarouselIcon v-for="(item) in combatStore.carouselArray.slice(0,8)" :key="item.turnNumber" :icon="item.type" />
             </TransitionGroup>
         </div>
 
