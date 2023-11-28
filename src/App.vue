@@ -40,13 +40,21 @@
         <div id="right_side_container" class="app_container">
             <div id="currency_section">
                 <div id="soul_counter_container">
-                    {{ player.currencies.soul.toNumber() }}<br />
+                    {{ player.getSoulDisplay }}<br />
                     <span style="font-size: 16pt;">Soul</span>
                 </div>
-                <div id="soul_bead_counters_container">
+<!--                 <div id="soul_bead_counters_container">
                     0
-                </div>
+                </div> -->
+                <button 
+                @click="player.addTail()"
+                v-show="(player.tails.amount > 1 && player.tails.amount < 9) || (player.tails.amount === 1 && player.getSoul.eq(player.getMaxSoul))" 
+                :disabled="player.getSoul.lt(player.getMaxSoul)">{{ !player.tails.obtained ? '???' : 'Gain Tail' }}</button>
             </div>
+            <button @click="saves.save()">Save</button>
+            <button @click="saves.load()">Load</button>
+            <button @click="player.addSoul(10000000000000000);">add max soul</button>
+            {{ "number of tails: " + player.tails.amount }}<br />{{ "max soul: " + player.getMaxSoul }}
             <OvermapPanel />
         </div>
 
@@ -64,8 +72,10 @@
     import OvermapPanel from './components/OvermapPanel.vue';
     import { Panels, Tab } from './enums/panels';
     import { usePlayer } from './stores/player';
-    import { ref } from 'vue';
+    import { onMounted, ref } from 'vue';
+    import { useSaveStore } from './stores/saveStore';
     const player = usePlayer();
+    const saves = useSaveStore();
 
     const name = "app";
 
@@ -87,5 +97,7 @@
         activeTabSoul.value = tab;
     }
 
-    
+    onMounted(() =>{
+        // saves.load();
+    })
 </script>

@@ -1,22 +1,26 @@
 import { defineStore } from 'pinia'
 import Decimal from 'break_infinity.js'
+import type { Upgrade } from '@/types/upgrade';
+import { UpgradePurchaseType } from '@/enums/upgradePurchaseType';
 
 export const usePlayer = defineStore('player', {
     state: () => ({
         currencies: {
             soul: new Decimal("0"),
-        },
-        unlocks: {
-
+            maxSoul: new Decimal("10"),
         },
         name: "Fox",
+        tails: {
+            obtained: false,
+            amount: 1,
+        },
         baseStats: {
             attack: new Decimal("3"),
             defense: new Decimal("0"),
             maxHealth: new Decimal("15"),
             currentHealth: new Decimal("15"),
             spd: 200
-        }
+        },
     }),
     getters: {
         //get base stats
@@ -58,6 +62,17 @@ export const usePlayer = defineStore('player', {
         },
 
 
+        getSoul(): Decimal {
+            return this.currencies.soul;
+        },
+        getMaxSoul(): Decimal {
+            return this.currencies.maxSoul;
+        },
+        getSoulDisplay(): string {
+            return this.getSoul.toString().replace("+","");
+        },
+
+
 
         playerHpRatio(): string {
             let x = this.getHpCurr.dividedBy(this.getHpMax).times(100)
@@ -71,15 +86,24 @@ export const usePlayer = defineStore('player', {
     },
     actions: {
         addSoul(soulAdd:Decimal|number) {
-            this.currencies.soul = Decimal.add(this.currencies.soul, soulAdd);
+            if(Decimal.add(this.currencies.soul, soulAdd).gt(this.currencies.maxSoul)) {
+                this.currencies.soul = this.currencies.maxSoul;
+            }
+            else {
+                this.currencies.soul = Decimal.add(this.currencies.soul, soulAdd);
+            }
         },
         subtractSoul(soulSubtract:Decimal|number) {
             this.currencies.soul  = Decimal.subtract(this.currencies.soul, soulSubtract)
+            if(this.currencies.soul.lt("0")) {
+                console.log("Subtracted soul that went below 0, a check somewhere is wrong. Amnt subtracted: " + soulSubtract)
+            }
         },
         enoughSoul(soulCompare:Decimal|number) {
             if(this.currencies.soul.gte(soulCompare)) {
                 return true;
             }
+            else return false;
         },
         damage(damageAmnt:Decimal|number, AP:Boolean=false) {
             if(AP) {
@@ -87,6 +111,36 @@ export const usePlayer = defineStore('player', {
             }
             else {
                 this.baseStats.currentHealth = Decimal.subtract(this.baseStats.currentHealth, damageAmnt);
+            }
+        },
+
+
+
+        addBaseAtk(amnt:Decimal|number) {
+            this.baseStats.attack = Decimal.add(this.baseStats.attack, amnt);
+        },
+        addBaseDef(amnt:Decimal|number) {
+            this.baseStats.defense = Decimal.add(this.baseStats.defense, amnt);
+        },
+        addBaseHealth(amnt:Decimal|number) {
+            this.baseStats.maxHealth = Decimal.add(this.baseStats.maxHealth, amnt);
+        },
+        //name this different just cause lower is better, functions different than the others
+        modifySpeed(amnt:number) {
+            this.baseStats.spd += amnt;
+        },
+
+        modifyMaxSoul(amnt:Decimal|number) {
+            this.currencies.maxSoul = Decimal.add(this.currencies.maxSoul, amnt);
+        },
+
+
+        addTail() {
+            if(this.tails.amount < 9) {
+                this.currencies.maxSoul = Decimal.mul(this.currencies.maxSoul, 10);
+                this.tails.amount++;
+                this.tails.obtained = true;
+                this.currencies.soul = new Decimal("0")
             }
         }
     }

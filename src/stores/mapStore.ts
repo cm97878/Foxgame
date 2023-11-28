@@ -5,6 +5,17 @@ import type { GraphNode } from '@vue-flow/core'
 import type { AreaData } from '@/types/areaData'
 import { SpecialAreaId, Zone } from '@/enums/areaEnums'
 
+/* LEAVE THIS HERE >:(
+name: "",
+attack: new Decimal(""),
+defense: new Decimal(""),
+maxHP: new Decimal(""),
+spd: ,
+soulAbsorb: new Decimal(""),
+soulKill: new Decimal(""),
+*/
+
+
 export const useMapStore = defineStore('mapStuff', {
     state: () => ({
         encounterSignal$: {} as Enemy,
