@@ -220,24 +220,7 @@ export const useMapStore = defineStore('mapStuff', {
                         node.data.killCount = Decimal.add(node.data.killCount, amnt);
                         console.log(node.data.killCount.toString())
                         if(node.data.killCount.gte(node.data.scoutThreshold)) {
-                            //TODO: make function for this later
-                            const { getConnectedEdges, findNode } = useVueFlow();
-                            const mapEdges = getConnectedEdges(node.id);
-                            console.log(mapEdges)
-                            mapEdges.forEach(element => {
-                                let node = findNode(element.target);
-                                if(node) {
-                                    node.hidden = false;
-                                    node.data.interactable = true;
-                                    let secondEdges = getConnectedEdges(node.id);
-                                    secondEdges.forEach(innerEl => {
-                                        let innerNode = findNode(innerEl.target);
-                                        if(innerNode) {
-                                            innerNode.hidden = false;
-                                        }
-                                    })
-                                }
-                            })
+                            
                         }
                     }
                     else {console.log("Couldn't update killcount. addKills()")}
