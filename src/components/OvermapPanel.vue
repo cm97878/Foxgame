@@ -24,32 +24,44 @@
 import { useMapStore } from '@/stores/mapStore.js';
 import { VueFlow, useVueFlow } from '@vue-flow/core';
 import { Zone } from '@/enums/areaEnums';
-import { watch } from 'vue';
 
 const name = "overmappanel";
 const mapStore = useMapStore();
 
 const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick, 
-    findNode, findEdge, getConnectedEdges, addEdges } = useVueFlow();
+    findNode, findEdge, getConnectedEdges, addEdges, nodes } = useVueFlow();
 onPaneReady((instance) => {
+    nodes.value.forEach( element => {
+        element.hidden = true;
+    })
+
+
     addEdges(mapStore.edges);
     nodesDraggable.value = false;
     elementsSelectable.value = true;
     instance.setCenter(0, 0, {zoom: 1})
     mapStore.selectedNode = findNode("1")!;
+    nodes.value.forEach(element => {
+        if(element.data?.killCount.gte(element.data?.scoutThreshold)) {
+            element.hidden = false;
+            element.data.intereactable = true;
+            //Add !hidden to all edges grabbed by this function.
+            const edges = getConnectedEdges(element.id) 
+        }
+    });
 })
 onNodeClick((node) => {
-    //Check adjacency.
-    const isConnected = getConnectedEdges(mapStore.selectedNode.id).find( 
-        connection => (connection.target === node.node.id || connection.source === node.node.id)
-    )
-
-    if (isConnected) {
+    if (isConnected(node)) {
         mapStore.selectedNode = findNode(node.node.id)!;
         mapStore.setTextAppend()
         mapStore.callRandomEncounter(Zone.FOREST)
     }
 })
+const isConnected = function(node: any): boolean {
+    return !!getConnectedEdges(mapStore.selectedNode.id).find( 
+        connection => (connection.target === node.node.id || connection.source === node.node.id)
+    )
+}
 
 
 

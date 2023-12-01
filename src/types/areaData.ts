@@ -8,4 +8,5 @@ export interface AreaData {
     description: string,
     killCount: Decimal,
     scoutThreshold: Decimal,
+    interactable: false
 }
