@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import Decimal from 'break_infinity.js'
 import type { Enemy } from '@/types/enemy'
-import type { GraphNode } from '@vue-flow/core'
+import { useVueFlow, type GraphNode } from '@vue-flow/core'
 import type { AreaData } from '@/types/areaData'
 import { SpecialAreaId, Zone } from '@/enums/areaEnums'
 
@@ -76,7 +76,7 @@ export const useMapStore = defineStore('mapStuff', {
                     zone: Zone.FOREST,
                     description: "this be some dense foliage",
                     killCount: new Decimal("0"),
-                    scoutThreshold: new Decimal("0")
+                    scoutThreshold: new Decimal("1")
                 } as AreaData
             },
             {
@@ -89,21 +89,56 @@ export const useMapStore = defineStore('mapStuff', {
                     zone: Zone.FOREST,
                     description: "A specific clearing description.",
                     killCount: new Decimal("0"),
-                    scoutThreshold: new Decimal("0")
+                    scoutThreshold: new Decimal("1")
                 } as AreaData
             },
             {
                 id: '4',
-                label: '???',
+                label: '',
                 position: { x: 400, y: 200 },
                 class: 'light',
-                hidden: false,
+                data: {
+                    areaName: "Small Clearing",
+                    zone: Zone.FOREST,
+                    description: "A specific clearing description.",
+                    killCount: new Decimal("0"),
+                    scoutThreshold: new Decimal("1")
+                } as AreaData
+            },
+            {
+                id: '5',
+                label: '',
+                position: { x: 400, y: 300 },
+                class: 'light',
+                data: {
+                    areaName: "Small Clearing",
+                    zone: Zone.FOREST,
+                    description: "A specific clearing description.",
+                    killCount: new Decimal("0"),
+                    scoutThreshold: new Decimal("1")
+                } as AreaData
+            },
+            {
+                id: '6',
+                label: '',
+                position: { x: 100, y: 200 },
+                class: 'light',
+                data: {
+                    areaName: "Small Clearing",
+                    zone: Zone.FOREST,
+                    description: "A specific clearing description.",
+                    killCount: new Decimal("0"),
+                    scoutThreshold: new Decimal("1")
+                } as AreaData
             },
         ],
         edges: [
             { id: 'e1-2', source: '1', target: '2' },
             { id: 'e1-3', source: '1', target: '3' },
             { id: 'e3-4', source: '3', target: '4' },
+            { id: 'e4-5', source: '4', target: '5' },
+            { id: 'e6-5', source: '6', target: '5' },
+            { id: 'e2-6', source: '2', target: '6' },
         ],
         areaData: {
             //holds the thing to display and the list of things that can be displayed
@@ -144,7 +179,7 @@ export const useMapStore = defineStore('mapStuff', {
             return (this.getKillCount.gte(this.selectedNode.data.scoutThreshold))
         },
         hasData(): Boolean {
-            return Object.keys(this.selectedNode.data).length !== 0
+            return !!this.selectedNode.data; 
         },
     },
     actions: {
@@ -181,7 +216,29 @@ export const useMapStore = defineStore('mapStuff', {
                     let node = this.nodes.find(item => item.id === this.selectedNode.id)
       
                     if(node?.data?.killCount) {
-                      node.data.killCount = Decimal.add(node.data.killCount, amnt);
+                        console.log(node.data.killCount.toString())
+                        node.data.killCount = Decimal.add(node.data.killCount, amnt);
+                        console.log(node.data.killCount.toString())
+                        if(node.data.killCount.gte(node.data.scoutThreshold)) {
+                            //TODO: make function for this later
+                            const { getConnectedEdges, findNode } = useVueFlow();
+                            const mapEdges = getConnectedEdges(node.id);
+                            console.log(mapEdges)
+                            mapEdges.forEach(element => {
+                                let node = findNode(element.target);
+                                if(node) {
+                                    node.hidden = false;
+                                    node.data.interactable = true;
+                                    let secondEdges = getConnectedEdges(node.id);
+                                    secondEdges.forEach(innerEl => {
+                                        let innerNode = findNode(innerEl.target);
+                                        if(innerNode) {
+                                            innerNode.hidden = false;
+                                        }
+                                    })
+                                }
+                            })
+                        }
                     }
                     else {console.log("Couldn't update killcount. addKills()")}
                 }

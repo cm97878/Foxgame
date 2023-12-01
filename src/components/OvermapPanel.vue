@@ -7,7 +7,6 @@
                 <!-- every special tab will look way different, but also this isnt where this shit will
                 display, so who cares lmao. -->
                 <br />
-                <button @click="mapStore.nodes[3].hidden = true">Hide node 4</button>
             </div>
             <div v-show="!mapStore.isSpecial">
                 {{ mapStore.getDescription }} {{ mapStore.getDescAppend }}
@@ -42,11 +41,25 @@ onPaneReady((instance) => {
     instance.setCenter(0, 0, {zoom: 1})
     mapStore.selectedNode = findNode("1")!;
     nodes.value.forEach(element => {
-        if(element.data?.killCount.gte(element.data?.scoutThreshold)) {
+        if(element.data?.killCount?.gte(element.data?.scoutThreshold)) {
             element.hidden = false;
             element.data.intereactable = true;
-            //Add !hidden to all edges grabbed by this function.
-            const edges = getConnectedEdges(element.id) 
+            //Add !hidden and interactable to all edges and nodes grabbed by this function.
+            const edges = getConnectedEdges(element.id);
+            edges.forEach(element => {
+                let node = findNode(element.target);
+                if(node) {
+                    node.hidden = false;
+                    node.data.interactable = true;
+                    let secondEdges = getConnectedEdges(node.id);
+                    secondEdges.forEach(innerEl => {
+                        let innerNode = findNode(innerEl.target);
+                        if(innerNode) {
+                            innerNode.hidden = false;
+                        }
+                    })
+                }
+            })
         }
     });
 })
