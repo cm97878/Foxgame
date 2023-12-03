@@ -19,6 +19,7 @@ soulKill: new Decimal(""),
 export const useMapStore = defineStore('mapStuff', {
     state: () => ({
         encounterSignal$: {} as Enemy,
+        scouted$: "",
         selectedNode: {data: {}} as GraphNode,
         enemyList: [
             {
@@ -62,8 +63,8 @@ export const useMapStore = defineStore('mapStuff', {
                     areaName: "Home",
                     zone: Zone.FOREST,
                     description: "You can just put whatever here.",
-                    killCount: new Decimal("0"),
-                    scoutThreshold: new Decimal("0")
+                    killCount: 0,
+                    scoutThreshold: 0
                 } as AreaData
             },
             {
@@ -75,8 +76,8 @@ export const useMapStore = defineStore('mapStuff', {
                     areaName: "Dense Foliage",
                     zone: Zone.FOREST,
                     description: "this be some dense foliage",
-                    killCount: new Decimal("0"),
-                    scoutThreshold: new Decimal("1")
+                    killCount: 0,
+                    scoutThreshold: 1
                 } as AreaData
             },
             {
@@ -88,8 +89,8 @@ export const useMapStore = defineStore('mapStuff', {
                     areaName: "Small Clearing",
                     zone: Zone.FOREST,
                     description: "A specific clearing description.",
-                    killCount: new Decimal("0"),
-                    scoutThreshold: new Decimal("1")
+                    killCount: 0,
+                    scoutThreshold: 1
                 } as AreaData
             },
             {
@@ -101,8 +102,8 @@ export const useMapStore = defineStore('mapStuff', {
                     areaName: "Small Clearing",
                     zone: Zone.FOREST,
                     description: "A specific clearing description.",
-                    killCount: new Decimal("0"),
-                    scoutThreshold: new Decimal("1")
+                    killCount: 0,
+                    scoutThreshold: 1
                 } as AreaData
             },
             {
@@ -114,8 +115,8 @@ export const useMapStore = defineStore('mapStuff', {
                     areaName: "Small Clearing",
                     zone: Zone.FOREST,
                     description: "A specific clearing description.",
-                    killCount: new Decimal("0"),
-                    scoutThreshold: new Decimal("1")
+                    killCount: 0,
+                    scoutThreshold: 1
                 } as AreaData
             },
             {
@@ -127,8 +128,8 @@ export const useMapStore = defineStore('mapStuff', {
                     areaName: "Small Clearing",
                     zone: Zone.FOREST,
                     description: "A specific clearing description.",
-                    killCount: new Decimal("0"),
-                    scoutThreshold: new Decimal("1")
+                    killCount: 0,
+                    scoutThreshold: 1
                 } as AreaData
             },
         ],
@@ -210,17 +211,17 @@ export const useMapStore = defineStore('mapStuff', {
 
         //this just adds kills to the current node, but should be easy to expand to add elsewhere
         //if we do stuff that'd allow it later
-        addKills(amnt:Decimal|number) {
+        addKills(amnt:number) {
             if(this.hasData) {
-                if(this.selectedNode.data.killCount.lt(this.selectedNode.data.scoutThreshold)) {
+                if(this.selectedNode.data.killCount < this.selectedNode.data.scoutThreshold) {
                     let node = this.nodes.find(item => item.id === this.selectedNode.id)
-      
-                    if(node?.data?.killCount) {
-                        console.log(node.data.killCount.toString())
-                        node.data.killCount = Decimal.add(node.data.killCount, amnt);
-                        console.log(node.data.killCount.toString())
-                        if(node.data.killCount.gte(node.data.scoutThreshold)) {
-                            
+                    console.log(node)
+                    console.log(node?.data.killCount)
+                    if(node) {
+                        // node.data.killCount = Decimal.add(node.data.killCount, amnt);
+                        node.data.killCount += amnt
+                        if(node.data.killCount >= node.data.scoutThreshold) {
+                            this.scouted$ = node.id;
                         }
                     }
                     else {console.log("Couldn't update killcount. addKills()")}

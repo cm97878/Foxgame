@@ -4,10 +4,13 @@ import { useUpgradeStore } from "./upgradeStore";
 import Decimal from "break_infinity.js";
 import { ref } from "vue";
 import type { SaveUpgradeArray } from "@/types/saveUpgradeArray";
+import { useMapStore } from "./mapStore";
+import type { SaveKillsArray } from "@/types/saveKillsArray";
 
 export const useSaveStore = defineStore('saveStore', () =>{
     const player = usePlayer();
     const upgrades = useUpgradeStore();
+    const mapStore = useMapStore();
 
     var saveFile = {
         currencies: {
@@ -25,7 +28,8 @@ export const useSaveStore = defineStore('saveStore', () =>{
         },
         unlocks: {
             playerUpgrades: [] as Array<SaveUpgradeArray>
-        }
+        },
+        kills: [] as Array<SaveKillsArray>
     }
 
 
@@ -48,7 +52,8 @@ export const useSaveStore = defineStore('saveStore', () =>{
             },
             unlocks: {
                 playerUpgrades: [] as Array<SaveUpgradeArray>
-            }
+            },
+            kills: [] as Array<SaveKillsArray>
         }
         saveFile.unlocks.playerUpgrades = Array.from(upgrades.soul.entries()).map((entry) => {
             return {
@@ -56,6 +61,12 @@ export const useSaveStore = defineStore('saveStore', () =>{
                 unlocked: entry[1].show,
                 bought: entry[1].bought,
             } as SaveUpgradeArray
+        })
+        saveFile.kills = Array.from(mapStore.nodes).map((entry) => {
+            return {
+                key: entry.id,
+                kills: entry.data.killCount
+            } as SaveKillsArray
         })
         localStorage.setItem('kitsune_save', JSON.stringify(saveFile));
         console.log(saveFile)
@@ -82,8 +93,17 @@ export const useSaveStore = defineStore('saveStore', () =>{
                 upgrades.soul.set(item.key, temp);
             }
         })
+        saveFile.kills.forEach(function(item) {
+            let temp2 = mapStore.nodes.find((element) => element.id === item.key)
+            if(temp2) {
+                temp2.data.killCount = item.kills;
+            }
+        })
+        mapStore.scouted$ = "$REFRESH$"
         console.log(saveFile)
     }
+
+    const killcountUpdate$ = "";
 
 
     return { save, load }

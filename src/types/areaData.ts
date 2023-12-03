@@ -6,7 +6,7 @@ export interface AreaData {
     areaName: string,
     zone: Zone,
     description: string,
-    killCount: Decimal,
-    scoutThreshold: Decimal,
+    killCount: number,
+    scoutThreshold: number,
     interactable: false
 }

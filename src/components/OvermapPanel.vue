@@ -21,14 +21,18 @@
 
 <script setup lang="ts">
 import { useMapStore } from '@/stores/mapStore.js';
-import { VueFlow, useVueFlow } from '@vue-flow/core';
+import { VueFlow, useVueFlow, type GraphNode } from '@vue-flow/core';
 import { Zone } from '@/enums/areaEnums';
+import { storeToRefs } from 'pinia';
+import { watch } from 'vue';
+
 
 const name = "overmappanel";
 const mapStore = useMapStore();
 
 const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick, 
     findNode, findEdge, getConnectedEdges, addEdges, nodes } = useVueFlow();
+
 onPaneReady((instance) => {
     nodes.value.forEach( element => {
         element.hidden = true;
@@ -40,28 +44,8 @@ onPaneReady((instance) => {
     elementsSelectable.value = true;
     instance.setCenter(0, 0, {zoom: 1})
     mapStore.selectedNode = findNode("1")!;
-    nodes.value.forEach(element => {
-        if(element.data?.killCount?.gte(element.data?.scoutThreshold)) {
-            element.hidden = false;
-            element.data.intereactable = true;
-            //Add !hidden and interactable to all edges and nodes grabbed by this function.
-            const edges = getConnectedEdges(element.id);
-            edges.forEach(element => {
-                let node = findNode(element.target);
-                if(node) {
-                    node.hidden = false;
-                    node.data.interactable = true;
-                    let secondEdges = getConnectedEdges(node.id);
-                    secondEdges.forEach(innerEl => {
-                        let innerNode = findNode(innerEl.target);
-                        if(innerNode) {
-                            innerNode.hidden = false;
-                        }
-                    })
-                }
-            })
-        }
-    });
+
+    refreshMap();
 })
 onNodeClick((node) => {
     if (isConnected(node)) {
@@ -77,6 +61,50 @@ const isConnected = function(node: any): boolean {
 }
 
 
+const scoutRevealNodes = function(element:GraphNode) {
+    const edges = getConnectedEdges(element.id);
+    edges.forEach(element => {
+        let node = findNode(element.target);
+        if(node) {
+            node.hidden = false;
+            node.data.interactable = true;
+            let secondEdges = getConnectedEdges(node.id);
+            secondEdges.forEach(innerEl => {
+                let innerNode = findNode(innerEl.target);
+                if(innerNode) {
+                    innerNode.hidden = false;
+                }
+            })
+        }
+    })
+}
+const refreshMap = function() {
+    nodes.value.forEach(element => {
+        if(element.data?.killCount >= element.data?.scoutThreshold) {
+            element.hidden = false;
+            element.data.intereactable = true;
+            
+            //TODO: make this a function
+            scoutRevealNodes(element);
+        }
+    });
+}
+
+
+const { scouted$ } = storeToRefs(mapStore)
+
+//Signals
+watch(scouted$, (signal) => {
+    if(signal === "$REFRESH$") {
+        refreshMap();
+    }
+    else {
+        let scoutNode = findNode(signal);
+        if(scoutNode) {
+            scoutRevealNodes(scoutNode);
+        }
+    }
+})
 
 
 </script>
