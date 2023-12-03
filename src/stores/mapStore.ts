@@ -218,7 +218,6 @@ export const useMapStore = defineStore('mapStuff', {
                     console.log(node)
                     console.log(node?.data.killCount)
                     if(node) {
-                        // node.data.killCount = Decimal.add(node.data.killCount, amnt);
                         node.data.killCount += amnt
                         if(node.data.killCount >= node.data.scoutThreshold) {
                             this.scouted$ = node.id;

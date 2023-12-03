@@ -83,8 +83,7 @@ const refreshMap = function() {
         if(element.data?.killCount >= element.data?.scoutThreshold) {
             element.hidden = false;
             element.data.intereactable = true;
-            
-            //TODO: make this a function
+
             scoutRevealNodes(element);
         }
     });
@@ -93,7 +92,6 @@ const refreshMap = function() {
 
 const { scouted$ } = storeToRefs(mapStore)
 
-//Signals
 watch(scouted$, (signal) => {
     if(signal === "$REFRESH$") {
         refreshMap();

@@ -36,7 +36,7 @@ let props = defineProps({
 const currType = props.type;
 
 const canAfford = function() {
-    //TODO: switch case here, to set the :disabled="" section above to enoughSoul/areasScounted/etc
+    //TODO: switch case here, to set the :disabled="" section above to enoughSoul/areasScouted/etc
 }
 
 const buy = function() {
