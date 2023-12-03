@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import Decimal from 'break_infinity.js'
 import type { Enemy } from '@/types/enemy'
-import type { GraphNode } from '@vue-flow/core'
+import { useVueFlow, type GraphNode } from '@vue-flow/core'
 import type { AreaData } from '@/types/areaData'
 import { SpecialAreaId, Zone } from '@/enums/areaEnums'
 
@@ -19,6 +19,7 @@ soulKill: new Decimal(""),
 export const useMapStore = defineStore('mapStuff', {
     state: () => ({
         encounterSignal$: {} as Enemy,
+        scouted$: "",
         selectedNode: {data: {}} as GraphNode,
         enemyList: [
             {
@@ -50,7 +51,7 @@ export const useMapStore = defineStore('mapStuff', {
             }
         ] as Array<Enemy>,
 
-        elements: [
+        nodes: [
             {
                 id: '1',
                 type: 'input',
@@ -62,6 +63,8 @@ export const useMapStore = defineStore('mapStuff', {
                     areaName: "Home",
                     zone: Zone.FOREST,
                     description: "You can just put whatever here.",
+                    killCount: 0,
+                    scoutThreshold: 0
                 } as AreaData
             },
             {
@@ -72,7 +75,9 @@ export const useMapStore = defineStore('mapStuff', {
                 data: {
                     areaName: "Dense Foliage",
                     zone: Zone.FOREST,
-                    description: "this be some dense foliage"
+                    description: "this be some dense foliage",
+                    killCount: 0,
+                    scoutThreshold: 1
                 } as AreaData
             },
             {
@@ -83,19 +88,58 @@ export const useMapStore = defineStore('mapStuff', {
                 data: {
                     areaName: "Small Clearing",
                     zone: Zone.FOREST,
-                    description: "A specific clearing description."
+                    description: "A specific clearing description.",
+                    killCount: 0,
+                    scoutThreshold: 1
                 } as AreaData
             },
             {
                 id: '4',
-                label: '???',
+                label: '',
                 position: { x: 400, y: 200 },
                 class: 'light',
-                hidden: false,
+                data: {
+                    areaName: "Small Clearing",
+                    zone: Zone.FOREST,
+                    description: "A specific clearing description.",
+                    killCount: 0,
+                    scoutThreshold: 1
+                } as AreaData
             },
+            {
+                id: '5',
+                label: '',
+                position: { x: 400, y: 300 },
+                class: 'light',
+                data: {
+                    areaName: "Small Clearing",
+                    zone: Zone.FOREST,
+                    description: "A specific clearing description.",
+                    killCount: 0,
+                    scoutThreshold: 1
+                } as AreaData
+            },
+            {
+                id: '6',
+                label: '',
+                position: { x: 100, y: 200 },
+                class: 'light',
+                data: {
+                    areaName: "Small Clearing",
+                    zone: Zone.FOREST,
+                    description: "A specific clearing description.",
+                    killCount: 0,
+                    scoutThreshold: 1
+                } as AreaData
+            },
+        ],
+        edges: [
             { id: 'e1-2', source: '1', target: '2' },
             { id: 'e1-3', source: '1', target: '3' },
             { id: 'e3-4', source: '3', target: '4' },
+            { id: 'e4-5', source: '4', target: '5' },
+            { id: 'e6-5', source: '6', target: '5' },
+            { id: 'e2-6', source: '2', target: '6' },
         ],
         areaData: {
             //holds the thing to display and the list of things that can be displayed
@@ -129,8 +173,14 @@ export const useMapStore = defineStore('mapStuff', {
         getDescAppend(): string {
             return this.hasData ? this.areaData.random.descAppend  : "";
         },
+        getKillCount(): Decimal {
+            return this.hasData ? this.selectedNode.data.killCount : "";
+        },
+        scouted(): Boolean {
+            return (this.getKillCount.gte(this.selectedNode.data.scoutThreshold))
+        },
         hasData(): Boolean {
-            return Object.keys(this.selectedNode.data).length !== 0
+            return !!this.selectedNode.data; 
         },
     },
     actions: {
@@ -155,6 +205,25 @@ export const useMapStore = defineStore('mapStuff', {
                 case Zone.FOREST: {
                     const encounterIdx = Math.floor(Math.random() * this.enemyList.length );
                     this.encounterSignal$ = this.enemyList[encounterIdx];
+                }
+            }
+        },
+
+        //this just adds kills to the current node, but should be easy to expand to add elsewhere
+        //if we do stuff that'd allow it later
+        addKills(amnt:number) {
+            if(this.hasData) {
+                if(this.selectedNode.data.killCount < this.selectedNode.data.scoutThreshold) {
+                    let node = this.nodes.find(item => item.id === this.selectedNode.id)
+                    console.log(node)
+                    console.log(node?.data.killCount)
+                    if(node) {
+                        node.data.killCount += amnt
+                        if(node.data.killCount >= node.data.scoutThreshold) {
+                            this.scouted$ = node.id;
+                        }
+                    }
+                    else {console.log("Couldn't update killcount. addKills()")}
                 }
             }
         }

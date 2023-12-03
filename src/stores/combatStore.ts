@@ -4,6 +4,7 @@ import Decimal from 'break_infinity.js'
 import { readonly } from 'vue';
 import { usePlayer } from '@/stores/player';
 import type { CarouselItem } from '../types/carouselItem';
+import { useMapStore } from './mapStore';
 
 export const useCombatStore = defineStore('combat', {
     state: () => ({
@@ -67,6 +68,8 @@ export const useCombatStore = defineStore('combat', {
             else if(this.currentHP.lte(0)) {
                 this.pushToCombatLog("Victory! Gained " + this.currentOpponent.soulKill + " Soul.")
                 player.addSoul(this.currentOpponent.soulKill);
+                const mapStore = useMapStore();
+                mapStore.addKills(1);
                 this.endCombat();
             }
             else if(this.carouselArray[0].type === "player") {
