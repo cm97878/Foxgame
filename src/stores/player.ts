@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import Decimal from 'break_infinity.js'
 import type { Upgrade } from '@/types/upgrade';
 import { UpgradePurchaseType } from '@/enums/upgradePurchaseType';
+import { useMapStore } from './mapStore';
 
 export const usePlayer = defineStore('player', {
     state: () => ({
@@ -72,6 +73,25 @@ export const usePlayer = defineStore('player', {
             return this.getSoul.toString().replace("+","");
         },
 
+        
+        totalKills(): number {
+            const mapStore = useMapStore();
+            let val = 0;
+            mapStore.nodes.forEach(element => {
+                val += element.data.killCount;
+            })
+            return val;
+        },
+        totalScouted(): number {
+            const mapStore = useMapStore();
+            let val = 0;
+            mapStore.nodes.forEach(element => {
+                if(element.data.killCount >= element.data.scoutThreshold) {
+                    val++;
+                }
+            })
+            return val;
+        },
 
 
         playerHpRatio(): string {
@@ -99,12 +119,6 @@ export const usePlayer = defineStore('player', {
                 console.log("Subtracted soul that went below 0, a check somewhere is wrong. Amnt subtracted: " + soulSubtract)
             }
         },
-        enoughSoul(soulCompare:Decimal|number) {
-            if(this.currencies.soul.gte(soulCompare)) {
-                return true;
-            }
-            else return false;
-        },
         damage(damageAmnt:Decimal|number, AP:Boolean=false) {
             if(AP) {
                 this.baseStats.currentHealth = Decimal.subtract(this.baseStats.currentHealth, Decimal.subtract(damageAmnt, this.getDef));
@@ -112,6 +126,18 @@ export const usePlayer = defineStore('player', {
             else {
                 this.baseStats.currentHealth = Decimal.subtract(this.baseStats.currentHealth, damageAmnt);
             }
+        },
+
+
+        
+        enoughSoul(soulCompare:number|Decimal) {
+            return this.currencies.soul.gte(soulCompare);
+        },
+        enoughScouted(scoutedCompare:number) {
+            return (this.totalScouted >= scoutedCompare);
+        },
+        enoughKills(killsCompare:number) {
+            return (this.totalKills >= killsCompare);
         },
 
 
@@ -142,7 +168,11 @@ export const usePlayer = defineStore('player', {
                 this.tails.obtained = true;
                 this.currencies.soul = new Decimal("0")
             }
-        }
+        },
+
+
+
+
     }
 
 })

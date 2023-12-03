@@ -1,5 +1,5 @@
 <template>
-    <button @click="buy()" v-if="show" :class="{bought: is_bought}" :disabled="!player.enoughSoul(cost)">
+    <button @click="buy()" v-if="show" :class="{bought: is_bought}" :disabled="!canAfford">
         {{ title }} <br />
         {{ description }} <br />
         {{ costDisplay }}
@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { UpgradePurchaseType } from '@/enums/upgradePurchaseType';
 import Decimal from 'break_infinity.js';
-import { computed, type PropType } from 'vue';
+import { computed, ref, type PropType } from 'vue';
 import { usePlayer } from '@/stores/player';
 import { useUpgradeStore } from '@/stores/upgradeStore';
 
@@ -27,28 +27,48 @@ let props = defineProps({
     description: String,
     map_key: Number,
     cost: {
-        type: Decimal,
-        required: true,
+        type: [Decimal, Number],
+        required: true
     },
     effect: Function
 })
 
-const currType = props.type;
 
-const canAfford = function() {
-    //TODO: switch case here, to set the :disabled="" section above to enoughSoul/areasScouted/etc
-}
+const canAfford = computed(() => {
+    switch(props.type) {
+        case UpgradePurchaseType.SOUL: {
+            return player.enoughSoul(props.cost);
+        }
+        case UpgradePurchaseType.AREAS_SCOUTED: {
+            return player.enoughScouted(props.cost as number);
+        }
+        case UpgradePurchaseType.ENEMIES_KILLED: {
+            return player.enoughKills(props.cost as number);
+        }
+        default: {
+            console.log("unhandled upgrade purchase type (UpgradeButton.vue)")
+        }
+    }
+})
+
 
 const buy = function() {
     if(props.map_key || props.map_key === 0) {
         let temp = upgrades.soul.get(props.map_key);
         if(temp) {
             temp.bought = true;
-            player.subtractSoul(props.cost);
+
+            //For now only SOUL will do anything, but eventually
+            //prestige and otheer stuff will need their own handlers. idk if a switch
+            //is best for this, but eh we'll see
+            switch(props.type) {
+                case UpgradePurchaseType.SOUL: {
+                    player.subtractSoul(props.cost);
+                }
+            }
             upgrades.soul.set(props.map_key, temp);
             if(props.effect) {
                 props.effect();
-                console.log("worked")
             }
         }
     }
