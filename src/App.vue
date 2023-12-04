@@ -56,7 +56,8 @@
             <button @click="saves.save()">Save</button>
             <button @click="saves.load()">Load</button>
             <button @click="player.addSoul(10000000000000000);">add max soul</button>
-            {{ "number of tails: " + player.tails.amount }}<br />{{ "max soul: " + player.getMaxSoul }}
+            {{ "number of tails: " + player.tails.amount }}<br />{{ "max soul: " + player.getMaxSoul }}<br />
+            <button @click="loadToggle">{{ toggleState === "1" ? "Save will load" : "Save wont load" }}</button>
             <OvermapPanel />
         </div>
 
@@ -95,6 +96,24 @@
     const cutsceneChoice2 = ref("");
 
 
+
+    //FIXME: This is messy and for testing, remove later
+    const toggleState = ref("");
+    toggleState.value = localStorage.getItem('kitsune_save_bool') ?? "1"
+    
+    function loadToggle() {
+        if(localStorage.getItem('kitsune_save_bool') === "1"){
+            localStorage.setItem('kitsune_save_bool', "0");
+        }
+        else localStorage.setItem('kitsune_save_bool', "1");
+        console.log(localStorage.getItem('kitsune_save_bool'))
+        toggleState.value = localStorage.getItem('kitsune_save_bool') ?? "1";
+    }
+
+
+
+
+
     function showPanel (panel:Panels) {
         activePanel.value = panel;
     }
@@ -121,6 +140,11 @@
     }
 
     onMounted(() =>{
-        // saves.load();
+        if(!saves.load()) {
+            let x = "fonx";
+            let y = "yeah";
+            let z = "yes";
+            callCutscene(x, y, z);
+        }
     })
 </script>

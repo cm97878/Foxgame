@@ -74,6 +74,9 @@ export const useSaveStore = defineStore('saveStore', () =>{
 
     const load = function() {
         saveFile = JSON.parse(localStorage.getItem('kitsune_save') ?? "")
+        if(!saveFile || localStorage.getItem('kitsune_save_bool') === "0") {
+            return false;
+        }
         player.currencies.soul = new Decimal(saveFile.currencies.soul);
         player.currencies.maxSoul = new Decimal(saveFile.currencies.maxSoul);
         player.name = saveFile.name;
@@ -101,9 +104,8 @@ export const useSaveStore = defineStore('saveStore', () =>{
         })
         mapStore.scouted$ = "$REFRESH$"
         console.log(saveFile)
+        return true;
     }
-
-    const killcountUpdate$ = "";
 
 
     return { save, load }
