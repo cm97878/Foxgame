@@ -1,0 +1,9 @@
+@font-face {
+    font-family: CelticTime;
+    src: url("src/assets/fonts/CelticTime.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: NameHere;
+    src: url("src/assets/fonts/NameHereCondensed.ttf") format("truetype");
+}

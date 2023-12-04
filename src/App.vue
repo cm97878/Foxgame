@@ -1,10 +1,12 @@
 <template>
     <div id="window_border">
+        <CutsceneModal v-if="cutsceneActive" :text="cutsceneText" :c1Label="cutsceneChoice1" :c2Label="cutsceneChoice2" @choice="(choice) => cutsceneResponse(choice)"></CutsceneModal>
 
         <div id="left_side_container" class="app_container">
             <div id="info_top_buttons_container">
                 <button @click="showPanel(Panels.WORLD)" v-show="combatUnlock" class="info_buttons">World</button>
                 <button @click="showPanel(Panels.SOUL)" v-show="soulUnlock" class="info_buttons">Soul</button>
+                <button @click="callCutscene('You are a fox in a forest.', 'Okay!', 'Woo!')"  class="info_buttons">Cutscene</button>
             </div>
             
             <div v-show="activePanel == Panels.WORLD">
@@ -70,12 +72,15 @@
     import CombatPanel from './components/CombatPanel.vue'
     import SoulUpgradePanel from './components/SoulUpgradePanel.vue'
     import OvermapPanel from './components/OvermapPanel.vue';
+    import CutsceneModal from './components/CutsceneModal.vue';
     import { Panels, Tab } from './enums/panels';
     import { usePlayer } from './stores/player';
     import { onMounted, ref } from 'vue';
     import { useSaveStore } from './stores/saveStore';
+    import { useCombatStore } from './stores/combatStore';
     const player = usePlayer();
     const saves = useSaveStore();
+    const logStore = useCombatStore();
 
     const name = "app";
 
@@ -84,6 +89,11 @@
     const activeTabSoul = ref(Tab.SOUL_UPGRADES);
     const combatUnlock = ref(true);
     const soulUnlock = ref(true);
+    const cutsceneActive = ref(false);
+    const cutsceneText = ref("");
+    const cutsceneChoice1 = ref("");
+    const cutsceneChoice2 = ref("");
+
 
     function showPanel (panel:Panels) {
         activePanel.value = panel;
@@ -95,6 +105,19 @@
 
     function showTabSoul (tab:Tab) {
         activeTabSoul.value = tab;
+    }
+
+    function callCutscene(description: string, choice1Label: string, choice2Label:string): void {
+        cutsceneText.value = description;
+        cutsceneChoice1.value = choice1Label;
+        cutsceneChoice2.value = choice2Label;
+        cutsceneActive.value = true;
+    }
+
+    function cutsceneResponse(choice: number): void {
+        //for now, cause non eligble choice to be 2.
+        choice === 1 ? logStore.pushToCombatLog("You chose number 1!") : logStore.pushToCombatLog("You chose number 2!")
+        cutsceneActive.value = false;
     }
 
     onMounted(() =>{
