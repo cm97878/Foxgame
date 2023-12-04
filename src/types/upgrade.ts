@@ -8,6 +8,6 @@ export interface Upgrade {
     type: UpgradePurchaseType; //currency used to purchase upgrade
     title: string;
     description: string;
-    cost: Decimal;
-    effect: function;
+    cost: Decimal|number;
+    effect: Function;
   }

@@ -19,9 +19,9 @@ export const useUpgradeStore = defineStore('upgradeStore', {
             [0, {
                 show: true,
                 bought: false,
-                type: UpgradePurchaseType.SOUL,
+                type: UpgradePurchaseType.ENEMIES_KILLED,
                 title: "Sharpen claws",
-                description: "Sharpen your claws. +1 attack.",
+                description: "Sharpen your claws. +1 attack. req 1 enemy killed",
                 cost: new Decimal("1"),
                 effect: function() {
                     const player = usePlayer();
@@ -31,20 +31,20 @@ export const useUpgradeStore = defineStore('upgradeStore', {
             [1, {
                 show: true,
                 bought: false,
-                type: UpgradePurchaseType.SOUL,
+                type: UpgradePurchaseType.AREAS_SCOUTED,
                 title: "upgrade 2",
-                description: "unbought, can afford",
-                cost: new Decimal("0"),
-                effect: null,
+                description: "req 3 areas scouted",
+                cost: new Decimal("3"),
+                effect: function() {}
             }],
             [2, {
                 show: true,
-                bought: true,
+                bought: false,
                 type: UpgradePurchaseType.SOUL,
                 title: "upgrade 3",
-                description: "bought",
-                cost: new Decimal("0"),
-                effect: null,
+                description: "req 4 soul",
+                cost: new Decimal("4"),
+                effect: function() {}
             }],
             [3, {
                 show: false,
@@ -53,7 +53,7 @@ export const useUpgradeStore = defineStore('upgradeStore', {
                 title: "upgrade 4",
                 description: "bought, not unlocked, shouldnt see this",
                 cost: new Decimal("0"),
-                effect: null,
+                effect: function() {}
             }]
         ])
 
