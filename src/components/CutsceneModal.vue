@@ -1,11 +1,11 @@
 <template>
     <div class="modal-container">
       <div class="modal-body">
-        <!-- <span class="modal-close" @click="emit('cancel')">🗙</span> -->
-        <h2>{{ description }}</h2>
+        <div class="modal-image"></div>
+        <div class="modal-text">{{ text }}</div>
         <div class="modal-action">
-          <button class="modal-button" @click="emit('choice', 1)">Confirm</button>
-          <button class="modal-button" @click="emit('choice', 2)">Cancel</button>
+          <button class="modal-button" @click="emit('choice', 1)"> {{ c1Label }}</button>
+          <button class="modal-button" @click="emit('choice', 2)">{{ c2Label }}</button>
         </div>
       </div>
     </div>
@@ -14,7 +14,7 @@
   <script setup lang="ts">
     import { defineProps, defineEmits } from 'vue'
   
-    const props = defineProps(['description'])
+    const props = defineProps(['text', 'c1Label', 'c2Label'])
     const emit = defineEmits(['choice'])
   </script>
   
@@ -38,13 +38,25 @@
         border-radius: 10px;
         text-align: center;
         padding: 20px 40px;
-        min-width: 250px;
+        min-width: 80%;
+        min-height: 80%;
         display: flex;
         flex-direction: column;
+    }
+    .modal-text {
+        margin-top: 10px;
+        font-size: 24px;
+    }
+    .modal-image {
+        flex-grow: 1;
+        background-color: grey;
+        border-radius: 5px;
+        margin-top: 10px;
     }
     .modal-action {
       display: flex;
       flex-direction: row;
+      margin-top: 10px;
       gap: 40px;
       justify-content: center;
     }
@@ -56,13 +68,6 @@
       border-radius: 5px;
       background-color: #80b2e4;
       color: #fff;
-    }
-    .modal-close {
-      cursor: pointer;
-      position: relative;
-      align-self: end;
-      right: -33px;
-      top: -17px;
     }
   </style>
   

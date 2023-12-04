@@ -1,11 +1,12 @@
 <template>
     <div id="window_border">
-        <CutsceneModal v-if="cutsceneActive" :description="'You are a fox in a forest.'" @choice="(choice) => cutsceneResponse(choice)"></CutsceneModal>
+        <CutsceneModal v-if="cutsceneActive" :text="cutsceneText" :c1Label="cutsceneChoice1" :c2Label="cutsceneChoice2" @choice="(choice) => cutsceneResponse(choice)"></CutsceneModal>
 
         <div id="left_side_container" class="app_container">
             <div id="info_top_buttons_container">
                 <button @click="showPanel(Panels.WORLD)" v-show="combatUnlock" class="info_buttons">World</button>
                 <button @click="showPanel(Panels.SOUL)" v-show="soulUnlock" class="info_buttons">Soul</button>
+                <button @click="callCutscene('You are a fox in a forest.', 'Okay!', 'Woo!')"  class="info_buttons">Cutscene</button>
             </div>
             
             <div v-show="activePanel == Panels.WORLD">
@@ -88,7 +89,11 @@
     const activeTabSoul = ref(Tab.SOUL_UPGRADES);
     const combatUnlock = ref(true);
     const soulUnlock = ref(true);
-    const cutsceneActive = ref(true);
+    const cutsceneActive = ref(false);
+    const cutsceneText = ref("");
+    const cutsceneChoice1 = ref("");
+    const cutsceneChoice2 = ref("");
+
 
     function showPanel (panel:Panels) {
         activePanel.value = panel;
@@ -103,6 +108,9 @@
     }
 
     function callCutscene(description: string, choice1Label: string, choice2Label:string): void {
+        cutsceneText.value = description;
+        cutsceneChoice1.value = choice1Label;
+        cutsceneChoice2.value = choice2Label;
         cutsceneActive.value = true;
     }
 
