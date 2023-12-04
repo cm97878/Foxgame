@@ -327,7 +327,8 @@ button:hover {
 /* #endregion */
 
 .tab_container {
-    display:flex
+    display:flex;
+    height: 40px;
 }
 
 .selected {
@@ -340,7 +341,7 @@ button:hover {
     color: inherit;
     border-width: 2px;
     border-style: solid solid none;
-    padding: .75em 1em;
+    padding: 10px 12px;
     margin: 0 4px;
     text-decoration: none;
 }
