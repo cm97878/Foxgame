@@ -1,5 +1,6 @@
 <template>
     <div id="window_border">
+        <CutsceneModal v-if="cutsceneActive" :description="'You are a fox in a forest.'" @choice="(choice) => cutsceneResponse(choice)"></CutsceneModal>
 
         <div id="left_side_container" class="app_container">
             <div id="info_top_buttons_container">
@@ -70,12 +71,15 @@
     import CombatPanel from './components/CombatPanel.vue'
     import SoulUpgradePanel from './components/SoulUpgradePanel.vue'
     import OvermapPanel from './components/OvermapPanel.vue';
+    import CutsceneModal from './components/CutsceneModal.vue';
     import { Panels, Tab } from './enums/panels';
     import { usePlayer } from './stores/player';
     import { onMounted, ref } from 'vue';
     import { useSaveStore } from './stores/saveStore';
+    import { useCombatStore } from './stores/combatStore';
     const player = usePlayer();
     const saves = useSaveStore();
+    const logStore = useCombatStore();
 
     const name = "app";
 
@@ -84,6 +88,7 @@
     const activeTabSoul = ref(Tab.SOUL_UPGRADES);
     const combatUnlock = ref(true);
     const soulUnlock = ref(true);
+    const cutsceneActive = ref(true);
 
     function showPanel (panel:Panels) {
         activePanel.value = panel;
@@ -95,6 +100,16 @@
 
     function showTabSoul (tab:Tab) {
         activeTabSoul.value = tab;
+    }
+
+    function callCutscene(description: string, choice1Label: string, choice2Label:string): void {
+        cutsceneActive.value = true;
+    }
+
+    function cutsceneResponse(choice: number): void {
+        //for now, cause non eligble choice to be 2.
+        choice === 1 ? logStore.pushToCombatLog("You chose number 1!") : logStore.pushToCombatLog("You chose number 2!")
+        cutsceneActive.value = false;
     }
 
     onMounted(() =>{
