@@ -11,7 +11,7 @@
             
             <div v-show="activePanel == Panels.WORLD">
                 <div class="tab_container">
-                    <span :class="{ selected: activeTabWorld === Tab.COMBAT }" @click="showTabWorld(Tab.COMBAT)" class="tab">
+                    <span :class="{ selected: activeTabWorld === Tab.COMBAT, 'in-combat': combatStore.activeCombat }" @click="showTabWorld(Tab.COMBAT)" class="tab">
                         Combat
                     </span>
                     <span :class="{ selected: activeTabWorld === Tab.AREA_ACTIONS }" @click="showTabWorld(Tab.AREA_ACTIONS)" class="tab">
@@ -80,7 +80,7 @@
     import { useCombatStore } from './stores/combatStore';
     const player = usePlayer();
     const saves = useSaveStore();
-    const logStore = useCombatStore();
+    const combatStore = useCombatStore();
 
     const name = "app";
 
@@ -116,7 +116,7 @@
 
     function cutsceneResponse(choice: number): void {
         //for now, cause non eligble choice to be 2.
-        choice === 1 ? logStore.pushToCombatLog("You chose number 1!") : logStore.pushToCombatLog("You chose number 2!")
+        choice === 1 ? combatStore.pushToCombatLog("You chose number 1!") : combatStore.pushToCombatLog("You chose number 2!")
         cutsceneActive.value = false;
     }
 
@@ -124,3 +124,9 @@
         // saves.load();
     })
 </script>
+<style>
+
+    .in-combat {
+        color:red;
+    }
+</style>
