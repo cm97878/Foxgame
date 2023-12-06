@@ -1,12 +1,12 @@
 <template>
     <div id="window_border">
-        <CutsceneModal v-if="cutsceneActive" :text="cutsceneText" :c1Label="cutsceneChoice1" :c2Label="cutsceneChoice2" @choice="(choice) => cutsceneResponse(choice)"></CutsceneModal>
+        <CutsceneModal v-if="cutsceneActive" :text="cutsceneText" :choices="choiceRef"  @choice="(choice) => cutsceneResponse(choice)"></CutsceneModal>
 
         <div id="left_side_container" class="app_container">
             <div id="info_top_buttons_container">
                 <button @click="showPanel(Panels.WORLD)" v-show="combatUnlock" class="info_buttons">World</button>
                 <button @click="showPanel(Panels.SOUL)" v-show="soulUnlock" class="info_buttons">Soul</button>
-                <button @click="callCutscene('You are a fox in a forest.', 'Okay!', 'Woo!')"  class="info_buttons">Cutscene</button>
+                <button @click="callCutscene('You are a fox in a forest.', [{id: 1, label:'Okay!'}, {id:2, label:'Woo!'}])"  class="info_buttons">Cutscene</button>
             </div>
             
             <div v-show="activePanel == Panels.WORLD">
@@ -80,6 +80,7 @@
     import { onMounted, ref } from 'vue';
     import { useSaveStore } from './stores/saveStore';
     import { useCombatStore } from './stores/combatStore';
+    import type { EventChoice }  from '@/types/areaEvent'
     const player = usePlayer();
     const saves = useSaveStore();
     const combatStore = useCombatStore();
@@ -93,8 +94,7 @@
     const soulUnlock = ref(true);
     const cutsceneActive = ref(false);
     const cutsceneText = ref("");
-    const cutsceneChoice1 = ref("");
-    const cutsceneChoice2 = ref("");
+    const choiceRef = ref<EventChoice[]>([]);
 
 
     function showPanel (panel:Panels) {
@@ -109,10 +109,9 @@
         activeTabSoul.value = tab;
     }
 
-    function callCutscene(description: string, choice1Label: string, choice2Label:string): void {
+    function callCutscene(description: string, choices:EventChoice[]): void {
         cutsceneText.value = description;
-        cutsceneChoice1.value = choice1Label;
-        cutsceneChoice2.value = choice2Label;
+        choiceRef.value = choices
         cutsceneActive.value = true;
     }
 

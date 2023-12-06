@@ -1,8 +1,7 @@
 <template>
     <div class="event-box">
         <span>{{ areaEvent.eventText }}</span>
-        <button @click="concludeEvent(1)">{{ areaEvent.choice1Label }}</button>
-        <button v-if="areaEvent.choice2Label" @click="concludeEvent(2)">{{ areaEvent.choice2Label }}</button>
+        <button v-for="choice in areaEvent.choices" @click="concludeEvent(choice.id)"> {{ choice.label }}</button>
     </div>
 </template>
 

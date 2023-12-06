@@ -33,7 +33,7 @@ const testEvent = {
     id: "1",
     zone: Zone.FOREST,
     eventText: "You found some Soul, woo!",
-    choice1Label: "Okay! (+10 Soul)",
+    choices:[{id: 1, label: "Okay! (+10 Soul)"}],
     eventCallback: function(choice: number) {
         player.addSoul(10)
         console.log(choice)
