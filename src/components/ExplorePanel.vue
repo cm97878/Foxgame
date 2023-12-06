@@ -4,9 +4,11 @@
             Currently in combat, cannot explore safely.
         </div>
         <div v-else class="area-box">
+            <span>Current Energy: {{ player.getEnergyDisplay }}</span>
             <span>Exploration Progress: {{ player.totalScouted  }} zones scouted.</span>
+            <!-- Currently unapplied.-->
             <span>Exploration Multiplier: {{ (1+(player.totalScouted/10)) }}x</span>
-            <button @click="callEvent(Zone.FOREST)">Explore</button>
+            <button @click="callEvent(Zone.FOREST)">Explore (-10 Energy)</button>
         </div>
     </div>
     <EventDisplay v-if="!!isEventActive" :area-event="activeEvent" @event-finished="eventCleanup()"></EventDisplay>
@@ -43,10 +45,12 @@ let props = defineProps({
 })
 
 const callEvent = function (zone: Zone) {
-    //Use Zone to check the random events for an area, then call one.
-
-    activeEvent = testEvent;
-    isEventActive.value = true;
+    //For later: Use Zone to check the random events for an area, then call one.
+    if(player.enoughEnergy(10)) {
+        player.payEnergy(10)
+        activeEvent = testEvent;
+        isEventActive.value = true;
+    }
 }
 
 const eventCleanup = function():void {

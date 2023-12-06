@@ -75,6 +75,10 @@ export const usePlayer = defineStore('player', {
             return this.getSoul.toString().replace("+","");
         },
 
+        getEnergyDisplay(): string {
+            return (this.currencies.energy + "/" + this.currencies.maxEnergy )
+        },
+
         
         totalKills(): number {
             const mapStore = useMapStore();
@@ -121,12 +125,17 @@ export const usePlayer = defineStore('player', {
                 console.log("Subtracted soul that went below 0, a check somewhere is wrong. Amnt subtracted: " + soulSubtract)
             }
         },
-        damage(damageAmnt:Decimal|number, AP:Boolean=false) {
-            if(AP) {
+        damage(damageAmnt:Decimal|number, pierce:Boolean=false) {
+            if(pierce) {
                 this.baseStats.currentHealth = Decimal.subtract(this.baseStats.currentHealth, Decimal.subtract(damageAmnt, this.getDef));
             }
             else {
                 this.baseStats.currentHealth = Decimal.subtract(this.baseStats.currentHealth, damageAmnt);
+            }
+        },
+        payEnergy(cost:number) {
+            if(this.currencies.energy >= cost) {
+                this.currencies.energy -= cost;
             }
         },
 
@@ -140,6 +149,9 @@ export const usePlayer = defineStore('player', {
         },
         enoughKills(killsCompare:number) {
             return (this.totalKills >= killsCompare);
+        },
+        enoughEnergy(energyCompare:number) {
+            return (this.currencies.energy >= energyCompare);
         },
 
 
