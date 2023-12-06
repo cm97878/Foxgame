@@ -20,7 +20,7 @@
                 </div>
                 <div class="content-container">
                     <CombatPanel v-bind:active="activeTabWorld" />
-                    <AreaActionsPanel v-bind:active="activeTabWorld" />
+                    <ExplorePanel v-bind:active="activeTabWorld" />
                 </div>
             </div>
 
@@ -55,7 +55,7 @@
             </div>
             <button @click="saves.save()">Save</button>
             <button @click="saves.load()">Load</button>
-            <button @click="player.addSoul(10000000000000000);">add max soul</button>
+            <button @click="player.addSoul(1000000000000000);">add max soul</button>
             {{ "number of tails: " + player.tails.amount }}<br />{{ "max soul: " + player.getMaxSoul }}
             <OvermapPanel />
         </div>
@@ -68,7 +68,7 @@
 
 
 <script setup lang="ts">
-    import AreaActionsPanel from './components/AreaActions.vue' 
+    import ExplorePanel from './components/ExplorePanel.vue' 
     import CombatPanel from './components/CombatPanel.vue'
     import SoulUpgradePanel from './components/SoulUpgradePanel.vue'
     import OvermapPanel from './components/OvermapPanel.vue';

@@ -12,8 +12,6 @@
   </template>
   
   <script setup lang="ts">
-    import { defineProps, defineEmits } from 'vue'
-  
     const props = defineProps(['text', 'c1Label', 'c2Label'])
     const emit = defineEmits(['choice'])
   </script>
