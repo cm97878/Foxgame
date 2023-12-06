@@ -15,7 +15,7 @@
                         Combat
                     </span>
                     <span :class="{ selected: activeTabWorld === Tab.AREA_ACTIONS }" @click="showTabWorld(Tab.AREA_ACTIONS)" class="tab">
-                        Area
+                        Explore
                     </span>
                 </div>
                 <div class="content-container">
@@ -53,9 +53,11 @@
                 v-show="(player.tails.amount > 1 && player.tails.amount < 9) || (player.tails.amount === 1 && player.getSoul.eq(player.getMaxSoul))" 
                 :disabled="player.getSoul.lt(player.getMaxSoul)">{{ !player.tails.obtained ? '???' : 'Gain Tail' }}</button>
             </div>
-            <button @click="saves.save()">Save</button>
-            <button @click="saves.load()">Load</button>
-            <button @click="player.addSoul(1000000000000000);">add max soul</button>
+            <div class="options-box">
+                <button @click="saves.save()">Save</button>
+                <button @click="saves.load()">Load</button>
+                <button @click="player.addSoul(1000000000000000);">add max soul</button>
+            </div>
             {{ "number of tails: " + player.tails.amount }}<br />{{ "max soul: " + player.getMaxSoul }}
             <OvermapPanel />
         </div>
@@ -125,8 +127,16 @@
     })
 </script>
 <style>
-
     .in-combat {
         color:red;
+    }
+
+    .options-box {
+        display: flex;
+        justify-content: center;
+        button {
+            padding: 4px 10px;
+            margin: 0 4px;
+        }
     }
 </style>

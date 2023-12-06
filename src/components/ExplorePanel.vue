@@ -8,7 +8,7 @@
             <span>Exploration Progress: {{ player.totalScouted  }} zones scouted.</span>
             <!-- Currently unapplied.-->
             <span>Exploration Multiplier: {{ (1+(player.totalScouted/10)) }}x</span>
-            <button @click="callEvent(Zone.FOREST)">Explore (-10 Energy)</button>
+            <button @click="callEvent(Zone.FOREST)" :disabled="!player.enoughEnergy(10)">Explore (-10 Energy)</button>
         </div>
     </div>
     <EventDisplay v-if="!!isEventActive" :area-event="activeEvent" @event-finished="eventCleanup()"></EventDisplay>
@@ -62,6 +62,10 @@ const eventCleanup = function():void {
         display: flex;
         flex-direction: column;
         padding-top: 10px;
+        align-items: center;
+        button {
+            padding: 4px 10px;
+        }
     }
     .in-combat {
         color:red;

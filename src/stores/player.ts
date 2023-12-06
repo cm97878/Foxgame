@@ -9,7 +9,7 @@ export const usePlayer = defineStore('player', {
         currencies: {
             soul: new Decimal("0"),
             maxSoul: new Decimal("10"),
-            energy: 100,
+            energy: 40,
             maxEnergy: 100
         },
         name: "Fox",
