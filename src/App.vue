@@ -42,22 +42,29 @@
         <div id="right_side_container" class="app_container">
             <div id="currency_section">
                 <div id="soul_counter_container">
-                    {{ player.getSoulDisplay }}<br />
-                    <span style="font-size: 16pt;">Soul</span>
+                    <div v-if="player.gameStage === GameStage.INTRO">
+                        {{ player.getFoodDisplay }}<br />
+                        <span style="font-size: 16pt;">Meat</span>
+                    </div>
+                    <div v-else>
+                        {{ player.getSoulDisplay }}<br />
+                        <span style="font-size: 16pt;">Soul</span>
+                    </div>
                 </div>
 <!--                 <div id="soul_bead_counters_container">
                     0
                 </div> -->
                 <button 
                 @click="player.addTail()"
-                v-show="(player.tails.amount > 1 && player.tails.amount < 9) || (player.tails.amount === 1 && player.getSoul.eq(player.getMaxSoul))" 
-                :disabled="player.getSoul.lt(player.getMaxSoul)">{{ !player.tails.obtained ? '???' : 'Gain Tail' }}</button>
+                v-show="(player.tails > 1 && player.tails < 9) || (player.tails === 1 && player.getSoul.eq(player.getMaxSoul))" 
+                :disabled="player.getSoul.lt(player.getMaxSoul)">{{ player.furthestStage <= GameStage.PRE_TAILS ? '???' : 'Gain Tail' }}</button>
             </div>
             <button @click="saves.save()">Save</button>
             <button @click="saves.load()">Load</button>
             <button @click="player.addSoul(10000000000000000);">add max soul</button>
-            {{ "number of tails: " + player.tails.amount }}<br />{{ "max soul: " + player.getMaxSoul }}<br />
+            {{ "number of tails: " + player.tails }}<br />{{ "max soul: " + player.getMaxSoul }}<br />
             <button @click="loadToggle">{{ toggleState === "1" ? "Save will load" : "Save wont load" }}</button>
+            <button @click="player.gameStage = GameStage.PRE_TAILS">Set gamestage intro->pre_tails</button>
             <OvermapPanel />
         </div>
 
@@ -79,6 +86,7 @@
     import { onMounted, ref } from 'vue';
     import { useSaveStore } from './stores/saveStore';
     import { useCombatStore } from './stores/combatStore';
+import { GameStage } from './enums/gameStage';
     const player = usePlayer();
     const saves = useSaveStore();
     const logStore = useCombatStore();

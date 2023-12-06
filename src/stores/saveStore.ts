@@ -13,6 +13,8 @@ export const useSaveStore = defineStore('saveStore', () =>{
     const mapStore = useMapStore();
 
     var saveFile = {
+        gameStage: player.gameStage,
+        furthestStage: player.furthestStage,
         currencies: {
             soul: player.currencies.soul,
             maxSoul: player.currencies.maxSoul,
@@ -37,6 +39,8 @@ export const useSaveStore = defineStore('saveStore', () =>{
     const save = function() {
         console.log(saveFile)
         saveFile = {
+            gameStage: player.gameStage,
+            furthestStage: player.furthestStage,
             currencies: {
                 soul: player.currencies.soul,
                 maxSoul: player.currencies.maxSoul,
@@ -77,6 +81,8 @@ export const useSaveStore = defineStore('saveStore', () =>{
         if(!saveFile || localStorage.getItem('kitsune_save_bool') === "0") {
             return false;
         }
+        player.gameStage = saveFile.gameStage;
+        player.furthestStage = saveFile.furthestStage;
         player.currencies.soul = new Decimal(saveFile.currencies.soul);
         player.currencies.maxSoul = new Decimal(saveFile.currencies.maxSoul);
         player.name = saveFile.name;

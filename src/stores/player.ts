@@ -3,18 +3,19 @@ import Decimal from 'break_infinity.js'
 import type { Upgrade } from '@/types/upgrade';
 import { UpgradePurchaseType } from '@/enums/upgradePurchaseType';
 import { useMapStore } from './mapStore';
+import { GameStage } from '@/enums/gameStage';
 
 export const usePlayer = defineStore('player', {
     state: () => ({
+        gameStage: GameStage.INTRO,
+        furthestStage: GameStage.INTRO,
         currencies: {
             soul: new Decimal("0"),
             maxSoul: new Decimal("10"),
+            food: new Decimal("0"),
         },
         name: "Fox",
-        tails: {
-            obtained: false,
-            amount: 1,
-        },
+        tails: 1,
         baseStats: {
             attack: new Decimal("3"),
             defense: new Decimal("0"),
@@ -71,6 +72,14 @@ export const usePlayer = defineStore('player', {
         },
         getSoulDisplay(): string {
             return this.getSoul.toString().replace("+","");
+        },
+
+
+        getFood(): Decimal {
+            return this.currencies.food;
+        },
+        getFoodDisplay(): string {
+            return this.getFood.toString().replace("+","");
         },
 
         
@@ -162,17 +171,21 @@ export const usePlayer = defineStore('player', {
 
 
         addTail() {
-            if(this.tails.amount < 9) {
+            if(this.tails < 9) {
                 this.currencies.maxSoul = Decimal.mul(this.currencies.maxSoul, 10);
-                this.tails.amount++;
-                this.tails.obtained = true;
+                this.tails++;
+                if(this.gameStage <= GameStage.PRE_TAILS) {
+                    this.gameStage = GameStage.TAILS
+
+                    //this feels clunky, may want a better way to update this later?
+                    //like a watcher, that if gamestage > furthest stage, furtheststage=gamestage
+                    //idk
+                    if(this.furthestStage <= GameStage.PRE_TAILS) {
+                        this.furthestStage = GameStage.TAILS;
+                    }
+                }
                 this.currencies.soul = new Decimal("0")
             }
         },
-
-
-
-
     }
-
 })
