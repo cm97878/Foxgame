@@ -6,7 +6,7 @@ export const useGameTick = defineStore('gameTick', () => {
     const tick$ = ref(1);
 
     function startGameTick() {
-        //Tick on every squarter of a second.
+        //Tick on every second.
         console.log('Game tick on!')
         timerId = setInterval(() => tick$.value = (tick$.value === 1 ? 2 : 1), 1000 )
     }

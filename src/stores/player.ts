@@ -34,7 +34,6 @@ export const usePlayer = defineStore('player', () => {
         console.log('tick!')
         //HP Regen. Set to .1/sec for now, can make a variable later.
         //NOTE: maybe turn this off during combat? Can think on this later. -Malt
-        debugger;
         const stats = baseStats.value
         const energy = currencies.value
         if (stats.currentHealth.lt(stats.maxHealth)) {
