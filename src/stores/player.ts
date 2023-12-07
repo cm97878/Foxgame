@@ -1,192 +1,153 @@
 import { defineStore } from 'pinia'
 import Decimal from 'break_infinity.js'
+import { computed, ref } from "vue";
 import type { Upgrade } from '@/types/upgrade';
 import { UpgradePurchaseType } from '@/enums/upgradePurchaseType';
 import { useMapStore } from './mapStore';
 
-export const usePlayer = defineStore('player', {
-    state: () => ({
-        currencies: {
-            soul: new Decimal("0"),
-            maxSoul: new Decimal("10"),
-            energy: 40,
-            maxEnergy: 100
-        },
-        name: "Fox",
-        tails: {
-            obtained: false,
-            amount: 1,
-        },
-        baseStats: {
-            attack: new Decimal("3"),
-            defense: new Decimal("0"),
-            maxHealth: new Decimal("15"),
-            currentHealth: new Decimal("15"),
-            spd: 200
-        },
-    }),
-    getters: {
-        //get base stats
-        getAtk(): Decimal {
-            let finalAtk = this.baseStats.attack;
-            return finalAtk;
-        },
-        getAtkDisplay(): string {
-            return this.getAtk.toString().replace("+","");
-        },
+export const usePlayer = defineStore('player', () => {
+    // -- Stats --
+    const currencies = ref({
+        soul: new Decimal("0"),
+        maxSoul: new Decimal("10"),
+        energy: 40,
+        maxEnergy: 100
+    })
 
-        getDef(): Decimal {
-            let finalDef = this.baseStats.defense;
-            return finalDef;
-        },
-        getDefDisplay(): string {
-            return this.getDef.toString().replace("+","");
-        },
+    const name = ref("Fox")
+    const tails = ref({
+        obtained: false,
+        amount: 1,
+    })
+    const baseStats = ref({
+        attack: new Decimal("3"),
+        defense: new Decimal("0"),
+        maxHealth: new Decimal("15"),
+        currentHealth: new Decimal("15"),
+        spd: 200
+    })
 
-        getHpCurr(): Decimal {
-            let finalHpCurr = this.baseStats.currentHealth;
-            return finalHpCurr;
-        },
-        getHpCurrDisplay(): string {
-            return this.getHpCurr.toString().replace("+","");
-        },
+    // -- Getters/Computeds --
+    const getAtk = computed(() => baseStats.value.attack)
+    const getDef = computed(() => baseStats.value.defense)
+    const getHpCurr = computed(() => baseStats.value.currentHealth)
+    const getHpMax = computed(() => baseStats.value.maxHealth)
+    const getSpd = computed(() => baseStats.value.spd)
+    const getSoul = computed(() => currencies.value.soul)
+    const getMaxSoul = computed(() => currencies.value.maxSoul)
+    const getEnergyDisplay = computed(() => currencies.value.energy + "/" + currencies.value.maxEnergy)
+    const playerHpRatio = computed(() => {
+        let x = baseStats.value.currentHealth.dividedBy(baseStats.value.maxHealth).times(100)
+        if(x.gte("0")) {
+            return ( x + "%")
+        } 
+        else {
+            return "0%"
+        }
+    })
 
-        getHpMax(): Decimal {
-            let finalHpMax = this.baseStats.maxHealth;
-            return finalHpMax;
-        },
-        getHpMaxDisplay(): string {
-            return this.getHpMax.toString().replace("+","");
-        },
-
-        getSpd(): number {
-            let finalSpd = this.baseStats.spd;
-            return finalSpd;
-        },
-
-
-        getSoul(): Decimal {
-            return this.currencies.soul;
-        },
-        getMaxSoul(): Decimal {
-            return this.currencies.maxSoul;
-        },
-        getSoulDisplay(): string {
-            return this.getSoul.toString().replace("+","");
-        },
-
-        getEnergyDisplay(): string {
-            return (this.currencies.energy + "/" + this.currencies.maxEnergy )
-        },
-
-        
-        totalKills(): number {
-            const mapStore = useMapStore();
-            let val = 0;
-            mapStore.nodes.forEach(element => {
-                val += element.data.killCount;
-            })
-            return val;
-        },
-        totalScouted(): number {
-            const mapStore = useMapStore();
-            let val = 0;
-            mapStore.nodes.forEach(element => {
-                if(element.data.killCount >= element.data.scoutThreshold) {
-                    val++;
-                }
-            })
-            return val;
-        },
-
-
-        playerHpRatio(): string {
-            let x = this.getHpCurr.dividedBy(this.getHpMax).times(100)
-            if(x.gte("0")) {
-                return ( x + "%")
-            } 
-            else {
-                return "0%"
+    // TODO: Need to encapsulate these two in a better place later. -Malt
+    const totalKills = computed(() => {
+        const mapStore = useMapStore();
+        let val = 0;
+        mapStore.nodes.forEach(element => {
+            val += element.data.killCount;
+        })
+        return val;
+    })
+    const totalScouted = computed(() => {
+        const mapStore = useMapStore();
+        let val = 0;
+        mapStore.nodes.forEach(element => {
+            if(element.data.killCount >= element.data.scoutThreshold) {
+                val++;
             }
-        },
-    },
-    actions: {
-        addSoul(soulAdd:Decimal|number) {
-            if(Decimal.add(this.currencies.soul, soulAdd).gt(this.currencies.maxSoul)) {
-                this.currencies.soul = this.currencies.maxSoul;
-            }
-            else {
-                this.currencies.soul = Decimal.add(this.currencies.soul, soulAdd);
-            }
-        },
-        subtractSoul(soulSubtract:Decimal|number) {
-            this.currencies.soul  = Decimal.subtract(this.currencies.soul, soulSubtract)
-            if(this.currencies.soul.lt("0")) {
-                console.log("Subtracted soul that went below 0, a check somewhere is wrong. Amnt subtracted: " + soulSubtract)
-            }
-        },
-        damage(damageAmnt:Decimal|number, pierce:Boolean=false) {
-            if(pierce) {
-                this.baseStats.currentHealth = Decimal.subtract(this.baseStats.currentHealth, Decimal.subtract(damageAmnt, this.getDef));
-            }
-            else {
-                this.baseStats.currentHealth = Decimal.subtract(this.baseStats.currentHealth, damageAmnt);
-            }
-        },
-        payEnergy(cost:number) {
-            if(this.currencies.energy >= cost) {
-                this.currencies.energy -= cost;
-            }
-        },
+        })
+        return val;
+    })
 
-
-        
-        enoughSoul(soulCompare:number|Decimal) {
-            return this.currencies.soul.gte(soulCompare);
-        },
-        enoughScouted(scoutedCompare:number) {
-            return (this.totalScouted >= scoutedCompare);
-        },
-        enoughKills(killsCompare:number) {
-            return (this.totalKills >= killsCompare);
-        },
-        enoughEnergy(energyCompare:number) {
-            return (this.currencies.energy >= energyCompare);
-        },
-
-
-
-        addBaseAtk(amnt:Decimal|number) {
-            this.baseStats.attack = Decimal.add(this.baseStats.attack, amnt);
-        },
-        addBaseDef(amnt:Decimal|number) {
-            this.baseStats.defense = Decimal.add(this.baseStats.defense, amnt);
-        },
-        addBaseHealth(amnt:Decimal|number) {
-            this.baseStats.maxHealth = Decimal.add(this.baseStats.maxHealth, amnt);
-        },
-        //name this different just cause lower is better, functions different than the others
-        modifySpeed(amnt:number) {
-            this.baseStats.spd += amnt;
-        },
-
-        modifyMaxSoul(amnt:Decimal|number) {
-            this.currencies.maxSoul = Decimal.add(this.currencies.maxSoul, amnt);
-        },
-
-
-        addTail() {
-            if(this.tails.amount < 9) {
-                this.currencies.maxSoul = Decimal.mul(this.currencies.maxSoul, 10);
-                this.tails.amount++;
-                this.tails.obtained = true;
-                this.currencies.soul = new Decimal("0")
-            }
-        },
-
-
-
-
+    // -- Actions --
+    function addSoul(soulAdd:Decimal|number) {
+        if(Decimal.add(currencies.value.soul, soulAdd).gt(currencies.value.maxSoul)) {
+            currencies.value.soul = currencies.value.maxSoul;
+        }
+        else {
+            currencies.value.soul = Decimal.add(currencies.value.soul, soulAdd);
+        }
     }
 
+    function subtractSoul(soulSubtract:Decimal|number) {
+        currencies.value.soul  = Decimal.subtract(currencies.value.soul, soulSubtract)
+        if(currencies.value.soul.lt("0")) {
+            console.log("Subtracted soul that went below 0, a check somewhere is wrong. Amnt subtracted: " + soulSubtract)
+        }
+    }
+
+    function damage(damageAmnt:Decimal|number, pierce:Boolean=false) {
+        if(pierce) {
+            baseStats.value.currentHealth = Decimal.subtract(baseStats.value.currentHealth, Decimal.subtract(damageAmnt, baseStats.value.defense));
+        }
+        else {
+            baseStats.value.currentHealth = Decimal.subtract(baseStats.value.currentHealth, damageAmnt);
+        }
+    }
+
+    function payEnergy(cost:number) {
+        if(currencies.value.energy >= cost) {
+            currencies.value.energy -= cost;
+        }
+    }
+
+    function enoughSoul(soulCompare:number|Decimal) {
+        return currencies.value.soul.gte(soulCompare);
+    }
+    function enoughScouted(scoutedCompare:number) {
+        return (totalScouted.value >= scoutedCompare);
+    }
+    function enoughKills(killsCompare:number) {
+        return (totalKills.value >= killsCompare);
+    }
+    function enoughEnergy(energyCompare:number) {
+        return (currencies.value.energy >= energyCompare);
+    }
+
+    function addBaseAtk(amnt:Decimal|number) {
+        baseStats.value.attack = Decimal.add(baseStats.value.attack, amnt);
+    }
+    function addBaseDef(amnt:Decimal|number) {
+        baseStats.value.defense = Decimal.add(baseStats.value.defense, amnt);
+    }
+    function addBaseHealth(amnt:Decimal|number) {
+        baseStats.value.maxHealth = Decimal.add(baseStats.value.maxHealth, amnt);
+    }
+    //name this different just cause lower is better, functions different than the others
+    function modifySpeed(amnt:number) {
+        baseStats.value.spd += amnt;
+    }
+
+    function modifyMaxSoul(amnt:Decimal|number) {
+        currencies.value.maxSoul = Decimal.add(currencies.value.maxSoul, amnt);
+    }
+
+    function addTail() {
+        if(tails.value.amount < 9) {
+            currencies.value.maxSoul = Decimal.mul(currencies.value.maxSoul, 10);
+            tails.value.amount++;
+            tails.value.obtained = true;
+            currencies.value.soul = new Decimal("0")
+        }
+    }
+
+    return {
+        //Stats
+        currencies, name, tails, baseStats,
+        //Computeds
+        getAtk, getDef, getHpCurr, getHpMax, getSpd, getSoul, getMaxSoul, getEnergyDisplay,
+        playerHpRatio, totalKills, totalScouted,
+        // Actions
+        addSoul, subtractSoul, damage, payEnergy, enoughSoul, enoughScouted, enoughKills,
+        enoughEnergy, addBaseAtk, addBaseDef, addBaseHealth, modifySpeed, modifyMaxSoul,
+        addTail
+
+    }
 })

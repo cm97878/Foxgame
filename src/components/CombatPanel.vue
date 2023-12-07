@@ -36,11 +36,11 @@
             <div class="stats_container">
                 <div class="general_outline info_hp_bar_outline">
                     <div id="info_player_hp_bar_solid" class="hp_bar_background"></div>
-                    {{ player.getHpCurrDisplay + " / " + player.getHpMaxDisplay }}
+                    {{ displayDecimal(player.getHpCurr) + " / " + displayDecimal(player.getHpMax) }}
                 </div>
                 <div class="general_outline combat_stats">
-                    Atk: {{ player.getAtkDisplay }} <br />
-                    Def: {{ player.getDefDisplay }} <br />
+                    Atk: {{ displayDecimal(player.getAtk) }} <br />
+                    Def: {{ displayDecimal(player.getDef) }} <br />
 
                 </div>
                 <div class="combat_actions">
@@ -80,6 +80,7 @@ import { useCombatStore } from '@/stores/combatStore';
 import { ref, computed, watch } from 'vue';
 import CarouselIcon from './CarouselIcon.vue';
 import { storeToRefs } from 'pinia';
+import { displayDecimal } from '@/utils/utils'
 const player = usePlayer();
 const mapStore = useMapStore();
 const combatStore = useCombatStore();
