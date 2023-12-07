@@ -1,9 +1,8 @@
-import { defineStore } from 'pinia'
+import { defineStore, storeToRefs } from 'pinia'
 import Decimal from 'break_infinity.js'
-import { computed, ref } from "vue";
-import type { Upgrade } from '@/types/upgrade';
-import { UpgradePurchaseType } from '@/enums/upgradePurchaseType';
+import { computed, ref, watch } from "vue";
 import { useMapStore } from './mapStore';
+import { useGameTick } from './gameTick';
 
 export const usePlayer = defineStore('player', () => {
     // -- Stats --
@@ -27,6 +26,38 @@ export const usePlayer = defineStore('player', () => {
         spd: 200
     })
 
+    // -- Watch processes --
+    const gameTick = useGameTick();
+    const mapStore = useMapStore();
+    const { tick$ } = storeToRefs(gameTick);
+    watch( tick$, () => {
+        console.log('tick!')
+        //HP Regen. Set to .1/sec for now, can make a variable later.
+        //NOTE: maybe turn this off during combat? Can think on this later. -Malt
+        debugger;
+        const stats = baseStats.value
+        const energy = currencies.value
+        if (stats.currentHealth.lt(stats.maxHealth)) {
+            const hpRegen = 0.1;
+            if(Decimal.add(stats.currentHealth, hpRegen).gte(stats.maxHealth)) {
+                baseStats.value.currentHealth = stats.maxHealth
+            } else {
+                // Need to figure out what rounds to decimal places in break_infinity.js
+                baseStats.value.currentHealth = Decimal.add(stats.currentHealth, hpRegen)
+            }
+        }
+
+        //Energy Regen
+        if (energy.energy < energy.maxEnergy) {
+            const energyRegen = 0.1;
+            if((energy.energy + energyRegen) > energy.maxEnergy) {
+                currencies.value.energy = energy.maxEnergy
+            } else {
+                currencies.value.energy = Number((energy.energy + energyRegen).toFixed(2))
+            }
+        }
+    })
+
     // -- Getters/Computeds --
     const getAtk = computed(() => baseStats.value.attack)
     const getDef = computed(() => baseStats.value.defense)
@@ -48,7 +79,6 @@ export const usePlayer = defineStore('player', () => {
 
     // TODO: Need to encapsulate these two in a better place later. -Malt
     const totalKills = computed(() => {
-        const mapStore = useMapStore();
         let val = 0;
         mapStore.nodes.forEach(element => {
             val += element.data.killCount;
@@ -56,7 +86,6 @@ export const usePlayer = defineStore('player', () => {
         return val;
     })
     const totalScouted = computed(() => {
-        const mapStore = useMapStore();
         let val = 0;
         mapStore.nodes.forEach(element => {
             if(element.data.killCount >= element.data.scoutThreshold) {
@@ -142,12 +171,9 @@ export const usePlayer = defineStore('player', () => {
         //Stats
         currencies, name, tails, baseStats,
         //Computeds
-        getAtk, getDef, getHpCurr, getHpMax, getSpd, getSoul, getMaxSoul, getEnergyDisplay,
-        playerHpRatio, totalKills, totalScouted,
+        getAtk, getDef, getHpCurr, getHpMax, getSpd, getSoul, getMaxSoul, getEnergyDisplay, playerHpRatio, totalKills, totalScouted,
         // Actions
-        addSoul, subtractSoul, damage, payEnergy, enoughSoul, enoughScouted, enoughKills,
-        enoughEnergy, addBaseAtk, addBaseDef, addBaseHealth, modifySpeed, modifyMaxSoul,
-        addTail
-
+        addSoul, subtractSoul, damage, payEnergy, enoughSoul, enoughScouted, enoughKills, enoughEnergy, addBaseAtk, addBaseDef,
+        addBaseHealth, modifySpeed, modifyMaxSoul, addTail
     }
 })
