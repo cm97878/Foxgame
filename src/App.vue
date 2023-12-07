@@ -42,7 +42,7 @@
         <div id="right_side_container" class="app_container">
             <div id="currency_section">
                 <div id="soul_counter_container">
-                    {{ player.getSoulDisplay }}<br />
+                    {{ displayDecimal(player.getSoul) }}<br />
                     <span style="font-size: 16pt;">Soul</span>
                 </div>
 <!--                 <div id="soul_bead_counters_container">
@@ -80,10 +80,13 @@
     import { onMounted, ref } from 'vue';
     import { useSaveStore } from './stores/saveStore';
     import { useCombatStore } from './stores/combatStore';
+    import { useGameTick } from './stores/gameTick';
     import type { EventChoice }  from '@/types/areaEvent'
+    import { displayDecimal } from '@/utils/utils';
     const player = usePlayer();
     const saves = useSaveStore();
     const combatStore = useCombatStore();
+    const gameTick = useGameTick();
 
     const name = "app";
 
@@ -122,6 +125,7 @@
     }
 
     onMounted(() =>{
+        gameTick.startGameTick();
         // saves.load();
     })
 </script>
