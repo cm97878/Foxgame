@@ -4,6 +4,7 @@
 
         <div id="left_side_container" class="app_container">
             <div id="info_top_buttons_container">
+                <div>{{ resource }}</div>
                 <button @click="showPanel(Panels.WORLD)" v-show="combatUnlock" class="info_buttons">World</button>
                 <button @click="showPanel(Panels.SOUL)" v-show="soulUnlock" class="info_buttons">Soul</button>
                 <button @click="callCutscene('You are a fox in a forest.', [{id: 1, label:'Okay!'}, {id:2, label:'Woo!'}])"  class="info_buttons">Cutscene</button>
@@ -77,13 +78,16 @@
     import CutsceneModal from './components/CutsceneModal.vue';
     import { Panels, Tab } from './enums/panels';
     import { usePlayer } from './stores/player';
-    import { onMounted, ref } from 'vue';
+    import { onMounted, ref, watch } from 'vue';
     import { useSaveStore } from './stores/saveStore';
     import { useCombatStore } from './stores/combatStore';
+    import { useGameTick } from './stores/gameTick';
     import type { EventChoice }  from '@/types/areaEvent'
+    import { storeToRefs } from 'pinia';
     const player = usePlayer();
     const saves = useSaveStore();
     const combatStore = useCombatStore();
+    const gameTick = useGameTick();
 
     const name = "app";
 
@@ -95,6 +99,14 @@
     const cutsceneActive = ref(false);
     const cutsceneText = ref("");
     const choiceRef = ref<EventChoice[]>([]);
+    const resource = ref(0);
+
+    const { tick$ } = storeToRefs(gameTick);
+
+    watch(tick$, () => {
+        console.log('tick!');
+        resource.value = resource.value + 1;
+    });
 
 
     function showPanel (panel:Panels) {
@@ -122,6 +134,7 @@
     }
 
     onMounted(() =>{
+        gameTick.startGameTick();
         // saves.load();
     })
 </script>
