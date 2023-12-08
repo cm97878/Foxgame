@@ -4,16 +4,18 @@
         <div class="modal-image"></div>
         <div class="modal-text">{{ text }}</div>
         <div class="modal-action">
-          <button class="modal-button" @click="emit('choice', 1)"> {{ c1Label }}</button>
-          <button class="modal-button" @click="emit('choice', 2)">{{ c2Label }}</button>
+          <button v-for="choice in choices" @click="emit('choice', choice.id)" class="modal-button"> {{ choice.label }}</button>
         </div>
       </div>
     </div>
   </template>
   
   <script setup lang="ts">
-  
-    const props = defineProps(['text', 'c1Label', 'c2Label'])
+    import type { EventChoice }  from '@/types/areaEvent'
+    const props = defineProps<{
+      text: string,
+      choices: EventChoice[],
+    }>()
     const emit = defineEmits(['choice'])
   </script>
   
