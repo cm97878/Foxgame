@@ -119,6 +119,10 @@ export const usePlayer = defineStore('player', () => {
         }
     }
 
+    function addFood(foodAdd:Decimal|number) {
+        currencies.value.food = Decimal.add(currencies.value.food, foodAdd);
+    }
+
     function subtractSoul(soulSubtract:Decimal|number) {
         currencies.value.soul  = Decimal.subtract(currencies.value.soul, soulSubtract)
         if(currencies.value.soul.lt("0")) {
@@ -197,6 +201,6 @@ export const usePlayer = defineStore('player', () => {
         getAtk, getDef, getHpCurr, getHpMax, getSpd, getSoul, getMaxSoul, getEnergyDisplay, playerHpRatio, totalKills, totalScouted, getFood,
         // Actions
         addSoul, subtractSoul, damage, payEnergy, enoughSoul, enoughScouted, enoughKills, enoughEnergy, addBaseAtk, addBaseDef,
-        addBaseHealth, modifySpeed, modifyMaxSoul, addTail
+        addBaseHealth, modifySpeed, modifyMaxSoul, addTail, addFood
     }
 })

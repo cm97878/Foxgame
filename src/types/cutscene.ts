@@ -5,5 +5,12 @@ export interface Cutscene {
     description: string;
     image?: string;
     choices: EventChoice[];
-    cutsceneCallback(choice: number): void;
+    cutsceneCallback?(choice: number): void;
+    textReplace?: TextReplace[];
+    chain?: boolean;
+}
+
+export interface TextReplace {
+    toReplace: string;
+    replacement(): string,
 }

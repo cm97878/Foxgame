@@ -2,7 +2,7 @@
     <div class="modal-container">
       <div class="modal-body">
         <div class="modal-image"></div>
-        <div class="modal-text"><span v-html="activeScene?.description"></span></div>
+        <div class="modal-text"><span v-html="eventStore.sceneDesc"></span></div>
         <div class="modal-action">
           <button v-for="choice in activeScene?.choices" @click="eventStore.endCutscene(choice.id)" class="modal-button"> {{ choice.label }}</button>
         </div>

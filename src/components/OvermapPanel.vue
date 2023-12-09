@@ -27,6 +27,7 @@ import { VueFlow, useVueFlow, type GraphNode } from '@vue-flow/core';
 import { Zone } from '@/enums/areaEnums';
 import { storeToRefs } from 'pinia';
 import { watch } from 'vue';
+import { GameStage } from '@/enums/gameStage';
 
 
 const name = "overmappanel";
@@ -55,11 +56,14 @@ onNodeClick((node) => {
     if (isConnected(node)) {
         if(player.firstMove) {
             player.firstMove = false;
-            eventStore.callCutscene(eventStore.cutscenes.firstMove);
+            mapStore.encounterSignal$ = mapStore.enemyList[0]; //TODO: Need to fix signal w/ store changing
+            eventStore.callCutscene(eventStore.cutscenes.get("firstMove"));
         }
         mapStore.selectedNode = findNode(node.node.id)!;
         mapStore.setTextAppend()
-        mapStore.callRandomEncounter(Zone.FOREST)
+        if(player.gameStage != GameStage.INTRO) {
+            mapStore.callRandomEncounter(Zone.FOREST)
+        }
     }
 })
 const isConnected = function(node: any): boolean {

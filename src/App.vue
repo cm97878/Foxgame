@@ -6,7 +6,7 @@
             <div id="info_top_buttons_container">
                 <button @click="showPanel(Panels.WORLD)" v-show="combatUnlock" class="info_buttons">World</button>
                 <button @click="showPanel(Panels.SOUL)" v-show="soulUnlock" class="info_buttons">Soul</button>
-                <button @click="eventStore.callCutscene(eventStore.cutscenes.intro)"  class="info_buttons">Cutscene</button>
+                <button @click="eventStore.callCutscene(eventStore.cutscenes.get('intro'))"  class="info_buttons">Cutscene</button>
             </div>
             
             <div v-show="activePanel == Panels.WORLD">
@@ -66,8 +66,9 @@
                 <button @click="player.addSoul(10000000000000000);">add max soul</button>
                 <button @click="loadToggle">{{ toggleState === "1" ? "Save will load" : "Save wont load" }}</button>
                 <button @click="player.gameStage = GameStage.PRE_TAILS">Set gamestage intro->pre_tails</button>
+                <button @click="mapStore.callRandomEncounter(Zone.FOREST)">Fight Enemy</button>
             </div>
-            {{ "number of tails: " + player.tails }}<br />{{ "max soul: " + player.getMaxSoul }}<br />
+            {{ "number of tails: " + player.tails }}<br />{{ "max soul: " + player.getMaxSoul }}<br />{{ "scouted: " + player.totalScouted }} <br /> {{ "kills: " + player.totalKills }}
             <OvermapPanel />
         </div>
     </div>
@@ -90,12 +91,15 @@
     import type { EventChoice }  from '@/types/areaEvent'
     import { displayDecimal } from '@/utils/utils';
     import { useEventStore } from './stores/eventStore'
+    import { useMapStore } from './stores/mapStore';
+    import { Zone } from './enums/areaEnums';
 
     const player = usePlayer();
     const saves = useSaveStore();
     const combatStore = useCombatStore();
     const gameTick = useGameTick();
     const eventStore = useEventStore();
+    const mapStore = useMapStore();
 
     const name = "app";
 
@@ -142,7 +146,7 @@
     onMounted(() =>{
         gameTick.startGameTick();
         if(!saves.load()) {
-            eventStore.callCutscene(eventStore.cutscenes.intro);
+            eventStore.callCutscene(eventStore.cutscenes.get("intro"));
         }
     })
 </script>

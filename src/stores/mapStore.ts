@@ -18,7 +18,7 @@ soulKill: new Decimal(""),
 
 export const useMapStore = defineStore('mapStuff', {
     state: () => ({
-        encounterSignal$: {} as Enemy,
+        encounterSignal$: {} as Enemy, //TODO: Need to fix signal w/ store changing
         scouted$: "",
         selectedNode: {data: {}} as GraphNode,
         enemyList: [
@@ -204,7 +204,8 @@ export const useMapStore = defineStore('mapStuff', {
             switch(zone) {
                 case Zone.FOREST: {
                     const encounterIdx = Math.floor(Math.random() * this.enemyList.length );
-                    this.encounterSignal$ = this.enemyList[encounterIdx];
+
+                    this.encounterSignal$ = this.enemyList[encounterIdx]; //TODO: Need to fix signal w/ store changing
                 }
             }
         },
@@ -213,18 +214,15 @@ export const useMapStore = defineStore('mapStuff', {
         //if we do stuff that'd allow it later
         addKills(amnt:number) {
             if(this.hasData) {
-                if(this.selectedNode.data.killCount < this.selectedNode.data.scoutThreshold) {
-                    let node = this.nodes.find(item => item.id === this.selectedNode.id)
-                    console.log(node)
-                    console.log(node?.data.killCount)
-                    if(node) {
-                        node.data.killCount += amnt
-                        if(node.data.killCount >= node.data.scoutThreshold) {
-                            this.scouted$ = node.id;
-                        }
+                let node = this.nodes.find(item => item.id === this.selectedNode.id)
+
+                if(node) {
+                    node.data.killCount += amnt
+                    if(node.data.killCount >= node.data.scoutThreshold) {
+                        this.scouted$ = node.id;
                     }
-                    else {console.log("Couldn't update killcount. addKills()")}
                 }
+                else {console.log("Couldn't update killcount. addKills()")}
             }
         }
     }
