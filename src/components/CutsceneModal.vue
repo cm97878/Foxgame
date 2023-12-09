@@ -2,21 +2,20 @@
     <div class="modal-container">
       <div class="modal-body">
         <div class="modal-image"></div>
-        <div class="modal-text">{{ text }}</div>
+        <div class="modal-text"><span v-html="activeScene?.description"></span></div>
         <div class="modal-action">
-          <button v-for="choice in choices" @click="emit('choice', choice.id)" class="modal-button"> {{ choice.label }}</button>
+          <button v-for="choice in activeScene?.choices" @click="eventStore.endCutscene(choice.id)" class="modal-button"> {{ choice.label }}</button>
         </div>
       </div>
     </div>
   </template>
   
   <script setup lang="ts">
-    import type { EventChoice }  from '@/types/areaEvent'
-    const props = defineProps<{
-      text: string,
-      choices: EventChoice[],
-    }>()
-    const emit = defineEmits(['choice'])
+    import { useEventStore } from '@/stores/eventStore';
+    import { storeToRefs } from 'pinia';
+
+    const eventStore = useEventStore();
+    const { activeScene } = storeToRefs(eventStore);
   </script>
   
   <style>
@@ -39,8 +38,8 @@
         border-radius: 10px;
         text-align: center;
         padding: 20px 40px;
-        min-width: 80%;
-        min-height: 80%;
+        width: 80%;
+        height: 80%;
         display: flex;
         flex-direction: column;
     }

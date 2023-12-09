@@ -79,6 +79,7 @@ export const useSaveStore = defineStore('saveStore', () =>{
     const load = function() {
         saveFile = JSON.parse(localStorage.getItem('kitsune_save') ?? "")
         if(!saveFile || localStorage.getItem('kitsune_save_bool') === "0") {
+            player.loaded = true;
             return false;
         }
         player.gameStage = saveFile.gameStage;
@@ -110,6 +111,8 @@ export const useSaveStore = defineStore('saveStore', () =>{
         })
         mapStore.scouted$ = "$REFRESH$"
         console.log(saveFile)
+        
+        player.loaded = true;
         return true;
     }
 

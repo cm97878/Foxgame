@@ -21,6 +21,8 @@
 
 <script setup lang="ts">
 import { useMapStore } from '@/stores/mapStore.js';
+import { usePlayer } from '@/stores/player';
+import { useEventStore } from '@/stores/eventStore';
 import { VueFlow, useVueFlow, type GraphNode } from '@vue-flow/core';
 import { Zone } from '@/enums/areaEnums';
 import { storeToRefs } from 'pinia';
@@ -29,6 +31,8 @@ import { watch } from 'vue';
 
 const name = "overmappanel";
 const mapStore = useMapStore();
+const player = usePlayer();
+const eventStore = useEventStore();
 
 const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick, 
     findNode, findEdge, getConnectedEdges, addEdges, nodes } = useVueFlow();
@@ -49,6 +53,10 @@ onPaneReady((instance) => {
 })
 onNodeClick((node) => {
     if (isConnected(node)) {
+        if(player.firstMove) {
+            player.firstMove = false;
+            eventStore.callCutscene(eventStore.cutscenes.firstMove);
+        }
         mapStore.selectedNode = findNode(node.node.id)!;
         mapStore.setTextAppend()
         mapStore.callRandomEncounter(Zone.FOREST)

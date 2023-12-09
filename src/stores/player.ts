@@ -6,8 +6,14 @@ import { useGameTick } from './gameTick';
 import { GameStage } from '@/enums/gameStage';
 
 export const usePlayer = defineStore('player', () => {
+
+    // -- Game states --
+    const loaded = ref(false);
+    const firstMove = ref(true);
     const gameStage = ref(GameStage.INTRO);
     const furthestStage = ref(GameStage.INTRO);
+
+
 
     // -- Stats --
     const currencies = ref({
@@ -27,6 +33,8 @@ export const usePlayer = defineStore('player', () => {
         currentHealth: new Decimal("15"),
         spd: 200
     })
+
+
 
     // -- Watch processes --
     const gameTick = useGameTick();
@@ -58,6 +66,8 @@ export const usePlayer = defineStore('player', () => {
             }
         }
     })
+
+
 
     // -- Getters/Computeds --
     const getAtk = computed(() => baseStats.value.attack)
@@ -96,6 +106,8 @@ export const usePlayer = defineStore('player', () => {
         })
         return val;
     })
+
+
 
     // -- Actions --
     function addSoul(soulAdd:Decimal|number) {
@@ -180,7 +192,7 @@ export const usePlayer = defineStore('player', () => {
 
     return {
         //Stats
-        currencies, name, tails, baseStats, gameStage, furthestStage,
+        currencies, name, tails, baseStats, gameStage, furthestStage, loaded, firstMove,
         //Computeds
         getAtk, getDef, getHpCurr, getHpMax, getSpd, getSoul, getMaxSoul, getEnergyDisplay, playerHpRatio, totalKills, totalScouted, getFood,
         // Actions

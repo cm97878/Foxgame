@@ -1,12 +1,12 @@
 <template>
     <div id="window_border">
-        <CutsceneModal v-if="cutsceneActive" :text="cutsceneText" :choices="choiceRef"  @choice="(choice) => cutsceneResponse(choice)"></CutsceneModal>
+        <CutsceneModal v-if="!!eventStore.activeScene"></CutsceneModal>
 
         <div id="left_side_container" class="app_container">
             <div id="info_top_buttons_container">
                 <button @click="showPanel(Panels.WORLD)" v-show="combatUnlock" class="info_buttons">World</button>
                 <button @click="showPanel(Panels.SOUL)" v-show="soulUnlock" class="info_buttons">Soul</button>
-                <button @click="callCutscene('You are a fox in a forest.', [{id: 1, label:'Okay!'}, {id:2, label:'Woo!'}])"  class="info_buttons">Cutscene</button>
+                <button @click="eventStore.callCutscene(eventStore.cutscenes.intro)"  class="info_buttons">Cutscene</button>
             </div>
             
             <div v-show="activePanel == Panels.WORLD">
@@ -89,11 +89,13 @@
     import { useGameTick } from './stores/gameTick';
     import type { EventChoice }  from '@/types/areaEvent'
     import { displayDecimal } from '@/utils/utils';
+    import { useEventStore } from './stores/eventStore'
 
     const player = usePlayer();
     const saves = useSaveStore();
     const combatStore = useCombatStore();
     const gameTick = useGameTick();
+    const eventStore = useEventStore();
 
     const name = "app";
 
@@ -102,9 +104,7 @@
     const activeTabSoul = ref(Tab.SOUL_UPGRADES);
     const combatUnlock = ref(true);
     const soulUnlock = ref(true);
-    const cutsceneActive = ref(false);
-    const cutsceneText = ref("");
-    const choiceRef = ref<EventChoice[]>([]);
+
 
 
 
@@ -137,25 +137,12 @@
         activeTabSoul.value = tab;
     }
 
-    function callCutscene(description: string, choices:EventChoice[]): void {
-        cutsceneText.value = description;
-        choiceRef.value = choices
-        cutsceneActive.value = true;
-    }
 
-    function cutsceneResponse(choice: number): void {
-        //for now, cause non eligble choice to be 2.
-        choice === 1 ? combatStore.pushToCombatLog("You chose number 1!") : combatStore.pushToCombatLog("You chose number 2!")
-        cutsceneActive.value = false;
-    }
 
     onMounted(() =>{
         gameTick.startGameTick();
         if(!saves.load()) {
-            // let x = "fonx";
-            // let y = "yeah";
-            // let z = "yes";
-            // callCutscene(x, y, z);
+            eventStore.callCutscene(eventStore.cutscenes.intro);
         }
     })
 </script>
