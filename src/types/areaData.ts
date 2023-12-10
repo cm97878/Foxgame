@@ -8,5 +8,7 @@ export interface AreaData {
     description: string,
     killCount: number,
     scoutThreshold: number,
-    interactable: false
+    interactable: false,
+    //Shouldn't have to do it this way, but it's here for now.
+    nodeId: string
 }

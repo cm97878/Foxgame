@@ -74,6 +74,7 @@ onNodeClick((node) => {
 
         const chosenNode = findNode(node.node.id)!;
         mapStore.selectedNode = chosenNode;
+        console.log(chosenNode);
         centerMap(chosenNode)
 
         mapStore.setTextAppend()
@@ -96,14 +97,16 @@ const centerMap = function(node:any) {
     const NODE_HEIGHT_OFFSET = 150;
 
     // WHY DOES VUE FLOW HAVE TO MAKE THIS SO HARD
-    setViewport(
-        {
-            x: -node.position.x - NODE_WIDTH_OFFSET + (vfMap?.clientHeight / 2),
-            y:  -node.position.y - NODE_HEIGHT_OFFSET + (vfMap?.clientWidth / 2),
-            zoom: 1.0,
-        }, 
-        { duration: 600 }
-    );
+    if (!!vfMap) {
+        setViewport(
+            {
+                x: -node.position.x - NODE_WIDTH_OFFSET + (vfMap?.clientHeight / 2),
+                y:  -node.position.y - NODE_HEIGHT_OFFSET + (vfMap?.clientWidth / 2),
+                zoom: 1.0,
+            }, 
+            { duration: 600 }
+        );
+    }
 }
 
 

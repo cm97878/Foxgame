@@ -54,17 +54,18 @@ export const useMapStore = defineStore('mapStuff', {
         nodes: [
             {
                 id: '1',
-                type: 'input',
+                type: 'custom',
                 label: 'Home',
                 position: { x: 0, y: 0 },
-                class: 'light',
+                class: 'light', 
                 data: {
                     areaSpecialID: SpecialAreaId.HOME, //Absence of this is a regular area.
                     areaName: "Home",
                     zone: Zone.FOREST,
                     description: "You can just put whatever here.",
                     killCount: 0,
-                    scoutThreshold: 0
+                    scoutThreshold: 0,
+                    nodeId: '1'
                 } as AreaData
             },
             {
@@ -78,7 +79,8 @@ export const useMapStore = defineStore('mapStuff', {
                     zone: Zone.FOREST,
                     description: "this be some dense foliage",
                     killCount: 0,
-                    scoutThreshold: 1
+                    scoutThreshold: 1,
+                    nodeId: '2'
                 } as AreaData
             },
             {
@@ -86,12 +88,14 @@ export const useMapStore = defineStore('mapStuff', {
                 label: '',
                 position: { x: 400, y: 100 },
                 class: 'light',
+                type: 'custom',
                 data: {
                     areaName: "Small Clearing",
                     zone: Zone.FOREST,
                     description: "A specific clearing description.",
                     killCount: 0,
-                    scoutThreshold: 1
+                    scoutThreshold: 1,
+                    nodeId: '3'
                 } as AreaData
             },
             {
@@ -99,12 +103,14 @@ export const useMapStore = defineStore('mapStuff', {
                 label: '',
                 position: { x: 400, y: 200 },
                 class: 'light',
+                type: 'custom',
                 data: {
                     areaName: "Small Clearing",
                     zone: Zone.FOREST,
                     description: "A specific clearing description.",
                     killCount: 0,
-                    scoutThreshold: 1
+                    scoutThreshold: 1,
+                    nodeId: '4'
                 } as AreaData
             },
             {
@@ -112,12 +118,14 @@ export const useMapStore = defineStore('mapStuff', {
                 label: '',
                 position: { x: 400, y: 300 },
                 class: 'light',
+                type: 'custom',
                 data: {
                     areaName: "Small Clearing",
                     zone: Zone.FOREST,
                     description: "A specific clearing description.",
                     killCount: 0,
-                    scoutThreshold: 1
+                    scoutThreshold: 1,
+                    nodeId: '5'
                 } as AreaData
             },
             {
@@ -125,12 +133,14 @@ export const useMapStore = defineStore('mapStuff', {
                 label: '',
                 position: { x: 100, y: 200 },
                 class: 'light',
+                type: 'custom',
                 data: {
                     areaName: "Small Clearing",
                     zone: Zone.FOREST,
                     description: "A specific clearing description.",
                     killCount: 0,
-                    scoutThreshold: 1
+                    scoutThreshold: 1,
+                    nodeId: '6'
                 } as AreaData
             },
         ],
@@ -228,8 +238,5 @@ export const useMapStore = defineStore('mapStuff', {
             }
         }
 
-        // sendHome() {
-        //     this.selectedNode = this.nodes[0]
-        // }
     }
 })
