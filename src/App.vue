@@ -113,8 +113,7 @@
     const soulUnlock = ref(true);
 
 
-
-
+    
     //FIXME: This is messy and for testing, remove later
     const toggleState = ref("");
     toggleState.value = localStorage.getItem('kitsune_save_bool') ?? "1"
@@ -127,8 +126,6 @@
         console.log(localStorage.getItem('kitsune_save_bool'))
         toggleState.value = localStorage.getItem('kitsune_save_bool') ?? "1";
     }
-
-
 
 
 

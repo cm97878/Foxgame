@@ -4,6 +4,7 @@ import type { Enemy } from '@/types/enemy'
 import { useVueFlow, type GraphNode } from '@vue-flow/core'
 import type { AreaData } from '@/types/areaData'
 import { SpecialAreaId, Zone } from '@/enums/areaEnums'
+import { useCombatStore } from '@/stores/combatStore';
 
 /* LEAVE THIS HERE >:(
 name: "",
@@ -18,7 +19,6 @@ soulKill: new Decimal(""),
 
 export const useMapStore = defineStore('mapStuff', {
     state: () => ({
-        encounterSignal$: {} as Enemy, //TODO: Need to fix signal w/ store changing
         scouted$: "",
         selectedNode: {data: {}} as GraphNode,
         enemyList: [
@@ -205,7 +205,8 @@ export const useMapStore = defineStore('mapStuff', {
                 case Zone.FOREST: {
                     const encounterIdx = Math.floor(Math.random() * this.enemyList.length );
 
-                    this.encounterSignal$ = this.enemyList[encounterIdx]; //TODO: Need to fix signal w/ store changing
+                    const combatStore = useCombatStore();
+                    combatStore.startCombat(this.enemyList[encounterIdx]);
                 }
             }
         },

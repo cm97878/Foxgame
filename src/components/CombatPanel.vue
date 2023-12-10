@@ -75,14 +75,11 @@
 
 <script setup lang="ts">
 import { usePlayer } from '@/stores/player';
-import { useMapStore } from '@/stores/mapStore';
 import { useCombatStore } from '@/stores/combatStore';
-import { ref, computed, watch } from 'vue';
+import { computed } from 'vue';
 import CarouselIcon from './CarouselIcon.vue';
-import { storeToRefs } from 'pinia';
 import { displayDecimal } from '@/utils/utils'
 const player = usePlayer();
-const mapStore = useMapStore();
 const combatStore = useCombatStore();
 
 const name = "combatpanel";
@@ -90,12 +87,6 @@ const name = "combatpanel";
 const props = defineProps({
     active: String
 })
-
-//stuff for testing, will delete later
-const { encounterSignal$ } = storeToRefs(mapStore)
-
-//Signals
-watch(encounterSignal$, (signal) => combatStore.startCombat(signal)) //TODO: Need to fix signal w/ store changing
 
 
 const playerAction = function (action: string) {
