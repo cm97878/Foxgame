@@ -13,13 +13,18 @@
             </div>
         </div>
         <div id="vf-map">
-            <VueFlow :nodes="mapStore.nodes" class="general_outline"></VueFlow>
+            <VueFlow :nodes="mapStore.nodes" class="general_outline">
+                <template #node-custom ="{ data }">
+                    <CustomNode :data="data"></CustomNode>
+                </template>
+            </VueFlow>
         </div>
     </div>
 </template>
 
 
 <script setup lang="ts">
+import CustomNode from './CustomNode.vue';
 import { useMapStore } from '@/stores/mapStore.js';
 import { usePlayer } from '@/stores/player';
 import { useEventStore } from '@/stores/eventStore';

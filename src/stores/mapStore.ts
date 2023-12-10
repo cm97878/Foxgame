@@ -72,6 +72,7 @@ export const useMapStore = defineStore('mapStuff', {
                 label: '',
                 position: { x: 100, y: 100 },
                 class: 'light',
+                type: 'custom',
                 data: {
                     areaName: "Dense Foliage",
                     zone: Zone.FOREST,

@@ -328,10 +328,7 @@ button:hover {
     height: 40px;
 }
 
-.selected {
-    color: gold !important;
-    background:grey;
-}
+
 
 .tab {
     align-items: center;

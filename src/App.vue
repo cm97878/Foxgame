@@ -14,10 +14,10 @@
             
             <div v-show="activePanel == Panels.WORLD">
                 <div class="tab_container">
-                    <span :class="{ selected: activeTabWorld === Tab.COMBAT, 'in-combat': combatStore.activeCombat }" @click="showTabWorld(Tab.COMBAT)" class="tab">
+                    <span :class="{ 'tab-selected': activeTabWorld === Tab.COMBAT, 'in-combat': combatStore.activeCombat }" @click="showTabWorld(Tab.COMBAT)" class="tab">
                         Combat
                     </span>
-                    <span :class="{ selected: activeTabWorld === Tab.AREA_ACTIONS }" @click="showTabWorld(Tab.AREA_ACTIONS)" class="tab">
+                    <span :class="{ 'tab-selected': activeTabWorld === Tab.AREA_ACTIONS }" @click="showTabWorld(Tab.AREA_ACTIONS)" class="tab">
                         Explore
                     </span>
                 </div>
@@ -29,7 +29,7 @@
 
             <div v-show="activePanel == Panels.SOUL">
                 <div class="tab_container">
-                    <span :class="{ selected: activeTabSoul === Tab.SOUL_UPGRADES }" @click="showTabSoul(Tab.SOUL_UPGRADES)" class="tab">
+                    <span :class="{ 'tab-selected': activeTabSoul === Tab.SOUL_UPGRADES }" @click="showTabSoul(Tab.SOUL_UPGRADES)" class="tab">
                         Soul Upgrades
                     </span>
                 </div>
@@ -171,5 +171,10 @@
     .cutscene-enter-from,
     .cutscene-leave-to {
         opacity: 0;
+    }
+
+    .tab-selected {
+        color: gold !important;
+        background:grey;
     }
 </style>
