@@ -1,6 +1,9 @@
 <template>
     <div id="window_border">
-        <CutsceneModal v-if="!!eventStore.activeScene"></CutsceneModal>
+        <Transition name="cutscene">
+            <CutsceneModal v-if="!!eventStore.activeScene"></CutsceneModal>
+        </Transition>
+        
 
         <div id="left_side_container" class="app_container">
             <div id="info_top_buttons_container">
@@ -162,5 +165,15 @@
             padding: 4px 10px;
             margin: 0 4px;
         }
+    }
+
+    .cutscene-enter-active,
+    .cutscene-leave-active {
+        transition: all 0.4s ease;
+    }
+
+    .cutscene-enter-from,
+    .cutscene-leave-to {
+        opacity: 0;
     }
 </style>
