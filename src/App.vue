@@ -66,7 +66,7 @@
             <div class="options-box">
                 <button @click="saves.save()">Save</button>
                 <button @click="saves.load()">Load</button>
-                <button @click="player.addSoul(10000000000000000);">add max soul</button>
+                <button @click="player.addSoul(1000000000000000);">add max soul</button>
                 <button @click="loadToggle">{{ toggleState === "1" ? "Save will load" : "Save wont load" }}</button>
                 <button @click="player.gameStage = GameStage.PRE_TAILS">Set gamestage intro->pre_tails</button>
                 <button @click="mapStore.callRandomEncounter(Zone.FOREST)">Fight Enemy</button>

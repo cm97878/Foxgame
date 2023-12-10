@@ -16,7 +16,7 @@ export const useEventStore = defineStore('eventstore', () => {
     const sceneDesc = ref("");
     const soulDenyCounter = ref(0);
 
-
+    //TODO: Put these in a json file so we can edit/add easier
     const cutscenes = new Map<string, Cutscene>([
         ["intro", {
             title: "",
@@ -162,12 +162,6 @@ export const useEventStore = defineStore('eventstore', () => {
             activeScene.value = undefined;
         }
     }
-
-    // function cutsceneResponse(choice: number): void {
-    //     //for now, cause non eligble choice to be 2.
-    //     choice === 1 ? combatStore.pushToCombatLog("You chose number 1!") : combatStore.pushToCombatLog("You chose number 2!")
-    //     cutsceneActive.value = false;
-    // }
 
     watch(
         () => player.totalKills,

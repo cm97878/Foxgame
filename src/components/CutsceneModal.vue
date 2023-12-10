@@ -13,7 +13,7 @@
   <script setup lang="ts">
     import { useEventStore } from '@/stores/eventStore';
     import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
+    import { computed } from 'vue';
 
     const eventStore = useEventStore();
     const { activeScene } = storeToRefs(eventStore);
