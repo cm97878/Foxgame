@@ -161,7 +161,7 @@ export const useMapStore = defineStore('mapStuff', {
         
     }),
     getters: {
-        isSpecial(): Boolean {
+        isSpecial(): SpecialAreaId {
             return this.selectedNode.data.areaSpecialID;
         },
         getAreaName(): string {

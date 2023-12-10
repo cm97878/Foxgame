@@ -71,7 +71,7 @@
                 <button @click="player.gameStage = GameStage.PRE_TAILS">Set gamestage intro->pre_tails</button>
                 <button @click="mapStore.callRandomEncounter(Zone.FOREST)">Fight Enemy</button>
             </div>
-            {{ "number of tails: " + player.tails }}<br />{{ "max soul: " + player.getMaxSoul }}<br />{{ "scouted: " + player.totalScouted }} <br /> {{ "kills: " + player.totalKills }}
+            {{ "number of tails: " + player.tails }}<br />{{ "max soul: " + player.getMaxSoul }}<br />{{ "areas scouted: " + player.totalScouted }} <br /> {{ "kills: " + player.totalKills }}
             <OvermapPanel />
         </div>
     </div>
@@ -91,7 +91,6 @@
     import { useCombatStore } from './stores/combatStore';
     import { GameStage } from './enums/gameStage';
     import { useGameTick } from './stores/gameTick';
-    import type { EventChoice }  from '@/types/areaEvent'
     import { displayDecimal } from '@/utils/utils';
     import { useEventStore } from './stores/eventStore'
     import { useMapStore } from './stores/mapStore';

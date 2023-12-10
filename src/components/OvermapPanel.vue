@@ -24,7 +24,7 @@ import { useMapStore } from '@/stores/mapStore.js';
 import { usePlayer } from '@/stores/player';
 import { useEventStore } from '@/stores/eventStore';
 import { VueFlow, useVueFlow, type GraphNode } from '@vue-flow/core';
-import { Zone } from '@/enums/areaEnums';
+import { SpecialAreaId, Zone } from '@/enums/areaEnums';
 import { storeToRefs } from 'pinia';
 import { watch } from 'vue';
 import { GameStage } from '@/enums/gameStage';
@@ -38,7 +38,7 @@ const eventStore = useEventStore();
 const combatStore = useCombatStore();
 
 const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick, 
-    findNode, findEdge, getConnectedEdges, addEdges, nodes } = useVueFlow();
+    findNode, findEdge, getConnectedEdges, addEdges, nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable } = useVueFlow();
 
 onPaneReady((instance) => {
     nodes.value.forEach( element => {
@@ -49,13 +49,17 @@ onPaneReady((instance) => {
     addEdges(mapStore.edges);
     nodesDraggable.value = false;
     elementsSelectable.value = true;
+    edgesUpdatable.value = false;
+    nodesConnectable.value = false;
+
+    edgeUpdaterRadius.value = 0;
     instance.setCenter(0, 0, {zoom: 1})
     mapStore.selectedNode = findNode("1")!;
 
     refreshMap();
 })
 onNodeClick((node) => {
-    if (isConnected(node)) {
+    if (isConnected(node) && !combatStore.getActiveCombat) {
         if(player.firstMove) {
             player.firstMove = false;
             combatStore.startCombat(mapStore.enemyList[0]);
@@ -63,7 +67,7 @@ onNodeClick((node) => {
         }
         mapStore.selectedNode = findNode(node.node.id)!;
         mapStore.setTextAppend()
-        if(player.gameStage != GameStage.INTRO) {
+        if(player.gameStage != GameStage.INTRO && !(mapStore.isSpecial === SpecialAreaId.HOME)) {
             mapStore.callRandomEncounter(Zone.FOREST)
         }
     }
@@ -93,10 +97,10 @@ const scoutRevealNodes = function(element:GraphNode) {
     })
 }
 const refreshMap = function() {
-    nodes.value.forEach(element => {
+    nodes.value.forEach((element: GraphNode) => {
         if(element.data?.killCount >= element.data?.scoutThreshold) {
             element.hidden = false;
-            element.data.intereactable = true;
+            element.data.interactable = true;
 
             scoutRevealNodes(element);
         }
