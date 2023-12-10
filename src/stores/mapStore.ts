@@ -226,5 +226,9 @@ export const useMapStore = defineStore('mapStuff', {
                 else {console.log("Couldn't update killcount. addKills()")}
             }
         }
+
+        // sendHome() {
+        //     this.selectedNode = this.nodes[0]
+        // }
     }
 })

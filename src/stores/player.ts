@@ -47,11 +47,11 @@ export const usePlayer = defineStore('player', () => {
 
         //Only regen at home.
         if(areaId === SpecialAreaId.HOME) {
-            //HP Regen. Set to .1/sec for now, can make a variable later.
+            //HP Regen. Set to .5/sec for now, can make a variable later.
             const stats = baseStats.value
             const energy = currencies.value
             if (stats.currentHealth.lt(stats.maxHealth)) {
-                const hpRegen = 0.1;
+                const hpRegen = 0.5;
                 if(Decimal.add(stats.currentHealth, hpRegen).gte(stats.maxHealth)) {
                     baseStats.value.currentHealth = stats.maxHealth
                 } else {

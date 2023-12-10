@@ -38,7 +38,7 @@ const eventStore = useEventStore();
 const combatStore = useCombatStore();
 
 const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick,  findNode, findEdge, getConnectedEdges,
-     addEdges, nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable, panOnDrag, setViewport, toObject } = useVueFlow({ id:"map"});
+     addEdges, nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable, panOnDrag, setViewport } = useVueFlow({ id:"map"});
 
 onPaneReady((instance) => {
     nodes.value.forEach( element => {
@@ -72,6 +72,9 @@ onNodeClick((node) => {
         centerMap(chosenNode)
 
         mapStore.setTextAppend()
+        if(player.gameStage != GameStage.INTRO && !(mapStore.isSpecial === SpecialAreaId.HOME)) {
+            mapStore.callRandomEncounter(Zone.FOREST)
+        }
     }
 })
 const isConnected = function(node: any): boolean {

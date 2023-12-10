@@ -6,10 +6,12 @@ import { usePlayer } from '@/stores/player';
 import type { CarouselItem } from '../types/carouselItem';
 import { useMapStore } from './mapStore';
 import { GameStage } from '@/enums/gameStage';
+import { useVueFlow } from '@vue-flow/core';
 
 export const useCombatStore = defineStore('combat', () => {
     let turnTimer = 0
     let turnNumber = 0
+    const { findNode } = useVueFlow({ id:"map"});
 
     // -- State --
     const activeCombat = ref(false)
@@ -42,7 +44,7 @@ export const useCombatStore = defineStore('combat', () => {
         activeCombat.value = true;
         currentOpponent.value = enemy;
         currentHP.value = enemy.maxHP;
-        player.baseStats.currentHealth = player.baseStats.maxHealth; 
+        //player.baseStats.currentHealth = player.baseStats.maxHealth; 
 
         //initial 8-turn population of carousel
         for(turnNumber = 1; carouselArray.value.length < 8; turnNumber++) {
@@ -94,6 +96,7 @@ export const useCombatStore = defineStore('combat', () => {
         //Check for battle end.
         if(player.baseStats.currentHealth.lte(0)){
             pushToCombatLog("Defeat..")
+            mapStore.selectedNode = findNode("1")!
             endCombat();
         }
         else if(currentHP.value.lte(0)) {
