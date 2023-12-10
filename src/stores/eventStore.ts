@@ -81,11 +81,12 @@ export const useEventStore = defineStore('eventstore', () => {
             cutsceneCallback: function(choice) {
                 if(choice === 1) {
                     soulDenyCounter.value++;
-                    if(soulDenyCounter.value === 6) {
-                        console.log("thisll disable the leave button someday");
+                    if(soulDenyCounter.value === 18) {
+                        player.deniedSoul = true;
                     }
                 }
                 else {
+                    soulDenyCounter.value = 0;
                     callCutscene(cutscenes.get("soulGet3"))
                 }
             },
@@ -171,7 +172,7 @@ export const useEventStore = defineStore('eventstore', () => {
     watch(
         () => player.totalKills,
         (kills) => {
-            if(kills === 20) {
+            if(kills === 2) {
                 callCutscene(cutscenes.get("soulGet1"))
             }
         }
@@ -186,7 +187,7 @@ export const useEventStore = defineStore('eventstore', () => {
     )
 
     return {
-        cutscenes, activeScene, sceneDesc,
+        cutscenes, activeScene, sceneDesc, soulDenyCounter,
 
         callCutscene, endCutscene
     }
