@@ -43,7 +43,6 @@ export const usePlayer = defineStore('player', () => {
     const mapStore = useMapStore();
     const { tick$ } = storeToRefs(gameTick);
     watch( tick$, () => {
-        console.log('tick!')
         const areaId = mapStore.isSpecial
 
         //Only regen at home.

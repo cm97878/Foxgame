@@ -12,9 +12,9 @@
                 {{ mapStore.getDescription }} {{ mapStore.getDescAppend }}
             </div>
         </div>
-        <VueFlow :nodes="mapStore.nodes" class="general_outline">
-
-        </VueFlow>
+        <div id="vf-map">
+            <VueFlow :nodes="mapStore.nodes" class="general_outline"></VueFlow>
+        </div>
     </div>
 </template>
 
@@ -37,8 +37,8 @@ const player = usePlayer();
 const eventStore = useEventStore();
 const combatStore = useCombatStore();
 
-const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick, 
-    findNode, findEdge, getConnectedEdges, addEdges, nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable } = useVueFlow();
+const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick,  findNode, findEdge, getConnectedEdges,
+     addEdges, nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable, panOnDrag, setViewport, toObject } = useVueFlow({ id:"map"});
 
 onPaneReady((instance) => {
     nodes.value.forEach( element => {
@@ -51,9 +51,10 @@ onPaneReady((instance) => {
     elementsSelectable.value = true;
     edgesUpdatable.value = false;
     nodesConnectable.value = false;
+    panOnDrag.value = false;
 
     edgeUpdaterRadius.value = 0;
-    instance.setCenter(0, 0, {zoom: 1})
+    instance.setCenter(0, 0, {zoom: 1.0})
     mapStore.selectedNode = findNode("1")!;
 
     refreshMap();
@@ -65,17 +66,36 @@ onNodeClick((node) => {
             combatStore.startCombat(mapStore.enemyList[0]);
             eventStore.callCutscene(eventStore.cutscenes.get("firstMove"));
         }
-        mapStore.selectedNode = findNode(node.node.id)!;
+
+        const chosenNode = findNode(node.node.id)!;
+        mapStore.selectedNode = chosenNode;
+        centerMap(chosenNode)
+
         mapStore.setTextAppend()
-        if(player.gameStage != GameStage.INTRO && !(mapStore.isSpecial === SpecialAreaId.HOME)) {
-            mapStore.callRandomEncounter(Zone.FOREST)
-        }
     }
 })
 const isConnected = function(node: any): boolean {
     return !!getConnectedEdges(mapStore.selectedNode.id).find( 
         connection => (connection.target === node.node.id || connection.source === node.node.id)
     )
+}
+
+//DIRTY DIRTY HACKS
+const centerMap = function(node:any) {
+    const vfMap = document.getElementById("vf-map");
+    //Need to find a better way to get these.
+    const NODE_WIDTH_OFFSET = -120;
+    const NODE_HEIGHT_OFFSET = 150;
+
+    // WHY DOES VUE FLOW HAVE TO MAKE THIS SO HARD
+    setViewport(
+        {
+            x: -node.position.x - NODE_WIDTH_OFFSET + (vfMap?.clientHeight || 0 / 2),
+            y:  -node.position.y - NODE_HEIGHT_OFFSET + (vfMap?.clientWidth || 0 / 2),
+            zoom: 1.0,
+        }, 
+        { duration: 600 }
+    );
 }
 
 
@@ -124,3 +144,9 @@ watch(scouted$, (signal) => {
 
 
 </script>
+<style>
+    #vf-map {
+        height: 100%;
+        width: 100%;
+    }
+</style>
