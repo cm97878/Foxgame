@@ -28,12 +28,14 @@ import { Zone } from '@/enums/areaEnums';
 import { storeToRefs } from 'pinia';
 import { watch } from 'vue';
 import { GameStage } from '@/enums/gameStage';
+import { useCombatStore } from '@/stores/combatStore';
 
 
 const name = "overmappanel";
 const mapStore = useMapStore();
 const player = usePlayer();
 const eventStore = useEventStore();
+const combatStore = useCombatStore();
 
 const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick, 
     findNode, findEdge, getConnectedEdges, addEdges, nodes } = useVueFlow();
@@ -56,7 +58,7 @@ onNodeClick((node) => {
     if (isConnected(node)) {
         if(player.firstMove) {
             player.firstMove = false;
-            mapStore.encounterSignal$ = mapStore.enemyList[0]; //TODO: Need to fix signal w/ store changing
+            combatStore.startCombat(mapStore.enemyList[0]);
             eventStore.callCutscene(eventStore.cutscenes.get("firstMove"));
         }
         mapStore.selectedNode = findNode(node.node.id)!;

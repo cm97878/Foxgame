@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import type { Enemy } from '@/types/enemy'
 import Decimal from 'break_infinity.js'
-import { computed, readonly, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { usePlayer } from '@/stores/player';
 import type { CarouselItem } from '../types/carouselItem';
 import { useMapStore } from './mapStore';
@@ -26,6 +26,8 @@ export const useCombatStore = defineStore('combat', () => {
     const currentHP = ref<Decimal>(new Decimal("0"))
     const carouselArray = ref<CarouselItem[]>([])
     const logFeed = ref<string[]>([""])
+
+    const mapStore = useMapStore();
 
     // -- Getters/Computeds --
     const getOpponentStats = computed(() => currentOpponent.value)
@@ -103,7 +105,6 @@ export const useCombatStore = defineStore('combat', () => {
                 pushToCombatLog("Victory! Gained " + currentOpponent.value.soulKill + " meat.")
                 player.addFood(1);
             }
-            const mapStore = useMapStore();
             mapStore.addKills(1);
             endCombat();
         }
