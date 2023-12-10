@@ -166,7 +166,7 @@ export const useEventStore = defineStore('eventstore', () => {
     watch(
         () => player.totalKills,
         (kills) => {
-            if(kills === 2) {
+            if(player.gameStage === GameStage.INTRO && kills === 2) {
                 callCutscene(cutscenes.get("soulGet1"))
             }
         }
@@ -174,7 +174,7 @@ export const useEventStore = defineStore('eventstore', () => {
     watch(
         () => player.totalScouted,
         (scouted) => {
-            if(scouted === 5) {
+            if(player.gameStage === GameStage.INTRO && scouted === 5) {
                 callCutscene(cutscenes.get("soulGet1"))
             }
         }
