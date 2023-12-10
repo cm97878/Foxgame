@@ -3,21 +3,30 @@ import Decimal from 'break_infinity.js'
 import { computed, ref, watch } from "vue";
 import { useMapStore } from './mapStore';
 import { useGameTick } from './gameTick';
+import { GameStage } from '@/enums/gameStage';
 
 export const usePlayer = defineStore('player', () => {
+
+    // -- Game states --
+    const loaded = ref(false);
+    const firstMove = ref(true);
+    const gameStage = ref(GameStage.INTRO);
+    const furthestStage = ref(GameStage.INTRO);
+    const deniedSoul = ref(false);
+
+
+
     // -- Stats --
     const currencies = ref({
         soul: new Decimal("0"),
         maxSoul: new Decimal("10"),
+        food: new Decimal("0"),
         energy: 40,
         maxEnergy: 100
     })
 
     const name = ref("Fox")
-    const tails = ref({
-        obtained: false,
-        amount: 1,
-    })
+    const tails = ref(1)
     const baseStats = ref({
         attack: new Decimal("3"),
         defense: new Decimal("0"),
@@ -25,6 +34,8 @@ export const usePlayer = defineStore('player', () => {
         currentHealth: new Decimal("15"),
         spd: 200
     })
+
+
 
     // -- Watch processes --
     const gameTick = useGameTick();
@@ -57,6 +68,8 @@ export const usePlayer = defineStore('player', () => {
         }
     })
 
+
+
     // -- Getters/Computeds --
     const getAtk = computed(() => baseStats.value.attack)
     const getDef = computed(() => baseStats.value.defense)
@@ -75,6 +88,7 @@ export const usePlayer = defineStore('player', () => {
             return "0%"
         }
     })
+    const getFood = computed(() => currencies.value.food)
 
     // TODO: Need to encapsulate these two in a better place later. -Malt
     const totalKills = computed(() => {
@@ -94,6 +108,8 @@ export const usePlayer = defineStore('player', () => {
         return val;
     })
 
+
+
     // -- Actions --
     function addSoul(soulAdd:Decimal|number) {
         if(Decimal.add(currencies.value.soul, soulAdd).gt(currencies.value.maxSoul)) {
@@ -102,6 +118,10 @@ export const usePlayer = defineStore('player', () => {
         else {
             currencies.value.soul = Decimal.add(currencies.value.soul, soulAdd);
         }
+    }
+
+    function addFood(foodAdd:Decimal|number) {
+        currencies.value.food = Decimal.add(currencies.value.food, foodAdd);
     }
 
     function subtractSoul(soulSubtract:Decimal|number) {
@@ -158,21 +178,30 @@ export const usePlayer = defineStore('player', () => {
     }
 
     function addTail() {
-        if(tails.value.amount < 9) {
+        if(tails.value < 9) {
             currencies.value.maxSoul = Decimal.mul(currencies.value.maxSoul, 10);
-            tails.value.amount++;
-            tails.value.obtained = true;
+            tails.value++;
+			if(gameStage.value <= GameStage.PRE_TAILS) {
+                gameStage.value = GameStage.TAILS
+
+                //this feels clunky, may want a better way to update this later?
+                //like a watcher, that if gamestage > furthest stage, furtheststage=gamestage
+                //idk
+                if(furthestStage.value <= GameStage.PRE_TAILS) {
+                    furthestStage.value = GameStage.TAILS;
+                }
+            }
             currencies.value.soul = new Decimal("0")
         }
     }
 
     return {
         //Stats
-        currencies, name, tails, baseStats,
+        currencies, name, tails, baseStats, gameStage, furthestStage, loaded, firstMove, deniedSoul,
         //Computeds
-        getAtk, getDef, getHpCurr, getHpMax, getSpd, getSoul, getMaxSoul, getEnergyDisplay, playerHpRatio, totalKills, totalScouted,
+        getAtk, getDef, getHpCurr, getHpMax, getSpd, getSoul, getMaxSoul, getEnergyDisplay, playerHpRatio, totalKills, totalScouted, getFood,
         // Actions
         addSoul, subtractSoul, damage, payEnergy, enoughSoul, enoughScouted, enoughKills, enoughEnergy, addBaseAtk, addBaseDef,
-        addBaseHealth, modifySpeed, modifyMaxSoul, addTail
+        addBaseHealth, modifySpeed, modifyMaxSoul, addTail, addFood
     }
 })

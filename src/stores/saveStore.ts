@@ -13,6 +13,10 @@ export const useSaveStore = defineStore('saveStore', () =>{
     const mapStore = useMapStore();
 
     var saveFile = {
+        gameStage: player.gameStage,
+        furthestStage: player.furthestStage,
+        firstMove: player.firstMove,
+        deniedSoul: player.deniedSoul,
         currencies: {
             soul: player.currencies.soul,
             maxSoul: player.currencies.maxSoul,
@@ -37,6 +41,10 @@ export const useSaveStore = defineStore('saveStore', () =>{
     const save = function() {
         console.log(saveFile)
         saveFile = {
+            gameStage: player.gameStage,
+            furthestStage: player.furthestStage,
+            firstMove: player.firstMove,
+            deniedSoul: player.deniedSoul,
             currencies: {
                 soul: player.currencies.soul,
                 maxSoul: player.currencies.maxSoul,
@@ -74,6 +82,14 @@ export const useSaveStore = defineStore('saveStore', () =>{
 
     const load = function() {
         saveFile = JSON.parse(localStorage.getItem('kitsune_save') ?? "")
+        if(!saveFile || localStorage.getItem('kitsune_save_bool') === "0") {
+            player.loaded = true;
+            return false;
+        }
+        player.gameStage = saveFile.gameStage;
+        player.furthestStage = saveFile.furthestStage;
+        player.firstMove = saveFile.firstMove;
+        player.deniedSoul = saveFile.deniedSoul;
         player.currencies.soul = new Decimal(saveFile.currencies.soul);
         player.currencies.maxSoul = new Decimal(saveFile.currencies.maxSoul);
         player.name = saveFile.name;
@@ -101,9 +117,10 @@ export const useSaveStore = defineStore('saveStore', () =>{
         })
         mapStore.scouted$ = "$REFRESH$"
         console.log(saveFile)
+        
+        player.loaded = true;
+        return true;
     }
-
-    const killcountUpdate$ = "";
 
 
     return { save, load }

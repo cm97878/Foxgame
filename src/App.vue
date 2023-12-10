@@ -1,12 +1,15 @@
 <template>
     <div id="window_border">
-        <CutsceneModal v-if="cutsceneActive" :text="cutsceneText" :choices="choiceRef"  @choice="(choice) => cutsceneResponse(choice)"></CutsceneModal>
+        <Transition name="cutscene">
+            <CutsceneModal v-if="!!eventStore.activeScene"></CutsceneModal>
+        </Transition>
+        
 
         <div id="left_side_container" class="app_container">
             <div id="info_top_buttons_container">
                 <button @click="showPanel(Panels.WORLD)" v-show="combatUnlock" class="info_buttons">World</button>
                 <button @click="showPanel(Panels.SOUL)" v-show="soulUnlock" class="info_buttons">Soul</button>
-                <button @click="callCutscene('You are a fox in a forest.', [{id: 1, label:'Okay!'}, {id:2, label:'Woo!'}])"  class="info_buttons">Cutscene</button>
+                <button @click="eventStore.callCutscene(eventStore.cutscenes.get('intro'))"  class="info_buttons">Cutscene</button>
             </div>
             
             <div v-show="activePanel == Panels.WORLD">
@@ -42,29 +45,35 @@
         <div id="right_side_container" class="app_container">
             <div id="currency_section">
                 <div id="soul_counter_container">
-                    {{ displayDecimal(player.getSoul) }}<br />
-                    <span style="font-size: 16pt;">Soul</span>
+                    <div v-if="player.gameStage === GameStage.INTRO">
+                        {{ displayDecimal(player.getFood) }}<br />
+                        <span style="font-size: 16pt;">Meat</span>
+                    </div>
+                    <div v-else>
+                        {{ displayDecimal(player.getSoul) }}<br />
+                        <span style="font-size: 16pt;">Soul</span>
+                    </div>
                 </div>
 <!--                 <div id="soul_bead_counters_container">
                     0
                 </div> -->
                 <button 
                 @click="player.addTail()"
-                v-show="(player.tails.amount > 1 && player.tails.amount < 9) || (player.tails.amount === 1 && player.getSoul.eq(player.getMaxSoul))" 
-                :disabled="player.getSoul.lt(player.getMaxSoul)">{{ !player.tails.obtained ? '???' : 'Gain Tail' }}</button>
+                v-show="(player.tails > 1 && player.tails < 9) || (player.tails === 1 && player.getSoul.eq(player.getMaxSoul))" 
+                :disabled="player.getSoul.lt(player.getMaxSoul)">{{ player.furthestStage <= GameStage.PRE_TAILS ? '???' : 'Gain Tail' }}</button>
             </div>
+
             <div class="options-box">
                 <button @click="saves.save()">Save</button>
                 <button @click="saves.load()">Load</button>
                 <button @click="player.addSoul(1000000000000000);">add max soul</button>
+                <button @click="loadToggle">{{ toggleState === "1" ? "Save will load" : "Save wont load" }}</button>
+                <button @click="player.gameStage = GameStage.PRE_TAILS">Set gamestage intro->pre_tails</button>
+                <button @click="mapStore.callRandomEncounter(Zone.FOREST)">Fight Enemy</button>
             </div>
-            {{ "number of tails: " + player.tails.amount }}<br />{{ "max soul: " + player.getMaxSoul }}
+            {{ "number of tails: " + player.tails }}<br />{{ "max soul: " + player.getMaxSoul }}<br />{{ "scouted: " + player.totalScouted }} <br /> {{ "kills: " + player.totalKills }}
             <OvermapPanel />
         </div>
-
-
-
-
     </div>
 </template>
 
@@ -80,13 +89,20 @@
     import { onMounted, ref } from 'vue';
     import { useSaveStore } from './stores/saveStore';
     import { useCombatStore } from './stores/combatStore';
+    import { GameStage } from './enums/gameStage';
     import { useGameTick } from './stores/gameTick';
     import type { EventChoice }  from '@/types/areaEvent'
     import { displayDecimal } from '@/utils/utils';
+    import { useEventStore } from './stores/eventStore'
+    import { useMapStore } from './stores/mapStore';
+    import { Zone } from './enums/areaEnums';
+
     const player = usePlayer();
     const saves = useSaveStore();
     const combatStore = useCombatStore();
     const gameTick = useGameTick();
+    const eventStore = useEventStore();
+    const mapStore = useMapStore();
 
     const name = "app";
 
@@ -95,9 +111,25 @@
     const activeTabSoul = ref(Tab.SOUL_UPGRADES);
     const combatUnlock = ref(true);
     const soulUnlock = ref(true);
-    const cutsceneActive = ref(false);
-    const cutsceneText = ref("");
-    const choiceRef = ref<EventChoice[]>([]);
+
+
+
+
+    //FIXME: This is messy and for testing, remove later
+    const toggleState = ref("");
+    toggleState.value = localStorage.getItem('kitsune_save_bool') ?? "1"
+    
+    function loadToggle() {
+        if(localStorage.getItem('kitsune_save_bool') === "1"){
+            localStorage.setItem('kitsune_save_bool', "0");
+        }
+        else localStorage.setItem('kitsune_save_bool', "1");
+        console.log(localStorage.getItem('kitsune_save_bool'))
+        toggleState.value = localStorage.getItem('kitsune_save_bool') ?? "1";
+    }
+
+
+
 
 
     function showPanel (panel:Panels) {
@@ -112,21 +144,13 @@
         activeTabSoul.value = tab;
     }
 
-    function callCutscene(description: string, choices:EventChoice[]): void {
-        cutsceneText.value = description;
-        choiceRef.value = choices
-        cutsceneActive.value = true;
-    }
 
-    function cutsceneResponse(choice: number): void {
-        //for now, cause non eligble choice to be 2.
-        choice === 1 ? combatStore.pushToCombatLog("You chose number 1!") : combatStore.pushToCombatLog("You chose number 2!")
-        cutsceneActive.value = false;
-    }
 
     onMounted(() =>{
         gameTick.startGameTick();
-        // saves.load();
+        if(!saves.load()) {
+            eventStore.callCutscene(eventStore.cutscenes.get("intro"));
+        }
     })
 </script>
 <style>
@@ -141,5 +165,15 @@
             padding: 4px 10px;
             margin: 0 4px;
         }
+    }
+
+    .cutscene-enter-active,
+    .cutscene-leave-active {
+        transition: all 0.4s ease;
+    }
+
+    .cutscene-enter-from,
+    .cutscene-leave-to {
+        opacity: 0;
     }
 </style>

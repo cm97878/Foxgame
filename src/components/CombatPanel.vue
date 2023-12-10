@@ -95,7 +95,7 @@ const props = defineProps({
 const { encounterSignal$ } = storeToRefs(mapStore)
 
 //Signals
-watch(encounterSignal$, (signal) => combatStore.startCombat(signal))
+watch(encounterSignal$, (signal) => combatStore.startCombat(signal)) //TODO: Need to fix signal w/ store changing
 
 
 const playerAction = function (action: string) {

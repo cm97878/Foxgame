@@ -2,21 +2,32 @@
     <div class="modal-container">
       <div class="modal-body">
         <div class="modal-image"></div>
-        <div class="modal-text">{{ text }}</div>
+        <div class="modal-text"><span v-html="eventStore.sceneDesc"></span></div>
         <div class="modal-action">
-          <button v-for="choice in choices" @click="emit('choice', choice.id)" class="modal-button"> {{ choice.label }}</button>
+          <button v-for="choice in activeScene?.choices" @click="eventStore.endCutscene(choice.id)" class="modal-button" :class="{greyed: disableLeave && choice.id === 1}" :hidden="hideLeave && choice.id === 1"> {{ choice.label }}</button>
         </div>
       </div>
     </div>
   </template>
   
   <script setup lang="ts">
-    import type { EventChoice }  from '@/types/areaEvent'
-    const props = defineProps<{
-      text: string,
-      choices: EventChoice[],
-    }>()
-    const emit = defineEmits(['choice'])
+    import { useEventStore } from '@/stores/eventStore';
+    import { storeToRefs } from 'pinia';
+    import { computed } from 'vue';
+
+    const eventStore = useEventStore();
+    const { activeScene } = storeToRefs(eventStore);
+
+    const disableLeave = computed(() =>{
+        if(eventStore.soulDenyCounter >= 9) {
+            return true;
+        }
+    })
+    const hideLeave = computed(() => {
+        if(eventStore.soulDenyCounter >= 18) {
+            return true;
+        }
+    })
   </script>
   
   <style>
@@ -39,8 +50,8 @@
         border-radius: 10px;
         text-align: center;
         padding: 20px 40px;
-        min-width: 80%;
-        min-height: 80%;
+        width: 80%;
+        height: 80%;
         display: flex;
         flex-direction: column;
     }
@@ -69,6 +80,18 @@
       border-radius: 5px;
       background-color: #80b2e4;
       color: #fff;
+    }
+
+    .greyed {
+        background-color: rgb(117, 117, 117);
+    }
+    .greyed:active {
+    box-shadow: none;
+    }
+    .greyed:hover {
+        background-color: rgb(117, 117, 117);
+        color: rgb(247, 247, 247);
+        cursor: default;
     }
   </style>
   

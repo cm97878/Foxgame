@@ -5,6 +5,7 @@ import { readonly } from 'vue';
 import { usePlayer } from '@/stores/player';
 import type { CarouselItem } from '../types/carouselItem';
 import { useMapStore } from './mapStore';
+import { GameStage } from '@/enums/gameStage';
 
 export const useCombatStore = defineStore('combat', {
     state: () => ({
@@ -66,8 +67,14 @@ export const useCombatStore = defineStore('combat', {
                 this.endCombat();
             }
             else if(this.currentHP.lte(0)) {
-                this.pushToCombatLog("Victory! Gained " + this.currentOpponent.soulKill + " Soul.")
-                player.addSoul(this.currentOpponent.soulKill);
+                if(player.gameStage != GameStage.INTRO) {
+                    this.pushToCombatLog("Victory! Gained " + this.currentOpponent.soulKill + " Soul.")
+                    player.addSoul(this.currentOpponent.soulKill);
+                }
+                else {
+                    this.pushToCombatLog("Victory! Gained " + this.currentOpponent.soulKill + " meat.")
+                    player.addFood(1);
+                }
                 const mapStore = useMapStore();
                 mapStore.addKills(1);
                 this.endCombat();
