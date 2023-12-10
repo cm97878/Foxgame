@@ -90,8 +90,8 @@ const centerMap = function(node:any) {
     // WHY DOES VUE FLOW HAVE TO MAKE THIS SO HARD
     setViewport(
         {
-            x: -node.position.x - NODE_WIDTH_OFFSET + (vfMap?.clientHeight || 0 / 2),
-            y:  -node.position.y - NODE_HEIGHT_OFFSET + (vfMap?.clientWidth || 0 / 2),
+            x: -node.position.x - NODE_WIDTH_OFFSET + (vfMap?.clientHeight / 2),
+            y:  -node.position.y - NODE_HEIGHT_OFFSET + (vfMap?.clientWidth / 2),
             zoom: 1.0,
         }, 
         { duration: 600 }
