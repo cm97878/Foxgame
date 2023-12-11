@@ -74,7 +74,6 @@ onNodeClick((node) => {
 
         const chosenNode = findNode(node.node.id)!;
         mapStore.selectedNode = chosenNode;
-        console.log(chosenNode);
         centerMap(chosenNode)
 
         mapStore.setTextAppend()

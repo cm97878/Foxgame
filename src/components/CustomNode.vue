@@ -31,9 +31,7 @@
     border-width: 3px;
     border-style: solid;
     background-color: #9ec93d;
-    color: #222;
-
-    
+    color: #222; 
   }
 
   .selected-node {
