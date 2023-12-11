@@ -1,5 +1,5 @@
 <template>
-    <div class="node-boundary" :class="{ 'selected-node': mapStore.selectedNode.id === props.data.nodeId}">
+    <div class="node-boundary" :class="{ 'selected-node': mapStore.selectedNode.id === props.id}">
         {{ data.areaName }}
     </div>
 </template>
@@ -10,15 +10,14 @@
 
   const name = "customNode";
 
+  //TODO: Could style based off of zone of Area in the future.
   const props = defineProps({
-    //id: String,
+    id: String,
     data: {
       type: Object,
       required: true,
     },
-  })
-
-  console.log(props)
+  }) 
 
 </script>
 <style>
