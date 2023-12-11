@@ -65,7 +65,6 @@ export const useMapStore = defineStore('mapStuff', {
                     description: "You can just put whatever here.",
                     killCount: 0,
                     scoutThreshold: 0,
-                    nodeId: '1'
                 } as AreaData
             },
             {
@@ -80,7 +79,6 @@ export const useMapStore = defineStore('mapStuff', {
                     description: "this be some dense foliage",
                     killCount: 0,
                     scoutThreshold: 1,
-                    nodeId: '2'
                 } as AreaData
             },
             {
@@ -95,7 +93,6 @@ export const useMapStore = defineStore('mapStuff', {
                     description: "A specific clearing description.",
                     killCount: 0,
                     scoutThreshold: 1,
-                    nodeId: '3'
                 } as AreaData
             },
             {
@@ -110,7 +107,6 @@ export const useMapStore = defineStore('mapStuff', {
                     description: "A specific clearing description.",
                     killCount: 0,
                     scoutThreshold: 1,
-                    nodeId: '4'
                 } as AreaData
             },
             {
@@ -125,7 +121,6 @@ export const useMapStore = defineStore('mapStuff', {
                     description: "A specific clearing description.",
                     killCount: 0,
                     scoutThreshold: 1,
-                    nodeId: '5'
                 } as AreaData
             },
             {
@@ -140,7 +135,6 @@ export const useMapStore = defineStore('mapStuff', {
                     description: "A specific clearing description.",
                     killCount: 0,
                     scoutThreshold: 1,
-                    nodeId: '6'
                 } as AreaData
             },
         ],

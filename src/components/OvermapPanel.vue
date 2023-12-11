@@ -14,8 +14,8 @@
         </div>
         <div id="vf-map">
             <VueFlow :nodes="mapStore.nodes" class="general_outline">
-                <template #node-custom ="{ data }">
-                    <CustomNode :data="data"></CustomNode>
+                <template #node-custom ="{ data, id }">
+                    <CustomNode :data="data" :id="id"></CustomNode>
                 </template>
             </VueFlow>
         </div>
@@ -96,7 +96,6 @@ const centerMap = function(node:any) {
     const NODE_WIDTH_OFFSET = -120;
     const NODE_HEIGHT_OFFSET = 150;
 
-    // WHY DOES VUE FLOW HAVE TO MAKE THIS SO HARD
     if (!!vfMap) {
         setViewport(
             {
