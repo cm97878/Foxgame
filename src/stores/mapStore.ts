@@ -54,7 +54,7 @@ export const useMapStore = defineStore('mapStuff', {
         nodes: [
             {
                 id: '1',
-                type: 'input',
+                type: 'custom',
                 label: 'Home',
                 position: { x: 0, y: 0 },
                 class: 'light',
@@ -72,6 +72,7 @@ export const useMapStore = defineStore('mapStuff', {
                 label: '',
                 position: { x: 100, y: 100 },
                 class: 'light',
+                type: 'custom',
                 data: {
                     areaName: "Dense Foliage",
                     zone: Zone.FOREST,
@@ -85,6 +86,7 @@ export const useMapStore = defineStore('mapStuff', {
                 label: '',
                 position: { x: 400, y: 100 },
                 class: 'light',
+                type: 'custom',
                 data: {
                     areaName: "Small Clearing",
                     zone: Zone.FOREST,
@@ -98,6 +100,7 @@ export const useMapStore = defineStore('mapStuff', {
                 label: '',
                 position: { x: 400, y: 200 },
                 class: 'light',
+                type: 'custom',
                 data: {
                     areaName: "Small Clearing",
                     zone: Zone.FOREST,
@@ -111,6 +114,7 @@ export const useMapStore = defineStore('mapStuff', {
                 label: '',
                 position: { x: 400, y: 300 },
                 class: 'light',
+                type: 'custom',
                 data: {
                     areaName: "Small Clearing",
                     zone: Zone.FOREST,
@@ -124,6 +128,7 @@ export const useMapStore = defineStore('mapStuff', {
                 label: '',
                 position: { x: 100, y: 200 },
                 class: 'light',
+                type: 'custom',
                 data: {
                     areaName: "Small Clearing",
                     zone: Zone.FOREST,
@@ -161,7 +166,7 @@ export const useMapStore = defineStore('mapStuff', {
         
     }),
     getters: {
-        isSpecial(): Boolean {
+        isSpecial(): SpecialAreaId {
             return this.selectedNode.data.areaSpecialID;
         },
         getAreaName(): string {
@@ -226,5 +231,6 @@ export const useMapStore = defineStore('mapStuff', {
                 else {console.log("Couldn't update killcount. addKills()")}
             }
         }
+
     }
 })

@@ -310,9 +310,6 @@ button:hover {
     width: 100%;
     min-height: 400px;
     outline: 1px solid rgb(97, 97, 97);
-    /* overflow: hidden;
-    user-select: none;
-    cursor: all-scroll; */
 }
 
 .map_item {
@@ -331,10 +328,7 @@ button:hover {
     height: 40px;
 }
 
-.selected {
-    color: gold !important;
-    background:grey;
-}
+
 
 .tab {
     align-items: center;

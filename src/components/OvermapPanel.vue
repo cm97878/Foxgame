@@ -12,19 +12,24 @@
                 {{ mapStore.getDescription }} {{ mapStore.getDescAppend }}
             </div>
         </div>
-        <VueFlow :nodes="mapStore.nodes" class="general_outline">
-
-        </VueFlow>
+        <div id="vf-map">
+            <VueFlow :nodes="mapStore.nodes" class="general_outline">
+                <template #node-custom ="{ data, id }">
+                    <CustomNode :data="data" :id="id"></CustomNode>
+                </template>
+            </VueFlow>
+        </div>
     </div>
 </template>
 
 
 <script setup lang="ts">
+import CustomNode from './CustomNode.vue';
 import { useMapStore } from '@/stores/mapStore.js';
 import { usePlayer } from '@/stores/player';
 import { useEventStore } from '@/stores/eventStore';
 import { VueFlow, useVueFlow, type GraphNode } from '@vue-flow/core';
-import { Zone } from '@/enums/areaEnums';
+import { SpecialAreaId, Zone } from '@/enums/areaEnums';
 import { storeToRefs } from 'pinia';
 import { watch } from 'vue';
 import { GameStage } from '@/enums/gameStage';
@@ -37,8 +42,8 @@ const player = usePlayer();
 const eventStore = useEventStore();
 const combatStore = useCombatStore();
 
-const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick, 
-    findNode, findEdge, getConnectedEdges, addEdges, nodes } = useVueFlow();
+const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick,  findNode, findEdge, getConnectedEdges,
+     addEdges, nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable, panOnDrag, setViewport } = useVueFlow({ id:"map"});
 
 onPaneReady((instance) => {
     nodes.value.forEach( element => {
@@ -49,21 +54,30 @@ onPaneReady((instance) => {
     addEdges(mapStore.edges);
     nodesDraggable.value = false;
     elementsSelectable.value = true;
-    instance.setCenter(0, 0, {zoom: 1})
+    edgesUpdatable.value = false;
+    nodesConnectable.value = false;
+    panOnDrag.value = false;
+
+    edgeUpdaterRadius.value = 0;
+    instance.setCenter(0, 0, {zoom: 1.0})
     mapStore.selectedNode = findNode("1")!;
 
     refreshMap();
 })
 onNodeClick((node) => {
-    if (isConnected(node)) {
+    if (isConnected(node) && !combatStore.getActiveCombat) {
         if(player.firstMove) {
             player.firstMove = false;
             combatStore.startCombat(mapStore.enemyList[0]);
             eventStore.callCutscene(eventStore.cutscenes.get("firstMove"));
         }
-        mapStore.selectedNode = findNode(node.node.id)!;
+
+        const chosenNode = findNode(node.node.id)!;
+        mapStore.selectedNode = chosenNode;
+        centerMap(chosenNode)
+
         mapStore.setTextAppend()
-        if(player.gameStage != GameStage.INTRO) {
+        if(player.gameStage != GameStage.INTRO && !(mapStore.isSpecial === SpecialAreaId.HOME)) {
             mapStore.callRandomEncounter(Zone.FOREST)
         }
     }
@@ -72,6 +86,25 @@ const isConnected = function(node: any): boolean {
     return !!getConnectedEdges(mapStore.selectedNode.id).find( 
         connection => (connection.target === node.node.id || connection.source === node.node.id)
     )
+}
+
+//DIRTY DIRTY HACKS
+const centerMap = function(node:any) {
+    const vfMap = document.getElementById("vf-map");
+    //Need to find a better way to get these.
+    const NODE_WIDTH_OFFSET = -120;
+    const NODE_HEIGHT_OFFSET = 150;
+
+    if (!!vfMap) {
+        setViewport(
+            {
+                x: -node.position.x - NODE_WIDTH_OFFSET + (vfMap?.clientHeight / 2),
+                y:  -node.position.y - NODE_HEIGHT_OFFSET + (vfMap?.clientWidth / 2),
+                zoom: 1.0,
+            }, 
+            { duration: 600 }
+        );
+    }
 }
 
 
@@ -93,10 +126,10 @@ const scoutRevealNodes = function(element:GraphNode) {
     })
 }
 const refreshMap = function() {
-    nodes.value.forEach(element => {
+    nodes.value.forEach((element: GraphNode) => {
         if(element.data?.killCount >= element.data?.scoutThreshold) {
             element.hidden = false;
-            element.data.intereactable = true;
+            element.data.interactable = true;
 
             scoutRevealNodes(element);
         }
@@ -120,3 +153,9 @@ watch(scouted$, (signal) => {
 
 
 </script>
+<style>
+    #vf-map {
+        height: 100%;
+        width: 100%;
+    }
+</style>

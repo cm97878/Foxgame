@@ -4,6 +4,7 @@ import { computed, ref, watch } from "vue";
 import { useMapStore } from './mapStore';
 import { useGameTick } from './gameTick';
 import { GameStage } from '@/enums/gameStage';
+import { SpecialAreaId } from '@/enums/areaEnums';
 
 export const usePlayer = defineStore('player', () => {
 
@@ -42,30 +43,35 @@ export const usePlayer = defineStore('player', () => {
     const mapStore = useMapStore();
     const { tick$ } = storeToRefs(gameTick);
     watch( tick$, () => {
-        console.log('tick!')
-        //HP Regen. Set to .1/sec for now, can make a variable later.
-        //NOTE: maybe turn this off during combat? Can think on this later. -Malt
-        const stats = baseStats.value
-        const energy = currencies.value
-        if (stats.currentHealth.lt(stats.maxHealth)) {
-            const hpRegen = 0.1;
-            if(Decimal.add(stats.currentHealth, hpRegen).gte(stats.maxHealth)) {
-                baseStats.value.currentHealth = stats.maxHealth
-            } else {
-                // Need to figure out what rounds to decimal places in break_infinity.js
-                baseStats.value.currentHealth = Decimal.add(stats.currentHealth, hpRegen)
+        const areaId = mapStore.isSpecial
+
+        //Only regen at home.
+        if(areaId === SpecialAreaId.HOME) {
+            //HP Regen. Set to .5/sec for now, can make a variable later.
+            const stats = baseStats.value
+            const energy = currencies.value
+            if (stats.currentHealth.lt(stats.maxHealth)) {
+                const hpRegen = 0.5;
+                if(Decimal.add(stats.currentHealth, hpRegen).gte(stats.maxHealth)) {
+                    baseStats.value.currentHealth = stats.maxHealth
+                } else {
+                    // Need to figure out what rounds to decimal places in break_infinity.js
+                    baseStats.value.currentHealth = Decimal.add(stats.currentHealth, hpRegen)
+                }
+            }
+
+            //Energy Regen
+            if (energy.energy < energy.maxEnergy) {
+                const energyRegen = 0.1;
+                if((energy.energy + energyRegen) > energy.maxEnergy) {
+                    currencies.value.energy = energy.maxEnergy
+                } else {
+                    currencies.value.energy = Number((energy.energy + energyRegen).toFixed(2))
+                }
             }
         }
 
-        //Energy Regen
-        if (energy.energy < energy.maxEnergy) {
-            const energyRegen = 0.1;
-            if((energy.energy + energyRegen) > energy.maxEnergy) {
-                currencies.value.energy = energy.maxEnergy
-            } else {
-                currencies.value.energy = Number((energy.energy + energyRegen).toFixed(2))
-            }
-        }
+
     })
 
 
