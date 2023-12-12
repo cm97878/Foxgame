@@ -28,12 +28,16 @@ export const usePlayer = defineStore('player', () => {
 
     const name = ref("Fox")
     const tails = ref(1)
-    const baseStats = ref({
+    const playerStats = ref({
         attack: new Decimal("3"),
         defense: new Decimal("0"),
         maxHealth: new Decimal("15"),
         currentHealth: new Decimal("15"),
-        spd: 200
+        spd: 200,
+    })
+    const baseStats = ref({
+        hpRegen: .5,
+        energyRegen: .2
     })
 
 
@@ -48,21 +52,21 @@ export const usePlayer = defineStore('player', () => {
         //Only regen at home.
         if(areaId === SpecialAreaId.HOME) {
             //HP Regen. Set to .5/sec for now, can make a variable later.
-            const stats = baseStats.value
+            const stats = playerStats.value
             const energy = currencies.value
             if (stats.currentHealth.lt(stats.maxHealth)) {
                 const hpRegen = 0.5;
                 if(Decimal.add(stats.currentHealth, hpRegen).gte(stats.maxHealth)) {
-                    baseStats.value.currentHealth = stats.maxHealth
+                    playerStats.value.currentHealth = stats.maxHealth
                 } else {
                     // Need to figure out what rounds to decimal places in break_infinity.js
-                    baseStats.value.currentHealth = Decimal.add(stats.currentHealth, hpRegen)
+                    playerStats.value.currentHealth = Decimal.add(stats.currentHealth, hpRegen)
                 }
             }
 
             //Energy Regen
             if (energy.energy < energy.maxEnergy) {
-                const energyRegen = 0.1;
+                const energyRegen = 0.2;
                 if((energy.energy + energyRegen) > energy.maxEnergy) {
                     currencies.value.energy = energy.maxEnergy
                 } else {
@@ -77,16 +81,16 @@ export const usePlayer = defineStore('player', () => {
 
 
     // -- Getters/Computeds --
-    const getAtk = computed(() => baseStats.value.attack)
-    const getDef = computed(() => baseStats.value.defense)
-    const getHpCurr = computed(() => baseStats.value.currentHealth)
-    const getHpMax = computed(() => baseStats.value.maxHealth)
-    const getSpd = computed(() => baseStats.value.spd)
+    const getAtk = computed(() => playerStats.value.attack)
+    const getDef = computed(() => playerStats.value.defense)
+    const getHpCurr = computed(() => playerStats.value.currentHealth)
+    const getHpMax = computed(() => playerStats.value.maxHealth)
+    const getSpd = computed(() => playerStats.value.spd)
     const getSoul = computed(() => currencies.value.soul)
     const getMaxSoul = computed(() => currencies.value.maxSoul)
     const getEnergyDisplay = computed(() => currencies.value.energy + "/" + currencies.value.maxEnergy)
     const playerHpRatio = computed(() => {
-        let x = baseStats.value.currentHealth.dividedBy(baseStats.value.maxHealth).times(100)
+        let x = playerStats.value.currentHealth.dividedBy(playerStats.value.maxHealth).times(100)
         if(x.gte("0")) {
             return ( x + "%")
         } 
@@ -95,6 +99,9 @@ export const usePlayer = defineStore('player', () => {
         }
     })
     const getFood = computed(() => currencies.value.food)
+
+    const getHPRegen = computed(() => baseStats.value.hpRegen)
+    const getEnergyRegen = computed(() => baseStats.value.energyRegen)
 
     // TODO: Need to encapsulate these two in a better place later. -Malt
     const totalKills = computed(() => {
@@ -139,10 +146,10 @@ export const usePlayer = defineStore('player', () => {
 
     function damage(damageAmnt:Decimal|number, pierce:Boolean=false) {
         if(pierce) {
-            baseStats.value.currentHealth = Decimal.subtract(baseStats.value.currentHealth, Decimal.subtract(damageAmnt, baseStats.value.defense));
+            playerStats.value.currentHealth = Decimal.subtract(playerStats.value.currentHealth, Decimal.subtract(damageAmnt, playerStats.value.defense));
         }
         else {
-            baseStats.value.currentHealth = Decimal.subtract(baseStats.value.currentHealth, damageAmnt);
+            playerStats.value.currentHealth = Decimal.subtract(playerStats.value.currentHealth, damageAmnt);
         }
     }
 
@@ -166,17 +173,17 @@ export const usePlayer = defineStore('player', () => {
     }
 
     function addBaseAtk(amnt:Decimal|number) {
-        baseStats.value.attack = Decimal.add(baseStats.value.attack, amnt);
+        playerStats.value.attack = Decimal.add(playerStats.value.attack, amnt);
     }
     function addBaseDef(amnt:Decimal|number) {
-        baseStats.value.defense = Decimal.add(baseStats.value.defense, amnt);
+        playerStats.value.defense = Decimal.add(playerStats.value.defense, amnt);
     }
     function addBaseHealth(amnt:Decimal|number) {
-        baseStats.value.maxHealth = Decimal.add(baseStats.value.maxHealth, amnt);
+        playerStats.value.maxHealth = Decimal.add(playerStats.value.maxHealth, amnt);
     }
     //name this different just cause lower is better, functions different than the others
     function modifySpeed(amnt:number) {
-        baseStats.value.spd += amnt;
+        playerStats.value.spd += amnt;
     }
 
     function modifyMaxSoul(amnt:Decimal|number) {
@@ -203,9 +210,10 @@ export const usePlayer = defineStore('player', () => {
 
     return {
         //Stats
-        currencies, name, tails, baseStats, gameStage, furthestStage, loaded, firstMove, deniedSoul,
+        currencies, name, tails, playerStats, gameStage, furthestStage, loaded, firstMove, deniedSoul,
         //Computeds
         getAtk, getDef, getHpCurr, getHpMax, getSpd, getSoul, getMaxSoul, getEnergyDisplay, playerHpRatio, totalKills, totalScouted, getFood,
+        getHPRegen, getEnergyRegen,
         // Actions
         addSoul, subtractSoul, damage, payEnergy, enoughSoul, enoughScouted, enoughKills, enoughEnergy, addBaseAtk, addBaseDef,
         addBaseHealth, modifySpeed, modifyMaxSoul, addTail, addFood

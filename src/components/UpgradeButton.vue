@@ -15,6 +15,7 @@ import { usePlayer } from '@/stores/player';
 import { useUpgradeStore } from '@/stores/upgradeStore';
 
 const name = "upgradebutton";
+//TODO: Possibly merge this into UpgradeTooltip.vue -Malt
 
 
 const player = usePlayer();

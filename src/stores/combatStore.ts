@@ -94,7 +94,7 @@ export const useCombatStore = defineStore('combat', () => {
     function runTurn(): void {
         const player = usePlayer();
         //Check for battle end.
-        if(player.baseStats.currentHealth.lte(0)){
+        if(player.getHpCurr.lte(0)){
             pushToCombatLog("Defeat..")
             mapStore.selectedNode = findNode("1")!
             endCombat();

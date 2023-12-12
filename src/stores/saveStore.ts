@@ -23,12 +23,12 @@ export const useSaveStore = defineStore('saveStore', () =>{
         },
         name: player.name,
         tails: player.tails,
-        baseStats: {
-            attack: player.baseStats.attack,
-            defense: player.baseStats.defense,
-            maxHealth: player.baseStats.maxHealth,
-            currentHealth: player.baseStats.currentHealth,
-            spd: player.baseStats.spd
+        playerStats: {
+            attack: player.playerStats.attack,
+            defense: player.playerStats.defense,
+            maxHealth: player.playerStats.maxHealth,
+            currentHealth: player.playerStats.currentHealth,
+            spd: player.playerStats.spd
         },
         unlocks: {
             playerUpgrades: [] as Array<SaveUpgradeArray>
@@ -51,12 +51,12 @@ export const useSaveStore = defineStore('saveStore', () =>{
             },
             name: player.name,
             tails: player.tails,
-            baseStats: {
-                attack: player.baseStats.attack,
-                defense: player.baseStats.defense,
-                maxHealth: player.baseStats.maxHealth,
-                currentHealth: player.baseStats.currentHealth,
-                spd: player.baseStats.spd
+            playerStats: {
+                attack: player.playerStats.attack,
+                defense: player.playerStats.defense,
+                maxHealth: player.playerStats.maxHealth,
+                currentHealth: player.playerStats.currentHealth,
+                spd: player.playerStats.spd
             },
             unlocks: {
                 playerUpgrades: [] as Array<SaveUpgradeArray>
@@ -94,12 +94,12 @@ export const useSaveStore = defineStore('saveStore', () =>{
         player.currencies.maxSoul = new Decimal(saveFile.currencies.maxSoul);
         player.name = saveFile.name;
         player.tails = saveFile.tails;
-        player.baseStats = {
-            attack: new Decimal(saveFile.baseStats.attack),
-            defense: new Decimal(saveFile.baseStats.defense),
-            maxHealth: new Decimal(saveFile.baseStats.maxHealth),
-            currentHealth: new Decimal(saveFile.baseStats.currentHealth),
-            spd: saveFile.baseStats.spd
+        player.playerStats = {
+            attack: new Decimal(saveFile.playerStats.attack),
+            defense: new Decimal(saveFile.playerStats.defense),
+            maxHealth: new Decimal(saveFile.playerStats.maxHealth),
+            currentHealth: new Decimal(saveFile.playerStats.currentHealth),
+            spd: saveFile.playerStats.spd
         };
         saveFile.unlocks.playerUpgrades.forEach(function(item) {
             let temp = upgrades.soul.get(item.key);
