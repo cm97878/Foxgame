@@ -20,10 +20,14 @@
                     <span :class="{ 'tab-selected': activeTabWorld === Tab.AREA_ACTIONS }" @click="showTabWorld(Tab.AREA_ACTIONS)" class="tab">
                         Explore
                     </span>
+                    <span :class="{ 'tab-selected': activeTabWorld === Tab.HOME }" @click="showTabWorld(Tab.HOME)" class="tab">
+                        Home
+                    </span>
                 </div>
                 <div class="content-container">
                     <CombatPanel v-bind:active="activeTabWorld" />
                     <ExplorePanel v-bind:active="activeTabWorld" />
+                    <BasePanel v-bind:active="activeTabWorld" />
                 </div>
             </div>
 
@@ -84,6 +88,7 @@
     import SoulUpgradePanel from './components/SoulUpgradePanel.vue'
     import OvermapPanel from './components/OvermapPanel.vue';
     import CutsceneModal from './components/CutsceneModal.vue';
+    import BasePanel from './components/BasePanel.vue';
     import { Panels, Tab } from './enums/panels';
     import { usePlayer } from './stores/player';
     import { onMounted, ref } from 'vue';
