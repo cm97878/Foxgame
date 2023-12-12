@@ -11,12 +11,12 @@
     </button>
 </template>
 <script setup lang="ts">
-    let props = defineProps({
-        upgradeName: String,
-        tooltipText: String,
-        effect: String,
-        upgradeCost: String
-    })
+let props = defineProps({
+    upgradeName: String,
+    tooltipText: String,
+    effect: String,
+    upgradeCost: String
+})
 </script>
 <style>
     .tooltip-button {
@@ -47,5 +47,10 @@
     }
     .divider {
         border-bottom: 1px solid;
+    }
+
+    .tooltip-button {
+        padding: 4px 10px;
+        margin: 0 20px;
     }
 </style>

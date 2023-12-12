@@ -9,7 +9,7 @@
             <div id="info_top_buttons_container">
                 <button @click="showPanel(Panels.WORLD)" v-show="combatUnlock" class="info_buttons">World</button>
                 <button @click="showPanel(Panels.SOUL)" v-show="soulUnlock" class="info_buttons">Soul</button>
-                <button @click="eventStore.callCutscene(eventStore.cutscenes.get('intro'))"  class="info_buttons">Cutscene</button>
+                <!-- <button @click="eventStore.callCutscene(eventStore.cutscenes.get('intro'))"  class="info_buttons">Cutscene</button> -->
             </div>
             
             <div v-show="activePanel == Panels.WORLD">
@@ -71,7 +71,7 @@
                 <button @click="saves.save()">Save</button>
                 <button @click="saves.load()">Load</button>
                 <button @click="player.addSoul(1000000000000000);">add max soul</button>
-                <button @click="loadToggle">{{ toggleState === "1" ? "Save will load" : "Save wont load" }}</button>
+                <button @click="loadToggle">{{ toggleState === "1" ? "Using save slot" : "Not using saves" }}</button>
                 <button @click="player.gameStage = GameStage.PRE_TAILS">Set gamestage intro->pre_tails</button>
                 <button @click="mapStore.callRandomEncounter(Zone.FOREST)">Fight Enemy</button>
             </div>
@@ -181,8 +181,8 @@
     }
 
     #info_top_buttons_container {
-        height: 80px;
-        min-height: 80px;
+        height: 48px;
+        min-height: 48px;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
@@ -193,7 +193,7 @@
         width: 120px;
         padding-left: 10px;
         padding-right: 10px;
-        margin: 5px 5px 0;
+        margin: 0 5px;
     }
 
     .info_buttons:hover {
@@ -227,5 +227,9 @@
     .tab-selected {
         color: gold !important;
         background:grey;
+    }
+
+    .content-container {
+        margin: 10px;
     }
 </style>

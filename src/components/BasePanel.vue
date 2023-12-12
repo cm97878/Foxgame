@@ -53,7 +53,6 @@ const upgrades = [{
     .home-box {
         display: flex;
         flex-direction: column;
-        margin: 10px;
         align-items: center;
         .base-pic {
             width: 80%;
@@ -70,11 +69,6 @@ const upgrades = [{
         .upgrades {
             display: flex;
             flex-wrap: wrap;
-        }
-
-        button {
-            padding: 4px 10px;
-            margin: 0 20px;
         }
     }
 </style>
