@@ -58,7 +58,6 @@
                     <div style="width: 100%; height: 100%">
                         Atk: {{ combatStore.getOpponentStats.attack }} <br />
                         Def: {{ combatStore.getOpponentStats.defense }} <br />
-
                     </div>
                 </div>
             </div>
@@ -114,5 +113,13 @@ defineExpose({ enemyHpRatio })
 
     #info_enemy_hp_bar_solid {
         width: v-bind("enemyHpRatio")
+    }
+
+    .combat_actions {
+        button {
+            padding: 10px;
+            margin-top: 4px;
+            margin-right: 8px;
+        }
     }
 </style>

@@ -1,9 +1,7 @@
 <template>
-    <button @click="buy()" v-if="show" :class="{bought: is_bought}" :disabled="!canAfford">
-        {{ title }} <br />
-        {{ description }} <br />
-        {{ costDisplay }}
-    </button>
+    <UpgradeTooltip @click="buy()" v-if="show" :class="{bought: is_bought}" :disabled="!canAfford" :upgradeName="title" :tooltipText="description"
+    :upgradeCost="costDisplay">
+    </UpgradeTooltip>
 </template>
 
 
@@ -13,8 +11,10 @@ import Decimal from 'break_infinity.js';
 import { computed, ref, type PropType } from 'vue';
 import { usePlayer } from '@/stores/player';
 import { useUpgradeStore } from '@/stores/upgradeStore';
+import UpgradeTooltip from './UpgradeTooltip.vue';
 
 const name = "upgradebutton";
+//TODO: Possibly merge this into UpgradeTooltip.vue -Malt
 
 
 const player = usePlayer();

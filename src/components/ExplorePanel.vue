@@ -61,7 +61,6 @@ const eventCleanup = function():void {
     .area-box {
         display: flex;
         flex-direction: column;
-        padding-top: 10px;
         align-items: center;
         button {
             padding: 4px 10px;

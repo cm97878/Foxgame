@@ -42,7 +42,7 @@ const player = usePlayer();
 const eventStore = useEventStore();
 const combatStore = useCombatStore();
 
-const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick,  findNode, findEdge, getConnectedEdges,
+const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick,  findNode, getConnectedEdges,
      addEdges, nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable, panOnDrag, setViewport } = useVueFlow({ id:"map"});
 
 onPaneReady((instance) => {
@@ -77,7 +77,8 @@ onNodeClick((node) => {
         centerMap(chosenNode)
 
         mapStore.setTextAppend()
-        if(player.gameStage != GameStage.INTRO && !(mapStore.isSpecial === SpecialAreaId.HOME)) {
+        //TODO: Tweak this later.
+        if(!(mapStore.isSpecial === SpecialAreaId.HOME)) {
             mapStore.callRandomEncounter(Zone.FOREST)
         }
     }

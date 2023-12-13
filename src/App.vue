@@ -9,7 +9,7 @@
             <div id="info_top_buttons_container">
                 <button @click="showPanel(Panels.WORLD)" v-show="combatUnlock" class="info_buttons">World</button>
                 <button @click="showPanel(Panels.SOUL)" v-show="soulUnlock" class="info_buttons">Soul</button>
-                <button @click="eventStore.callCutscene(eventStore.cutscenes.get('intro'))"  class="info_buttons">Cutscene</button>
+                <!-- <button @click="eventStore.callCutscene(eventStore.cutscenes.get('intro'))"  class="info_buttons">Cutscene</button> -->
             </div>
             
             <div v-show="activePanel == Panels.WORLD">
@@ -20,10 +20,14 @@
                     <span :class="{ 'tab-selected': activeTabWorld === Tab.AREA_ACTIONS }" @click="showTabWorld(Tab.AREA_ACTIONS)" class="tab">
                         Explore
                     </span>
+                    <span :class="{ 'tab-selected': activeTabWorld === Tab.HOME }" @click="showTabWorld(Tab.HOME)" class="tab">
+                        Home
+                    </span>
                 </div>
                 <div class="content-container">
                     <CombatPanel v-bind:active="activeTabWorld" />
                     <ExplorePanel v-bind:active="activeTabWorld" />
+                    <BasePanel v-bind:active="activeTabWorld" />
                 </div>
             </div>
 
@@ -67,7 +71,7 @@
                 <button @click="saves.save()">Save</button>
                 <button @click="saves.load()">Load</button>
                 <button @click="player.addSoul(1000000000000000);">add max soul</button>
-                <button @click="loadToggle">{{ toggleState === "1" ? "Save will load" : "Save wont load" }}</button>
+                <button @click="loadToggle">{{ toggleState === "1" ? "Using save slot" : "Not using saves" }}</button>
                 <button @click="player.gameStage = GameStage.PRE_TAILS">Set gamestage intro->pre_tails</button>
                 <button @click="mapStore.callRandomEncounter(Zone.FOREST)">Fight Enemy</button>
             </div>
@@ -84,6 +88,7 @@
     import SoulUpgradePanel from './components/SoulUpgradePanel.vue'
     import OvermapPanel from './components/OvermapPanel.vue';
     import CutsceneModal from './components/CutsceneModal.vue';
+    import BasePanel from './components/BasePanel.vue';
     import { Panels, Tab } from './enums/panels';
     import { usePlayer } from './stores/player';
     import { onMounted, ref } from 'vue';
@@ -150,6 +155,52 @@
     })
 </script>
 <style>
+    #window_border {
+        width: 95vw;
+        height: 95vh;
+        align-items: stretch;
+        margin: 6px;
+        display: flex;
+        background-image: linear-gradient(rgb(53, 53, 53), rgb(25, 25, 25));
+        border: 4px ridge rgb(179, 11, 11);
+        font-family: 'NameHere'; 
+        font-size: 20px;
+    }
+
+    .app_container {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        min-width: 480px;
+        min-height: 480px;
+        width: 50%;
+    }
+
+    #left_side_container {
+        border-right: 4px solid rgb(179, 11, 11);
+    }
+
+    #info_top_buttons_container {
+        height: 48px;
+        min-height: 48px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .info_buttons {
+        height: 30px;
+        width: 120px;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin: 0 5px;
+    }
+
+    .info_buttons:hover {
+        background-color: rgb(0, 140, 255);
+        color: rgb(12, 12, 12);
+    }
+
     .in-combat {
         color:red;
     }
@@ -176,5 +227,9 @@
     .tab-selected {
         color: gold !important;
         background:grey;
+    }
+
+    .content-container {
+        margin: 10px;
     }
 </style>
