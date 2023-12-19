@@ -70,13 +70,13 @@ export const useMapStore = defineStore('mapStuff', {
             {
                 id: '2',
                 label: '',
-                position: { x: 100, y: 100 },
+                position: { x: -80, y: 260 },
                 class: 'light',
                 type: 'custom',
                 data: {
-                    areaName: "Dense Foliage",
+                    areaName: "Cliffside",
                     zone: Zone.FOREST,
-                    description: "this be some dense foliage",
+                    description: "The brush gives way",
                     killCount: 0,
                     scoutThreshold: 1
                 } as AreaData
@@ -84,11 +84,11 @@ export const useMapStore = defineStore('mapStuff', {
             {
                 id: '3',
                 label: '',
-                position: { x: 400, y: 100 },
+                position: { x: 450, y: -10 },
                 class: 'light',
                 type: 'custom',
                 data: {
-                    areaName: "Small Clearing",
+                    areaName: "Cliffside",
                     zone: Zone.FOREST,
                     description: "A specific clearing description.",
                     killCount: 0,
@@ -98,11 +98,11 @@ export const useMapStore = defineStore('mapStuff', {
             {
                 id: '4',
                 label: '',
-                position: { x: 400, y: 200 },
+                position: { x: 680, y: 300 },
                 class: 'light',
                 type: 'custom',
                 data: {
-                    areaName: "Small Clearing",
+                    areaName: "Brambles",
                     zone: Zone.FOREST,
                     description: "A specific clearing description.",
                     killCount: 0,
@@ -112,11 +112,11 @@ export const useMapStore = defineStore('mapStuff', {
             {
                 id: '5',
                 label: '',
-                position: { x: 400, y: 300 },
+                position: { x: 695, y: 520 },
                 class: 'light',
                 type: 'custom',
                 data: {
-                    areaName: "Small Clearing",
+                    areaName: "Underbrush",
                     zone: Zone.FOREST,
                     description: "A specific clearing description.",
                     killCount: 0,
@@ -126,25 +126,134 @@ export const useMapStore = defineStore('mapStuff', {
             {
                 id: '6',
                 label: '',
-                position: { x: 100, y: 200 },
+                position: { x: -10, y: 580 },
                 class: 'light',
                 type: 'custom',
                 data: {
-                    areaName: "Small Clearing",
+                    areaName: "Boulder",
                     zone: Zone.FOREST,
                     description: "A specific clearing description.",
                     killCount: 0,
                     scoutThreshold: 1
                 } as AreaData
             },
+            {
+                id: '7',
+                label: '',
+                position: { x: 60, y: 900 },
+                class: 'light',
+                type: 'custom',
+                data: {
+                    areaName: "Cliffside",
+                    zone: Zone.FOREST,
+                    description: "A specific clearing description.",
+                    killCount: 0,
+                    scoutThreshold: 1
+                } as AreaData
+            },
+            {
+                id: '8',
+                label: '',
+                position: { x: 530, y: 880 },
+                class: 'light',
+                type: 'custom',
+                data: {
+                    areaName: "Underbrush",
+                    zone: Zone.FOREST,
+                    description: "A specific clearing description.",
+                    killCount: 0,
+                    scoutThreshold: 1
+                } as AreaData
+            },
+            {
+                id: '9',
+                label: '',
+                position: { x: 880, y: 730 },
+                class: 'light',
+                type: 'custom',
+                data: {
+                    areaName: "Old Oak",
+                    zone: Zone.FOREST,
+                    description: "A specific clearing description.",
+                    killCount: 0,
+                    scoutThreshold: 1
+                } as AreaData
+            },
+            {
+                id: '10',
+                label: '',
+                position: { x: 1150, y: 745 },
+                class: 'light',
+                type: 'custom',
+                data: {
+                    areaName: "Faded Trail (S-E)",
+                    zone: Zone.FOREST,
+                    description: "A specific clearing description.",
+                    killCount: 0,
+                    scoutThreshold: 1
+                } as AreaData
+            },
+            {
+                id: '11',
+                label: '',
+                position: { x: 1500, y: 680 },
+                class: 'light',
+                type: 'custom',
+                data: {
+                    areaName: "Faded Trail (W-E)",
+                    zone: Zone.FOREST,
+                    description: "A specific clearing description.",
+                    killCount: 0,
+                    scoutThreshold: 1
+                } as AreaData
+            },
+            {
+                id: '12',
+                label: '',
+                position: { x: -180, y: 1250 },
+                class: 'light',
+                type: 'custom',
+                data: {
+                    areaName: "Cliffside Clearing",
+                    zone: Zone.FOREST,
+                    description: "A specific clearing description.",
+                    killCount: 0,
+                    scoutThreshold: 1
+                } as AreaData
+            },
+            {
+                id: '13',
+                label: '',
+                position: { x: 1000, y: 1100 },
+                class: 'light',
+                type: 'custom',
+                data: {
+                    //Will be special
+                    areaName: "Strange Clearing",
+                    zone: Zone.FOREST,
+                    description: "A specific clearing description.",
+                    killCount: 0,
+                    scoutThreshold: 1
+                } as AreaData
+            },
+            
         ],
+        //this fucking sucks to comprehend, we should change the IDs to be descriptors later
         edges: [
             { id: 'e1-2', source: '1', target: '2' },
             { id: 'e1-3', source: '1', target: '3' },
             { id: 'e3-4', source: '3', target: '4' },
             { id: 'e4-5', source: '4', target: '5' },
-            { id: 'e6-5', source: '6', target: '5' },
             { id: 'e2-6', source: '2', target: '6' },
+            { id: 'e6-7', source: '6', target: '7' },
+            { id: 'e7-8', source: '7', target: '8' },
+            { id: 'e8-9', source: '8', target: '9' },
+            { id: 'e5-9', source: '5', target: '9' },
+            { id: 'e9-10', source: '9', target: '10' },
+            { id: 'e10-11', source: '10', target: '11' },
+            { id: 'e10-13', source: '10', target: '13' },
+            { id: '7-12', source: '7', target: '12' },
+            
         ],
         areaData: {
             //holds the thing to display and the list of things that can be displayed

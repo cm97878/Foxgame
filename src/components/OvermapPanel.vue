@@ -71,16 +71,19 @@ onNodeClick((node) => {
             combatStore.startCombat(mapStore.enemyList[0]);
             eventStore.callCutscene(eventStore.cutscenes.get("firstMove"));
         }
+        
+        //TODO: Tweak this later.
+        else if(!(mapStore.isSpecial === SpecialAreaId.HOME)) {
+            mapStore.callRandomEncounter(Zone.FOREST)
+        }
 
         const chosenNode = findNode(node.node.id)!;
         mapStore.selectedNode = chosenNode;
         centerMap(chosenNode)
 
         mapStore.setTextAppend()
-        //TODO: Tweak this later.
-        if(!(mapStore.isSpecial === SpecialAreaId.HOME)) {
-            mapStore.callRandomEncounter(Zone.FOREST)
-        }
+        
+
     }
 })
 const isConnected = function(node: any): boolean {
@@ -90,6 +93,13 @@ const isConnected = function(node: any): boolean {
 }
 
 //DIRTY DIRTY HACKS
+//FIXME: Just wanted to advise, this does break if the window is not fullscreen.
+//Other issues i've noticed while fuckin around:
+//Dying doesn't set it back to home
+//If you scroll in and out you can move the map around in a weird way
+//maybe we shouldnt lock the map while making it at least cause hoo BOY it makes it annoying to look around lmao
+//also you cant scroll out very far? we should probably change that at least for now, so we can get a better overview of how it looks as it expands
+//also due to the spacing we may wanna make the text bigger
 const centerMap = function(node:any) {
     const vfMap = document.getElementById("vf-map");
     //Need to find a better way to get these.

@@ -9,7 +9,6 @@ import { GameStage } from '@/enums/gameStage';
 import { useVueFlow } from '@vue-flow/core';
 
 export const useCombatStore = defineStore('combat', () => {
-    let turnTimer = 0
     let turnNumber = 0
     const { findNode } = useVueFlow({ id:"map"});
 
@@ -50,11 +49,9 @@ export const useCombatStore = defineStore('combat', () => {
         for(turnNumber = 1; carouselArray.value.length < 8; turnNumber++) {
             if(turnNumber%player.getSpd === 0) {
                 carouselArray.value.push({turnNumber: turnNumber, type: "player"})
-                turnNumber++;
             }
             if(turnNumber%enemy.spd === 0) {
-                carouselArray.value.push({turnNumber: turnNumber, type: "enemy"})
-                turnNumber++;
+                carouselArray.value.push({turnNumber: -turnNumber, type: "enemy"})
             }   
         }
         runTurn();
@@ -133,14 +130,12 @@ export const useCombatStore = defineStore('combat', () => {
     function repopulateTurns() {
         const player = usePlayer();
         carouselArray.value.shift();
-        for(; carouselArray.value.length < 8; turnTimer++) {
-            if(turnTimer%player.getSpd === 0) {
+        for(; carouselArray.value.length < 8; turnNumber++) {
+            if(turnNumber%player.getSpd === 0) {
                 carouselArray.value.push({turnNumber: turnNumber, type: "player"})
-                turnNumber++;
             }
-            if(turnTimer%currentOpponent.value.spd === 0) {
-                carouselArray.value.push({turnNumber: turnNumber, type: "enemy"})
-                turnNumber++;
+            if(turnNumber%currentOpponent.value.spd === 0) {
+                carouselArray.value.push({turnNumber: -turnNumber, type: "enemy"})
             }
         }
     }
@@ -150,7 +145,6 @@ export const useCombatStore = defineStore('combat', () => {
         activeCombat.value = false;
         playerTurn.value = false;
         turnNumber = 0;
-        turnTimer = 0;
     }
 
     return {
