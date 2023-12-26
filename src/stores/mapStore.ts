@@ -76,7 +76,7 @@ export const useMapStore = defineStore('mapStuff', {
                 data: {
                     areaName: "Cliffside",
                     zone: Zone.FOREST,
-                    description: "The brush gives way",
+                    description: "The brush here gives way to rocky soil a few feet from the rough cliff. The sharp stones dig into your paws.",
                     killCount: 0,
                     scoutThreshold: 1
                 } as AreaData
@@ -90,7 +90,7 @@ export const useMapStore = defineStore('mapStuff', {
                 data: {
                     areaName: "Cliffside",
                     zone: Zone.FOREST,
-                    description: "A specific clearing description.",
+                    description: "A narrow path follows the cliffside, between the dense brush and rocky wall. The tendrils of a thicket of brambles further along snake along the side of the path.",
                     killCount: 0,
                     scoutThreshold: 1
                 } as AreaData
@@ -104,7 +104,7 @@ export const useMapStore = defineStore('mapStuff', {
                 data: {
                     areaName: "Brambles",
                     zone: Zone.FOREST,
-                    description: "A specific clearing description.",
+                    description: "A mass of dense brambles lie to the north. You're agile, but not that agile - you would be shredded if you tried to pass through. A well-trod path winds south along the edge.",
                     killCount: 0,
                     scoutThreshold: 1
                 } as AreaData
@@ -118,7 +118,7 @@ export const useMapStore = defineStore('mapStuff', {
                 data: {
                     areaName: "Underbrush",
                     zone: Zone.FOREST,
-                    description: "A specific clearing description.",
+                    description: "Sparse underbrush covers the ground here, right up to the brambles to the east. A trail from the north fades away here, but the brush is thin enough to pass through with ease.",
                     killCount: 0,
                     scoutThreshold: 1
                 } as AreaData
@@ -132,7 +132,7 @@ export const useMapStore = defineStore('mapStuff', {
                 data: {
                     areaName: "Boulder",
                     zone: Zone.FOREST,
-                    description: "A specific clearing description.",
+                    description: "A chunk of the cliffside has fallen here, a rockslide that brought a massive boulder to rest. Old trees, knocked down by the shifting earth, have created a rather unpleasant barrier - some thorny plant has overtaken this area. Over the boulder, not around it.", //TODO: We may want to add 'blockers', that prevent traversal past? This could be one, needs xyz upgrade to have the agility to leap up and over
                     killCount: 0,
                     scoutThreshold: 1
                 } as AreaData
@@ -146,7 +146,7 @@ export const useMapStore = defineStore('mapStuff', {
                 data: {
                     areaName: "Cliffside",
                     zone: Zone.FOREST,
-                    description: "A specific clearing description.",
+                    description: "The cliff face continues to the north, and veers to the left as it heads south. A small natural path entices you back into the forest.",
                     killCount: 0,
                     scoutThreshold: 1
                 } as AreaData
@@ -160,7 +160,7 @@ export const useMapStore = defineStore('mapStuff', {
                 data: {
                     areaName: "Underbrush",
                     zone: Zone.FOREST,
-                    description: "A specific clearing description.",
+                    description: "Sparse underbrush covers the ground here. Through it, a natural path runs east to west, winding amongst the foliage.",
                     killCount: 0,
                     scoutThreshold: 1
                 } as AreaData
@@ -174,7 +174,7 @@ export const useMapStore = defineStore('mapStuff', {
                 data: {
                     areaName: "Old Oak",
                     zone: Zone.FOREST,
-                    description: "A specific clearing description.",
+                    description: "The brush gives way to grass and dirt around a massive oak tree, towering above the rest. There is something different in the air about it; a history here. One from before you arrived, and one that will continue after you have left. You wonder, briefly, what secrets its high branches may hold.",
                     killCount: 0,
                     scoutThreshold: 1
                 } as AreaData
@@ -188,7 +188,7 @@ export const useMapStore = defineStore('mapStuff', {
                 data: {
                     areaName: "Faded Trail (S-E)",
                     zone: Zone.FOREST,
-                    description: "A specific clearing description.",
+                    description: "A natural trail from the west joins with a more defined path that runs from the south on a gentle eastward curve. This path seems to be marked with stones along the sides, and remains clearly visible despite being rather overgrown. The large thicket of brambles follows the path on the north.",
                     killCount: 0,
                     scoutThreshold: 1
                 } as AreaData
@@ -202,7 +202,7 @@ export const useMapStore = defineStore('mapStuff', {
                 data: {
                     areaName: "Faded Trail (W-E)",
                     zone: Zone.FOREST,
-                    description: "A specific clearing description.",
+                    description: "A stone-marked trail runs west to east, with thick brambles meandering along to its north.",
                     killCount: 0,
                     scoutThreshold: 1
                 } as AreaData
@@ -216,7 +216,7 @@ export const useMapStore = defineStore('mapStuff', {
                 data: {
                     areaName: "Cliffside Clearing",
                     zone: Zone.FOREST,
-                    description: "A specific clearing description.",
+                    description: "The cliff pulls away from the forest and, here, the forest does not follow, creating a rocky clearing.",
                     killCount: 0,
                     scoutThreshold: 1
                 } as AreaData
@@ -231,7 +231,7 @@ export const useMapStore = defineStore('mapStuff', {
                     //Will be special
                     areaName: "Strange Clearing",
                     zone: Zone.FOREST,
-                    description: "A specific clearing description.",
+                    description: "i imagine special locations are gonna just have fully different formatting so this doesnt matter lol",
                     killCount: 0,
                     scoutThreshold: 1
                 } as AreaData
