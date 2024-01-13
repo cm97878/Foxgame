@@ -13,7 +13,7 @@
             </div>
         </div>
         <div id="vf-map">
-            <VueFlow :nodes="mapStore.nodes" class="general_outline">
+            <VueFlow :nodes="mapStore.mapNodes" class="general_outline">
                 <template #node-custom ="{ data, id }">
                     <CustomNode :data="data" :id="id"></CustomNode>
                 </template>
@@ -32,9 +32,7 @@ import { VueFlow, useVueFlow, type GraphNode } from '@vue-flow/core';
 import { SpecialAreaId, Zone } from '@/enums/areaEnums';
 import { storeToRefs } from 'pinia';
 import { toRaw, watch } from 'vue';
-import { GameStage } from '@/enums/gameStage';
 import { useCombatStore } from '@/stores/combatStore';
-import { EdgeAnchor } from 'node_modules/@vue-flow/core/dist/components';
 
 
 const name = "overmappanel";
@@ -52,7 +50,7 @@ onPaneReady((instance) => {
     })
 
 
-    addEdges(mapStore.edges);
+    addEdges(mapStore.mapEdges);
     nodesDraggable.value = false;
     elementsSelectable.value = true;
     edgesUpdatable.value = false;
@@ -61,9 +59,11 @@ onPaneReady((instance) => {
 
     edgeUpdaterRadius.value = 0;
     instance.setCenter(0, 0, {zoom: 1.0})
-    mapStore.selectedNode = findNode("1")!;
+    const startingNode = findNode("1")!;
+    mapStore.selectedNode = startingNode;
 
     refreshMap();
+    centerMap(startingNode);
 })
 onNodeClick((node) => {
     if (isConnected(node) && !combatStore.getActiveCombat) {
@@ -83,8 +83,6 @@ onNodeClick((node) => {
         centerMap(chosenNode)
 
         mapStore.setTextAppend()
-        
-
     }
 })
 const isConnected = function(node: any): boolean {
