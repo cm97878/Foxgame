@@ -31,9 +31,10 @@ import { useEventStore } from '@/stores/eventStore';
 import { VueFlow, useVueFlow, type GraphNode } from '@vue-flow/core';
 import { SpecialAreaId, Zone } from '@/enums/areaEnums';
 import { storeToRefs } from 'pinia';
-import { watch } from 'vue';
+import { toRaw, watch } from 'vue';
 import { GameStage } from '@/enums/gameStage';
 import { useCombatStore } from '@/stores/combatStore';
+import { EdgeAnchor } from 'node_modules/@vue-flow/core/dist/components';
 
 
 const name = "overmappanel";
@@ -43,7 +44,7 @@ const eventStore = useEventStore();
 const combatStore = useCombatStore();
 
 const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick,  findNode, getConnectedEdges,
-     addEdges, nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable, panOnDrag, setViewport } = useVueFlow({ id:"map"});
+     addEdges, nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable, panOnDrag, fitView } = useVueFlow({ id:"map"});
 
 onPaneReady((instance) => {
     nodes.value.forEach( element => {
@@ -56,7 +57,7 @@ onPaneReady((instance) => {
     elementsSelectable.value = true;
     edgesUpdatable.value = false;
     nodesConnectable.value = false;
-    panOnDrag.value = false;
+    panOnDrag.value = true;
 
     edgeUpdaterRadius.value = 0;
     instance.setCenter(0, 0, {zoom: 1.0})
@@ -92,30 +93,26 @@ const isConnected = function(node: any): boolean {
     )
 }
 
-//DIRTY DIRTY HACKS
-//FIXME: Just wanted to advise, this does break if the window is not fullscreen.
-//Other issues i've noticed while fuckin around:
+const getConnectedNodes = function(id: string): string[] {
+    return getConnectedEdges(mapStore.selectedNode.id).map( 
+        edge => edge.target === id ? edge.source : edge.target
+    )
+}
+
+//FIXME: Other issues i've noticed while fuckin around:
 //Dying doesn't set it back to home
 //If you scroll in and out you can move the map around in a weird way
-//maybe we shouldnt lock the map while making it at least cause hoo BOY it makes it annoying to look around lmao
 //also you cant scroll out very far? we should probably change that at least for now, so we can get a better overview of how it looks as it expands
 //also due to the spacing we may wanna make the text bigger
-const centerMap = function(node:any) {
-    const vfMap = document.getElementById("vf-map");
-    //Need to find a better way to get these.
-    const NODE_WIDTH_OFFSET = -120;
-    const NODE_HEIGHT_OFFSET = 150;
-
-    if (!!vfMap) {
-        setViewport(
-            {
-                x: -node.position.x - NODE_WIDTH_OFFSET + (vfMap?.clientHeight / 2),
-                y:  -node.position.y - NODE_HEIGHT_OFFSET + (vfMap?.clientWidth / 2),
-                zoom: 1.0,
-            }, 
-            { duration: 600 }
-        );
-    }
+const centerMap = function(node:GraphNode) {
+    //Not sure why I have to do this, but it's needed to make this work.
+    toRaw(node);
+    const nodes = getConnectedNodes(node.id);
+    nodes.push(node.id)
+    fitView({
+        nodes: nodes,
+        duration: 600
+    })
 }
 
 
