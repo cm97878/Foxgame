@@ -46,6 +46,7 @@ export const useCombatStore = defineStore('combat', () => {
         //player.baseStats.currentHealth = player.baseStats.maxHealth; 
 
         //initial 8-turn population of carousel
+        //Carousel item IDs have to be unique, so turnNumber: -turnNumber for enemies to keep that true. If we add more enemies to battle down the line, an easy fix would be incrementing after the decimal point (which would change data type but, whatever)
         for(turnNumber = 1; carouselArray.value.length < 8; turnNumber++) {
             if(turnNumber%player.getSpd === 0) {
                 carouselArray.value.push({turnNumber: turnNumber, type: "player"})
