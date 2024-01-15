@@ -70,7 +70,7 @@ export const useSaveStore = defineStore('saveStore', () =>{
                 bought: entry[1].bought,
             } as SaveUpgradeArray
         })
-        saveFile.kills = Array.from(mapStore.nodes).map((entry) => {
+        saveFile.kills = Array.from(mapStore.mapNodes).map((entry) => {
             return {
                 key: entry.id,
                 kills: entry.data.killCount
@@ -110,7 +110,7 @@ export const useSaveStore = defineStore('saveStore', () =>{
             }
         })
         saveFile.kills.forEach(function(item) {
-            let temp2 = mapStore.nodes.find((element) => element.id === item.key)
+            let temp2 = mapStore.mapNodes.find((element) => element.id === item.key)
             if(temp2) {
                 temp2.data.killCount = item.kills;
             }

@@ -106,14 +106,14 @@ export const usePlayer = defineStore('player', () => {
     // TODO: Need to encapsulate these two in a better place later. -Malt
     const totalKills = computed(() => {
         let val = 0;
-        mapStore.nodes.forEach(element => {
+        mapStore.mapNodes.forEach(element => {
             val += element.data.killCount;
         })
         return val;
     })
     const totalScouted = computed(() => {
         let val = 0;
-        mapStore.nodes.forEach(element => {
+        mapStore.mapNodes.forEach(element => {
             if(element.data.killCount >= element.data.scoutThreshold) {
                 val++;
             }
