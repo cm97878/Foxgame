@@ -51,7 +51,7 @@ export const useMapStore = defineStore('mapStuff', () => {
         soulKill: new Decimal("1"),
     }] as Array<Enemy>;
 
-    const mapNodes = [{
+    const mapNodes = ref([{
         id: '1',
         type: 'custom',
         label: 'Home',
@@ -234,7 +234,7 @@ export const useMapStore = defineStore('mapStuff', () => {
             killCount: 0,
             scoutThreshold: 1
         } as AreaData
-    }];
+    }]);
 
     //this fucking sucks to comprehend, we should change the IDs to be descriptors later
     const mapEdges = [
@@ -285,6 +285,24 @@ export const useMapStore = defineStore('mapStuff', () => {
     });
     const hasData = computed(() => !!selectedNode.value.data);
 
+    const totalKills = computed(() => {
+        let val = 0;
+        mapNodes.value.forEach(element => {
+            val += element.data.killCount;
+        })
+        return val;
+    })
+    const totalScouted = computed(() => {
+        let val = 0;
+        mapNodes.value.forEach(element => {
+            if(element.data.killCount >= element.data.scoutThreshold) {
+                val++;
+            }
+        })
+        return val;
+    })
+
+
     // --- Actions ---
     function setTextAppend(): void {
         if(hasData && (Math.floor(Math.random() * 100) <= 20)) {
@@ -319,7 +337,7 @@ export const useMapStore = defineStore('mapStuff', () => {
     //if we do stuff that'd allow it later
     function addKills(amnt:number) {
         if(hasData) {
-            let node = mapNodes.find(item => item.id === selectedNode.value.id)
+            let node = mapNodes.value.find(item => item.id === selectedNode.value.id)
 
             if(node) {
                 node.data.killCount += amnt
@@ -336,7 +354,7 @@ export const useMapStore = defineStore('mapStuff', () => {
         //State
         enemyList, mapNodes, mapEdges, areaData, selectedNode, scouted$,
         //Computed
-        isSpecial, getAreaName, getDescription, getDescAppend, getKillCount, isScouted, hasData,
+        isSpecial, getAreaName, getDescription, getDescAppend, getKillCount, isScouted, hasData, totalKills, totalScouted,
         //Actions
         setTextAppend, callRandomEncounter, addKills
     }

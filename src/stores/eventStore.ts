@@ -135,6 +135,22 @@ export const useEventStore = defineStore('eventstore', () => {
             },
             chain: true,
         }],
+        ["idolGet", {
+            title: "",
+            description: "You find a strange idol",
+            choices: [
+                {
+                    id: 1,
+                    label: "Continue"
+                }
+            ],
+            cutsceneCallback: function(choice) {
+                player.gameStage = GameStage.PRE_TAILS;
+                player.addFood(player.getFood.times(-1)); //Food aint stored here, it becomes an actual resource again later but not yet baybee
+                activeScene.value = undefined;
+            },
+            chain: true,
+        }],
     ])
 
 
@@ -164,7 +180,7 @@ export const useEventStore = defineStore('eventstore', () => {
     }
 
     watch(
-        () => player.totalKills,
+        () => mapStore.totalKills,
         (kills) => {
             if(player.gameStage === GameStage.INTRO && kills === 2) {
                 callCutscene(cutscenes.get("soulGet1"))
@@ -172,7 +188,7 @@ export const useEventStore = defineStore('eventstore', () => {
         }
     )
     watch(
-        () => player.totalScouted,
+        () => mapStore.totalScouted,
         (scouted) => {
             if(player.gameStage === GameStage.INTRO && scouted === 5) {
                 callCutscene(cutscenes.get("soulGet1"))

@@ -45,7 +45,7 @@ export const useUpgradeStore = defineStore('upgradeStore', {
                 bought: false,
                 category: UpgradeCategory.SOUL,
                 title: "Sharpen Claws",
-                flavor: "Sharpen your claws to a fine edge.",
+                flavor: "Sharpen your claws to a fine point.",
                 effectDescription: "+1 attack.",
                 costDescription:"Requires 10 enemies killed.",
                 costFunc: (buyCheck: boolean) => {
@@ -55,6 +55,24 @@ export const useUpgradeStore = defineStore('upgradeStore', {
                 effect: function() {
                     const player = usePlayer();
                     player.addBaseAtk(1);
+                }
+
+            }],
+            [3,{
+                show: true,
+                bought: false,
+                category: UpgradeCategory.SOUL,
+                title: "Novice Explorer",
+                flavor: "You have grown stronger from your explorations of the immiedate area.",
+                effectDescription: "+10 HP.",
+                costDescription:"Requires 6 areas scouted.",
+                costFunc: (buyCheck: boolean) => {
+                    const player = usePlayer();
+                    return player.enoughScouted(6);
+                },
+                effect: function() {
+                    const player = usePlayer();
+                    player.addBaseHealth(10);
                 }
 
             }]

@@ -52,7 +52,7 @@ export const usePlayer = defineStore('player', () => {
 
         //Only regen at home.
         if(areaId === SpecialAreaId.HOME) {
-            //HP Regen. Set to .5/sec for now, can make a variable later.
+            //HP Regen.
             const stats = playerStats.value
             const bStats = baseStats.value
             const energy = currencies.value
@@ -103,25 +103,6 @@ export const usePlayer = defineStore('player', () => {
     const getHPRegen = computed(() => baseStats.value.hpRegen)
     const getEnergyRegen = computed(() => baseStats.value.energyRegen)
 
-    // TODO: Need to encapsulate these two in a better place later. -Malt
-    const totalKills = computed(() => {
-        let val = 0;
-        mapStore.mapNodes.forEach(element => {
-            val += element.data.killCount;
-        })
-        return val;
-    })
-    const totalScouted = computed(() => {
-        let val = 0;
-        mapStore.mapNodes.forEach(element => {
-            if(element.data.killCount >= element.data.scoutThreshold) {
-                val++;
-            }
-        })
-        return val;
-    })
-
-
 
     // -- Actions --
     function addSoul(soulAdd:Decimal|number) {
@@ -163,10 +144,10 @@ export const usePlayer = defineStore('player', () => {
         return currencies.value.soul.gte(soulCompare);
     }
     function enoughScouted(scoutedCompare:number) {
-        return (totalScouted.value >= scoutedCompare);
+        return (mapStore.totalScouted >= scoutedCompare);
     }
     function enoughKills(killsCompare:number) {
-        return (totalKills.value >= killsCompare);
+        return (mapStore.totalKills >= killsCompare);
     }
     function enoughEnergy(energyCompare:number) {
         return (currencies.value.energy >= energyCompare);
@@ -218,7 +199,7 @@ export const usePlayer = defineStore('player', () => {
         //Stats
         currencies, name, tails, playerStats, gameStage, furthestStage, loaded, firstMove, deniedSoul,
         //Computeds
-        getAtk, getDef, getHpCurr, getHpMax, getSpd, getSoul, getMaxSoul, getEnergyDisplay, playerHpRatio, totalKills, totalScouted, getFood,
+        getAtk, getDef, getHpCurr, getHpMax, getSpd, getSoul, getMaxSoul, getEnergyDisplay, playerHpRatio, getFood,
         getHPRegen, getEnergyRegen,
         // Actions
         addSoul, subtractSoul, damage, payEnergy, enoughSoul, enoughScouted, enoughKills, enoughEnergy, addBaseAtk, addBaseDef,
