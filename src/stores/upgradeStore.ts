@@ -73,6 +73,5 @@ export const useUpgradeStore = defineStore('upgradeStore', {
             }],
         ])
 
-
     }),
 })

@@ -11,7 +11,6 @@
                 <span style=" color:gold">Current Energy Regen: {{ player.getEnergyRegen }}</span>
             </div>
             <div class = "upgrades">
-                <!-- FIX!-->
                 <UpgradeButton v-for="(item) in upgradeStore.shrine.entries()"
                     :upgrade_key="item[0]" 
                     :show="item[1].show"

@@ -1,6 +1,5 @@
 import Decimal from "break_infinity.js";
 
-//TODO: Possible add a zone field here later.
 export interface Upgrade {
   show: boolean;
   bought: boolean;
