@@ -7,7 +7,8 @@ export interface Upgrade {
     bought: boolean;
     type: UpgradePurchaseType; //currency used to purchase upgrade
     title: string;
-    description: string;
+    flavor: string;
+    effectDescription: string;
     cost: Decimal|number;
     effect: Function;
   }

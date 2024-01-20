@@ -11,8 +11,9 @@
                 <span style=" color:gold">Current Energy Regen: {{ player.getEnergyRegen }}</span>
             </div>
             <div class = "upgrades">
-                <UpgradeTooltip v-for="upgrade in upgrades" :upgradeName="upgrade.name" :tooltipText="upgrade.description" :effect="upgrade.effect"
-                :upgradeCost="upgrade.cost"></UpgradeTooltip>
+                <!-- FIX!-->
+                <UpgradeButton v-for="upgrade in upgrades" :upgradeName="upgrade.name" :tooltipText="upgrade.description" :effect_description="upgrade.effect"
+                :upgradeCost="upgrade.cost"></UpgradeButton>
             </div>
         </div>
     </div>
@@ -20,7 +21,7 @@
 
 
 <script setup lang="ts">
-import UpgradeTooltip from './UpgradeTooltip.vue';
+import UpgradeButton from './UpgradeButton.vue';
 import { SpecialAreaId } from '@/enums/areaEnums';
 import { useMapStore } from '@/stores/mapStore';
 import { Tab } from '@/enums/panels';

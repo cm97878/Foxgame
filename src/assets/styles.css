@@ -203,14 +203,6 @@ button:hover {
 
 /* #endregion info */
 
-
-/* #region soul upgrades */
-.bought {
-    background-color: rgb(41, 163, 47) !important;
-    pointer-events: none;
-}
-
-
 /* #endregion */
 
 
