@@ -44,8 +44,9 @@ const canAfford = computed(() => props.costFunc ? props.costFunc(true) : false)
 
 const buy = function() {
     if(props.upgrade_key && canAfford.value && props.costFunc) {
-        let temp = props.upgrade_category=== UpgradeCategory.SOUL ? upgrades.soul.get(props.upgrade_key) : upgrades.shrine.get(props.upgrade_key);
+        let temp = props.upgrade_category === UpgradeCategory.SOUL ? upgrades.soul.get(props.upgrade_key) : upgrades.shrine.get(props.upgrade_key);
         if(temp) {
+            // Actually buy the upgrade.
             props.costFunc(false)
             temp.bought = true;
             props.upgrade_category === UpgradeCategory.SOUL ? upgrades.soul.set(props.upgrade_key, temp) : upgrades.shrine.set(props.upgrade_key, temp);

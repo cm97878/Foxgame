@@ -5,9 +5,9 @@
         </div>
         <div v-else class="area-box">
             <span>Current Energy: {{ player.getEnergyDisplay }}</span>
-            <span>Exploration Progress: {{ player.totalScouted  }} zones scouted.</span>
+            <span>Exploration Progress: {{ mapStore.totalScouted  }} zones scouted.</span>
             <!-- Currently unapplied.-->
-            <span>Exploration Multiplier: {{ (1+(player.totalScouted/10)) }}x</span>
+            <span>Exploration Multiplier: {{ (1+(mapStore.totalScouted/10)) }}x</span>
             <button @click="callEvent(Zone.FOREST)" :disabled="!player.enoughEnergy(10)">Explore (-10 Energy)</button>
         </div>
     </div>
@@ -22,11 +22,13 @@ import { usePlayer } from '@/stores/player';
 import type { AreaEvent }  from '@/types/areaEvent'
 import EventDisplay from './EventDisplay.vue';
 import { ref } from 'vue';
+import { useMapStore } from '@/stores/mapStore';
 
 const name = "areaActionsPanel";
 
 const player = usePlayer();
 const combatStore = useCombatStore();
+const mapStore = useMapStore();
 let isEventActive = ref(false);
 let activeEvent = {} as AreaEvent;
 const testEvent = {

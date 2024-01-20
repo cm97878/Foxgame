@@ -6,7 +6,7 @@ export interface Upgrade {
   flavor: string;
   effectDescription: string;
   costDescription: string;
-  costFunc: (buyCheck: boolean) => boolean;
+  costFunc: (buyUpgrade: boolean) => boolean;
   effect: Function;
 }
 
