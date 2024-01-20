@@ -16,7 +16,7 @@ export const useUpgradeStore = defineStore('upgradeStore', {
             effect: null,
         */
        soul: new Map<number, Upgrade>([
-            [0,{
+            [1,{
                 show: true,
                 bought: false,
                 type: UpgradePurchaseType.AREAS_SCOUTED,
@@ -30,7 +30,7 @@ export const useUpgradeStore = defineStore('upgradeStore', {
                 }
 
             }],
-            [1,{
+            [2,{
                 show: true,
                 bought: false,
                 type: UpgradePurchaseType.ENEMIES_KILLED,

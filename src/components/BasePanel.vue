@@ -13,7 +13,7 @@
             <div class = "upgrades">
                 <!-- FIX!-->
                 <UpgradeButton v-for="upgrade in upgrades" :upgradeName="upgrade.name" :tooltipText="upgrade.description" :effect_description="upgrade.effect"
-                :upgradeCost="upgrade.cost"></UpgradeButton>
+                :upgradeCost="upgrade.cost" :upgrade_key="-1" :cost="-1"></UpgradeButton>
             </div>
         </div>
     </div>

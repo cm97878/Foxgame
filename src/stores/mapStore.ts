@@ -271,7 +271,7 @@ export const useMapStore = defineStore('mapStuff', () => {
         }
     };
     const selectedNode =  ref({data: {}} as GraphNode) ;
-    let scouted$ = "";
+    let scouted$ = ref("");
 
     // --- Getters/Computeds ---
     const isSpecial = computed(() => selectedNode.value.data.areaSpecialID);
@@ -324,7 +324,7 @@ export const useMapStore = defineStore('mapStuff', () => {
             if(node) {
                 node.data.killCount += amnt
                 if(node.data.killCount >= node.data.scoutThreshold) {
-                    scouted$ = node.id;
+                    scouted$.value = node.id;
                 }
             }
             else {console.log("Couldn't update killcount. addKills()")}

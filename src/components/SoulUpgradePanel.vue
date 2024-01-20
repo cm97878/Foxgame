@@ -1,14 +1,13 @@
 <template>
     <div v-show="active === 'soulUpgrades'">
         <UpgradeButton v-for="(item) in upgrade.soul.entries()"
-            :key="item[0]" 
+            :upgrade_key="item[0]" 
             :show="item[1].show"
             :is_bought="item[1].bought"
             :upgrade_type="item[1].type"
             :title="item[1].title"
             :flavor="item[1].flavor"
             :effect_description="item[1].effectDescription"
-            :map_key="item[0]"
             :cost="item[1].cost"
             :effect="item[1].effect"
         />

@@ -1,5 +1,5 @@
 <template>
-    <button @click="buy()" class="tooltip-button" :class="{bought: is_bought}" :disabled="!canAfford">
+    <button @click="buy()" class="tooltip-button" :class="{bought: is_bought, unbuyable: !canAfford }">
         {{ title }}
         <div class="tooltiptext">
             {{ flavor }}
@@ -40,7 +40,7 @@ let props = defineProps({
     upgrade_type: String as PropType<UpgradePurchaseType>,
     flavor: String,
     effect_description: String,
-    map_key: Number,
+    upgrade_key: Number,
     cost: {
         type: [Decimal, Number],
         required: true
@@ -58,6 +58,8 @@ const canAfford = computed(() => {
             return player.enoughScouted(props.cost as number);
         }
         case UpgradePurchaseType.ENEMIES_KILLED: {
+            const x = player.enoughKills(props.cost as number);
+            console.log(x)
             return player.enoughKills(props.cost as number);
         }
         default: {
@@ -68,8 +70,8 @@ const canAfford = computed(() => {
 
 
 const buy = function() {
-    if(props.map_key || props.map_key === 0) {
-        let temp = upgrades.soul.get(props.map_key);
+    if(props.upgrade_key && canAfford.value) {
+        let temp = upgrades.soul.get(props.upgrade_key);
         if(temp) {
             temp.bought = true;
 
@@ -81,7 +83,7 @@ const buy = function() {
                     player.subtractSoul(props.cost);
                 }
             }
-            upgrades.soul.set(props.map_key, temp);
+            upgrades.soul.set(props.upgrade_key, temp);
             if(props.effect) {
                 props.effect();
             }
@@ -133,5 +135,9 @@ const costDisplay = computed(() => {
 
     .bought {
         background-color: rgb(41, 163, 47) !important;
+    }
+
+    .unbuyable {
+        background-color: rgb(117, 117, 117);
     }
 </style>
