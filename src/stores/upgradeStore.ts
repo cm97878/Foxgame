@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import Decimal from 'break_infinity.js'
 import { usePlayer } from './player'
-import { type Upgrade, UpgradePurchaseType, UpgradeCategory } from '@/types/upgrade'
+import { type Upgrade, UpgradeCategory } from '@/types/upgrade'
 
 export const useUpgradeStore = defineStore('upgradeStore', {
     state: () => ({
@@ -9,11 +9,14 @@ export const useUpgradeStore = defineStore('upgradeStore', {
             show: true,
             bought: false,
             category: UpgradeCategory.SOUL,
-            cost_type: UpgradePurchaseType.AREAS_SCOUTED,
             title: "Watchful Eye",
             flavor: "Experience gained from exploring better prepares you for incoming danger.",
             effectDescription: "+1 defense.",
-            cost: new Decimal("3"),
+            costDescription:"Requires 3 areas scouted.",
+            costFunc: (buyCheck: boolean) => {
+                const player = usePlayer();
+                return player.enoughScouted(3);
+            },
             effect: function() {
                 const player = usePlayer();
                 player.addBaseDef(1);
@@ -24,26 +27,31 @@ export const useUpgradeStore = defineStore('upgradeStore', {
                 show: true,
                 bought: false,
                 category: UpgradeCategory.SOUL,
-                cost_type: UpgradePurchaseType.AREAS_SCOUTED,
                 title: "Watchful Eye",
                 flavor: "Experience gained from exploring better prepares you for incoming danger.",
                 effectDescription: "+1 defense.",
-                cost: new Decimal("3"),
+                costDescription:"Requires 3 areas scouted.",
+                costFunc: (buyCheck: boolean) => {
+                    const player = usePlayer();
+                    return player.enoughScouted(3);
+                },
                 effect: function() {
                     const player = usePlayer();
                     player.addBaseDef(1);
                 }
-
             }],
             [2,{
                 show: true,
                 bought: false,
                 category: UpgradeCategory.SOUL,
-                cost_type: UpgradePurchaseType.ENEMIES_KILLED,
                 title: "Sharpen Claws",
                 flavor: "Sharpen your claws to a fine edge.",
                 effectDescription: "+1 attack.",
-                cost: new Decimal("10"),
+                costDescription:"Requires 10 enemies killed.",
+                costFunc: (buyCheck: boolean) => {
+                    const player = usePlayer();
+                    return player.enoughKills(10);
+                },
                 effect: function() {
                     const player = usePlayer();
                     player.addBaseAtk(1);
@@ -59,11 +67,22 @@ export const useUpgradeStore = defineStore('upgradeStore', {
                 show: true,
                 bought: false,
                 category: UpgradeCategory.SHRINE,
-                cost_type: UpgradePurchaseType.SOUL,
                 title: "Makeshift Bed",
                 flavor: "Scrounge up some sticks and soft things so you have something better to sleep on then the cold, stone floor.",
                 effectDescription: "+0.5 HP/sec, +0.2 Energy/sec. True Cost is TBD",
-                cost: new Decimal("10"),
+                costDescription:"Costs 10 Soul.",
+                costFunc: (buyCheck: boolean) => {
+                    const player = usePlayer();
+                    const canBuy = player.enoughSoul(10);
+                    if (buyCheck) {
+                        return canBuy;
+                    }
+
+                    if(canBuy) {
+                        player.subtractSoul(10);  
+                    }
+                    return canBuy;
+                },
                 effect: function() {
                     const player = usePlayer();
                     player.addHPRegen(0.5);

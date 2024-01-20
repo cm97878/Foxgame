@@ -6,15 +6,7 @@
             <div class="divider"></div>
             {{ effect_description }}
             <div class="divider"></div>
-            <span v-if="upgrade_type === UpgradePurchaseType.AREAS_SCOUTED">
-                Requires {{ costDisplay }} areas scouted.
-            </span>
-            <span v-if="upgrade_type === UpgradePurchaseType.ENEMIES_KILLED">
-                Requires {{ costDisplay }} enemy kills.
-            </span>
-            <span v-else-if="upgrade_type === UpgradePurchaseType.SOUL">
-                {{ costDisplay }} Soul.
-            </span>
+            {{ cost_description }}
         </div>
     </button>
 </template>
@@ -25,7 +17,7 @@ import Decimal from 'break_infinity.js';
 import { computed, type PropType } from 'vue';
 import { usePlayer } from '@/stores/player';
 import { useUpgradeStore } from '@/stores/upgradeStore';
-import { UpgradeCategory, UpgradePurchaseType } from '@/types/upgrade';
+import { UpgradeCategory } from '@/types/upgrade';
 
 
 const name = "upgradebutton";
@@ -37,53 +29,25 @@ let props = defineProps({
     show: Boolean,
     is_bought: Boolean,
     title: String,
-    upgrade_type: String as PropType<UpgradePurchaseType>,
     upgrade_category: String as PropType<UpgradeCategory>,
     flavor: String,
     effect_description: String,
+    cost_description: String,
     upgrade_key: Number,
-    cost: {
-        type: [Decimal, Number],
-        required: true
-    },
+    costFunc: Function, // (buyCheck: boolean) => boolean;
     effect: Function
 })
 
 
-const canAfford = computed(() => {
-    switch(props.upgrade_type) {
-        case UpgradePurchaseType.SOUL: {
-            return player.enoughSoul(props.cost);
-        }
-        case UpgradePurchaseType.AREAS_SCOUTED: {
-            return player.enoughScouted(props.cost as number);
-        }
-        case UpgradePurchaseType.ENEMIES_KILLED: {
-            const x = player.enoughKills(props.cost as number);
-            console.log(x)
-            return player.enoughKills(props.cost as number);
-        }
-        default: {
-            console.log("unhandled upgrade purchase type (UpgradeButton.vue)")
-        }
-    }
-})
+const canAfford = computed(() => props.costFunc ? props.costFunc(true) : false)
 
 
 const buy = function() {
-    if(props.upgrade_key && canAfford.value) {
+    if(props.upgrade_key && canAfford.value && props.costFunc) {
         let temp = props.upgrade_category=== UpgradeCategory.SOUL ? upgrades.soul.get(props.upgrade_key) : upgrades.shrine.get(props.upgrade_key);
         if(temp) {
+            props.costFunc(false)
             temp.bought = true;
-
-            //For now only SOUL will do anything, but eventually
-            //prestige and otheer stuff will need their own handlers. idk if a switch
-            //is best for this, but eh we'll see
-            switch(props.upgrade_type) {
-                case UpgradePurchaseType.SOUL: {
-                    player.subtractSoul(props.cost);
-                }
-            }
             props.upgrade_category === UpgradeCategory.SOUL ? upgrades.soul.set(props.upgrade_key, temp) : upgrades.shrine.set(props.upgrade_key, temp);
             if(props.effect) {
                 props.effect();
@@ -92,11 +56,6 @@ const buy = function() {
     }
 }
 
-
-
-const costDisplay = computed(() => {
-    return props.cost.toString().replace("+","");
-})
 </script>
 <style>
     .tooltip-button {
