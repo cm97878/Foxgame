@@ -60,8 +60,7 @@ export const useUpgradeStore = defineStore('upgradeStore', {
             }]
 
         ]),
-        //TODO: We need to make costType be able to handle multiple things.
-        //Also, add this to saving functionality.
+        //TODO: add this to saving functionality.
         shrine: new Map<number, Upgrade>([
             [1,{
                 show: true,
