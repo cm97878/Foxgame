@@ -67,7 +67,7 @@ export const useEventStore = defineStore('eventstore', () => {
         }],
         ["soulGet2", {
             title: "",
-            description: "As you travel back to your den, a small squirrel darts out in front of you, stopping directly on the natural path you have been following. There's a soft glow around it, as if shrouded in the light of early dawn - but despite the rays filtering through the canopy above, neither of you are in the splotches of sunlight scattering through the underbrush.<br /><br />The squirrel stares at you, motionless.  And as you stare back, you begin to feel an urge, deep down, to strike, to rip, tear, devour.<br /><br /><i>A gift for you, one graciously given, and accepted in a way natural to you. Eat, friend.</i>", //FIXME: apparently i tags suck ass now
+            description: "As you travel back to your den, a small squirrel darts out in front of you, stopping directly on the natural path you have been following. There's a soft glow around it, as if shrouded in the light of early dawn - but despite the rays filtering through the canopy above, neither of you are in the splotches of sunlight scattering through the underbrush.<br /><br />The squirrel stares at you, motionless.  And as you stare back, you begin to feel an urge, deep down, to strike, to rip, tear, devour.<br /><br /><i>A gift for you, one graciously given, and accepted in a way natural to you. Eat, friend.</i>", //TODO: apparently i tags suck ass now
             choices: [
                 {
                     id: 1,
@@ -135,6 +135,22 @@ export const useEventStore = defineStore('eventstore', () => {
             },
             chain: true,
         }],
+        ["idolGet", {
+            title: "",
+            description: "You find a strange idol",
+            choices: [
+                {
+                    id: 1,
+                    label: "Continue"
+                }
+            ],
+            cutsceneCallback: function(choice) {
+                player.gameStage = GameStage.PRE_TAILS;
+                player.addFood(player.getFood.times(-1)); //Food aint stored here, it becomes an actual resource again later but not yet baybee
+                activeScene.value = undefined;
+            },
+            chain: true,
+        }],
     ])
 
 
@@ -164,7 +180,7 @@ export const useEventStore = defineStore('eventstore', () => {
     }
 
     watch(
-        () => player.totalKills,
+        () => mapStore.totalKills,
         (kills) => {
             if(player.gameStage === GameStage.INTRO && kills === 2) {
                 callCutscene(cutscenes.get("soulGet1"))
@@ -172,7 +188,7 @@ export const useEventStore = defineStore('eventstore', () => {
         }
     )
     watch(
-        () => player.totalScouted,
+        () => mapStore.totalScouted,
         (scouted) => {
             if(player.gameStage === GameStage.INTRO && scouted === 5) {
                 callCutscene(cutscenes.get("soulGet1"))

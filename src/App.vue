@@ -75,7 +75,7 @@
                 <button @click="player.gameStage = GameStage.PRE_TAILS">Set gamestage intro->pre_tails</button>
                 <button @click="mapStore.callRandomEncounter(Zone.FOREST)">Fight Enemy</button>
             </div>
-            {{ "number of tails: " + player.tails }}<br />{{ "max soul: " + player.getMaxSoul }}<br />{{ "areas scouted: " + player.totalScouted }} <br /> {{ "kills: " + player.totalKills }}
+            {{ "number of tails: " + player.tails }}<br />{{ "max soul: " + player.getMaxSoul }}<br />{{ "areas scouted: " + mapStore.totalScouted }} <br /> {{ "kills: " + mapStore.totalKills }}
             <OvermapPanel />
         </div>
     </div>
@@ -118,7 +118,7 @@
 
 
     
-    //FIXME: This is messy and for testing, remove later
+    //TODO: This is messy and for testing, remove later
     const toggleState = ref("");
     toggleState.value = localStorage.getItem('kitsune_save_bool') ?? "1"
     

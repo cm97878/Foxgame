@@ -1,13 +1,16 @@
-import type { UpgradePurchaseType } from "@/enums/upgradePurchaseType";
-import Decimal from "break_infinity.js";
-
-//TODO: Possible add a zone field here later.
 export interface Upgrade {
-    show: boolean;
-    bought: boolean;
-    type: UpgradePurchaseType; //currency used to purchase upgrade
-    title: string;
-    description: string;
-    cost: Decimal|number;
-    effect: Function;
-  }
+  show: boolean;
+  bought: boolean;
+  category: UpgradeCategory;
+  title: string;
+  flavor: string;
+  effectDescription: string;
+  costDescription: string;
+  costFunc: (buyCheck: boolean) => boolean;
+  effect: Function;
+}
+
+export enum UpgradeCategory {
+  SOUL="soul",
+  SHRINE="shrine"
+}

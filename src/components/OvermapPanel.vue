@@ -67,18 +67,18 @@ onPaneReady((instance) => {
 })
 onNodeClick((node) => {
     if (isConnected(node) && !combatStore.getActiveCombat) {
+        const chosenNode = findNode(node.node.id)!;
+
         if(player.firstMove) {
             player.firstMove = false;
             combatStore.startCombat(mapStore.enemyList[0]);
             eventStore.callCutscene(eventStore.cutscenes.get("firstMove"));
         }
-        
-        //TODO: Tweak this later.
-        else if(!(mapStore.isSpecial === SpecialAreaId.HOME)) {
+        else if(!(chosenNode?.data?.areaSpecialID === SpecialAreaId.HOME)) {
             mapStore.callRandomEncounter(Zone.FOREST)
         }
 
-        const chosenNode = findNode(node.node.id)!;
+        
         mapStore.selectedNode = chosenNode;
         centerMap(chosenNode)
 
@@ -97,7 +97,7 @@ const getConnectedNodes = function(id: string): string[] {
     )
 }
 
-//FIXME: Other issues i've noticed while fuckin around:
+//TODO: Other issues i've noticed while fuckin around:
 //Dying doesn't set it back to home
 //If you scroll in and out you can move the map around in a weird way
 //also you cant scroll out very far? we should probably change that at least for now, so we can get a better overview of how it looks as it expands

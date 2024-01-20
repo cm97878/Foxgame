@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
 import Decimal from 'break_infinity.js'
 import type { Enemy } from '@/types/enemy'
-import { useVueFlow, type GraphNode } from '@vue-flow/core'
+import { type GraphNode } from '@vue-flow/core'
 import type { AreaData } from '@/types/areaData'
 import { SpecialAreaId, Zone } from '@/enums/areaEnums'
 import { useCombatStore } from '@/stores/combatStore';
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 /* LEAVE THIS HERE >:(
 name: "",
@@ -51,7 +51,7 @@ export const useMapStore = defineStore('mapStuff', () => {
         soulKill: new Decimal("1"),
     }] as Array<Enemy>;
 
-    const mapNodes = [{
+    const mapNodes = ref([{
         id: '1',
         type: 'custom',
         label: 'Home',
@@ -234,7 +234,7 @@ export const useMapStore = defineStore('mapStuff', () => {
             killCount: 0,
             scoutThreshold: 1
         } as AreaData
-    }];
+    }]);
 
     //this fucking sucks to comprehend, we should change the IDs to be descriptors later
     const mapEdges = [
@@ -270,25 +270,43 @@ export const useMapStore = defineStore('mapStuff', () => {
             }
         }
     };
-    const selectedNode = {data: {}} as GraphNode
-    let scouted$ = "";
+    const selectedNode =  ref({data: {}} as GraphNode) ;
+    let scouted$ = ref("");
 
     // --- Getters/Computeds ---
-    const isSpecial = computed(() => selectedNode.data.areaSpecialID);
-    const getAreaName = computed(() => hasData ? selectedNode.data.areaName : "");
-    const getDescription = computed(() => hasData ? selectedNode.data.description : "");
+    const isSpecial = computed(() => selectedNode.value.data.areaSpecialID);
+    const getAreaName = computed(() => hasData ? selectedNode.value.data.areaName : "");
+    const getDescription = computed(() => hasData ? selectedNode.value.data.description : "");
     const getDescAppend = computed(() => hasData ? areaData.random.descAppend  : "");
-    const getKillCount = computed(() => hasData ? selectedNode.data.killCount  : "");
+    const getKillCount = computed(() => hasData ? selectedNode.value.data.killCount  : "");
     const isScouted = computed(() => {
-        const x = !!selectedNode.data ? selectedNode.data.killCount : "";
-        return x.gte(selectedNode.data.scoutThreshold);
+        const x = !!selectedNode.value.data ? selectedNode.value.data.killCount : "";
+        return x.gte(selectedNode.value.data.scoutThreshold);
     });
-    const hasData = computed(() => !!selectedNode.data);
+    const hasData = computed(() => !!selectedNode.value.data);
+
+    const totalKills = computed(() => {
+        let val = 0;
+        mapNodes.value.forEach(element => {
+            val += element.data.killCount;
+        })
+        return val;
+    })
+    const totalScouted = computed(() => {
+        let val = 0;
+        mapNodes.value.forEach(element => {
+            if(element.data.killCount >= element.data.scoutThreshold) {
+                val++;
+            }
+        })
+        return val;
+    })
+
 
     // --- Actions ---
     function setTextAppend(): void {
         if(hasData && (Math.floor(Math.random() * 100) <= 20)) {
-            switch(selectedNode.data.zone) {
+            switch(selectedNode.value.data.zone) {
                 case "forest": {
                     areaData.random.descAppend = areaData.random.forest[Math.floor(Math.random() * 3)]
                     break;
@@ -319,12 +337,12 @@ export const useMapStore = defineStore('mapStuff', () => {
     //if we do stuff that'd allow it later
     function addKills(amnt:number) {
         if(hasData) {
-            let node = mapNodes.find(item => item.id === selectedNode.id)
+            let node = mapNodes.value.find(item => item.id === selectedNode.value.id)
 
             if(node) {
                 node.data.killCount += amnt
                 if(node.data.killCount >= node.data.scoutThreshold) {
-                    scouted$ = node.id;
+                    scouted$.value = node.id;
                 }
             }
             else {console.log("Couldn't update killcount. addKills()")}
@@ -336,7 +354,7 @@ export const useMapStore = defineStore('mapStuff', () => {
         //State
         enemyList, mapNodes, mapEdges, areaData, selectedNode, scouted$,
         //Computed
-        isSpecial, getAreaName, getDescription, getDescAppend, getKillCount, isScouted, hasData,
+        isSpecial, getAreaName, getDescription, getDescAppend, getKillCount, isScouted, hasData, totalKills, totalScouted,
         //Actions
         setTextAppend, callRandomEncounter, addKills
     }

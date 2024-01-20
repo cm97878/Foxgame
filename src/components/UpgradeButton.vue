@@ -1,20 +1,26 @@
 <template>
-    <UpgradeTooltip @click="buy()" v-if="show" :class="{bought: is_bought}" :disabled="!canAfford" :upgradeName="title" :tooltipText="description"
-    :upgradeCost="costDisplay">
-    </UpgradeTooltip>
+    <button @click="buy()" class="tooltip-button" :class="{bought: is_bought, unbuyable: !canAfford }">
+        {{ title }}
+        <div class="tooltiptext">
+            {{ flavor }}
+            <div class="divider"></div>
+            {{ effect_description }}
+            <div class="divider"></div>
+            {{ cost_description }}
+        </div>
+    </button>
 </template>
 
 
 <script setup lang="ts">
-import { UpgradePurchaseType } from '@/enums/upgradePurchaseType';
 import Decimal from 'break_infinity.js';
-import { computed, ref, type PropType } from 'vue';
+import { computed, type PropType } from 'vue';
 import { usePlayer } from '@/stores/player';
 import { useUpgradeStore } from '@/stores/upgradeStore';
-import UpgradeTooltip from './UpgradeTooltip.vue';
+import { UpgradeCategory } from '@/types/upgrade';
+
 
 const name = "upgradebutton";
-//TODO: Possibly merge this into UpgradeTooltip.vue -Malt
 
 
 const player = usePlayer();
@@ -23,50 +29,26 @@ let props = defineProps({
     show: Boolean,
     is_bought: Boolean,
     title: String,
-    type: String as PropType<UpgradePurchaseType>,
-    description: String,
-    map_key: Number,
-    cost: {
-        type: [Decimal, Number],
-        required: true
-    },
+    upgrade_category: String as PropType<UpgradeCategory>,
+    flavor: String,
+    effect_description: String,
+    cost_description: String,
+    upgrade_key: Number,
+    costFunc: Function, // (buyCheck: boolean) => boolean;
     effect: Function
 })
 
 
-const canAfford = computed(() => {
-    switch(props.type) {
-        case UpgradePurchaseType.SOUL: {
-            return player.enoughSoul(props.cost);
-        }
-        case UpgradePurchaseType.AREAS_SCOUTED: {
-            return player.enoughScouted(props.cost as number);
-        }
-        case UpgradePurchaseType.ENEMIES_KILLED: {
-            return player.enoughKills(props.cost as number);
-        }
-        default: {
-            console.log("unhandled upgrade purchase type (UpgradeButton.vue)")
-        }
-    }
-})
+const canAfford = computed(() => props.costFunc ? props.costFunc(true) : false)
 
 
 const buy = function() {
-    if(props.map_key || props.map_key === 0) {
-        let temp = upgrades.soul.get(props.map_key);
+    if(props.upgrade_key && canAfford.value && props.costFunc) {
+        let temp = props.upgrade_category=== UpgradeCategory.SOUL ? upgrades.soul.get(props.upgrade_key) : upgrades.shrine.get(props.upgrade_key);
         if(temp) {
+            props.costFunc(false)
             temp.bought = true;
-
-            //For now only SOUL will do anything, but eventually
-            //prestige and otheer stuff will need their own handlers. idk if a switch
-            //is best for this, but eh we'll see
-            switch(props.type) {
-                case UpgradePurchaseType.SOUL: {
-                    player.subtractSoul(props.cost);
-                }
-            }
-            upgrades.soul.set(props.map_key, temp);
+            props.upgrade_category === UpgradeCategory.SOUL ? upgrades.soul.set(props.upgrade_key, temp) : upgrades.shrine.set(props.upgrade_key, temp);
             if(props.effect) {
                 props.effect();
             }
@@ -74,9 +56,48 @@ const buy = function() {
     }
 }
 
-
-
-const costDisplay = computed(() => {
-    return props.cost.toString().replace("+","");
-})
 </script>
+<style>
+    .tooltip-button {
+        position: relative;
+        display: inline-block;
+        border-bottom: 1px dotted black;
+    }
+
+    .tooltip-button .tooltiptext {
+        visibility: hidden;
+        width: 200px;
+        background-color: grey;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        border: 1px solid;
+        padding: 8px;
+
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 1;
+        top: -5px;
+        left: 105%;
+    }
+
+    .tooltip-button:hover .tooltiptext {
+        visibility: visible;
+    }
+    .divider {
+        border-bottom: 1px solid;
+    }
+
+    .tooltip-button {
+        padding: 4px 10px;
+        margin: 0 20px;
+    }
+
+    .bought {
+        background-color: rgb(41, 163, 47) !important;
+    }
+
+    .unbuyable {
+        background-color: rgb(117, 117, 117);
+    }
+</style>
