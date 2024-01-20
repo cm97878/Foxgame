@@ -12,8 +12,18 @@
             </div>
             <div class = "upgrades">
                 <!-- FIX!-->
-                <UpgradeButton v-for="upgrade in upgrades" :upgradeName="upgrade.name" :tooltipText="upgrade.description" :effect_description="upgrade.effect"
-                :upgradeCost="upgrade.cost" :upgrade_key="-1" :cost="-1"></UpgradeButton>
+                <UpgradeButton v-for="(item) in upgradeStore.shrine.entries()"
+                    :upgrade_key="item[0]" 
+                    :show="item[1].show"
+                    :is_bought="item[1].bought"
+                    :upgrade_category="item[1].category"
+                    :upgrade_type="item[1].cost_type"
+                    :title="item[1].title"
+                    :flavor="item[1].flavor"
+                    :effect_description="item[1].effectDescription"
+                    :cost="item[1].cost"
+                    :effect="item[1].effect"
+                />
             </div>
         </div>
     </div>
@@ -26,28 +36,30 @@ import { SpecialAreaId } from '@/enums/areaEnums';
 import { useMapStore } from '@/stores/mapStore';
 import { Tab } from '@/enums/panels';
 import { usePlayer } from '@/stores/player';
+import { useUpgradeStore } from '@/stores/upgradeStore';
 
 const name = "basePanel";
 
 const mapStore = useMapStore();
 const player = usePlayer();
+const upgradeStore = useUpgradeStore();
 
 let props = defineProps({
     active: String
 })
-const upgrades = [{
-        name: "Makeshift Bed",
-        description: "Scrounge up some sticks and soft things so you have something better to sleep on then the cold, stone floor.",
-        effect: "+0.5 HP/sec, +0.2 Energy/sec",
-        cost: "Cost TBD"
-    },
-    {
-        name: "Crude Fox Figurine",
-        description: "Try to carve something with your claws as a focus to help channel your new energy.",
-        effect: "+1 Atk, +1 Def",
-        cost: "Cost TBD"
-    }
-]
+// const upgrades = [{
+//         name: "Makeshift Bed",
+//         description: "Scrounge up some sticks and soft things so you have something better to sleep on then the cold, stone floor.",
+//         effect: "+0.5 HP/sec, +0.2 Energy/sec",
+//         cost: "Cost TBD"
+//     },
+//     {
+//         name: "Crude Fox Figurine",
+//         description: "Try to carve something with your claws as a focus to help channel your new energy.",
+//         effect: "+1 Atk, +1 Def",
+//         cost: "Cost TBD"
+//     }
+// ]
 
 </script>
 <style>

@@ -46,6 +46,7 @@ export const usePlayer = defineStore('player', () => {
     const gameTick = useGameTick();
     const mapStore = useMapStore();
     const { tick$ } = storeToRefs(gameTick);
+    //Game tick
     watch( tick$, () => {
         const areaId = mapStore.isSpecial
 
@@ -53,24 +54,23 @@ export const usePlayer = defineStore('player', () => {
         if(areaId === SpecialAreaId.HOME) {
             //HP Regen. Set to .5/sec for now, can make a variable later.
             const stats = playerStats.value
+            const bStats = baseStats.value
             const energy = currencies.value
             if (stats.currentHealth.lt(stats.maxHealth)) {
-                const hpRegen = 0.5;
-                if(Decimal.add(stats.currentHealth, hpRegen).gte(stats.maxHealth)) {
+                if(Decimal.add(stats.currentHealth, bStats.hpRegen).gte(stats.maxHealth)) {
                     playerStats.value.currentHealth = stats.maxHealth
                 } else {
                     // Need to figure out what rounds to decimal places in break_infinity.js
-                    playerStats.value.currentHealth = Decimal.add(stats.currentHealth, hpRegen)
+                    playerStats.value.currentHealth = Decimal.add(stats.currentHealth, bStats.hpRegen)
                 }
             }
 
             //Energy Regen
             if (energy.energy < energy.maxEnergy) {
-                const energyRegen = 0.2;
-                if((energy.energy + energyRegen) > energy.maxEnergy) {
+                if((energy.energy + bStats.energyRegen) > energy.maxEnergy) {
                     currencies.value.energy = energy.maxEnergy
                 } else {
-                    currencies.value.energy = Number((energy.energy + energyRegen).toFixed(2))
+                    currencies.value.energy = Number((energy.energy + bStats.energyRegen).toFixed(2))
                 }
             }
         }
@@ -181,6 +181,12 @@ export const usePlayer = defineStore('player', () => {
     function addBaseHealth(amnt:Decimal|number) {
         playerStats.value.maxHealth = Decimal.add(playerStats.value.maxHealth, amnt);
     }
+    function addHPRegen(amnt:number) {
+        baseStats.value.hpRegen = baseStats.value.hpRegen + amnt;
+    }
+    function addEnergyRegen(amnt:number) {
+        baseStats.value.energyRegen = baseStats.value.energyRegen + amnt;
+    }
     //name this different just cause lower is better, functions different than the others
     function modifySpeed(amnt:number) {
         playerStats.value.spd += amnt;
@@ -216,6 +222,6 @@ export const usePlayer = defineStore('player', () => {
         getHPRegen, getEnergyRegen,
         // Actions
         addSoul, subtractSoul, damage, payEnergy, enoughSoul, enoughScouted, enoughKills, enoughEnergy, addBaseAtk, addBaseDef,
-        addBaseHealth, modifySpeed, modifyMaxSoul, addTail, addFood
+        addBaseHealth, modifySpeed, modifyMaxSoul, addTail, addFood, addHPRegen, addEnergyRegen
     }
 })

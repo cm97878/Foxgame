@@ -21,11 +21,11 @@
 
 
 <script setup lang="ts">
-import { UpgradePurchaseType } from '@/enums/upgradePurchaseType';
 import Decimal from 'break_infinity.js';
 import { computed, type PropType } from 'vue';
 import { usePlayer } from '@/stores/player';
 import { useUpgradeStore } from '@/stores/upgradeStore';
+import { UpgradeCategory, UpgradePurchaseType } from '@/types/upgrade';
 
 
 const name = "upgradebutton";
@@ -38,6 +38,7 @@ let props = defineProps({
     is_bought: Boolean,
     title: String,
     upgrade_type: String as PropType<UpgradePurchaseType>,
+    upgrade_category: String as PropType<UpgradeCategory>,
     flavor: String,
     effect_description: String,
     upgrade_key: Number,
@@ -71,7 +72,7 @@ const canAfford = computed(() => {
 
 const buy = function() {
     if(props.upgrade_key && canAfford.value) {
-        let temp = upgrades.soul.get(props.upgrade_key);
+        let temp = props.upgrade_category=== UpgradeCategory.SOUL ? upgrades.soul.get(props.upgrade_key) : upgrades.shrine.get(props.upgrade_key);
         if(temp) {
             temp.bought = true;
 
@@ -83,7 +84,7 @@ const buy = function() {
                     player.subtractSoul(props.cost);
                 }
             }
-            upgrades.soul.set(props.upgrade_key, temp);
+            props.upgrade_category === UpgradeCategory.SOUL ? upgrades.soul.set(props.upgrade_key, temp) : upgrades.shrine.set(props.upgrade_key, temp);
             if(props.effect) {
                 props.effect();
             }
