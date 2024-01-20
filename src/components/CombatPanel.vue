@@ -1,5 +1,5 @@
 <template>
-    <div v-show="active === 'combat'" id="combat_tab">
+    <div v-show="active === Tab.COMBAT" id="combat_tab">
 
         <div class="combat_graphics_container">
             <div id="info_player_graphic" class="combat_graphic">
@@ -78,6 +78,7 @@ import { useCombatStore } from '@/stores/combatStore';
 import { computed } from 'vue';
 import CarouselIcon from './CarouselIcon.vue';
 import { displayDecimal } from '@/utils/utils'
+import { Tab } from '@/enums/panels';
 const player = usePlayer();
 const combatStore = useCombatStore();
 

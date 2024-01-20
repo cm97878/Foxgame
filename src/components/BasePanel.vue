@@ -1,5 +1,5 @@
 <template>
-    <div v-show="active === Tab.HOME">
+    <div v-show="active === Tab.OVERVIEW">
         <div v-if="!(mapStore.isSpecial === SpecialAreaId.HOME)" >
             Not available while exploring.
         </div>

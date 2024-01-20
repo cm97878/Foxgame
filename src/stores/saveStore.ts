@@ -17,6 +17,7 @@ export const useSaveStore = defineStore('saveStore', () =>{
         furthestStage: player.furthestStage,
         firstMove: player.firstMove,
         deniedSoul: player.deniedSoul,
+        exploreUnlocked: player.exploreUnlocked,
         currencies: {
             soul: player.currencies.soul,
             maxSoul: player.currencies.maxSoul,
@@ -45,6 +46,7 @@ export const useSaveStore = defineStore('saveStore', () =>{
             furthestStage: player.furthestStage,
             firstMove: player.firstMove,
             deniedSoul: player.deniedSoul,
+            exploreUnlocked: player.exploreUnlocked,
             currencies: {
                 soul: player.currencies.soul,
                 maxSoul: player.currencies.maxSoul,
@@ -90,6 +92,7 @@ export const useSaveStore = defineStore('saveStore', () =>{
         player.furthestStage = saveFile.furthestStage;
         player.firstMove = saveFile.firstMove;
         player.deniedSoul = saveFile.deniedSoul;
+        player.exploreUnlocked = saveFile.exploreUnlocked;
         player.currencies.soul = new Decimal(saveFile.currencies.soul);
         player.currencies.maxSoul = new Decimal(saveFile.currencies.maxSoul);
         player.name = saveFile.name;

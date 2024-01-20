@@ -13,21 +13,42 @@
             </div>
             
             <div v-show="activePanel == Panels.WORLD">
-                <div class="tab_container">
-                    <span :class="{ 'tab-selected': activeTabWorld === Tab.COMBAT, 'in-combat': combatStore.activeCombat }" @click="showTabWorld(Tab.COMBAT)" class="tab">
-                        Combat
-                    </span>
-                    <span :class="{ 'tab-selected': activeTabWorld === Tab.AREA_ACTIONS }" @click="showTabWorld(Tab.AREA_ACTIONS)" class="tab">
-                        Explore
-                    </span>
-                    <span :class="{ 'tab-selected': activeTabWorld === Tab.HOME }" @click="showTabWorld(Tab.HOME)" class="tab">
-                        Home
-                    </span>
+
+                <!-- General nodes, anything not labeled as Special -->
+                <div v-show="!(mapStore.selectedNode.data.areaSpecialID)">
+                    <div class="tab_container">
+                        <!-- <span :class="{ 'tab-selected': activeTabNodes === Tab.INFO }" @click="showTabWorld(Tab.INFO)" class="tab">
+                            Info
+                        </span> -->
+                        <span :class="{ 'tab-selected': activeTabNodes === Tab.COMBAT, 'in-combat': combatStore.activeCombat }" @click="showTabNodes(Tab.COMBAT)" class="tab">
+                            Combat
+                        </span>
+                    </div>
                 </div>
-                <div class="content-container">
-                    <CombatPanel v-bind:active="activeTabWorld" />
-                    <ExplorePanel v-bind:active="activeTabWorld" />
-                    <BasePanel v-bind:active="activeTabWorld" />
+
+                <div v-show="!(mapStore.selectedNode.data.areaSpecialID)" class="content-container">
+                    <CombatPanel v-bind:active="activeTabNodes" />
+                </div>
+
+
+                <!-- Home node -->
+                <div v-show="mapStore.selectedNode.data.areaSpecialID === SpecialAreaId.HOME">
+                    <div class="tab_container">
+                        <span :class="{ 'tab-selected': activeTabHome === Tab.OVERVIEW }" @click="showTabHome(Tab.OVERVIEW)" class="tab">
+                            Home
+                        </span>
+                        <span :class="{ 'tab-selected': activeTabHome === Tab.HOME_UPGRADES }" @click="showTabHome(Tab.HOME_UPGRADES)" class="tab">
+                            Upgrades
+                        </span>
+                        <span v-if="player.exploreUnlocked" :class="{ 'tab-selected': activeTabHome === Tab.EXPLORE }" @click="showTabHome(Tab.EXPLORE)" class="tab">
+                            Explore
+                        </span>
+                    </div>
+                </div>
+
+                <div v-show="mapStore.selectedNode.data.areaSpecialID === SpecialAreaId.HOME" class="content-container">
+                    <BasePanel v-bind:active="activeTabHome" />
+                    <ExplorePanel v-bind:active="activeTabHome" />
                 </div>
             </div>
 
@@ -99,7 +120,7 @@
     import { displayDecimal } from '@/utils/utils';
     import { useEventStore } from './stores/eventStore'
     import { useMapStore } from './stores/mapStore';
-    import { Zone } from './enums/areaEnums';
+    import { SpecialAreaId, Zone } from './enums/areaEnums';
 
     const player = usePlayer();
     const saves = useSaveStore();
@@ -111,7 +132,8 @@
     const name = "app";
 
     const activePanel = ref(Panels.WORLD);
-    const activeTabWorld = ref(Tab.COMBAT);
+    const activeTabNodes = ref(Tab.COMBAT);
+    const activeTabHome = ref(Tab.OVERVIEW);
     const activeTabSoul = ref(Tab.SOUL_UPGRADES);
     const combatUnlock = ref(true);
     const soulUnlock = ref(true);
@@ -137,8 +159,12 @@
         activePanel.value = panel;
     }
 
-    function showTabWorld (tab:Tab) {
-        activeTabWorld.value = tab;
+    function showTabNodes (tab:Tab) {
+        activeTabNodes.value = tab;
+    }
+
+    function showTabHome (tab:Tab) {
+        activeTabHome.value = tab;
     }
 
     function showTabSoul (tab:Tab) {
