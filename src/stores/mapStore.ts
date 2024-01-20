@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
 import Decimal from 'break_infinity.js'
 import type { Enemy } from '@/types/enemy'
-import { useVueFlow, type GraphNode } from '@vue-flow/core'
+import { type GraphNode } from '@vue-flow/core'
 import type { AreaData } from '@/types/areaData'
 import { SpecialAreaId, Zone } from '@/enums/areaEnums'
 import { useCombatStore } from '@/stores/combatStore';
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 /* LEAVE THIS HERE >:(
 name: "",
@@ -270,25 +270,25 @@ export const useMapStore = defineStore('mapStuff', () => {
             }
         }
     };
-    const selectedNode = {data: {}} as GraphNode
+    const selectedNode =  ref({data: {}} as GraphNode) ;
     let scouted$ = "";
 
     // --- Getters/Computeds ---
-    const isSpecial = computed(() => selectedNode.data.areaSpecialID);
-    const getAreaName = computed(() => hasData ? selectedNode.data.areaName : "");
-    const getDescription = computed(() => hasData ? selectedNode.data.description : "");
+    const isSpecial = computed(() => selectedNode.value.data.areaSpecialID);
+    const getAreaName = computed(() => hasData ? selectedNode.value.data.areaName : "");
+    const getDescription = computed(() => hasData ? selectedNode.value.data.description : "");
     const getDescAppend = computed(() => hasData ? areaData.random.descAppend  : "");
-    const getKillCount = computed(() => hasData ? selectedNode.data.killCount  : "");
+    const getKillCount = computed(() => hasData ? selectedNode.value.data.killCount  : "");
     const isScouted = computed(() => {
-        const x = !!selectedNode.data ? selectedNode.data.killCount : "";
-        return x.gte(selectedNode.data.scoutThreshold);
+        const x = !!selectedNode.value.data ? selectedNode.value.data.killCount : "";
+        return x.gte(selectedNode.value.data.scoutThreshold);
     });
-    const hasData = computed(() => !!selectedNode.data);
+    const hasData = computed(() => !!selectedNode.value.data);
 
     // --- Actions ---
     function setTextAppend(): void {
         if(hasData && (Math.floor(Math.random() * 100) <= 20)) {
-            switch(selectedNode.data.zone) {
+            switch(selectedNode.value.data.zone) {
                 case "forest": {
                     areaData.random.descAppend = areaData.random.forest[Math.floor(Math.random() * 3)]
                     break;
@@ -319,7 +319,7 @@ export const useMapStore = defineStore('mapStuff', () => {
     //if we do stuff that'd allow it later
     function addKills(amnt:number) {
         if(hasData) {
-            let node = mapNodes.find(item => item.id === selectedNode.id)
+            let node = mapNodes.find(item => item.id === selectedNode.value.id)
 
             if(node) {
                 node.data.killCount += amnt
