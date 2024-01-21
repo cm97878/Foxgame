@@ -1,16 +1,17 @@
-import type { EventChoice } from "@/types/areaEvent";
 import { defineStore } from "pinia";
-import { ref, watch, watchEffect } from "vue";
+import { ref, watch } from "vue";
 import { useCombatStore } from "./combatStore";
 import type { Cutscene } from "@/types/cutscene";
 import { useMapStore } from "./mapStore";
 import { usePlayer } from "./player";
 import { GameStage } from "@/enums/gameStage";
+import { useGameFlags } from "./gameFlags";
 
 export const useEventStore = defineStore('eventstore', () => {
     const combatStore = useCombatStore();
     const mapStore = useMapStore();
     const player = usePlayer();
+    const gameFlags = useGameFlags();
 
     const activeScene = ref<Cutscene>();
     const sceneDesc = ref("");
@@ -144,6 +145,9 @@ export const useEventStore = defineStore('eventstore', () => {
                     label: "Neat!"
                 }
             ],
+            cutsceneCallback: function() {
+                gameFlags.setShrine1(true);
+            }
         }],
     ])
 
