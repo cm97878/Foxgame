@@ -69,9 +69,9 @@ export const useCombatStore = defineStore('combat', () => {
     }
 
     function dealDamage(playerAtk: Decimal): void {
-        const damage = Decimal.subtract(playerAtk, currentOpponent.value.defense)
+        const damage = Decimal.max(Decimal.subtract(playerAtk, currentOpponent.value.defense), 0);
         currentHP.value = Decimal.subtract(currentHP.value, damage);
-        pushToCombatLog( currentOpponent.value.name + " took " + damage + " damage!" )
+        pushToCombatLog( currentOpponent.value.name + " took " + damage + " damage!" );
     }
 
     function processPlayerTurn(action: string): void {

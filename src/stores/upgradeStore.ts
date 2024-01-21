@@ -32,9 +32,9 @@ export const useUpgradeStore = defineStore('upgradeStore', {
             [1,{
                 show: true,
                 bought: false,
-                category: UpgradeCategory.SOUL,
-                title: "Watchful Eye",
-                flavor: "Experience gained from exploring better prepares you for incoming danger.",
+                category: UpgradeCategory.HOME,
+                title: "Honed Instinct",
+                flavor: "You are becoming more familiar with the terrain, more sure of foot.",
                 effectDescription: "+1 defense.",
                 costDescription:"Requires 3 areas scouted.",
                 costFunc: (buyCheck: boolean) => {
@@ -49,9 +49,9 @@ export const useUpgradeStore = defineStore('upgradeStore', {
             [2,{
                 show: true,
                 bought: false,
-                category: UpgradeCategory.SOUL,
+                category: UpgradeCategory.HOME,
                 title: "Sharpen Claws",
-                flavor: "Sharpen your claws to a fine point.",
+                flavor: "You let your claws dull before. You should fix that.",
                 effectDescription: "+1 attack.",
                 costDescription:"Requires 10 enemies killed.",
                 costFunc: (buyCheck: boolean) => {
@@ -67,9 +67,9 @@ export const useUpgradeStore = defineStore('upgradeStore', {
             [3,{
                 show: true,
                 bought: false,
-                category: UpgradeCategory.SOUL,
-                title: "Novice Explorer",
-                flavor: "You have grown stronger from your explorations of the immediate area.",
+                category: UpgradeCategory.HOME,
+                title: "Adaptation",
+                flavor: "Despite your recent travels and bouts of combat, you feel... energized. Harder to wind, harder to bleed.",
                 effectDescription: "+10 HP.",
                 costDescription:"Requires 6 areas scouted.",
                 costFunc: (buyCheck: boolean) => {
@@ -82,10 +82,11 @@ export const useUpgradeStore = defineStore('upgradeStore', {
                 }
 
             }],
+            //TODO: will obv need to be material cost once we implement that
             [4,{
                 show: true,
                 bought: false,
-                category: UpgradeCategory.SHRINE,
+                category: UpgradeCategory.HOME,
                 title: "Makeshift Bed",
                 flavor: "Scrounge up some sticks and soft things so you have something better to sleep on then the cold stone floor.",
                 effectDescription: "+0.5 HP/sec, +0.2 Energy/sec. True Cost is TBD",

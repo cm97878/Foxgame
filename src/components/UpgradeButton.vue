@@ -50,13 +50,16 @@ const buy = function() {
     if(props.upgrade_key && canAfford.value && props.costFunc) {
         let temp = props.upgrade_category === UpgradeCategory.SOUL ? upgrades.soul.get(props.upgrade_key) : upgrades.home.get(props.upgrade_key);
         if(temp) {
-            // Actually buy the upgrade.
-            props.costFunc(false)
-            temp.bought = true;
-            props.upgrade_category === UpgradeCategory.SOUL ? upgrades.soul.set(props.upgrade_key, temp) : upgrades.home.set(props.upgrade_key, temp);
-            if(props.effect) {
-                props.effect();
+            if(!temp.bought) {
+                // Actually buy the upgrade.
+                props.costFunc(false)
+                temp.bought = true;
+                props.upgrade_category === UpgradeCategory.SOUL ? upgrades.soul.set(props.upgrade_key, temp) : upgrades.home.set(props.upgrade_key, temp);
+                if(props.effect) {
+                    props.effect();
+                }
             }
+
         }
     }
 }

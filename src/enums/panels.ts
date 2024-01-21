@@ -4,7 +4,7 @@ export enum Panels {
 }
 
 export enum Tab {
-    //Nodes
+    //Overworld
     COMBAT = "combat",
     INFO = "info",
 

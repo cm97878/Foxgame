@@ -17,18 +17,18 @@
                 <!-- General nodes, anything not labeled as Special -->
                 <div v-show="!(mapStore.selectedNode.data.areaSpecialID)">
                     <div class="tab_container">
-                        <span :class="{ 'tab-selected': activeTabNodes === Tab.INFO }" @click="showTabNodes(Tab.INFO)" class="tab">
+                        <span :class="{ 'tab-selected': activeTabOverworld === Tab.INFO }" @click="showTabOverworld(Tab.INFO)" class="tab">
                             Info
                         </span>
-                        <span :class="{ 'tab-selected': activeTabNodes === Tab.COMBAT, 'in-combat': combatStore.activeCombat }" @click="showTabNodes(Tab.COMBAT)" class="tab">
+                        <span :class="{ 'tab-selected': activeTabOverworld === Tab.COMBAT, 'in-combat': combatStore.activeCombat }" @click="showTabOverworld(Tab.COMBAT)" class="tab">
                             Combat
                         </span>
                     </div>
                 </div>
 
                 <div v-show="!(mapStore.selectedNode.data.areaSpecialID)" class="content-container">
-                    <InfoPanel v-bind:active="activeTabNodes" />
-                    <CombatPanel v-bind:active="activeTabNodes" />
+                    <InfoPanel v-bind:active="activeTabOverworld" />
+                    <CombatPanel v-bind:active="activeTabOverworld" />
                 </div>
 
 
@@ -134,7 +134,7 @@
     const name = "app";
 
     const activePanel = ref(Panels.WORLD);
-    const activeTabNodes = ref(Tab.COMBAT);
+    const activeTabOverworld = ref(Tab.COMBAT);
     const activeTabHome = ref(Tab.OVERVIEW);
     const activeTabSoul = ref(Tab.SOUL_UPGRADES);
 
@@ -159,8 +159,8 @@
         activePanel.value = panel;
     }
 
-    function showTabNodes (tab:Tab) {
-        activeTabNodes.value = tab;
+    function showTabOverworld (tab:Tab) {
+        activeTabOverworld.value = tab;
     }
 
     function showTabHome (tab:Tab) {

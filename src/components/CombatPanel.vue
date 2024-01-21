@@ -114,4 +114,7 @@ defineExpose({ enemyHpRatio })
             margin-right: 8px;
         }
     }
+    #info_enemy_hp_bar_solid {
+        width: v-bind("enemyHpRatio")
+    }
 </style>

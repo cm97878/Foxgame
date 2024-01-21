@@ -128,8 +128,8 @@ export const usePlayer = defineStore('player', () => {
     }
 
     function damage(damageAmnt:Decimal|number, pierce:Boolean=false) {
-        if(pierce) {
-            playerStats.value.currentHealth = Decimal.subtract(playerStats.value.currentHealth, Decimal.subtract(damageAmnt, playerStats.value.defense));
+        if(!pierce) {
+            playerStats.value.currentHealth = Decimal.subtract(playerStats.value.currentHealth, Decimal.max(Decimal.subtract(damageAmnt, playerStats.value.defense), 0));
         }
         else {
             playerStats.value.currentHealth = Decimal.subtract(playerStats.value.currentHealth, damageAmnt);
