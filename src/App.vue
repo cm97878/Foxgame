@@ -7,27 +7,49 @@
 
         <div id="left_side_container" class="app_container">
             <div id="info_top_buttons_container">
-                <button @click="showPanel(Panels.WORLD)" v-show="combatUnlock" class="info_buttons">World</button>
-                <button @click="showPanel(Panels.SOUL)" v-show="soulUnlock" class="info_buttons">Soul</button>
+                <button @click="showPanel(Panels.WORLD)" class="info_buttons">World</button>
+                <button @click="showPanel(Panels.SOUL)" v-show="player.soulUnlocked" class="info_buttons">Soul</button>
                 <!-- <button @click="eventStore.callCutscene(eventStore.cutscenes.get('intro'))"  class="info_buttons">Cutscene</button> -->
             </div>
             
             <div v-show="activePanel == Panels.WORLD">
-                <div class="tab_container">
-                    <span :class="{ 'tab-selected': activeTabWorld === Tab.COMBAT, 'in-combat': combatStore.activeCombat }" @click="showTabWorld(Tab.COMBAT)" class="tab">
-                        Combat
-                    </span>
-                    <span :class="{ 'tab-selected': activeTabWorld === Tab.AREA_ACTIONS }" @click="showTabWorld(Tab.AREA_ACTIONS)" class="tab">
-                        Explore
-                    </span>
-                    <span :class="{ 'tab-selected': activeTabWorld === Tab.HOME }" @click="showTabWorld(Tab.HOME)" class="tab">
-                        Home
-                    </span>
+
+                <!-- General nodes, anything not labeled as Special -->
+                <div v-show="!(mapStore.selectedNode.data.areaSpecialID)">
+                    <div class="tab_container">
+                        <span :class="{ 'tab-selected': activeTabOverworld === Tab.INFO }" @click="showTabOverworld(Tab.INFO)" class="tab">
+                            Info
+                        </span>
+                        <span :class="{ 'tab-selected': activeTabOverworld === Tab.COMBAT, 'in-combat': combatStore.activeCombat }" @click="showTabOverworld(Tab.COMBAT)" class="tab">
+                            Combat
+                        </span>
+                    </div>
                 </div>
-                <div class="content-container">
-                    <CombatPanel v-bind:active="activeTabWorld" />
-                    <ExplorePanel v-bind:active="activeTabWorld" />
-                    <BasePanel v-bind:active="activeTabWorld" />
+
+                <div v-show="!(mapStore.selectedNode.data.areaSpecialID)" class="content-container">
+                    <InfoPanel v-bind:active="activeTabOverworld" />
+                    <CombatPanel v-bind:active="activeTabOverworld" />
+                </div>
+
+
+                <!-- Home node -->
+                <div v-show="mapStore.selectedNode.data.areaSpecialID === SpecialAreaId.HOME">
+                    <div class="tab_container">
+                        <span :class="{ 'tab-selected': activeTabHome === Tab.OVERVIEW }" @click="showTabHome(Tab.OVERVIEW)" class="tab">
+                            Home
+                        </span>
+                        <span :class="{ 'tab-selected': activeTabHome === Tab.HOME_UPGRADES }" @click="showTabHome(Tab.HOME_UPGRADES)" class="tab">
+                            Upgrades
+                        </span>
+                        <span v-if="player.exploreUnlocked" :class="{ 'tab-selected': activeTabHome === Tab.EXPLORE }" @click="showTabHome(Tab.EXPLORE)" class="tab">
+                            Explore
+                        </span>
+                    </div>
+                </div>
+
+                <div v-show="mapStore.selectedNode.data.areaSpecialID === SpecialAreaId.HOME" class="content-container">
+                    <BasePanel v-bind:active="activeTabHome" />
+                    <ExplorePanel v-bind:active="activeTabHome" />
                 </div>
             </div>
 
@@ -89,6 +111,7 @@
     import OvermapPanel from './components/OvermapPanel.vue';
     import CutsceneModal from './components/CutsceneModal.vue';
     import BasePanel from './components/BasePanel.vue';
+    import InfoPanel from './components/InfoPanel.vue';
     import { Panels, Tab } from './enums/panels';
     import { usePlayer } from './stores/player';
     import { onMounted, ref } from 'vue';
@@ -99,7 +122,7 @@
     import { displayDecimal } from '@/utils/utils';
     import { useEventStore } from './stores/eventStore'
     import { useMapStore } from './stores/mapStore';
-    import { Zone } from './enums/areaEnums';
+    import { SpecialAreaId, Zone } from './enums/areaEnums';
 
     const player = usePlayer();
     const saves = useSaveStore();
@@ -111,10 +134,9 @@
     const name = "app";
 
     const activePanel = ref(Panels.WORLD);
-    const activeTabWorld = ref(Tab.COMBAT);
+    const activeTabOverworld = ref(Tab.COMBAT);
+    const activeTabHome = ref(Tab.OVERVIEW);
     const activeTabSoul = ref(Tab.SOUL_UPGRADES);
-    const combatUnlock = ref(true);
-    const soulUnlock = ref(true);
 
 
     
@@ -137,8 +159,12 @@
         activePanel.value = panel;
     }
 
-    function showTabWorld (tab:Tab) {
-        activeTabWorld.value = tab;
+    function showTabOverworld (tab:Tab) {
+        activeTabOverworld.value = tab;
+    }
+
+    function showTabHome (tab:Tab) {
+        activeTabHome.value = tab;
     }
 
     function showTabSoul (tab:Tab) {

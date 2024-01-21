@@ -4,10 +4,14 @@ export enum Panels {
 }
 
 export enum Tab {
-    //World
+    //Overworld
     COMBAT = "combat",
-    AREA_ACTIONS = "areaActions",
-    HOME = "home",
+    INFO = "info",
+
+    //Home
+    OVERVIEW = "overview",
+    HOME_UPGRADES = "upgrades",
+    EXPLORE = "explore",
 
     //Soul
     SOUL_UPGRADES = "soulUpgrades",

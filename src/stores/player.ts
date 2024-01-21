@@ -14,6 +14,8 @@ export const usePlayer = defineStore('player', () => {
     const gameStage = ref(GameStage.INTRO);
     const furthestStage = ref(GameStage.INTRO);
     const deniedSoul = ref(false);
+    const exploreUnlocked = ref(false);
+    const soulUnlocked = ref(false);
 
 
 
@@ -126,8 +128,8 @@ export const usePlayer = defineStore('player', () => {
     }
 
     function damage(damageAmnt:Decimal|number, pierce:Boolean=false) {
-        if(pierce) {
-            playerStats.value.currentHealth = Decimal.subtract(playerStats.value.currentHealth, Decimal.subtract(damageAmnt, playerStats.value.defense));
+        if(!pierce) {
+            playerStats.value.currentHealth = Decimal.subtract(playerStats.value.currentHealth, Decimal.max(Decimal.subtract(damageAmnt, playerStats.value.defense), 0));
         }
         else {
             playerStats.value.currentHealth = Decimal.subtract(playerStats.value.currentHealth, damageAmnt);
@@ -197,7 +199,7 @@ export const usePlayer = defineStore('player', () => {
 
     return {
         //Stats
-        currencies, name, tails, playerStats, gameStage, furthestStage, loaded, firstMove, deniedSoul,
+        currencies, name, tails, playerStats, gameStage, furthestStage, loaded, firstMove, deniedSoul, exploreUnlocked, soulUnlocked,
         //Computeds
         getAtk, getDef, getHpCurr, getHpMax, getSpd, getSoul, getMaxSoul, getEnergyDisplay, playerHpRatio, getFood,
         getHPRegen, getEnergyRegen,
