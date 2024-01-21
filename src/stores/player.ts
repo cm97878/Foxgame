@@ -15,6 +15,7 @@ export const usePlayer = defineStore('player', () => {
     const furthestStage = ref(GameStage.INTRO);
     const deniedSoul = ref(false);
     const exploreUnlocked = ref(false);
+    const soulUnlocked = ref(false);
 
 
 
@@ -198,7 +199,7 @@ export const usePlayer = defineStore('player', () => {
 
     return {
         //Stats
-        currencies, name, tails, playerStats, gameStage, furthestStage, loaded, firstMove, deniedSoul, exploreUnlocked,
+        currencies, name, tails, playerStats, gameStage, furthestStage, loaded, firstMove, deniedSoul, exploreUnlocked, soulUnlocked,
         //Computeds
         getAtk, getDef, getHpCurr, getHpMax, getSpd, getSoul, getMaxSoul, getEnergyDisplay, playerHpRatio, getFood,
         getHPRegen, getEnergyRegen,

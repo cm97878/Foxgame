@@ -6,6 +6,7 @@ export enum Panels {
 export enum Tab {
     //Nodes
     COMBAT = "combat",
+    INFO = "info",
 
     //Home
     OVERVIEW = "overview",

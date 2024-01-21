@@ -2,7 +2,8 @@
     <button @click="buy()" class="tooltip-button" :class="{bought: is_bought, unbuyable: !canAfford }" @mouseenter="hover = true" @mouseleave="hover = false">
         {{ title }}
         <Transition name="upgrade-tooltip">
-            <div v-show="hover" class="tooltiptext">
+            <!-- sets hover false on mouseenter here 'cause otherwise it can get 'stuck' and feel weird -->
+            <div v-show="hover" class="tooltiptext" @mouseenter="hover = false">
                 {{ flavor }}
                 <div class="divider"></div>
                 {{ effect_description }}
@@ -47,12 +48,12 @@ const canAfford = computed(() => props.costFunc ? props.costFunc(true) : false)
 
 const buy = function() {
     if(props.upgrade_key && canAfford.value && props.costFunc) {
-        let temp = props.upgrade_category === UpgradeCategory.SOUL ? upgrades.soul.get(props.upgrade_key) : upgrades.shrine.get(props.upgrade_key);
+        let temp = props.upgrade_category === UpgradeCategory.SOUL ? upgrades.soul.get(props.upgrade_key) : upgrades.home.get(props.upgrade_key);
         if(temp) {
             // Actually buy the upgrade.
             props.costFunc(false)
             temp.bought = true;
-            props.upgrade_category === UpgradeCategory.SOUL ? upgrades.soul.set(props.upgrade_key, temp) : upgrades.shrine.set(props.upgrade_key, temp);
+            props.upgrade_category === UpgradeCategory.SOUL ? upgrades.soul.set(props.upgrade_key, temp) : upgrades.home.set(props.upgrade_key, temp);
             if(props.effect) {
                 props.effect();
             }
@@ -110,7 +111,7 @@ const buy = function() {
 
     .upgrade-tooltip-enter-active,
     .upgrade-tooltip-leave-active {
-        transition: opacity 0.2s ease;
+        transition: opacity 0.1s ease;
     }
 
     .upgrade-tooltip-enter-from,

@@ -22,7 +22,13 @@ export const useUpgradeStore = defineStore('upgradeStore', {
                 player.addBaseDef(1);
             }
         */
+
+        //TODO: add this to saving functionality.
        soul: new Map<number, Upgrade>([
+
+        ]),
+        
+        home: new Map<number, Upgrade>([
             [1,{
                 show: true,
                 bought: false,
@@ -63,7 +69,7 @@ export const useUpgradeStore = defineStore('upgradeStore', {
                 bought: false,
                 category: UpgradeCategory.SOUL,
                 title: "Novice Explorer",
-                flavor: "You have grown stronger from your explorations of the immiedate area.",
+                flavor: "You have grown stronger from your explorations of the immediate area.",
                 effectDescription: "+10 HP.",
                 costDescription:"Requires 6 areas scouted.",
                 costFunc: (buyCheck: boolean) => {
@@ -75,17 +81,13 @@ export const useUpgradeStore = defineStore('upgradeStore', {
                     player.addBaseHealth(10);
                 }
 
-            }]
-
-        ]),
-        //TODO: add this to saving functionality.
-        shrine: new Map<number, Upgrade>([
-            [1,{
+            }],
+            [4,{
                 show: true,
                 bought: false,
                 category: UpgradeCategory.SHRINE,
                 title: "Makeshift Bed",
-                flavor: "Scrounge up some sticks and soft things so you have something better to sleep on then the cold, stone floor.",
+                flavor: "Scrounge up some sticks and soft things so you have something better to sleep on then the cold stone floor.",
                 effectDescription: "+0.5 HP/sec, +0.2 Energy/sec. True Cost is TBD",
                 costDescription:"Costs 10 Soul.",
                 costFunc: (buyCheck: boolean) => {

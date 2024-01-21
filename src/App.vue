@@ -7,8 +7,8 @@
 
         <div id="left_side_container" class="app_container">
             <div id="info_top_buttons_container">
-                <button @click="showPanel(Panels.WORLD)" v-show="combatUnlock" class="info_buttons">World</button>
-                <button @click="showPanel(Panels.SOUL)" v-show="soulUnlock" class="info_buttons">Soul</button>
+                <button @click="showPanel(Panels.WORLD)" class="info_buttons">World</button>
+                <button @click="showPanel(Panels.SOUL)" v-show="player.soulUnlocked" class="info_buttons">Soul</button>
                 <!-- <button @click="eventStore.callCutscene(eventStore.cutscenes.get('intro'))"  class="info_buttons">Cutscene</button> -->
             </div>
             
@@ -17,9 +17,9 @@
                 <!-- General nodes, anything not labeled as Special -->
                 <div v-show="!(mapStore.selectedNode.data.areaSpecialID)">
                     <div class="tab_container">
-                        <!-- <span :class="{ 'tab-selected': activeTabNodes === Tab.INFO }" @click="showTabWorld(Tab.INFO)" class="tab">
+                        <span :class="{ 'tab-selected': activeTabNodes === Tab.INFO }" @click="showTabNodes(Tab.INFO)" class="tab">
                             Info
-                        </span> -->
+                        </span>
                         <span :class="{ 'tab-selected': activeTabNodes === Tab.COMBAT, 'in-combat': combatStore.activeCombat }" @click="showTabNodes(Tab.COMBAT)" class="tab">
                             Combat
                         </span>
@@ -27,6 +27,7 @@
                 </div>
 
                 <div v-show="!(mapStore.selectedNode.data.areaSpecialID)" class="content-container">
+                    <InfoPanel v-bind:active="activeTabNodes" />
                     <CombatPanel v-bind:active="activeTabNodes" />
                 </div>
 
@@ -110,6 +111,7 @@
     import OvermapPanel from './components/OvermapPanel.vue';
     import CutsceneModal from './components/CutsceneModal.vue';
     import BasePanel from './components/BasePanel.vue';
+    import InfoPanel from './components/InfoPanel.vue';
     import { Panels, Tab } from './enums/panels';
     import { usePlayer } from './stores/player';
     import { onMounted, ref } from 'vue';
@@ -135,8 +137,6 @@
     const activeTabNodes = ref(Tab.COMBAT);
     const activeTabHome = ref(Tab.OVERVIEW);
     const activeTabSoul = ref(Tab.SOUL_UPGRADES);
-    const combatUnlock = ref(true);
-    const soulUnlock = ref(true);
 
 
     

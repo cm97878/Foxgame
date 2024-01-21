@@ -34,10 +34,7 @@
 
         <div class="stats_flex_container">
             <div class="stats_container">
-                <div class="general_outline info_hp_bar_outline">
-                    <div id="info_player_hp_bar_solid" class="hp_bar_background"></div>
-                    {{ displayDecimal(player.getHpCurr) + " / " + displayDecimal(player.getHpMax) }}
-                </div>
+                <PlayerHpBar />
                 <div class="general_outline combat_stats">
                     Atk: {{ displayDecimal(player.getAtk) }} <br />
                     Def: {{ displayDecimal(player.getDef) }} <br />
@@ -77,8 +74,10 @@ import { usePlayer } from '@/stores/player';
 import { useCombatStore } from '@/stores/combatStore';
 import { computed } from 'vue';
 import CarouselIcon from './CarouselIcon.vue';
-import { displayDecimal } from '@/utils/utils'
+import { displayDecimal } from '@/utils/utils';
 import { Tab } from '@/enums/panels';
+import PlayerHpBar from './playerHPBar.vue';
+
 const player = usePlayer();
 const combatStore = useCombatStore();
 
@@ -108,14 +107,6 @@ defineExpose({ enemyHpRatio })
 </script>
 
 <style>
-    #info_player_hp_bar_solid {
-        width: v-bind("player.playerHpRatio")
-    }
-
-    #info_enemy_hp_bar_solid {
-        width: v-bind("enemyHpRatio")
-    }
-
     .combat_actions {
         button {
             padding: 10px;
