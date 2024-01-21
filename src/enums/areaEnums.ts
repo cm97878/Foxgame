@@ -1,6 +1,6 @@
 export enum SpecialAreaId {
     HOME = "Home",
-    SHRINE = "Shrine"
+    CLEARING = "Clearing"
 }
 
 export enum Zone {

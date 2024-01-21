@@ -1,5 +1,5 @@
 <template>
-    <div v-show="active === 'areaActions' && !isEventActive">
+    <div v-show="active === Tab.EXPLORE && !isEventActive">
         <div v-if="combatStore.activeCombat" class="in-combat">
             Currently in combat, cannot explore safely.
         </div>
@@ -22,6 +22,7 @@ import { usePlayer } from '@/stores/player';
 import type { AreaEvent }  from '@/types/areaEvent'
 import EventDisplay from './EventDisplay.vue';
 import { ref } from 'vue';
+import { Tab } from '@/enums/panels';
 import { useMapStore } from '@/stores/mapStore';
 
 const name = "areaActionsPanel";

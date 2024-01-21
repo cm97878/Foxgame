@@ -13,10 +13,14 @@ export const useSaveStore = defineStore('saveStore', () =>{
     const mapStore = useMapStore();
 
     var saveFile = {
+        //TODO: gamestage stuff
         gameStage: player.gameStage,
         furthestStage: player.furthestStage,
         firstMove: player.firstMove,
         deniedSoul: player.deniedSoul,
+        exploreUnlocked: player.exploreUnlocked,
+
+
         currencies: {
             soul: player.currencies.soul,
             maxSoul: player.currencies.maxSoul,
@@ -41,10 +45,14 @@ export const useSaveStore = defineStore('saveStore', () =>{
     const save = function() {
         console.log(saveFile)
         saveFile = {
+            //TODO: gamestage stuff
             gameStage: player.gameStage,
             furthestStage: player.furthestStage,
             firstMove: player.firstMove,
             deniedSoul: player.deniedSoul,
+            exploreUnlocked: player.exploreUnlocked,
+
+
             currencies: {
                 soul: player.currencies.soul,
                 maxSoul: player.currencies.maxSoul,
@@ -63,6 +71,7 @@ export const useSaveStore = defineStore('saveStore', () =>{
             },
             kills: [] as Array<SaveKillsArray>
         }
+        //TODO: this only saves upgrades in the soul category
         saveFile.unlocks.playerUpgrades = Array.from(upgrades.soul.entries()).map((entry) => {
             return {
                 key: entry[0],
@@ -86,10 +95,13 @@ export const useSaveStore = defineStore('saveStore', () =>{
             player.loaded = true;
             return false;
         }
+        //TODO: gamestage stuff
         player.gameStage = saveFile.gameStage;
         player.furthestStage = saveFile.furthestStage;
         player.firstMove = saveFile.firstMove;
         player.deniedSoul = saveFile.deniedSoul;
+        player.exploreUnlocked = saveFile.exploreUnlocked;
+
         player.currencies.soul = new Decimal(saveFile.currencies.soul);
         player.currencies.maxSoul = new Decimal(saveFile.currencies.maxSoul);
         player.name = saveFile.name;

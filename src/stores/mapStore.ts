@@ -306,7 +306,7 @@ export const useMapStore = defineStore('mapStuff', () => {
     const totalScouted = computed(() => {
         let val = 0;
         mapNodes.value.forEach(element => {
-            if(element.data.killCount >= element.data.scoutThreshold) {
+            if(!element.data.areaSpecialID && element.data.killCount >= element.data.scoutThreshold) {
                 val++;
             }
         })

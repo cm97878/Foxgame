@@ -1,5 +1,5 @@
 <template>
-    <div v-show="active === Tab.HOME">
+    <div v-show="active === Tab.OVERVIEW">
         <div v-if="!(mapStore.isSpecial === SpecialAreaId.HOME)" >
             Not available while exploring.
         </div>
@@ -7,11 +7,12 @@
             <div class = "base-pic"></div>
             <div class = "base-text">
                 <span>A dark, drafty cave, with little in the way of comfort. It wouldn't hurt to make this place a little bit more like a proper home...</span>
+                <PlayerHpBar style="margin-bottom: 5px; margin-top: 8px;"/>
                 <span style="color:green">Current HP Regen: {{ player.getHPRegen }}</span>
                 <span style=" color:gold">Current Energy Regen: {{ player.getEnergyRegen }}</span>
             </div>
             <div class = "upgrades">
-                <UpgradeButton v-for="(item) in upgradeStore.shrine.entries()"
+                <UpgradeButton v-for="(item) in upgradeStore.home.entries()"
                     :upgrade_key="item[0]" 
                     :show="item[1].show"
                     :is_bought="item[1].bought"
@@ -36,6 +37,7 @@ import { useMapStore } from '@/stores/mapStore';
 import { Tab } from '@/enums/panels';
 import { usePlayer } from '@/stores/player';
 import { useUpgradeStore } from '@/stores/upgradeStore';
+import PlayerHpBar from './playerHPBar.vue';
 
 const name = "basePanel";
 

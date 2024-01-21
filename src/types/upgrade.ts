@@ -12,5 +12,5 @@ export interface Upgrade {
 
 export enum UpgradeCategory {
   SOUL="soul",
-  SHRINE="shrine"
+  HOME="home"
 }
