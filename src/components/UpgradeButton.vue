@@ -1,20 +1,22 @@
 <template>
-    <button @click="buy()" class="tooltip-button" :class="{bought: is_bought, unbuyable: !canAfford }">
+    <button @click="buy()" class="tooltip-button" :class="{bought: is_bought, unbuyable: !canAfford }" @mouseenter="hover = true" @mouseleave="hover = false">
         {{ title }}
-        <div class="tooltiptext">
-            {{ flavor }}
-            <div class="divider"></div>
-            {{ effect_description }}
-            <div class="divider"></div>
-            {{ cost_description }}
-        </div>
+        <Transition name="upgrade-tooltip">
+            <div v-show="hover" class="tooltiptext">
+                {{ flavor }}
+                <div class="divider"></div>
+                {{ effect_description }}
+                <div class="divider"></div>
+                {{ cost_description }}
+            </div>
+        </Transition>
     </button>
 </template>
 
 
 <script setup lang="ts">
 import Decimal from 'break_infinity.js';
-import { computed, type PropType } from 'vue';
+import { computed, ref, type PropType } from 'vue';
 import { usePlayer } from '@/stores/player';
 import { useUpgradeStore } from '@/stores/upgradeStore';
 import { UpgradeCategory } from '@/types/upgrade';
@@ -22,6 +24,7 @@ import { UpgradeCategory } from '@/types/upgrade';
 
 const name = "upgradebutton";
 
+const hover = ref(false);
 
 const player = usePlayer();
 const upgrades = useUpgradeStore();
@@ -66,7 +69,6 @@ const buy = function() {
     }
 
     .tooltip-button .tooltiptext {
-        visibility: hidden;
         width: 200px;
         background-color: grey;
         color: #fff;
@@ -82,9 +84,6 @@ const buy = function() {
         left: 105%;
     }
 
-    .tooltip-button:hover .tooltiptext {
-        visibility: visible;
-    }
     .divider {
         border-bottom: 1px solid;
     }
@@ -100,5 +99,22 @@ const buy = function() {
 
     .unbuyable {
         background-color: rgb(117, 117, 117);
+    }
+    .unbuyable:hover {
+        background-color: rgb(117, 117, 117);
+        color: white;
+    }
+    .unbuyable:active {
+        box-shadow: none;
+    }
+
+    .upgrade-tooltip-enter-active,
+    .upgrade-tooltip-leave-active {
+        transition: opacity 0.2s ease;
+    }
+
+    .upgrade-tooltip-enter-from,
+    .upgrade-tooltip-leave-to {
+        opacity: 0;
     }
 </style>
