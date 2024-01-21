@@ -6,6 +6,8 @@ import type { AreaData } from '@/types/areaData'
 import { SpecialAreaId, Zone } from '@/enums/areaEnums'
 import { useCombatStore } from '@/stores/combatStore';
 import { computed, ref } from 'vue'
+import { useGameFlags } from './gameFlags'
+import { useEventStore } from './eventStore'
 
 /* LEAVE THIS HERE >:(
 name: "",
@@ -19,6 +21,9 @@ soulKill: new Decimal(""),
 
 
 export const useMapStore = defineStore('mapStuff', () => {
+
+    const gameFlags = useGameFlags();
+    const eventStore = useEventStore();
 
     // -- State --
 
@@ -227,12 +232,18 @@ export const useMapStore = defineStore('mapStuff', () => {
         class: 'light',
         type: 'custom',
         data: {
-            //Will be special
+            areaSpecialID: SpecialAreaId.SHRINE, 
+            customFunc: function() {
+                if(!gameFlags.getShrine1){
+                    eventStore.callCutscene(eventStore.cutscenes.get("idolGet"))
+                }
+            },
             areaName: "Strange Clearing",
             zone: Zone.FOREST,
             description: "i imagine special locations are gonna just have fully different formatting so this doesnt matter lol",
             killCount: 0,
-            scoutThreshold: 1
+            scoutThreshold: 1,
+            interactable: false,
         } as AreaData
     }]);
 

@@ -9,6 +9,7 @@ import { SpecialAreaId } from '@/enums/areaEnums';
 export const usePlayer = defineStore('player', () => {
 
     // -- Game states --
+    //TODO: Some of these can be changes to GameFlags.
     const loaded = ref(false);
     const firstMove = ref(true);
     const gameStage = ref(GameStage.INTRO);

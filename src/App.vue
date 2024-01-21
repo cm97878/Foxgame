@@ -9,7 +9,6 @@
             <div id="info_top_buttons_container">
                 <button @click="showPanel(Panels.WORLD)" v-show="combatUnlock" class="info_buttons">World</button>
                 <button @click="showPanel(Panels.SOUL)" v-show="soulUnlock" class="info_buttons">Soul</button>
-                <!-- <button @click="eventStore.callCutscene(eventStore.cutscenes.get('intro'))"  class="info_buttons">Cutscene</button> -->
             </div>
             
             <div v-show="activePanel == Panels.WORLD">

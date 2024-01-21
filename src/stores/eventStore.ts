@@ -141,15 +141,9 @@ export const useEventStore = defineStore('eventstore', () => {
             choices: [
                 {
                     id: 1,
-                    label: "Continue"
+                    label: "Neat!"
                 }
             ],
-            cutsceneCallback: function(choice) {
-                player.gameStage = GameStage.PRE_TAILS;
-                player.addFood(player.getFood.times(-1)); //Food aint stored here, it becomes an actual resource again later but not yet baybee
-                activeScene.value = undefined;
-            },
-            chain: true,
         }],
     ])
 

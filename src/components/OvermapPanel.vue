@@ -69,14 +69,16 @@ onNodeClick((node) => {
     if (isConnected(node) && !combatStore.getActiveCombat) {
         const chosenNode = findNode(node.node.id)!;
 
+        //TODO: Make this check use gameFlags
         if(player.firstMove) {
             player.firstMove = false;
             combatStore.startCombat(mapStore.enemyList[0]);
             eventStore.callCutscene(eventStore.cutscenes.get("firstMove"));
-        }
-        else if(!(chosenNode?.data?.areaSpecialID === SpecialAreaId.HOME)) {
+        } else if(!!chosenNode?.data?.customFunc) {
+            chosenNode.data.customFunc();
+        } else if(!(!!chosenNode?.data?.areaSpecialID)) {
             mapStore.callRandomEncounter(Zone.FOREST)
-        }
+        } 
 
         
         mapStore.selectedNode = chosenNode;
