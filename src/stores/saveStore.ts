@@ -3,14 +3,17 @@ import { usePlayer } from "./player";
 import { useUpgradeStore } from "./upgradeStore";
 import Decimal from "break_infinity.js";
 import { ref } from "vue";
-import type { SaveUpgradeArray } from "@/types/saveUpgradeArray";
+import type { SaveUpgradeArray, SaveKillsArray, SavedGameFlags } from "@/types/saveArrays";
 import { useMapStore } from "./mapStore";
-import type { SaveKillsArray } from "@/types/saveKillsArray";
+import type { GameFlag } from "@/types/gameFlag";
+import { useGameFlags } from "./gameFlags";
+import type { FlagEnum } from "@/enums/flagEnum";
 
 export const useSaveStore = defineStore('saveStore', () =>{
     const player = usePlayer();
     const upgrades = useUpgradeStore();
     const mapStore = useMapStore();
+    const gameFlags = useGameFlags();
 
     var saveFile = {
         //TODO: gamestage stuff
@@ -36,7 +39,8 @@ export const useSaveStore = defineStore('saveStore', () =>{
         unlocks: {
             playerUpgrades: [] as Array<SaveUpgradeArray>
         },
-        kills: [] as Array<SaveKillsArray>
+        kills: [] as Array<SaveKillsArray>,
+        gameFlags: [] as Array<SavedGameFlags>
     }
 
 
@@ -66,10 +70,11 @@ export const useSaveStore = defineStore('saveStore', () =>{
             unlocks: {
                 playerUpgrades: [] as Array<SaveUpgradeArray>
             },
-            kills: [] as Array<SaveKillsArray>
+            kills: [] as Array<SaveKillsArray>,
+            gameFlags: [] as Array<SavedGameFlags>
         }
-        //TODO: this only saves upgrades in the soul category
-        saveFile.unlocks.playerUpgrades = Array.from(upgrades.soul.entries()).map((entry) => {
+        //TODO: this only saves upgrades in the home category
+        saveFile.unlocks.playerUpgrades = Array.from(upgrades.home.entries()).map((entry) => {
             return {
                 key: entry[0],
                 unlocked: entry[1].show,
@@ -81,6 +86,13 @@ export const useSaveStore = defineStore('saveStore', () =>{
                 key: entry.id,
                 kills: entry.data.killCount
             } as SaveKillsArray
+        })
+        saveFile.gameFlags = Array.from(gameFlags.flagList).map((entry) => {
+            return {
+                key: entry[0],
+                description: entry[1].description,
+                state: entry[1].state
+            } as SavedGameFlags
         })
         localStorage.setItem('kitsune_save', JSON.stringify(saveFile));
         console.log(saveFile)
@@ -110,11 +122,11 @@ export const useSaveStore = defineStore('saveStore', () =>{
             spd: saveFile.playerStats.spd
         };
         saveFile.unlocks.playerUpgrades.forEach(function(item) {
-            let temp = upgrades.soul.get(item.key);
+            let temp = upgrades.home.get(item.key);
             if(temp) {
                 temp.show = item.unlocked;
                 temp.bought = item.bought;
-                upgrades.soul.set(item.key, temp);
+                upgrades.home.set(item.key, temp);
             }
         })
         saveFile.kills.forEach(function(item) {
@@ -123,6 +135,14 @@ export const useSaveStore = defineStore('saveStore', () =>{
                 temp2.data.killCount = item.kills;
             }
         })
+        const gameFlagsMap = new Map<FlagEnum, GameFlag>([])
+        saveFile.gameFlags.forEach(function(item) {
+            gameFlagsMap.set(item.key, {
+                description: item.description,
+                state: item.state
+            })
+        })
+        gameFlags.flagList = gameFlagsMap
         mapStore.scouted$ = "$REFRESH$"
         console.log(saveFile)
         
