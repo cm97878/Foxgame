@@ -136,18 +136,38 @@ export const useEventStore = defineStore('eventstore', () => {
             },
             chain: true,
         }],
-        ["idolGet", {
+        ["idolFind", {
             title: "",
-            description: "You find a strange idol",
+            description: "You find a large stone idol half buried in the ground. You are drawn to bring it back home with you, but it's too big to carry in your mouth...<br /> <br />[New options are available at Home.]",
             choices: [
                 {
                     id: 1,
-                    label: "Neat!"
+                    label: "Continue"
                 }
             ],
-            cutsceneCallback: function() {
-                gameFlags.setFlag(1, true);
-            }
+            cutsceneCallback: function() {}
+        }],
+        ["idolGet", {
+            title: "",
+            description: "You awkwardly tie the rope to the statue and begin pulling it back...",
+            choices: [
+                {
+                    id: 1,
+                    label: "Continue"
+                }
+            ],
+            cutsceneCallback: function() {}
+        }],
+        ["idolReturned", {
+            title: "",
+            description: "After a long journey, you finally bring the stone statue home, dragging it into the center of the cave. Looking at it, a feeling of tranquility washes over you.",
+            choices: [
+                {
+                    id: 1,
+                    label: "Continue"
+                }
+            ],
+            cutsceneCallback: function() {}
         }],
     ])
 

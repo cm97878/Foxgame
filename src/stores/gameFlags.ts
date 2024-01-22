@@ -14,6 +14,10 @@ export const useGameFlags = defineStore('gameFlags', () => {
             description: "Have you encountered the stone statue yet?",
             state:false
         }],
+        [FlagEnum.STATUE_OBTAINED, {
+            description: "Have you obtained the stone statue?",
+            state:false
+        }],
         [FlagEnum.SHRINE_UNLOCKED, {
             description: "Have you returned the statue home?",
             state:false

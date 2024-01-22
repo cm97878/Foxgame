@@ -1,4 +1,4 @@
 export interface GameFlag {
-    description: String;
-    state: boolean;
+    description: String; //helps for human readability, unless we want to make a reference file somewhere.
+    state: boolean; 
 }

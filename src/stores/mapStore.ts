@@ -67,11 +67,21 @@ export const useMapStore = defineStore('mapStuff', () => {
         class: 'light',
         data: {
             areaSpecialID: SpecialAreaId.HOME, //Absence of this is a regular area.
+            customFunc: function() {
+                //Check for progress in the Unlock Shrine storyline.
+
+                if(!gameFlags.flagList.get(FlagEnum.SHRINE_UNLOCKED)?.state && 
+                gameFlags.flagList.get(FlagEnum.STATUE_OBTAINED)?.state){
+                    eventStore.callCutscene(eventStore.cutscenes.get("idolReturned"))
+                    gameFlags.setFlag(FlagEnum.SHRINE_UNLOCKED, true)
+                } 
+            },
             areaName: "Home",
             zone: Zone.FOREST,
             description: "You can just put whatever here.",
             killCount: 0,
-            scoutThreshold: 0
+            scoutThreshold: 0,
+            interactable: false,
         } as AreaData
     },
     {
@@ -237,13 +247,24 @@ export const useMapStore = defineStore('mapStuff', () => {
         data: {
             areaSpecialID: SpecialAreaId.CLEARING, 
             customFunc: function() {
+                //Check for progress in the Unlock Shrine storyline.
+
                 if(!gameFlags.flagList.get(FlagEnum.EXPLORE_UNLOCKED)?.state){
-                    eventStore.callCutscene(eventStore.cutscenes.get("idolGet"))
+                    eventStore.callCutscene(eventStore.cutscenes.get("idolFind"))
                     gameFlags.setFlag(FlagEnum.EXPLORE_UNLOCKED, true)
                     //TODO: Could probably make helper functions in upgradeStore for this.
                     const ropeUpgrade = upgradeStore.home.get(4)
                     if (!!ropeUpgrade) {
                         ropeUpgrade.show = true
+                        upgradeStore.home.set(4, ropeUpgrade)
+                    }
+                } else if (!gameFlags.flagList.get(FlagEnum.STATUE_OBTAINED)?.state && upgradeStore.home.get(4)?.bought) {
+                    eventStore.callCutscene(eventStore.cutscenes.get("idolGet"))
+                    gameFlags.setFlag(FlagEnum.STATUE_OBTAINED, true)
+                    //TODO: Could probably make helper functions in upgradeStore for this.
+                    const ropeUpgrade = upgradeStore.home.get(4)
+                    if (!!ropeUpgrade) {
+                        ropeUpgrade.show = false
                         upgradeStore.home.set(4, ropeUpgrade)
                     }
                 }

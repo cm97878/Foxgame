@@ -1,5 +1,6 @@
 export enum FlagEnum {
     EXPLORE_UNLOCKED = 1,
+    STATUE_OBTAINED,
     SHRINE_UNLOCKED,
     SOUL_UNLOCKED
 }
