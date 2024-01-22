@@ -1,32 +1,48 @@
+import { FlagEnum } from "@/enums/flagEnum"
 import type { GameFlag } from "@/types/gameFlag"
 import { defineStore } from "pinia"
-import { computed, ref } from "vue"
+import { ref } from "vue"
 
 export const useGameFlags = defineStore('gameFlags', () => {
   
 	// --- State ---
+    //This should be an empty map once we get this actually working fully.
+    //const flagList = ref<Map<string, GameFlag>>();
 
-	//TODO: I've wussed out on making a Map of GameFlags due to the thorny issues around making a Map reactive on it's entries
-	//and not it's keys not coming to me right now. Going to just make individual gameFlag variables for now.
-	//const gameFlags = ref<Map<string, GameFlag>>()
-	const shrine1 = ref<GameFlag>({description: "Have you encountered the stone statue yet? ", flagOn: false})
-	const shrine2 = ref<GameFlag>({description: "Have you returned the statue back home? ", flagOn: false})
-
-	// --- Getters/Computeds ---
-	const getShrine1 = computed(() => shrine1.value.flagOn)
-	const getShrine2 = computed(() => shrine2.value.flagOn)
+    const flagList = ref<Map<FlagEnum, GameFlag>>(new Map<FlagEnum, GameFlag>([
+        [FlagEnum.EXPLORE_UNLOCKED, {
+            description: "Have you encountered the stone statue yet?",
+            state:false
+        }],
+        [FlagEnum.SHRINE_UNLOCKED, {
+            description: "Have you returned the statue home?",
+            state:false
+        }],
+        [FlagEnum.SOUL_UNLOCKED, {
+            description: "Have you unlocked soul through the intro?",
+            state:true
+        }],
+    ]))
 
 	//Actions
-    function setShrine1(state: boolean): void {shrine1.value.flagOn = state}
-	function setShrine2(state: boolean): void {shrine2.value.flagOn = state}
+    //Returns true if operation was successsful, false otherwise.
+    function setFlag(x: number, newState:boolean): boolean { 
+        const mapValue = flagList.value.get(x)
+        if (!!mapValue) {
+            flagList.value.set(x, {description: mapValue.description, state: newState})
+            return true;
+        }
+        return false;
+    }
+    //do this on a new file.
+    // function initializeFlags(): void {
+
+    // }
+
+    // function reInitFlags: can do this on load to add new flags in.
 
 
 	return {
-		//State
-		shrine1, shrine2,
-        //Computed
-        getShrine1, getShrine2,
-		//Actions
-		setShrine1, setShrine2
+		flagList, setFlag
 	}
 })

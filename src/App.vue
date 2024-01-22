@@ -8,7 +8,7 @@
         <div id="left_side_container" class="app_container">
             <div id="info_top_buttons_container">
                 <button @click="showPanel(Panels.WORLD)" class="info_buttons">World</button>
-                <button @click="showPanel(Panels.SOUL)" v-show="player.soulUnlocked" class="info_buttons">Soul</button>
+                <button @click="showPanel(Panels.SOUL)" v-show="gameFlags.flagList.get(FlagEnum.SOUL_UNLOCKED)" class="info_buttons">Soul</button>
             </div>
             
             <div v-show="activePanel == Panels.WORLD">
@@ -40,10 +40,14 @@
                         <span :class="{ 'tab-selected': activeTabHome === Tab.HOME_UPGRADES }" @click="showTabHome(Tab.HOME_UPGRADES)" class="tab">
                             Upgrades
                         </span>
-                        <span v-if="player.exploreUnlocked" :class="{ 'tab-selected': activeTabHome === Tab.EXPLORE }" @click="showTabHome(Tab.EXPLORE)" class="tab">
+                        <span v-if="gameFlags.flagList.get(FlagEnum.EXPLORE_UNLOCKED)" :class="{ 'tab-selected': activeTabHome === Tab.EXPLORE }" @click="showTabHome(Tab.EXPLORE)" class="tab">
                             Explore
                         </span>
                     </div>
+                </div>
+
+                <div v-show="mapStore.selectedNode.data.areaSpecialID === SpecialAreaId.CLEARING">
+                    <InfoPanel v-bind:active="activeTabOverworld" />
                 </div>
 
                 <div v-show="mapStore.selectedNode.data.areaSpecialID === SpecialAreaId.HOME" class="content-container">
@@ -95,6 +99,8 @@
                 <button @click="loadToggle">{{ toggleState === "1" ? "Using save slot" : "Not using saves" }}</button>
                 <button @click="player.gameStage = GameStage.PRE_TAILS">Set gamestage intro->pre_tails</button>
                 <button @click="mapStore.callRandomEncounter(Zone.FOREST)">Fight Enemy</button>
+                <button @click="gameFlags.setFlag(1, true)">Set Flag 1</button>
+
             </div>
             {{ "number of tails: " + player.tails }}<br />{{ "max soul: " + player.getMaxSoul }}<br />{{ "areas scouted: " + mapStore.totalScouted }} <br /> {{ "kills: " + mapStore.totalKills }}
             <OvermapPanel />
@@ -113,7 +119,7 @@
     import InfoPanel from './components/InfoPanel.vue';
     import { Panels, Tab } from './enums/panels';
     import { usePlayer } from './stores/player';
-    import { onMounted, ref } from 'vue';
+    import { onMounted, ref, watch } from 'vue';
     import { useSaveStore } from './stores/saveStore';
     import { useCombatStore } from './stores/combatStore';
     import { GameStage } from './enums/gameStage';
@@ -122,6 +128,8 @@
     import { useEventStore } from './stores/eventStore'
     import { useMapStore } from './stores/mapStore';
     import { SpecialAreaId, Zone } from './enums/areaEnums';
+    import { useGameFlags } from './stores/gameFlags';
+    import { FlagEnum } from "@/enums/flagEnum"
 
     const player = usePlayer();
     const saves = useSaveStore();
@@ -129,6 +137,7 @@
     const gameTick = useGameTick();
     const eventStore = useEventStore();
     const mapStore = useMapStore();
+    const gameFlags = useGameFlags();
 
     const name = "app";
 
@@ -137,7 +146,9 @@
     const activeTabHome = ref(Tab.OVERVIEW);
     const activeTabSoul = ref(Tab.SOUL_UPGRADES);
 
-
+    watch(() => gameFlags.flagList.get(1), () => {
+        console.log("Flag 1 has changed!")
+    })
     
     //TODO: This is messy and for testing, remove later
     const toggleState = ref("");

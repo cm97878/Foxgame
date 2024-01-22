@@ -10,13 +10,12 @@ export const usePlayer = defineStore('player', () => {
 
     // -- Game states --
     //TODO: Some of these can be changes to GameFlags.
+    //TODO: Save flags, as well
     const loaded = ref(false);
     const firstMove = ref(true);
     const gameStage = ref(GameStage.INTRO);
     const furthestStage = ref(GameStage.INTRO);
     const deniedSoul = ref(false);
-    const exploreUnlocked = ref(false);
-    const soulUnlocked = ref(false);
 
 
 
@@ -200,7 +199,7 @@ export const usePlayer = defineStore('player', () => {
 
     return {
         //Stats
-        currencies, name, tails, playerStats, gameStage, furthestStage, loaded, firstMove, deniedSoul, exploreUnlocked, soulUnlocked,
+        currencies, name, tails, playerStats, gameStage, furthestStage, loaded, firstMove, deniedSoul,
         //Computeds
         getAtk, getDef, getHpCurr, getHpMax, getSpd, getSoul, getMaxSoul, getEnergyDisplay, playerHpRatio, getFood,
         getHPRegen, getEnergyRegen,

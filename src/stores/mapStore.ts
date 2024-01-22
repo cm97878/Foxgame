@@ -8,6 +8,7 @@ import { useCombatStore } from '@/stores/combatStore';
 import { computed, ref } from 'vue'
 import { useGameFlags } from './gameFlags'
 import { useEventStore } from './eventStore'
+import { FlagEnum } from '@/enums/flagEnum'
 
 /* LEAVE THIS HERE >:(
 name: "",
@@ -232,10 +233,11 @@ export const useMapStore = defineStore('mapStuff', () => {
         class: 'light',
         type: 'custom',
         data: {
-            areaSpecialID: SpecialAreaId.SHRINE, 
+            areaSpecialID: SpecialAreaId.CLEARING, 
             customFunc: function() {
-                if(!gameFlags.getShrine1){
+                if(!gameFlags.flagList.get(FlagEnum.EXPLORE_UNLOCKED)){
                     eventStore.callCutscene(eventStore.cutscenes.get("idolGet"))
+                    gameFlags.setFlag(FlagEnum.EXPLORE_UNLOCKED, true)
                 }
             },
             areaName: "Strange Clearing",

@@ -146,7 +146,7 @@ export const useEventStore = defineStore('eventstore', () => {
                 }
             ],
             cutsceneCallback: function() {
-                gameFlags.setShrine1(true);
+                gameFlags.setFlag(1, true);
             }
         }],
     ])
