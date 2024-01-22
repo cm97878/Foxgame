@@ -9,6 +9,7 @@ import { computed, ref } from 'vue'
 import { useGameFlags } from './gameFlags'
 import { useEventStore } from './eventStore'
 import { FlagEnum } from '@/enums/flagEnum'
+import { useUpgradeStore } from './upgradeStore'
 
 /* LEAVE THIS HERE >:(
 name: "",
@@ -25,6 +26,7 @@ export const useMapStore = defineStore('mapStuff', () => {
 
     const gameFlags = useGameFlags();
     const eventStore = useEventStore();
+    const upgradeStore = useUpgradeStore();
 
     // -- State --
 
@@ -235,9 +237,15 @@ export const useMapStore = defineStore('mapStuff', () => {
         data: {
             areaSpecialID: SpecialAreaId.CLEARING, 
             customFunc: function() {
-                if(!gameFlags.flagList.get(FlagEnum.EXPLORE_UNLOCKED)){
+                if(!gameFlags.flagList.get(FlagEnum.EXPLORE_UNLOCKED)?.state){
                     eventStore.callCutscene(eventStore.cutscenes.get("idolGet"))
                     gameFlags.setFlag(FlagEnum.EXPLORE_UNLOCKED, true)
+                    //TODO: Could probably make helper functions in upgradeStore for this.
+                    const ropeUpgrade = upgradeStore.home.get(4)
+                    if (!!ropeUpgrade) {
+                        ropeUpgrade.show = true
+                        upgradeStore.home.set(4, ropeUpgrade)
+                    }
                 }
             },
             areaName: "Strange Clearing",

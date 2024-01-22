@@ -12,7 +12,7 @@
                 <span style=" color:gold">Current Energy Regen: {{ player.getEnergyRegen }}</span>
             </div>
             <div class = "upgrades">
-                <UpgradeButton v-for="(item) in upgradeStore.home.entries()"
+                <UpgradeButton v-for="(item) in upgradeStore.getBuyableHomeUpgrades"
                     :upgrade_key="item[0]" 
                     :show="item[1].show"
                     :is_bought="item[1].bought"

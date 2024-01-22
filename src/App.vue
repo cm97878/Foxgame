@@ -8,7 +8,7 @@
         <div id="left_side_container" class="app_container">
             <div id="info_top_buttons_container">
                 <button @click="showPanel(Panels.WORLD)" class="info_buttons">World</button>
-                <button @click="showPanel(Panels.SOUL)" v-show="gameFlags.flagList.get(FlagEnum.SOUL_UNLOCKED)" class="info_buttons">Soul</button>
+                <button @click="showPanel(Panels.SOUL)" v-show="gameFlags.flagList.get(FlagEnum.SOUL_UNLOCKED)?.state" class="info_buttons">Soul</button>
             </div>
             
             <div v-show="activePanel == Panels.WORLD">
@@ -40,7 +40,7 @@
                         <span :class="{ 'tab-selected': activeTabHome === Tab.HOME_UPGRADES }" @click="showTabHome(Tab.HOME_UPGRADES)" class="tab">
                             Upgrades
                         </span>
-                        <span v-if="gameFlags.flagList.get(FlagEnum.EXPLORE_UNLOCKED)" :class="{ 'tab-selected': activeTabHome === Tab.EXPLORE }" @click="showTabHome(Tab.EXPLORE)" class="tab">
+                        <span v-if="gameFlags.flagList.get(FlagEnum.EXPLORE_UNLOCKED)?.state" :class="{ 'tab-selected': activeTabHome === Tab.EXPLORE }" @click="showTabHome(Tab.EXPLORE)" class="tab">
                             Explore
                         </span>
                     </div>
@@ -99,7 +99,7 @@
                 <button @click="loadToggle">{{ toggleState === "1" ? "Using save slot" : "Not using saves" }}</button>
                 <button @click="player.gameStage = GameStage.PRE_TAILS">Set gamestage intro->pre_tails</button>
                 <button @click="mapStore.callRandomEncounter(Zone.FOREST)">Fight Enemy</button>
-                <button @click="gameFlags.setFlag(1, true)">Set Flag 1</button>
+                <button @click="gameFlags.setFlag(FlagEnum.EXPLORE_UNLOCKED, true)">Set Explore Flag</button>
 
             </div>
             {{ "number of tails: " + player.tails }}<br />{{ "max soul: " + player.getMaxSoul }}<br />{{ "areas scouted: " + mapStore.totalScouted }} <br /> {{ "kills: " + mapStore.totalKills }}
@@ -146,8 +146,8 @@
     const activeTabHome = ref(Tab.OVERVIEW);
     const activeTabSoul = ref(Tab.SOUL_UPGRADES);
 
-    watch(() => gameFlags.flagList.get(1), () => {
-        console.log("Flag 1 has changed!")
+    watch(() => gameFlags.flagList.get(1), (flag) => {
+        console.log("Flag 1 has changed to" + flag)
     })
     
     //TODO: This is messy and for testing, remove later
