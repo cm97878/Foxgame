@@ -6,27 +6,7 @@ import { ref } from "vue"
 export const useGameFlags = defineStore('gameFlags', () => {
   
 	// --- State ---
-    //This should be an empty map once we get this actually working fully.
-    //const flagList = ref<Map<string, GameFlag>>();
-
-    const flagList = ref<Map<FlagEnum, GameFlag>>(new Map<FlagEnum, GameFlag>([
-        [FlagEnum.EXPLORE_UNLOCKED, {
-            description: "Have you encountered the stone statue yet?",
-            state:false
-        }],
-        [FlagEnum.STATUE_OBTAINED, {
-            description: "Have you obtained the stone statue?",
-            state:false
-        }],
-        [FlagEnum.SHRINE_UNLOCKED, {
-            description: "Have you returned the statue home?",
-            state:false
-        }],
-        [FlagEnum.SOUL_UNLOCKED, {
-            description: "Have you unlocked soul through the intro?",
-            state:true
-        }],
-    ]))
+    const flagList = ref<Map<FlagEnum, GameFlag>>(new Map<FlagEnum, GameFlag>([]))
 
 	//Actions
     //Returns true if operation was successsful, false otherwise.
@@ -39,14 +19,31 @@ export const useGameFlags = defineStore('gameFlags', () => {
         return false;
     }
     //do this on a new file.
-    // function initializeFlags(): void {
+    function initializeFlags(): void {
+        flagList.value = new Map<FlagEnum, GameFlag>([
+            [FlagEnum.EXPLORE_UNLOCKED, {
+                description: "Have you encountered the stone statue yet?",
+                state:false
+            }],
+            [FlagEnum.STATUE_OBTAINED, {
+                description: "Have you obtained the stone statue?",
+                state:false
+            }],
+            [FlagEnum.SHRINE_UNLOCKED, {
+                description: "Have you returned the statue home?",
+                state:false
+            }],
+            [FlagEnum.SOUL_UNLOCKED, {
+                description: "Have you unlocked soul through the intro?",
+                state:false
+            }],
+        ])
+    }
 
-    // }
-
-    // function reInitFlags: can do this on load to add new flags in.
+    // TODO function reInitFlags: can do this on load to add new flags in. Add this later.
 
 
 	return {
-		flagList, setFlag
+		flagList, setFlag, initializeFlags
 	}
 })

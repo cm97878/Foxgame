@@ -99,7 +99,6 @@
                 <button @click="loadToggle">{{ toggleState === "1" ? "Using save slot" : "Not using saves" }}</button>
                 <button @click="player.gameStage = GameStage.PRE_TAILS">Set gamestage intro->pre_tails</button>
                 <button @click="mapStore.callRandomEncounter(Zone.FOREST)">Fight Enemy</button>
-                <button @click="gameFlags.setFlag(FlagEnum.EXPLORE_UNLOCKED, true)">Set Explore Flag</button>
 
             </div>
             {{ "number of tails: " + player.tails }}<br />{{ "max soul: " + player.getMaxSoul }}<br />{{ "areas scouted: " + mapStore.totalScouted }} <br /> {{ "kills: " + mapStore.totalKills }}
@@ -119,7 +118,7 @@
     import InfoPanel from './components/InfoPanel.vue';
     import { Panels, Tab } from './enums/panels';
     import { usePlayer } from './stores/player';
-    import { onMounted, ref, watch } from 'vue';
+    import { onMounted, ref } from 'vue';
     import { useSaveStore } from './stores/saveStore';
     import { useCombatStore } from './stores/combatStore';
     import { GameStage } from './enums/gameStage';
@@ -145,10 +144,6 @@
     const activeTabOverworld = ref(Tab.COMBAT);
     const activeTabHome = ref(Tab.OVERVIEW);
     const activeTabSoul = ref(Tab.SOUL_UPGRADES);
-
-    watch(() => gameFlags.flagList.get(1), (flag) => {
-        console.log("Flag 1 has changed to" + flag)
-    })
     
     //TODO: This is messy and for testing, remove later
     const toggleState = ref("");
@@ -187,6 +182,7 @@
         gameTick.startGameTick();
         if(!saves.load()) {
             eventStore.callCutscene(eventStore.cutscenes.get("intro"));
+            gameFlags.initializeFlags();
         }
     })
 </script>
