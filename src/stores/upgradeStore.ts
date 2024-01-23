@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import Decimal from 'break_infinity.js'
 import { usePlayer } from './player'
 import { type Upgrade, UpgradeCategory } from '@/types/upgrade'
+import { ResourceEnum } from '@/enums/ResourceEnum'
 
 export const useUpgradeStore = defineStore('upgradeStore', {
     state: () => ({
@@ -110,7 +111,50 @@ export const useUpgradeStore = defineStore('upgradeStore', {
                 }
 
             }],
+            [4,{
+                show: false,
+                bought: false,
+                category: UpgradeCategory.HOME,
+                title: "Makeshift Rope",
+                flavor: "Find a long enough vine to wrap around the strange statue so you can drag it home.",
+                effectDescription: "Take this back to the Strange Clearing.",
+                costDescription:"Costs 5 Fiber. (For now, costs 10 soul instead.)",
+                // costFunc: (buyCheck: boolean) => {
+                //     const player = usePlayer();
+                //     const fiber = player.resources.get(ResourceEnum.FIBER) || 0
+                //     if (fiber < 5) {
+                //         return false;
+                //     }
+
+                //     if(!buyCheck) {
+                //         player.resources.set(ResourceEnum.FIBER, fiber-5) 
+                //     }
+                //     return true;
+                // },
+                costFunc: (buyCheck: boolean) => {
+                    const player = usePlayer();
+                    const canBuy = player.enoughSoul(10);
+                    if (buyCheck) {
+                        return canBuy;
+                    }
+
+                    if(canBuy) {
+                        player.subtractSoul(10);  
+                    }
+                    return canBuy;
+                },
+                //We can check to see if this is bought at the Clearing.
+                effect: function() {}
+            }],
         ])
 
     }),
+    getters: {
+        getBuyableHomeUpgrades: (state) => {
+            return Array.from(state.home.entries()).filter( upgrade => upgrade[1].show === true)
+        },
+        getBuyableSoulUpgrades: (state) => {
+            return Array.from(state.soul.entries()).filter( upgrade => upgrade[1].show === true)
+        }
+    }
 })

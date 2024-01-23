@@ -6,13 +6,14 @@
         <div v-else class="home-box">
             <div class = "base-pic"></div>
             <div class = "base-text">
-                <span>A dark, drafty cave, with little in the way of comfort. It wouldn't hurt to make this place a little bit more like a proper home...</span>
+                <span v-if="gameFlags.flagList.get(FlagEnum.SHRINE_UNLOCKED)?.state">The statue's eyes glow blue as it rests in the center of the cave.</span>
+                <span v-else>A dark, drafty cave, with little in the way of comfort. It wouldn't hurt to make this place a little bit more like a proper home...</span>
                 <PlayerHpBar style="margin-bottom: 5px; margin-top: 8px;"/>
                 <span style="color:green">Current HP Regen: {{ player.getHPRegen }}</span>
                 <span style=" color:gold">Current Energy Regen: {{ player.getEnergyRegen }}</span>
             </div>
             <div class = "upgrades">
-                <UpgradeButton v-for="(item) in upgradeStore.home.entries()"
+                <UpgradeButton v-for="(item) in upgradeStore.getBuyableHomeUpgrades"
                     :upgrade_key="item[0]" 
                     :show="item[1].show"
                     :is_bought="item[1].bought"
@@ -38,12 +39,15 @@ import { Tab } from '@/enums/panels';
 import { usePlayer } from '@/stores/player';
 import { useUpgradeStore } from '@/stores/upgradeStore';
 import PlayerHpBar from './playerHPBar.vue';
+import { useGameFlags } from '@/stores/gameFlags';
+import { FlagEnum } from "@/enums/flagEnum"
 
 const name = "basePanel";
 
 const mapStore = useMapStore();
 const player = usePlayer();
 const upgradeStore = useUpgradeStore();
+const gameFlags = useGameFlags();
 
 let props = defineProps({
     active: String
