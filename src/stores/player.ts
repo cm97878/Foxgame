@@ -5,17 +5,18 @@ import { useMapStore } from './mapStore';
 import { useGameTick } from './gameTick';
 import { GameStage } from '@/enums/gameStage';
 import { SpecialAreaId } from '@/enums/areaEnums';
+import { ResourceEnum } from '@/enums/ResourceEnum';
 
 export const usePlayer = defineStore('player', () => {
 
     // -- Game states --
+    //TODO: Some of these can be changes to GameFlags.
+    //TODO: Save flags, as well
     const loaded = ref(false);
     const firstMove = ref(true);
     const gameStage = ref(GameStage.INTRO);
     const furthestStage = ref(GameStage.INTRO);
     const deniedSoul = ref(false);
-    const exploreUnlocked = ref(false);
-    const soulUnlocked = ref(false);
 
 
 
@@ -25,8 +26,13 @@ export const usePlayer = defineStore('player', () => {
         maxSoul: new Decimal("10"),
         food: new Decimal("0"),
         energy: 40,
-        maxEnergy: 100
+        maxEnergy: 100,
     })
+
+    const resources = ref<Map<ResourceEnum, number>>(new Map<ResourceEnum, number>([
+        [ResourceEnum.FIBER, 0],
+        [ResourceEnum.STONE, 0],
+    ]))
 
     const name = ref("Fox")
     const tails = ref(1)
@@ -199,7 +205,7 @@ export const usePlayer = defineStore('player', () => {
 
     return {
         //Stats
-        currencies, name, tails, playerStats, gameStage, furthestStage, loaded, firstMove, deniedSoul, exploreUnlocked, soulUnlocked,
+        currencies, name, tails, playerStats, gameStage, furthestStage, loaded, firstMove, deniedSoul, resources,
         //Computeds
         getAtk, getDef, getHpCurr, getHpMax, getSpd, getSoul, getMaxSoul, getEnergyDisplay, playerHpRatio, getFood,
         getHPRegen, getEnergyRegen,

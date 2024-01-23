@@ -1,16 +1,17 @@
-import type { EventChoice } from "@/types/areaEvent";
 import { defineStore } from "pinia";
-import { ref, watch, watchEffect } from "vue";
+import { ref, watch } from "vue";
 import { useCombatStore } from "./combatStore";
 import type { Cutscene } from "@/types/cutscene";
 import { useMapStore } from "./mapStore";
 import { usePlayer } from "./player";
 import { GameStage } from "@/enums/gameStage";
+import { useGameFlags } from "./gameFlags";
 
 export const useEventStore = defineStore('eventstore', () => {
     const combatStore = useCombatStore();
     const mapStore = useMapStore();
     const player = usePlayer();
+    const gameFlags = useGameFlags();
 
     const activeScene = ref<Cutscene>();
     const sceneDesc = ref("");
@@ -135,21 +136,41 @@ export const useEventStore = defineStore('eventstore', () => {
             },
             chain: true,
         }],
-        ["idolGet", {
+        ["idolFind", {
             title: "",
-            description: "You find a strange idol",
+            description: "You find a large stone idol half buried in the ground. You are drawn to bring it back home with you, but it's too big to carry in your mouth...<br /> <br />[New options are available at Home.]",
             choices: [
                 {
                     id: 1,
                     label: "Continue"
                 }
             ],
-            cutsceneCallback: function(choice) {
-                player.gameStage = GameStage.PRE_TAILS;
-                player.addFood(player.getFood.times(-1)); //Food aint stored here, it becomes an actual resource again later but not yet baybee
-                activeScene.value = undefined;
-            },
-            chain: true,
+            cutsceneCallback: function() {}
+        }],
+        ["idolGet", {
+            title: "",
+            description: "You awkwardly tie the rope to the statue and begin pulling it back...",
+            choices: [
+                {
+                    id: 1,
+                    label: "Continue"
+                }
+            ],
+            cutsceneCallback: function() {
+                mapStore.returnHome();
+            }
+        }],
+        //TODO: This doesn't fire properly off of a chain for some reason. I could mess with the chain infrastructure right now to fix this, but I'll leav it as is.
+        ["idolReturned", {
+            title: "",
+            description: "After a long journey, you finally bring the stone statue home, dragging it into the center of the cave. Looking at it, a feeling of tranquility washes over you.",
+            choices: [
+                {
+                    id: 1,
+                    label: "Continue"
+                }
+            ],
+            cutsceneCallback: function() {}
         }],
     ])
 

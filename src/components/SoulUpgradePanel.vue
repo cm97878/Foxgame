@@ -1,7 +1,7 @@
 <template>
     <div v-show="active === 'soulUpgrades'">
-        <UpgradeButton v-for="(item) in upgrade.soul.entries()"
-        :upgrade_key="item[0]" 
+        <UpgradeButton v-for="(item) in upgrade.getBuyableSoulUpgrades"
+            :upgrade_key="item[0]" 
             :show="item[1].show"
             :is_bought="item[1].bought"
             :upgrade_category="item[1].category"
