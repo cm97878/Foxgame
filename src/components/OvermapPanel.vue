@@ -29,9 +29,9 @@ import { useMapStore } from '@/stores/mapStore.js';
 import { usePlayer } from '@/stores/player';
 import { useEventStore } from '@/stores/eventStore';
 import { VueFlow, useVueFlow, type GraphNode } from '@vue-flow/core';
-import { SpecialAreaId, Zone } from '@/enums/areaEnums';
+import { Zone } from '@/enums/areaEnums';
 import { storeToRefs } from 'pinia';
-import { toRaw, watch } from 'vue';
+import { watch } from 'vue';
 import { useCombatStore } from '@/stores/combatStore';
 
 
@@ -59,11 +59,8 @@ onPaneReady((instance) => {
 
     edgeUpdaterRadius.value = 0;
     instance.setCenter(0, 0, {zoom: 1.0})
-    const startingNode = findNode("1")!;
-    mapStore.selectedNode = startingNode;
-
-    refreshMap();
-    centerMap(startingNode);
+    refreshMap()
+    mapStore.returnHome()    
 })
 onNodeClick((node) => {
     if (isConnected(node) && !combatStore.getActiveCombat) {
@@ -82,7 +79,7 @@ onNodeClick((node) => {
 
         
         mapStore.selectedNode = chosenNode;
-        centerMap(chosenNode)
+        mapStore.centerMap(chosenNode)
 
         mapStore.setTextAppend()
     }
@@ -93,29 +90,10 @@ const isConnected = function(node: any): boolean {
     )
 }
 
-const getConnectedNodes = function(id: string): string[] {
-    return getConnectedEdges(mapStore.selectedNode.id).map( 
-        edge => edge.target === id ? edge.source : edge.target
-    )
-}
-
 //TODO: Other issues i've noticed while fuckin around:
-//Dying doesn't set it back to home
 //If you scroll in and out you can move the map around in a weird way
 //also you cant scroll out very far? we should probably change that at least for now, so we can get a better overview of how it looks as it expands
 //also due to the spacing we may wanna make the text bigger
-const centerMap = function(node:GraphNode) {
-    //Not sure why I have to do this, but it's needed to make this work.
-    toRaw(node);
-    const nodes = getConnectedNodes(node.id);
-    nodes.push(node.id)
-    fitView({
-        nodes: nodes,
-        duration: 600
-    })
-}
-
-
 const scoutRevealNodes = function(element:GraphNode) {
     const edges = getConnectedEdges(element.id);
     edges.forEach(element => {

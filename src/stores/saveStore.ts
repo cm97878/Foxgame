@@ -5,7 +5,6 @@ import Decimal from "break_infinity.js";
 import { ref } from "vue";
 import type { SaveUpgradeArray, SaveKillsArray, SavedGameFlags } from "@/types/saveArrays";
 import { useMapStore } from "./mapStore";
-import type { GameFlag } from "@/types/gameFlag";
 import { useGameFlags } from "./gameFlags";
 import type { FlagEnum } from "@/enums/flagEnum";
 
@@ -90,8 +89,7 @@ export const useSaveStore = defineStore('saveStore', () =>{
         saveFile.gameFlags = Array.from(gameFlags.flagList).map((entry) => {
             return {
                 key: entry[0],
-                description: entry[1].description,
-                state: entry[1].state
+                state: entry[1]
             } as SavedGameFlags
         })
         localStorage.setItem('kitsune_save', JSON.stringify(saveFile));
@@ -135,12 +133,9 @@ export const useSaveStore = defineStore('saveStore', () =>{
                 temp2.data.killCount = item.kills;
             }
         })
-        const gameFlagsMap = new Map<FlagEnum, GameFlag>([])
+        const gameFlagsMap = new Map<FlagEnum, boolean>([])
         saveFile.gameFlags.forEach(function(item) {
-            gameFlagsMap.set(item.key, {
-                description: item.description,
-                state: item.state
-            })
+            gameFlagsMap.set(item.key, item.state)
         })
         gameFlags.flagList = gameFlagsMap
         mapStore.scouted$ = "$REFRESH$"

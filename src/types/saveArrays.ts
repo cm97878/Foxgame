@@ -11,6 +11,5 @@ export interface SaveKillsArray {
 
 export interface SavedGameFlags {
     key: number,
-    description: string,
     state: boolean
 }

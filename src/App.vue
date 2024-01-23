@@ -8,7 +8,7 @@
         <div id="left_side_container" class="app_container">
             <div id="info_top_buttons_container">
                 <button @click="showPanel(Panels.WORLD)" class="info_buttons">World</button>
-                <button @click="showPanel(Panels.SOUL)" v-show="gameFlags.flagList.get(FlagEnum.SOUL_UNLOCKED)?.state" class="info_buttons">Soul</button>
+                <button @click="showPanel(Panels.SOUL)" v-show="gameFlags.flagList.get(FlagEnum.SOUL_UNLOCKED)" class="info_buttons">Soul</button>
             </div>
             
             <div v-show="activePanel == Panels.WORLD">
@@ -40,7 +40,7 @@
                         <span :class="{ 'tab-selected': activeTabHome === Tab.HOME_UPGRADES }" @click="showTabHome(Tab.HOME_UPGRADES)" class="tab">
                             Upgrades
                         </span>
-                        <span v-if="gameFlags.flagList.get(FlagEnum.EXPLORE_UNLOCKED)?.state" :class="{ 'tab-selected': activeTabHome === Tab.EXPLORE }" @click="showTabHome(Tab.EXPLORE)" class="tab">
+                        <span v-if="gameFlags.flagList.get(FlagEnum.EXPLORE_UNLOCKED)" :class="{ 'tab-selected': activeTabHome === Tab.EXPLORE }" @click="showTabHome(Tab.EXPLORE)" class="tab">
                             Explore
                         </span>
                     </div>
@@ -182,7 +182,6 @@
         gameTick.startGameTick();
         if(!saves.load()) {
             eventStore.callCutscene(eventStore.cutscenes.get("intro"));
-            gameFlags.initializeFlags();
         }
     })
 </script>

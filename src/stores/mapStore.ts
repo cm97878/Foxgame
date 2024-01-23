@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
 import Decimal from 'break_infinity.js'
 import type { Enemy } from '@/types/enemy'
-import { type GraphNode } from '@vue-flow/core'
+import { useVueFlow, type GraphNode } from '@vue-flow/core'
 import type { AreaData } from '@/types/areaData'
 import { SpecialAreaId, Zone } from '@/enums/areaEnums'
 import { useCombatStore } from '@/stores/combatStore';
-import { computed, ref } from 'vue'
+import { computed, ref, toRaw } from 'vue'
 import { useGameFlags } from './gameFlags'
 import { useEventStore } from './eventStore'
 import { FlagEnum } from '@/enums/flagEnum'
@@ -27,6 +27,7 @@ export const useMapStore = defineStore('mapStuff', () => {
     const gameFlags = useGameFlags();
     const eventStore = useEventStore();
     const upgradeStore = useUpgradeStore();
+    const { getConnectedEdges, fitView, findNode } = useVueFlow({ id:"map"});
 
     // -- State --
 
@@ -69,9 +70,10 @@ export const useMapStore = defineStore('mapStuff', () => {
             areaSpecialID: SpecialAreaId.HOME, //Absence of this is a regular area.
             customFunc: function() {
                 //Check for progress in the Unlock Shrine storyline.
+                debugger;
 
-                if(!gameFlags.flagList.get(FlagEnum.SHRINE_UNLOCKED)?.state && 
-                gameFlags.flagList.get(FlagEnum.STATUE_OBTAINED)?.state){
+                if(!gameFlags.flagList.get(FlagEnum.SHRINE_UNLOCKED) && 
+                gameFlags.flagList.get(FlagEnum.STATUE_OBTAINED)){
                     eventStore.callCutscene(eventStore.cutscenes.get("idolReturned"))
                     gameFlags.setFlag(FlagEnum.SHRINE_UNLOCKED, true)
                 } 
@@ -249,7 +251,7 @@ export const useMapStore = defineStore('mapStuff', () => {
             customFunc: function() {
                 //Check for progress in the Unlock Shrine storyline.
 
-                if(!gameFlags.flagList.get(FlagEnum.EXPLORE_UNLOCKED)?.state){
+                if(!gameFlags.flagList.get(FlagEnum.EXPLORE_UNLOCKED)){
                     eventStore.callCutscene(eventStore.cutscenes.get("idolFind"))
                     gameFlags.setFlag(FlagEnum.EXPLORE_UNLOCKED, true)
                     //TODO: Could probably make helper functions in upgradeStore for this.
@@ -258,7 +260,7 @@ export const useMapStore = defineStore('mapStuff', () => {
                         ropeUpgrade.show = true
                         upgradeStore.home.set(4, ropeUpgrade)
                     }
-                } else if (!gameFlags.flagList.get(FlagEnum.STATUE_OBTAINED)?.state && upgradeStore.home.get(4)?.bought) {
+                } else if (!gameFlags.flagList.get(FlagEnum.STATUE_OBTAINED) && upgradeStore.home.get(4)?.bought) {
                     eventStore.callCutscene(eventStore.cutscenes.get("idolGet"))
                     gameFlags.setFlag(FlagEnum.STATUE_OBTAINED, true)
                     //TODO: Could probably make helper functions in upgradeStore for this.
@@ -390,6 +392,29 @@ export const useMapStore = defineStore('mapStuff', () => {
             else {console.log("Couldn't update killcount. addKills()")}
         }
     }
+    function returnHome(): void {
+        const startingNode = findNode("1")!;
+        selectedNode.value = startingNode;
+        centerMap(startingNode);
+        selectedNode.value.data.customFunc();
+    }
+
+    function centerMap(node:GraphNode) {
+        //Not sure why I have to do this, but it's needed to make this work.
+        toRaw(node);
+        const nodes = getConnectedNodes(node.id);
+        nodes.push(node.id)
+        fitView({
+            nodes: nodes,
+            duration: 600
+        })
+    }
+
+    function getConnectedNodes(id: string): string[] {
+        return getConnectedEdges(selectedNode.value.id).map( 
+            edge => edge.target === id ? edge.source : edge.target
+        )
+    }
 
 
     return {
@@ -398,6 +423,6 @@ export const useMapStore = defineStore('mapStuff', () => {
         //Computed
         isSpecial, getAreaName, getDescription, getDescAppend, getKillCount, isScouted, hasData, totalKills, totalScouted,
         //Actions
-        setTextAppend, callRandomEncounter, addKills
+        setTextAppend, callRandomEncounter, addKills, centerMap, returnHome
     }
 })
