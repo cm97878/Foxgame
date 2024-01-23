@@ -26,12 +26,13 @@
     padding: 10px;
     border-radius: 20px;
     width: 100px;
-    font-size: 16px;
+    font-size: 24px;
     text-align: center;
     border-width: 3px;
     border-style: solid;
     background-color: #9ec93d;
     color: #222; 
+    cursor: pointer;
   }
 
   .selected-node {
