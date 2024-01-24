@@ -4,8 +4,11 @@
             Currently in combat, cannot explore safely.
         </div>
         <div v-else>
-            <div class="deck-choice">
-                <img class="deck" :src="'./src/assets/cardback.png'">
+            <div class="deck-choice center-stage">
+                <!-- <div class="center-stage"> -->
+                    <img class="spotlight" :src="'./src/assets/spotlight.png'">
+                    <img class="deck" :src="'./src/assets/cardback.png'">
+                <!-- </div> -->
             </div>
             <div class="area-box">
                 <span>Current deck selected: Exploration</span>
@@ -14,7 +17,7 @@
                 <span>Exploration Progress: {{ mapStore.totalScouted  }} zones scouted.</span>
                 <!-- Currently unapplied.-->
                 <span>Exploration Multiplier: {{ (1+(mapStore.totalScouted/10)) }}x</span>
-                <button @click="callEvent(Zone.FOREST)" :disabled="!player.enoughEnergy(10)">Explore (-10 Energy)</button>
+                <button @click="callEvent(Zone.FOREST)" :disabled="!player.enoughEnergy(10)">Pull a card... (-10 Energy)</button>
             </div>
         </div>
     </div>
@@ -76,10 +79,12 @@ const eventCleanup = function():void {
         button {
             padding: 4px 10px;
         }
+        font-size: 22px;
     }
     .deck-choice {
-        background-color: rgb(25, 25, 25);
-        height: 300px;
+        /* background-color: rgb(25, 25, 25); */
+        background-color: black;
+        height: 400px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -88,12 +93,28 @@ const eventCleanup = function():void {
     .in-combat {
         color:red;
     }
+    .center-stage {
+        /* This lets us layer images on top of each other properly. */
+        position: relative;
+    }
+    .spotlight {
+        position: absolute;
+        /* 2x image scalar */
+        height:320px;
+        width: 202px;
+        /* Manual horizontal centering. */
+        margin-left: calc(50% - 101px);
+        z-index: 1;
+
+    }
     .deck {
         /* animation: deck-hover 4s linear infinite; */
+        position: absolute;
         animation: deck-hover 4s ease-in-out infinite;
         height: 200px;
         width: 150px;
-        margin: auto;
+        margin-left: calc(50% - 75px);
+        z-index: 2;
     }
 
     @keyframes deck-hover {
