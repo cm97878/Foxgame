@@ -1,5 +1,5 @@
 <template>
-    <div id="window_border">
+    <div class="window-border">
         <Transition name="cutscene">
             <CutsceneModal v-if="!!eventStore.activeScene"></CutsceneModal>
         </Transition>
@@ -186,7 +186,7 @@
     })
 </script>
 <style>
-    #window_border {
+    .window-border {
         width: 95vw;
         height: 95vh;
         align-items: stretch;
@@ -196,6 +196,14 @@
         border: 4px ridge rgb(179, 11, 11);
         font-family: 'NameHere'; 
         font-size: 20px;
+    }
+
+    @media (max-width: 1300px) {
+        .window-border {
+            width: 100%;
+            height: calc(100vh - 8px);
+            margin: 0;
+        }   
     }
 
     .app_container {
