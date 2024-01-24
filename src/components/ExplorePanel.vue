@@ -3,12 +3,19 @@
         <div v-if="combatStore.activeCombat" class="in-combat">
             Currently in combat, cannot explore safely.
         </div>
-        <div v-else class="area-box">
-            <span>Current Energy: {{ player.getEnergyDisplay }}</span>
-            <span>Exploration Progress: {{ mapStore.totalScouted  }} zones scouted.</span>
-            <!-- Currently unapplied.-->
-            <span>Exploration Multiplier: {{ (1+(mapStore.totalScouted/10)) }}x</span>
-            <button @click="callEvent(Zone.FOREST)" :disabled="!player.enoughEnergy(10)">Explore (-10 Energy)</button>
+        <div v-else>
+            <div class="deck-choice">
+                <img class="deck" :src="'./src/assets/cardback.png'">
+            </div>
+            <div class="area-box">
+                <span>Current deck selected: Exploration</span>
+                <span>Cost: 10 Energy per pull.</span>
+                <span>Current Energy: {{ player.getEnergyDisplay }}</span>
+                <span>Exploration Progress: {{ mapStore.totalScouted  }} zones scouted.</span>
+                <!-- Currently unapplied.-->
+                <span>Exploration Multiplier: {{ (1+(mapStore.totalScouted/10)) }}x</span>
+                <button @click="callEvent(Zone.FOREST)" :disabled="!player.enoughEnergy(10)">Explore (-10 Energy)</button>
+            </div>
         </div>
     </div>
     <EventDisplay v-if="!!isEventActive" :area-event="activeEvent" @event-finished="eventCleanup()"></EventDisplay>
@@ -62,6 +69,7 @@ const eventCleanup = function():void {
 </script>
 <style>
     .area-box {
+        margin-top: 10px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -69,7 +77,31 @@ const eventCleanup = function():void {
             padding: 4px 10px;
         }
     }
+    .deck-choice {
+        background-color: rgb(25, 25, 25);
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-radius: 20px;
+    }
     .in-combat {
         color:red;
+    }
+    .deck {
+        /* animation: deck-hover 4s linear infinite; */
+        animation: deck-hover 4s ease-in-out infinite;
+        height: 200px;
+        width: 150px;
+        margin: auto;
+    }
+
+    @keyframes deck-hover {
+        0%, 100% {
+            transform: translateY(10px);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
     }
 </style>
