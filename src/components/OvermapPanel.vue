@@ -1,17 +1,15 @@
 <template>
     <div id="maps_container">
-        <div id="map_keynodes">
+        <!-- <div id="map_keynodes">
             {{ mapStore.getAreaName }} <br />
             <div v-show="mapStore.isSpecial">
                 special 
-                <!-- every special tab will look way different, but also this isnt where this shit will
-                display, so who cares lmao. -->
                 <br />
             </div>
             <div v-show="!mapStore.isSpecial">
                 {{ mapStore.getDescription }} {{ mapStore.getDescAppend }}
             </div>
-        </div>
+        </div> -->
         <div id="vf-map">
             <VueFlow :nodes="mapStore.mapNodes" class="general_outline">
                 <template #node-custom ="{ data, id }">
@@ -19,6 +17,11 @@
                 </template>
             </VueFlow>
         </div>
+        <Transition name="node-tooltip">
+            <div v-show="mapStore.mouseoverNode" class="node-tooltip" :style="{ left: mapStore.x+3+'px', top: mapStore.y-103+'px' }">
+                test
+            </div>
+        </Transition>
     </div>
 </template>
 
@@ -144,5 +147,21 @@ watch(scouted$, (signal) => {
     #vf-map {
         height: 100%;
         width: 100%;
+    }
+    .node-tooltip {
+        z-index: 100;
+        width: 100px;
+        height: 100px;
+        background-color: black;
+        border: 1px solid grey;
+        position: absolute;
+    }
+
+    .node-tooltip-enter-active {
+        transition: opacity 0.2s ease;
+    }
+
+    .node-tooltip-enter-from {
+        opacity: 0;
     }
 </style>

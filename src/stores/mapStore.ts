@@ -10,6 +10,7 @@ import { useGameFlags } from './gameFlags'
 import { useEventStore } from './eventStore'
 import { FlagEnum } from '@/enums/flagEnum'
 import { useUpgradeStore } from './upgradeStore'
+import { useMouse } from '@vueuse/core'
 
 /* LEAVE THIS HERE >:(
 name: "",
@@ -70,7 +71,7 @@ export const useMapStore = defineStore('mapStuff', () => {
             areaSpecialID: SpecialAreaId.HOME, //Absence of this is a regular area.
             customFunc: function() {
                 //Check for progress in the Unlock Shrine storyline.
-                debugger;
+
 
                 if(!gameFlags.flagList.get(FlagEnum.SHRINE_UNLOCKED) && 
                 gameFlags.flagList.get(FlagEnum.STATUE_OBTAINED)){
@@ -314,7 +315,7 @@ export const useMapStore = defineStore('mapStuff', () => {
             }
         }
     };
-    const selectedNode =  ref({data: {}} as GraphNode) ;
+    const selectedNode =  ref({data: {}} as GraphNode);
     let scouted$ = ref("");
 
     // --- Getters/Computeds ---
@@ -416,10 +417,16 @@ export const useMapStore = defineStore('mapStuff', () => {
         )
     }
 
+    //Tooltip Stuff
+    const { x, y } = useMouse({ touch: false });
+    const mouseoverDelayCheck = "";
+    const mouseoverNode = ref<GraphNode | undefined>({data: {}} as GraphNode);
+    mouseoverNode.value = undefined;
+    
 
     return {
         //State
-        enemyList, mapNodes, mapEdges, areaData, selectedNode, scouted$,
+        enemyList, mapNodes, mapEdges, areaData, selectedNode, scouted$, x, y, mouseoverNode, mouseoverDelayCheck,
         //Computed
         isSpecial, getAreaName, getDescription, getDescAppend, getKillCount, isScouted, hasData, totalKills, totalScouted,
         //Actions
