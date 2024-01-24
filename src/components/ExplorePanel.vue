@@ -4,11 +4,11 @@
             Currently in combat, cannot explore safely.
         </div>
         <div v-else>
-            <div class="deck-choice center-stage">
-                <!-- <div class="center-stage"> -->
-                    <img class="spotlight" :src="'./src/assets/spotlight.png'">
-                    <img class="deck" :src="'./src/assets/cardback.png'">
-                <!-- </div> -->
+            <div class="deck-choice">
+                <img class="left-arrow" :src="'./src/assets/arrowL.png'">
+                <img class="spotlight" :src="'./src/assets/spotlight.png'">
+                <img class="deck" :src="'./src/assets/cardback.png'">
+                <img class="right-arrow" :src="'./src/assets/arrowR.png'">
             </div>
             <div class="area-box">
                 <span>Current deck selected: Exploration</span>
@@ -82,40 +82,54 @@ const eventCleanup = function():void {
         font-size: 22px;
     }
     .deck-choice {
-        /* background-color: rgb(25, 25, 25); */
         background-color: black;
         height: 400px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         border-radius: 20px;
+        /* This lets us layer images on top of each other properly. */
+        position: relative;
+
+        .spotlight {
+            position: absolute;
+            /* 2x image scalar */
+            height:320px;
+            width: 202px;
+            /* Manual horizontal centering. */
+            margin-left: calc(50% - 101px);
+            z-index: 1;
+
+        }
+        .deck {
+            /* animation: deck-hover 4s linear infinite; */
+            position: absolute;
+            animation: deck-hover 4s ease-in-out infinite;
+            height: 200px;
+            width: 150px;
+            margin-left: calc(50% - 75px);
+            z-index: 2;
+        }
+        .left-arrow {
+            position: absolute;
+            margin-left: calc(15% - 28px);
+            height: 28px;
+            width: 22px;
+            z-index: 3;
+        }
+        .right-arrow {
+            position: absolute;
+            margin-left: calc(85% + 28px);
+            height: 28px;
+            width: 22px;
+            z-index: 3;
+        }
     }
     .in-combat {
         color:red;
     }
-    .center-stage {
-        /* This lets us layer images on top of each other properly. */
-        position: relative;
-    }
-    .spotlight {
-        position: absolute;
-        /* 2x image scalar */
-        height:320px;
-        width: 202px;
-        /* Manual horizontal centering. */
-        margin-left: calc(50% - 101px);
-        z-index: 1;
 
-    }
-    .deck {
-        /* animation: deck-hover 4s linear infinite; */
-        position: absolute;
-        animation: deck-hover 4s ease-in-out infinite;
-        height: 200px;
-        width: 150px;
-        margin-left: calc(50% - 75px);
-        z-index: 2;
-    }
+
 
     @keyframes deck-hover {
         0%, 100% {
