@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
     import { useMapStore } from '@/stores/mapStore.js';
-import { useVueFlow } from '@vue-flow/core';
+    import { useVueFlow } from '@vue-flow/core';
     import { ref } from 'vue';
     const mapStore = useMapStore();
 
