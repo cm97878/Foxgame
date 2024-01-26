@@ -6,12 +6,13 @@
 
 <script setup lang="ts">
     import { useMapStore } from '@/stores/mapStore.js';
-    import { useVueFlow } from '@vue-flow/core';
+    import { useVueFlow, type GraphNode } from '@vue-flow/core';
     import { ref } from 'vue';
+    
     const mapStore = useMapStore();
 
     const name = "customNode";
-
+    
     //TODO: This wont work. Need to move all the tooltip stuff to the overmap panel, and do something with emitting events for mouse-overe'd nodes
 
   //TODO: Could style based off of zone of Area in the future.
@@ -56,9 +57,7 @@
     cursor: pointer;
   }
 
-  .selected-node {
-    background:grey;
-  }
+
 
 
 

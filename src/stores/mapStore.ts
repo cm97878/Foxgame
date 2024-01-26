@@ -10,7 +10,6 @@ import { useGameFlags } from './gameFlags'
 import { useEventStore } from './eventStore'
 import { FlagEnum } from '@/enums/flagEnum'
 import { useUpgradeStore } from './upgradeStore'
-import { useMouse } from '@vueuse/core'
 
 /* LEAVE THIS HERE >:(
 name: "",
@@ -416,17 +415,14 @@ export const useMapStore = defineStore('mapStuff', () => {
             edge => edge.target === id ? edge.source : edge.target
         )
     }
-
-    //Tooltip Stuff
-    const { x, y } = useMouse({ touch: false });
-    const mouseoverDelayCheck = "";
     const mouseoverNode = ref<GraphNode | undefined>({data: {}} as GraphNode);
     mouseoverNode.value = undefined;
+    const mouseoverDelayCheck = "";
     
 
     return {
         //State
-        enemyList, mapNodes, mapEdges, areaData, selectedNode, scouted$, x, y, mouseoverNode, mouseoverDelayCheck,
+        enemyList, mapNodes, mapEdges, areaData, selectedNode, scouted$, mouseoverNode, mouseoverDelayCheck,
         //Computed
         isSpecial, getAreaName, getDescription, getDescAppend, getKillCount, isScouted, hasData, totalKills, totalScouted,
         //Actions

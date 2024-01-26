@@ -17,14 +17,14 @@
                 </template>
             </VueFlow>
         </div>
-
-        
+        <NodeTooltip/>
     </div>
 </template>
 
 
 <script setup lang="ts">
 import CustomNode from './CustomNode.vue';
+import NodeTooltip from './NodeTooltip.vue';
 import { useMapStore } from '@/stores/mapStore.js';
 import { usePlayer } from '@/stores/player';
 import { useEventStore } from '@/stores/eventStore';
@@ -144,21 +144,5 @@ watch(scouted$, (signal) => {
     #vf-map {
         height: 100%;
         width: 100%;
-    }
-    .node-tooltip {
-        z-index: 100;
-        width: 100px;
-        height: 100px;
-        background-color: black;
-        border: 1px solid grey;
-        position: absolute;
-    }
-
-    .node-tooltip-enter-active {
-        transition: opacity 0.2s ease;
-    }
-
-    .node-tooltip-enter-from {
-        opacity: 0;
     }
 </style>
