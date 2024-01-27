@@ -98,6 +98,7 @@
                 <button @click="player.addSoul(1000000000000000);">add max soul</button>
                 <button @click="loadToggle">{{ toggleState === "1" ? "Using save slot" : "Not using saves" }}</button>
                 <button @click="player.gameStage = GameStage.PRE_TAILS">Set gamestage intro->pre_tails</button>
+                <button @click="player.payEnergy(-100)">Fill Energy</button>
 
             </div>
             {{ "number of tails: " + player.tails }}<br />{{ "max soul: " + player.getMaxSoul }}<br />{{ "areas scouted: " + mapStore.totalScouted }} <br /> {{ "kills: " + mapStore.totalKills }}
