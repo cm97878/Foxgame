@@ -13,7 +13,6 @@ export const useDecks = defineStore('decks', () => {
     //TODO: Expand this system to work with multiple decks in the future.
     //const exploreDeck = ref<number[]>([1]);
     //TODO: Hardcode deck for now:
-    //TODO: Make a proper Log for deck pulls!
     const exploreDeck = ref<number[]>([1,2,2,2,2,2,3,3,3,3,3]);
     
     const deckReference = ref<Map<number, DeckCard>>(new Map<number, DeckCard>([
@@ -30,8 +29,7 @@ export const useDecks = defineStore('decks', () => {
                     player.addSoul((player.getMaxSoul.multiply(.05)))
                     changeAmount = player.getMaxSoul.multiply(.05).toString()
                 }
-                //AddtoExploreLog(changeAmount)
-                console.log("Got %s Soul!", changeAmount)
+                pullLog.value ="Got " + changeAmount +  " Soul!"
             }
         }],
         [2, {
@@ -45,10 +43,10 @@ export const useDecks = defineStore('decks', () => {
                 if(!!fiber) {
                     if((fiber?.amount + level) >= fiber?.max) {
                         player.resources.set(ResourceEnum.FIBER, {amount: fiber.max, max: fiber.max})
-                        console.log("Maxed Fiber!")
+                        pullLog.value = "Maxed Fiber!"
                     } else {
                         player.resources.set(ResourceEnum.FIBER, {amount: fiber.amount + level, max: fiber.max})
-                        console.log("Got %s Fiber!", level.toString())
+                        pullLog.value ="Got " + (fiber.amount + level) +  " Fiber!"
                     }
                 }
             }
@@ -64,10 +62,10 @@ export const useDecks = defineStore('decks', () => {
                 if(!!stone) {
                     if((stone?.amount + level) >= stone?.max) {
                         player.resources.set(ResourceEnum.STONE, {amount: stone.max, max: stone.max})
-                        console.log("Maxed Stone!")
+                        pullLog.value = "Maxed Stone!"
                     } else {
                         player.resources.set(ResourceEnum.STONE, {amount: stone.amount + level, max: stone.max})
-                        console.log("Got %s Stone!", level.toString())
+                        pullLog.value ="Got " + (stone.amount + level) +  " Stone!"
                     }
                 }
             }
@@ -75,6 +73,7 @@ export const useDecks = defineStore('decks', () => {
 
     ]))
     const deckLevels = ref<Map<number, number>>(new Map<number, number>([[1,1],[2,5],[3,5]]))
+    const pullLog = ref("");
 
     //Getters/Computed
     const deckSize = computed(() => exploreDeck.value.length);
@@ -93,7 +92,7 @@ export const useDecks = defineStore('decks', () => {
 
 	return {
         //State
-		exploreDeck, deckReference,
+		exploreDeck, deckReference, pullLog,
         //Actions
         drawCard
 	}

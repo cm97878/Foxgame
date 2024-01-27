@@ -5,6 +5,7 @@
         </div>
         <div v-else>
             <div class="deck-choice">
+                <div class="log"><span class="log-text">{{ exploreDeck.pullLog }}</span></div>
                 <img class="left-arrow" :src="'./src/assets/arrowL.png'">
                 <img class="spotlight" :src="'./src/assets/spotlight.png'">
                 <img class="deck" :src="'./src/assets/cardback.png'">
@@ -86,6 +87,17 @@ const pullCard = function () {
         border-radius: 20px;
         /* This lets us layer images on top of each other properly. */
         position: relative;
+
+        .log {
+            position:absolute;
+            width:100%;
+            /* margin-left: 50%; */
+            font-size: 28px;
+            top:5px;
+            .log-text {
+                position:relative;
+            }
+        }
 
         .spotlight {
             position: absolute;
