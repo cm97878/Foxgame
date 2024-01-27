@@ -70,8 +70,6 @@ export const useMapStore = defineStore('mapStuff', () => {
             areaSpecialID: SpecialAreaId.HOME, //Absence of this is a regular area.
             customFunc: function() {
                 //Check for progress in the Unlock Shrine storyline.
-                debugger;
-
                 if(!gameFlags.flagList.get(FlagEnum.SHRINE_UNLOCKED) && 
                 gameFlags.flagList.get(FlagEnum.STATUE_OBTAINED)){
                     eventStore.callCutscene(eventStore.cutscenes.get("idolReturned"))

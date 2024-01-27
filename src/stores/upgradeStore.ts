@@ -1,8 +1,6 @@
 import { defineStore } from 'pinia'
-import Decimal from 'break_infinity.js'
 import { usePlayer } from './player'
 import { type Upgrade, UpgradeCategory } from '@/types/upgrade'
-import { ResourceEnum } from '@/enums/ResourceEnum'
 
 export const useUpgradeStore = defineStore('upgradeStore', {
     state: () => ({
