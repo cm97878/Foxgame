@@ -12,12 +12,11 @@
                 <img class="right-arrow" :src="'./src/assets/arrowR.png'">
             </div>
             <div class="area-box">
-                <span>Current deck selected: Exploration   Cost: 10 Energy per pull.</span>
+                <span>Current deck selected: Exploration  | Cost: 10 Energy per pull.</span>
                 <!-- <span></span> -->
                 <span>Current Energy: {{ player.getEnergyDisplay }}</span>
                 <span>Exploration Progress: {{ mapStore.totalScouted  }} zones scouted.</span>
-                <!-- Currently unapplied.-->
-                <span>Exploration Multiplier: {{ (1+(mapStore.totalScouted/10)) }}x</span>
+                <span>There are currently <b>3</b> types of cards in the deck. Scout more zones to unlock new cards and make them stronger!</span>
                 <button @click="pullCard()" :disabled="!player.enoughEnergy(10)">Pull a card... (-10 Energy)</button>
             </div>
         </div>
@@ -76,7 +75,7 @@ const pullCard = function () {
         button {
             padding: 4px 10px;
         }
-        font-size: 22px;
+        font-size: 24px;
     }
     .deck-choice {
         background-color: black;
@@ -92,7 +91,7 @@ const pullCard = function () {
             position:absolute;
             width:100%;
             /* margin-left: 50%; */
-            font-size: 28px;
+            font-size: 30px;
             top:5px;
             .log-text {
                 position:relative;
