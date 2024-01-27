@@ -1,9 +1,6 @@
 <template>
     <div v-show="active === Tab.EXPLORE">
-        <div v-if="combatStore.activeCombat" class="in-combat">
-            Currently in combat, cannot explore safely.
-        </div>
-        <div v-else>
+        <div>
             <div class="deck-choice">
                 <div class="log"><span class="log-text">{{ exploreDeck.pullLog }}</span></div>
                 <img class="left-arrow" :src="'./src/assets/arrowL.png'">
