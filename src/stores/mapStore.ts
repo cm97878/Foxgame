@@ -71,7 +71,6 @@ export const useMapStore = defineStore('mapStuff', () => {
             customFunc: function() {
                 //Check for progress in the Unlock Shrine storyline.
 
-
                 if(!gameFlags.flagList.get(FlagEnum.SHRINE_UNLOCKED) && 
                 gameFlags.flagList.get(FlagEnum.STATUE_OBTAINED)){
                     eventStore.callCutscene(eventStore.cutscenes.get("idolReturned"))

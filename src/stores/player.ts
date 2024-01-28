@@ -5,7 +5,7 @@ import { useMapStore } from './mapStore';
 import { useGameTick } from './gameTick';
 import { GameStage } from '@/enums/gameStage';
 import { SpecialAreaId } from '@/enums/areaEnums';
-import { ResourceEnum } from '@/enums/ResourceEnum';
+import { ResourceEnum, type ResourceEntry } from '@/types/resources';
 
 export const usePlayer = defineStore('player', () => {
 
@@ -29,9 +29,15 @@ export const usePlayer = defineStore('player', () => {
         maxEnergy: 100,
     })
 
-    const resources = ref<Map<ResourceEnum, number>>(new Map<ResourceEnum, number>([
-        [ResourceEnum.FIBER, 0],
-        [ResourceEnum.STONE, 0],
+    const resources = ref<Map<ResourceEnum, ResourceEntry>>(new Map<ResourceEnum, ResourceEntry>([
+        [ResourceEnum.FIBER, {
+            amount: 0,
+            max: 10
+        }],
+        [ResourceEnum.STONE, {
+            amount: 0,
+            max: 10
+        }],
     ]))
 
     const name = ref("Fox")

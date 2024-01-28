@@ -1,5 +1,5 @@
 <template>
-    <div id="window_border">
+    <div class="window-border">
         <Transition name="cutscene">
             <CutsceneModal v-if="!!eventStore.activeScene"></CutsceneModal>
         </Transition>
@@ -98,7 +98,7 @@
                 <button @click="player.addSoul(1000000000000000);">add max soul</button>
                 <button @click="loadToggle">{{ toggleState === "1" ? "Using save slot" : "Not using saves" }}</button>
                 <button @click="player.gameStage = GameStage.PRE_TAILS">Set gamestage intro->pre_tails</button>
-                <button @click="mapStore.callRandomEncounter(Zone.FOREST)">Fight Enemy</button>
+                <button @click="player.payEnergy(-100)">Fill Energy</button>
 
             </div>
             {{ "number of tails: " + player.tails }}<br />{{ "max soul: " + player.getMaxSoul }}<br />{{ "areas scouted: " + mapStore.totalScouted }} <br /> {{ "kills: " + mapStore.totalKills }}
@@ -186,7 +186,7 @@
     })
 </script>
 <style>
-    #window_border {
+    .window-border {
         width: 95vw;
         height: 95vh;
         align-items: stretch;
@@ -196,6 +196,14 @@
         border: 4px ridge rgb(179, 11, 11);
         font-family: 'NameHere'; 
         font-size: 20px;
+    }
+
+    @media (max-width: 1300px) {
+        .window-border {
+            width: 100%;
+            height: calc(100vh - 8px);
+            margin: 0;
+        }   
     }
 
     .app_container {
