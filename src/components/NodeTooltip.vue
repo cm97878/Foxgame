@@ -1,7 +1,7 @@
 <template>
     <Transition name="node-tooltip">
         <div 
-        v-show="mapStore.mouseoverNode" 
+        v-show="mapStore.mouseoverNode && !mapStore.mouseoverNode.data.areaSpecialID" 
         class="node-tooltip general_outline" 
         :style="{ left: x+7+'px', top: y-height-7+'px' }"
         ref="tooltip"
@@ -11,6 +11,17 @@
             </div>
             <div>
                 {{ mapStore.mouseoverNode?.data.description }}
+            </div>
+            <hr class="solid">
+            Enemies: 
+            <span v-for="item, index in mapStore.enemyList">
+                {{ item.name }}<span v-if="index != (mapStore.enemyList.length - 1)">, </span>
+            </span>
+
+            <div 
+            v-if="mapStore.mouseoverNode?.data.killCount >= mapStore.mouseoverNode?.data.scoutThreshold" 
+            class="node-tooltip-scouted">
+                Scouted
             </div>
         </div>
     </Transition>
@@ -26,7 +37,7 @@
 
     const mapStore = useMapStore();
 
-            //Tooltip Stuff
+    //TODO: Tooltip goes offscreen, need to lock it so it doesn't.
     const { x, y } = useMouse({ touch: false });
 
     const { height } = useElementSize(tooltip);
@@ -45,7 +56,6 @@
         min-width: 300px;
         max-width: 20%;
         word-wrap: normal;
-        min-height: 150px;
         max-height: 30%;
         background-image: linear-gradient(rgb(53, 53, 53), rgb(25, 25, 25));
         border: 1px solid grey;
@@ -55,6 +65,9 @@
     .node-tooltip-title {
         font-size: 1.2em;
     }
+    .node-tooltip-scouted {
+        font-size: .8em;
+    }
 
     .node-tooltip-enter-active {
         transition: opacity 0.2s ease;
@@ -62,5 +75,9 @@
 
     .node-tooltip-enter-from {
         opacity: 0;
+    }
+    hr.solid {
+        border-top: 2px solid rgb(177, 177, 177);
+        width: 90%;
     }
 </style>
