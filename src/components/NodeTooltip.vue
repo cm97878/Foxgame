@@ -3,7 +3,7 @@
         <div 
         v-show="mapStore.mouseoverNode && !mapStore.mouseoverNode.data.areaSpecialID" 
         class="node-tooltip general_outline" 
-        :style="{ left: x+7+'px', top: y-height-7+'px' }"
+        :style="{ left: xStyle, top: yStyle }"
         ref="tooltip"
         >
             <div class="node-tooltip-title">
@@ -42,7 +42,8 @@
 
     const { height } = useElementSize(tooltip);
 
-
+    const xStyle = computed(() => (x.value+7)+'px');
+    const yStyle = computed(() => (y.value-height.value-7)+'px');
 
 
 </script>
