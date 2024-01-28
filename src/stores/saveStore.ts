@@ -39,6 +39,7 @@ export const useSaveStore = defineStore('saveStore', () =>{
             playerUpgrades: [] as Array<SaveUpgradeArray>
         },
         kills: [] as Array<SaveKillsArray>,
+        totalKills: mapStore.totalKills,
         gameFlags: [] as Array<SavedGameFlags>
     }
 
@@ -70,6 +71,7 @@ export const useSaveStore = defineStore('saveStore', () =>{
                 playerUpgrades: [] as Array<SaveUpgradeArray>
             },
             kills: [] as Array<SaveKillsArray>,
+            totalKills: mapStore.totalKills,
             gameFlags: [] as Array<SavedGameFlags>
         }
         //TODO: this only saves upgrades in the home category
@@ -133,6 +135,7 @@ export const useSaveStore = defineStore('saveStore', () =>{
                 temp2.data.killCount = item.kills;
             }
         })
+        mapStore.totalKills = saveFile.totalKills || 0;
         const gameFlagsMap = new Map<FlagEnum, boolean>([])
         saveFile.gameFlags.forEach(function(item) {
             gameFlagsMap.set(item.key, item.state)

@@ -70,6 +70,7 @@ export const useMapStore = defineStore('mapStuff', () => {
             areaSpecialID: SpecialAreaId.HOME, //Absence of this is a regular area.
             customFunc: function() {
                 //Check for progress in the Unlock Shrine storyline.
+
                 if(!gameFlags.flagList.get(FlagEnum.SHRINE_UNLOCKED) && 
                 gameFlags.flagList.get(FlagEnum.STATUE_OBTAINED)){
                     eventStore.callCutscene(eventStore.cutscenes.get("idolReturned"))
@@ -312,7 +313,7 @@ export const useMapStore = defineStore('mapStuff', () => {
             }
         }
     };
-    const selectedNode =  ref({data: {}} as GraphNode) ;
+    const selectedNode =  ref({data: {}} as GraphNode);
     let scouted$ = ref("");
 
     // --- Getters/Computeds ---
@@ -327,13 +328,16 @@ export const useMapStore = defineStore('mapStuff', () => {
     });
     const hasData = computed(() => !!selectedNode.value.data);
 
-    const totalKills = computed(() => {
-        let val = 0;
-        mapNodes.value.forEach(element => {
-            val += element.data.killCount;
-        })
-        return val;
-    })
+    //This was stupid and inefficient - kills now just increment the value here and on the individual node. Left this way for totalScouted for now, as it's more important that it stays correct. TODO: May want to add a scouted flag to individual nodes, so we dont keep doing this >= comparison and instead can just check a boolean.
+
+    // const totalKills = computed(() => {
+    //     let val = 0;
+    //     mapNodes.value.forEach(element => {
+    //         val += element.data.killCount;
+    //     })
+    //     return val;
+    // })
+    const totalKills = ref(0);
     const totalScouted = computed(() => {
         let val = 0;
         mapNodes.value.forEach(element => {
@@ -375,16 +379,19 @@ export const useMapStore = defineStore('mapStuff', () => {
         }
     }
 
-    //this just adds kills to the current node, but should be easy to expand to add elsewhere
-    //if we do stuff that'd allow it later
+
+    //
     function addKills(amnt:number) {
         if(hasData) {
             let node = mapNodes.value.find(item => item.id === selectedNode.value.id)
 
             if(node) {
-                node.data.killCount += amnt
+                totalKills.value += amnt;
                 if(node.data.killCount >= node.data.scoutThreshold) {
-                    scouted$.value = node.id;
+                    scouted$.value = node.id; //TODO: Bit beyond the scope of what I wanted to do with this but we should definitely just change this to update a scouted flag once and then not do it again. Would require a decent bit of refactoring w/ the map refresh and such, though
+                }
+                else {
+                    node.data.killCount += amnt;
                 }
             }
             else {console.log("Couldn't update killcount. addKills()")}
@@ -413,11 +420,14 @@ export const useMapStore = defineStore('mapStuff', () => {
             edge => edge.target === id ? edge.source : edge.target
         )
     }
-
+    const mouseoverNode = ref<GraphNode | undefined>({data: {}} as GraphNode);
+    mouseoverNode.value = undefined;
+    const mouseoverDelayCheck = "";
+    
 
     return {
         //State
-        enemyList, mapNodes, mapEdges, areaData, selectedNode, scouted$,
+        enemyList, mapNodes, mapEdges, areaData, selectedNode, scouted$, mouseoverNode, mouseoverDelayCheck,
         //Computed
         isSpecial, getAreaName, getDescription, getDescAppend, getKillCount, isScouted, hasData, totalKills, totalScouted,
         //Actions

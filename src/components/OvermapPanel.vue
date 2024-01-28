@@ -1,17 +1,15 @@
 <template>
     <div id="maps_container">
-        <div id="map_keynodes">
+        <!-- <div id="map_keynodes">
             {{ mapStore.getAreaName }} <br />
             <div v-show="mapStore.isSpecial">
                 special 
-                <!-- every special tab will look way different, but also this isnt where this shit will
-                display, so who cares lmao. -->
                 <br />
             </div>
             <div v-show="!mapStore.isSpecial">
                 {{ mapStore.getDescription }} {{ mapStore.getDescAppend }}
             </div>
-        </div>
+        </div> -->
         <div id="vf-map">
             <VueFlow :nodes="mapStore.mapNodes" class="general_outline">
                 <template #node-custom ="{ data, id }">
@@ -19,12 +17,14 @@
                 </template>
             </VueFlow>
         </div>
+        <NodeTooltip/>
     </div>
 </template>
 
 
 <script setup lang="ts">
 import CustomNode from './CustomNode.vue';
+import NodeTooltip from './NodeTooltip.vue';
 import { useMapStore } from '@/stores/mapStore.js';
 import { usePlayer } from '@/stores/player';
 import { useEventStore } from '@/stores/eventStore';
@@ -42,7 +42,7 @@ const eventStore = useEventStore();
 const combatStore = useCombatStore();
 
 const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick,  findNode, getConnectedEdges,
-     addEdges, nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable, panOnDrag, fitView } = useVueFlow({ id:"map"});
+     addEdges, nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable, panOnDrag, fitView, setMinZoom } = useVueFlow({ id:"map"});
 
 onPaneReady((instance) => {
     nodes.value.forEach( element => {
@@ -56,6 +56,7 @@ onPaneReady((instance) => {
     edgesUpdatable.value = false;
     nodesConnectable.value = false;
     panOnDrag.value = true;
+    setMinZoom(.25);
 
     edgeUpdaterRadius.value = 0;
     instance.setCenter(0, 0, {zoom: 1.0})

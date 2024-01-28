@@ -153,10 +153,11 @@ export const useEventStore = defineStore('eventstore', () => {
                 }
             ],
             cutsceneCallback: function() {
+                callCutscene(cutscenes.get("idolReturned"))
                 mapStore.returnHome();
-            }
+            },
+            chain: true
         }],
-        //TODO: This doesn't fire properly off of a chain for some reason. I could mess with the chain infrastructure right now to fix this, but I'll leav it as is.
         ["idolReturned", {
             title: "",
             description: "After a long journey, you finally bring the stone statue home, dragging it into the center of the cave. Looking at it, a feeling of tranquility washes over you.",
@@ -166,7 +167,10 @@ export const useEventStore = defineStore('eventstore', () => {
                     label: "Continue"
                 }
             ],
-            cutsceneCallback: function() {}
+            cutsceneCallback: function() {
+                activeScene.value = undefined;
+            },
+            chain: true
         }],
     ])
 
