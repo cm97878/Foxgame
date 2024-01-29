@@ -1,21 +1,23 @@
 <template>
-    <div @mouseenter="nodeMouseover()" @mouseleave="nodeMouseover(true)" class="node-boundary" :class="{ 'selected-node': mapStore.selectedNode.id === props.id}">
+    <div @mouseenter="nodeMouseover()" 
+    @mouseleave="nodeMouseover(true)" 
+    class="node-boundary" 
+    :class="[{ 'selected-node': mapStore.selectedNode.id === props.id}, zoneClass, {'special': specialZone}]">
         {{ data.areaName }}
     </div>
 </template>
 
 <script setup lang="ts">
+    import { Zone } from '@/enums/areaEnums';
     import { useMapStore } from '@/stores/mapStore.js';
     import { useVueFlow, type GraphNode } from '@vue-flow/core';
-    import { ref } from 'vue';
+    import { computed, ref } from 'vue';
     
     const mapStore = useMapStore();
 
     const name = "customNode";
     
     //TODO: This wont work. Need to move all the tooltip stuff to the overmap panel, and do something with emitting events for mouse-overe'd nodes
-
-  //TODO: Could style based off of zone of Area in the future.
     const props = defineProps({
         id: String,
         data: {
@@ -23,6 +25,20 @@
             required: true,
         },
     }) 
+
+    
+    const zoneClass = computed(() => {
+        const zone = props.data.zone as Zone || Zone.FOREST;
+        //Add zones in as they are made.
+        switch(zone) {
+            case Zone.FOREST: return "forest";
+            case Zone.DEEP_FOREST: return "deep-forest";
+        }
+        
+        return "forest"
+    })
+
+    const specialZone = computed(() => props.data.areaSpecialID)
 
     const nodeMouseover = function(reset?:boolean) {
         if(!reset) {
@@ -44,21 +60,28 @@
 </script>
 <style>
   .node-boundary {
-    border: 2px solid black;
     padding: 10px;
     border-radius: 20px;
     width: 100px;
     font-size: 24px;
     text-align: center;
-    border-width: 3px;
     border-style: solid;
-    background-color: #9ec93d;
+    
     color: #222; 
     cursor: pointer;
   }
 
+  .forest {
+    border: 2px solid black;
+    background-color: #9ec93d;
+  }
 
+  .special {
+    border-width: 4px !important;
+    border-color:rgb(242, 255, 0);
+  }
 
-
-
+  .selected-node {
+    background-color:rgb(0, 140, 255);
+  }
 </style>

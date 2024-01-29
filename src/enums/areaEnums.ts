@@ -5,5 +5,6 @@ export enum SpecialAreaId {
 
 export enum Zone {
     SPECIAL = "special",
-    FOREST = "forest"
+    FOREST = "forest",
+    DEEP_FOREST = "deep_forest"
 }

@@ -46,12 +46,10 @@
     const yStyle = computed(() => (y.value-height.value-7)+'px');
 
 
+
 </script>
 
 <style>
-  .selected-node {
-    background:grey;
-  }
   .node-tooltip {
         z-index: 100;
         min-width: 300px;
