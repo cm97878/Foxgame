@@ -78,7 +78,7 @@
 
   .special {
     border-width: 4px !important;
-    border-color:rgb(242, 255, 0);
+    border-color:rgb(223, 186, 0);
   }
 
   .selected-node {
