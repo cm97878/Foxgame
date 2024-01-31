@@ -33,7 +33,7 @@
     import { SpecialAreaId } from '@/enums/areaEnums';
     import { usePlayer } from '@/stores/player';
 
-    const name = "upgradePanel";
+    const name = "inventoryPanel";
     const mapStore = useMapStore();
     const player = usePlayer();
 
