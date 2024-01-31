@@ -1,6 +1,6 @@
 export enum ResourceEnum {
-    FIBER = "fiber",
-    STONE = "stone"
+    FIBER = "Fiber",
+    STONE = "Stone"
 }
 
 export interface ResourceEntry {

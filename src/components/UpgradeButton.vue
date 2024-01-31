@@ -16,7 +16,6 @@
 
 
 <script setup lang="ts">
-import Decimal from 'break_infinity.js';
 import { computed, ref, type PropType } from 'vue';
 import { usePlayer } from '@/stores/player';
 import { useUpgradeStore } from '@/stores/upgradeStore';
@@ -86,10 +85,6 @@ const buy = function() {
         z-index: 1;
         top: -5px;
         left: 105%;
-    }
-
-    .divider {
-        border-bottom: 1px solid;
     }
 
     .tooltip-button {

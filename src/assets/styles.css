@@ -282,3 +282,7 @@ button:hover {
     cursor: pointer;
     color: #9ec93d;
 }
+
+.divider {
+    border-bottom: 1px solid;
+}
