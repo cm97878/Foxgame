@@ -1,6 +1,6 @@
 <template>
     <div v-show="active === Tab.INVENTORY">
-        <!-- Inventory --->
+        <!-- Inventory -->
         <span class="title">Resources:</span>
         <div class="inventory-box">
             <span v-for="(item) in player.resources.entries()" class="resource"><b>{{ item[0] }}</b> : {{ item[1].amount }} / {{ item[1].max }}</span>
