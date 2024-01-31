@@ -21,6 +21,7 @@ export const usePlayer = defineStore('player', () => {
 
 
     // -- Stats --
+    //TODO: Possibly move energy and Soul over to new Resource system.
     const currencies = ref({
         soul: new Decimal("0"),
         maxSoul: new Decimal("10"),
@@ -91,8 +92,6 @@ export const usePlayer = defineStore('player', () => {
 
 
     })
-
-
 
     // -- Getters/Computeds --
     const getAtk = computed(() => playerStats.value.attack)
@@ -209,6 +208,30 @@ export const usePlayer = defineStore('player', () => {
         }
     }
 
+    function checkResourceCost(amnt:number, type:ResourceEnum): boolean {
+        return (resources.value.get(type)?.amount || 0) >= amnt;
+    }
+
+    function payResource(cost:number, type:ResourceEnum): boolean {
+        const resource = resources.value.get(type);
+        if(resource?.amount && resource?.amount  >= cost) {
+            resources.value.set(type, {amount: resource.amount-cost, max: resource.max})
+            return true;
+        }
+        return false;
+    }
+
+    function gainResource(amnt:number, type:ResourceEnum) {
+        const resource = resources.value.get(type);
+        if(resource?.max) {
+            if((resource.amount || 0) + amnt >= resource.max) {
+                resources.value.set(type, {amount: resource.max, max:resource.max})
+            } else {
+                resources.value.set(type, {amount: resource.amount+amnt, max:resource.max})
+            }
+        }
+    }
+
     return {
         //Stats
         currencies, name, tails, playerStats, gameStage, furthestStage, loaded, firstMove, deniedSoul, resources,
@@ -217,6 +240,7 @@ export const usePlayer = defineStore('player', () => {
         getHPRegen, getEnergyRegen,
         // Actions
         addSoul, subtractSoul, damage, payEnergy, enoughSoul, enoughScouted, enoughKills, enoughEnergy, addBaseAtk, addBaseDef,
-        addBaseHealth, modifySpeed, modifyMaxSoul, addTail, addFood, addHPRegen, addEnergyRegen
+        addBaseHealth, modifySpeed, modifyMaxSoul, addTail, addFood, addHPRegen, addEnergyRegen, checkResourceCost, payResource,
+        gainResource
     }
 })

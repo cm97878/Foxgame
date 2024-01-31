@@ -22,12 +22,16 @@
                         <span :class="{ 'tab-selected': activeTabOverworld === Tab.COMBAT, 'in-combat': combatStore.activeCombat }" @click="showTabOverworld(Tab.COMBAT)" class="tab">
                             Combat
                         </span>
+                        <span :class="{ 'tab-selected': activeTabOverworld === Tab.INVENTORY }" @click="showTabOverworld(Tab.INVENTORY)" class="tab">
+                            Inventory
+                        </span>
                     </div>
                 </div>
 
                 <div v-show="!(mapStore.selectedNode.data.areaSpecialID)" class="content-container">
                     <InfoPanel v-bind:active="activeTabOverworld" />
                     <CombatPanel v-bind:active="activeTabOverworld" />
+                    <UpgradePanel v-bind:active="activeTabOverworld" />
                 </div>
 
 
@@ -37,7 +41,7 @@
                         <span :class="{ 'tab-selected': activeTabHome === Tab.OVERVIEW }" @click="showTabHome(Tab.OVERVIEW)" class="tab">
                             Home
                         </span>
-                        <span :class="{ 'tab-selected': activeTabHome === Tab.HOME_UPGRADES }" @click="showTabHome(Tab.HOME_UPGRADES)" class="tab">
+                        <span :class="{ 'tab-selected': activeTabHome === Tab.INVENTORY }" @click="showTabHome(Tab.INVENTORY)" class="tab">
                             Upgrades
                         </span>
                         <span v-if="gameFlags.flagList.get(FlagEnum.EXPLORE_UNLOCKED)" :class="{ 'tab-selected': activeTabHome === Tab.EXPLORE }" @click="showTabHome(Tab.EXPLORE)" class="tab">
@@ -52,6 +56,7 @@
 
                 <div v-show="mapStore.selectedNode.data.areaSpecialID === SpecialAreaId.HOME" class="content-container">
                     <BasePanel v-bind:active="activeTabHome" />
+                    <UpgradePanel v-bind:active="activeTabHome" />
                     <ExplorePanel v-bind:active="activeTabHome" />
                 </div>
             </div>
@@ -110,6 +115,7 @@
 
 <script setup lang="ts">
     import ExplorePanel from './components/ExplorePanel.vue' 
+    import UpgradePanel from './components/UpgradePanel.vue' 
     import CombatPanel from './components/CombatPanel.vue'
     import SoulUpgradePanel from './components/SoulUpgradePanel.vue'
     import OvermapPanel from './components/OvermapPanel.vue';
@@ -169,6 +175,7 @@
     }
 
     function showTabHome (tab:Tab) {
+        console.log(tab);
         activeTabHome.value = tab;
     }
 

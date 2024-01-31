@@ -253,7 +253,9 @@ button:hover {
 }
 
 .vue-flow {
-    background: #bbeaff;
+    /* background: #bbeaff; */
+    /* background: #FCF5E5; */
+    background: #ebd5b3
 }
 
 
@@ -279,4 +281,8 @@ button:hover {
 .tab:hover {
     cursor: pointer;
     color: #9ec93d;
+}
+
+.divider {
+    border-bottom: 1px solid;
 }

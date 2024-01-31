@@ -10,7 +10,7 @@ export enum Tab {
 
     //Home
     OVERVIEW = "overview",
-    HOME_UPGRADES = "upgrades",
+    INVENTORY = "inventory",
     EXPLORE = "explore",
 
     //Soul

@@ -6,13 +6,13 @@
         <div v-else class="home-box">
             <div class = "base-pic"></div>
             <div class = "base-text">
-                <span v-if="gameFlags.flagList.get(FlagEnum.SHRINE_UNLOCKED)?.state">The statue's eyes glow blue as it rests in the center of the cave.</span>
+                <span v-if="gameFlags.flagList.get(FlagEnum.SHRINE_UNLOCKED)">The statue's eyes glow blue as it rests in the center of the cave.</span>
                 <span v-else>A dark, drafty cave, with little in the way of comfort. It wouldn't hurt to make this place a little bit more like a proper home...</span>
                 <PlayerHpBar style="margin-bottom: 5px; margin-top: 8px;"/>
                 <span style="color:green">Current HP Regen: {{ player.getHPRegen }}</span>
                 <span style=" color:gold">Current Energy Regen: {{ player.getEnergyRegen }}</span>
             </div>
-            <div class = "upgrades">
+            <!-- <div class = "upgrades">
                 <UpgradeButton v-for="(item) in upgradeStore.getBuyableHomeUpgrades"
                     :upgrade_key="item[0]" 
                     :show="item[1].show"
@@ -25,7 +25,7 @@
                     :costFunc="item[1].costFunc"
                     :effect="item[1].effect"
                 />
-            </div>
+            </div> -->
         </div>
     </div>
 </template>

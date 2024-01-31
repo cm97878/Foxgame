@@ -18,7 +18,6 @@
             </div>
         </div>
     </div>
-    <!-- <EventDisplay v-if="!!isEventActive" :area-event="activeEvent" @event-finished="eventCleanup()"></EventDisplay> -->
 </template>
 
 
@@ -32,21 +31,8 @@ import { useDecks } from '@/stores/deckStore';
 const name = "areaActionsPanel";
 
 const player = usePlayer();
-const combatStore = useCombatStore();
 const mapStore = useMapStore();
 const exploreDeck = useDecks();
-// let isEventActive = ref(false);
-// let activeEvent = {} as AreaEvent;
-// const testEvent = {
-//     id: "1",
-//     zone: Zone.FOREST,
-//     eventText: "You found some Soul, woo!",
-//     choices:[{id: 1, label: "Okay! (+10 Soul)"}],
-//     eventCallback: function(choice: number) {
-//         player.addSoul(10)
-//         console.log(choice)
-//     }
-// } as AreaEvent;
 
 let props = defineProps({
     active: String
@@ -59,9 +45,6 @@ const pullCard = function () {
     }
 }
 
-// const eventCleanup = function():void {
-//     isEventActive.value = false;
-// }
 </script>
 <style>
     .area-box {
