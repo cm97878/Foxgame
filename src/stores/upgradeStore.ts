@@ -34,7 +34,7 @@ export const useUpgradeStore = defineStore('upgradeStore', {
                 flavor: "TBD.",
                 effectDescription: "+1 attack. Can be bought multiple times.",
                 get costDescription() {
-                    return Math.pow(1.7, this.level).toFixed(2) + " Soul."
+                    return Math.pow(1.7, this.level || 1).toFixed(2) + " Soul."
                 },
                 costFunc: (buyCheck: boolean, level?: number) => {
                     const player = usePlayer();
@@ -67,7 +67,7 @@ export const useUpgradeStore = defineStore('upgradeStore', {
                 flavor: "TBD.",
                 effectDescription: "+1 defense. Can be bought multiple times.",
                 get costDescription() {
-                    return Math.pow(1.7, this.level).toFixed(2) + " Soul."
+                    return Math.pow(1.7, this.level || 1).toFixed(2) + " Soul."
                 },
                 costFunc: (buyCheck: boolean, level?: number) => {
                     const player = usePlayer();
@@ -99,7 +99,7 @@ export const useUpgradeStore = defineStore('upgradeStore', {
                 flavor: "TBD.",
                 effectDescription: "+5 HP. Can be bought multiple times.",
                 get costDescription() {
-                    return Math.pow(1.5, this.level).toFixed(2) + " Soul."
+                    return Math.pow(1.5, this.level|| 1).toFixed(2) + " Soul."
                 },
                 costFunc: (buyCheck: boolean, level?: number) => {
                     const player = usePlayer();

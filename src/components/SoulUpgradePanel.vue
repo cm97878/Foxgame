@@ -11,6 +11,8 @@
             :cost_description="item[1].costDescription"
             :costFunc="item[1].costFunc"
             :effect="item[1].effect"
+            :repeatable="item[1].repeatable"
+            :level="item[1].level"
         />
     </div>
 </template>
