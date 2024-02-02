@@ -11,7 +11,7 @@
     import { Zone } from '@/enums/areaEnums';
     import { useMapStore } from '@/stores/mapStore.js';
     import { useVueFlow, type GraphNode } from '@vue-flow/core';
-    import { computed, ref } from 'vue';
+    import { computed } from 'vue';
     
     const mapStore = useMapStore();
 
@@ -33,6 +33,7 @@
         switch(zone) {
             case Zone.FOREST: return "forest";
             case Zone.DEEP_FOREST: return "deep-forest";
+            case Zone.RIVERBANK: return "riverbank";
         }
         
         return "forest"
@@ -74,6 +75,16 @@
   .forest {
     border: 2px solid black;
     background-color: #9ec93d;
+  }
+
+  .deep-forest {
+    border: 2px solid #006608;
+    background-color: #00ba06;
+  }
+
+  .riverbank {
+    border: 2px solid #002861;
+    background-color: #0091ff;
   }
 
   .special {

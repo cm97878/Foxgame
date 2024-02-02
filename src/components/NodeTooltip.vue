@@ -14,8 +14,9 @@
             </div>
             <hr class="solid">
             Enemies: 
-            <span v-for="item, index in mapStore.enemyList">
-                {{ item.name }}<span v-if="index != (mapStore.enemyList.length - 1)">, </span>
+            <span v-for="item, index in mapStore.enemyList.get(mapStore.mouseoverNode?.data.zone)">
+                {{ item.name }},
+                <!-- {{ item.name }}<span v-if="index != (mapStore.enemyList.length - 1)">, </span> -->
             </span>
 
             <div 

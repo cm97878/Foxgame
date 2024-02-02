@@ -32,33 +32,37 @@ export const useMapStore = defineStore('mapStuff', () => {
     // -- State --
 
     //This should be an a group of arrays. Each item should have a Zone and an attached array of enemies as an encounter list for it.
-    const enemyList = [{
-        name: "Rat",
-        attack: new Decimal("2"),
-        defense: new Decimal("0"),
-        maxHP: new Decimal("7"),
-        spd: 300,
-        soulAbsorb: new Decimal("1"),
-        soulKill: new Decimal("1"),
-    },
-    {
-        name: "Dog",
-        attack: new Decimal("3"),
-        defense: new Decimal("1"),
-        maxHP: new Decimal("10"),
-        spd: 300,
-        soulAbsorb: new Decimal("1"),
-        soulKill: new Decimal("1"),
-    },
-    {
-        name: "Mouse",
-        attack: new Decimal("1"),
-        defense: new Decimal("0"),
-        maxHP: new Decimal("5"),
-        spd: 100,
-        soulAbsorb: new Decimal("1"),
-        soulKill: new Decimal("1"),
-    }] as Array<Enemy>;
+    const enemyList = new Map<Zone, Enemy[]>([
+        [Zone.FOREST, [{
+            name: "Rat",
+            attack: new Decimal("2"),
+            defense: new Decimal("0"),
+            maxHP: new Decimal("7"),
+            spd: 300,
+            soulAbsorb: new Decimal("1"),
+            soulKill: new Decimal("1"),
+        },
+        {
+            name: "Chipmunk",
+            attack: new Decimal("3"),
+            defense: new Decimal("1"),
+            maxHP: new Decimal("10"),
+            spd: 300,
+            soulAbsorb: new Decimal("1"),
+            soulKill: new Decimal("1"),
+        },
+        {
+            name: "Mouse",
+            attack: new Decimal("1"),
+            defense: new Decimal("0"),
+            maxHP: new Decimal("5"),
+            spd: 100,
+            soulAbsorb: new Decimal("1"),
+            soulKill: new Decimal("1"),
+        }],
+
+        ]
+    ])
 
     const mapNodes = ref([{
         id: '1',
@@ -219,7 +223,7 @@ export const useMapStore = defineStore('mapStuff', () => {
         type: 'custom',
         data: {
             areaName: "Faded Trail (W-E)",
-            zone: Zone.FOREST,
+            zone: Zone.RIVERBANK,
             description: "A stone-marked trail runs west to east, with thick brambles meandering along to its north.",
             killCount: 0,
             scoutThreshold: 1
@@ -233,7 +237,7 @@ export const useMapStore = defineStore('mapStuff', () => {
         type: 'custom',
         data: {
             areaName: "Cliffside Clearing",
-            zone: Zone.FOREST,
+            zone: Zone.DEEP_FOREST,
             description: "The cliff pulls away from the forest and, here, the forest does not follow, creating a rocky clearing.",
             killCount: 0,
             scoutThreshold: 1
@@ -368,13 +372,17 @@ export const useMapStore = defineStore('mapStuff', () => {
     }
 
     function callRandomEncounter(zone: Zone): void {
+        let list = [] as Array<Enemy>;
         switch(zone) {
             //TODO: Add Deep Forest Zone and spawn list!
-            case Zone.FOREST: {
-                const encounterIdx = Math.floor(Math.random() * enemyList.length );
+            case Zone.FOREST: { list = enemyList.get(Zone.FOREST) || [] }
+            case Zone.DEEP_FOREST: { list = enemyList.get(Zone.DEEP_FOREST) || [] }
+            case Zone.RIVERBANK: { list = enemyList.get(Zone.RIVERBANK) || [] }
 
+            if(!!list && list.length > 1) {
+                const encounterIdx = Math.floor(Math.random() * list.length );
                 const combatStore = useCombatStore();
-                combatStore.startCombat(enemyList[encounterIdx]);
+                combatStore.startCombat(list[encounterIdx]);
             }
         }
     }

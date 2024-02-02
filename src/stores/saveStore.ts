@@ -36,11 +36,13 @@ export const useSaveStore = defineStore('saveStore', () =>{
             spd: player.playerStats.spd
         },
         unlocks: {
-            playerUpgrades: [] as Array<SaveUpgradeArray>
+            playerUpgrades: [] as Array<SaveUpgradeArray>,
+            soulUpgrades: [] as Array<SaveUpgradeArray>
         },
         kills: [] as Array<SaveKillsArray>,
         totalKills: mapStore.totalKills,
-        gameFlags: [] as Array<SavedGameFlags>
+        gameFlags: [] as Array<SavedGameFlags>,
+        version: 1
     }
 
 
@@ -68,11 +70,14 @@ export const useSaveStore = defineStore('saveStore', () =>{
                 spd: player.playerStats.spd
             },
             unlocks: {
-                playerUpgrades: [] as Array<SaveUpgradeArray>
+                playerUpgrades: [] as Array<SaveUpgradeArray>,
+                soulUpgrades: [] as Array<SaveUpgradeArray>
             },
             kills: [] as Array<SaveKillsArray>,
             totalKills: mapStore.totalKills,
-            gameFlags: [] as Array<SavedGameFlags>
+            gameFlags: [] as Array<SavedGameFlags>,
+            //Set a version for dealing with breaking changes to saves.
+            version: 1
         }
         //TODO: this only saves upgrades in the home category
         saveFile.unlocks.playerUpgrades = Array.from(upgrades.home.entries()).map((entry) => {
@@ -80,6 +85,14 @@ export const useSaveStore = defineStore('saveStore', () =>{
                 key: entry[0],
                 unlocked: entry[1].show,
                 bought: entry[1].bought,
+            } as SaveUpgradeArray
+        })
+        saveFile.unlocks.soulUpgrades = Array.from(upgrades.soul.entries()).map((entry) => {
+            return {
+                key: entry[0],
+                unlocked: entry[1].show,
+                bought: entry[1].bought,
+                level: entry[1].level || 1,
             } as SaveUpgradeArray
         })
         saveFile.kills = Array.from(mapStore.mapNodes).map((entry) => {
@@ -126,6 +139,15 @@ export const useSaveStore = defineStore('saveStore', () =>{
             if(temp) {
                 temp.show = item.unlocked;
                 temp.bought = item.bought;
+                upgrades.home.set(item.key, temp);
+            }
+        })
+        saveFile.unlocks.soulUpgrades.forEach(function(item) {
+            let temp = upgrades.soul.get(item.key);
+            if(temp) {
+                temp.show = item.unlocked;
+                temp.bought = item.bought;
+                temp.level = item.level || 1;
                 upgrades.home.set(item.key, temp);
             }
         })

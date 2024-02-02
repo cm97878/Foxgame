@@ -1,15 +1,5 @@
 <template>
     <div id="maps_container">
-        <!-- <div id="map_keynodes">
-            {{ mapStore.getAreaName }} <br />
-            <div v-show="mapStore.isSpecial">
-                special 
-                <br />
-            </div>
-            <div v-show="!mapStore.isSpecial">
-                {{ mapStore.getDescription }} {{ mapStore.getDescAppend }}
-            </div>
-        </div> -->
         <div id="vf-map">
             <VueFlow :nodes="mapStore.mapNodes" class="general_outline">
                 <template #node-custom ="{ data, id }">
@@ -70,7 +60,7 @@ onNodeClick((node) => {
         //TODO: Make this check use gameFlags
         if(player.firstMove) {
             player.firstMove = false;
-            combatStore.startCombat(mapStore.enemyList[0]);
+            combatStore.startCombat(mapStore.enemyList.get(Zone.FOREST)[0]);
             eventStore.callCutscene(eventStore.cutscenes.get("firstMove"));
         } else if(!!chosenNode?.data?.customFunc) {
             chosenNode.data.customFunc();

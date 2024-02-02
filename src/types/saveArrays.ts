@@ -2,6 +2,7 @@ export interface SaveUpgradeArray {
     key: number,
     unlocked: boolean,
     bought: boolean,
+    level: number
 }
 
 export interface SaveKillsArray {
