@@ -32,8 +32,6 @@
     import { useMapStore } from '@/stores/mapStore';
     import { SpecialAreaId } from '@/enums/areaEnums';
     import { usePlayer } from '@/stores/player';
-
-    const name = "upgradePanel";
     const mapStore = useMapStore();
     const player = usePlayer();
 

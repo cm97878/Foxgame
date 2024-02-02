@@ -31,7 +31,7 @@
                 <div v-show="!(mapStore.selectedNode.data.areaSpecialID)" class="content-container">
                     <InfoPanel v-bind:active="activeTabOverworld" />
                     <CombatPanel v-bind:active="activeTabOverworld" />
-                    <UpgradePanel v-bind:active="activeTabOverworld" />
+                    <InventoryPanel v-bind:active="activeTabOverworld" />
                 </div>
 
 
@@ -56,7 +56,7 @@
 
                 <div v-show="mapStore.selectedNode.data.areaSpecialID === SpecialAreaId.HOME" class="content-container">
                     <BasePanel v-bind:active="activeTabHome" />
-                    <UpgradePanel v-bind:active="activeTabHome" />
+                    <InventoryPanel v-bind:active="activeTabHome" />
                     <ExplorePanel v-bind:active="activeTabHome" />
                 </div>
             </div>
@@ -115,7 +115,7 @@
 
 <script setup lang="ts">
     import ExplorePanel from './components/ExplorePanel.vue' 
-    import UpgradePanel from './components/UpgradePanel.vue' 
+    import InventoryPanel from './components/InventoryPanel.vue' 
     import CombatPanel from './components/CombatPanel.vue'
     import SoulUpgradePanel from './components/SoulUpgradePanel.vue'
     import OvermapPanel from './components/OvermapPanel.vue';
@@ -143,8 +143,6 @@
     const eventStore = useEventStore();
     const mapStore = useMapStore();
     const gameFlags = useGameFlags();
-
-    const name = "app";
 
     const activePanel = ref(Panels.WORLD);
     const activeTabOverworld = ref(Tab.COMBAT);

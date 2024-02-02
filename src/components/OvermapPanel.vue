@@ -1,15 +1,5 @@
 <template>
     <div id="maps_container">
-        <!-- <div id="map_keynodes">
-            {{ mapStore.getAreaName }} <br />
-            <div v-show="mapStore.isSpecial">
-                special 
-                <br />
-            </div>
-            <div v-show="!mapStore.isSpecial">
-                {{ mapStore.getDescription }} {{ mapStore.getDescAppend }}
-            </div>
-        </div> -->
         <div id="vf-map">
             <VueFlow :nodes="mapStore.mapNodes" class="general_outline">
                 <template #node-custom ="{ data, id }">
@@ -34,8 +24,6 @@ import { storeToRefs } from 'pinia';
 import { watch } from 'vue';
 import { useCombatStore } from '@/stores/combatStore';
 
-
-const name = "overmappanel";
 const mapStore = useMapStore();
 const player = usePlayer();
 const eventStore = useEventStore();
@@ -70,12 +58,12 @@ onNodeClick((node) => {
         //TODO: Make this check use gameFlags
         if(player.firstMove) {
             player.firstMove = false;
-            combatStore.startCombat(mapStore.enemyList[0]);
+            combatStore.startCombat(mapStore.enemyList.get(Zone.FOREST)[0]);
             eventStore.callCutscene(eventStore.cutscenes.get("firstMove"));
         } else if(!!chosenNode?.data?.customFunc) {
             chosenNode.data.customFunc();
         } else if(!(!!chosenNode?.data?.areaSpecialID)) {
-            mapStore.callRandomEncounter(Zone.FOREST)
+            mapStore.callRandomEncounter(chosenNode.data.zone || Zone.FOREST)
         } 
 
         

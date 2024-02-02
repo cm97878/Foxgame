@@ -81,8 +81,6 @@ import PlayerHpBar from './playerHPBar.vue';
 const player = usePlayer();
 const combatStore = useCombatStore();
 
-const name = "combatpanel";
-
 const props = defineProps({
     active: String
 })

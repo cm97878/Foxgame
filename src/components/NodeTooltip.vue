@@ -14,8 +14,9 @@
             </div>
             <hr class="solid">
             Enemies: 
-            <span v-for="item, index in mapStore.enemyList">
-                {{ item.name }}<span v-if="index != (mapStore.enemyList.length - 1)">, </span>
+            <span v-for="item, index in mapStore.enemyList.get(mapStore.mouseoverNode?.data.zone)">
+                {{ item.name }},
+                <!-- {{ item.name }}<span v-if="index != (mapStore.enemyList.length - 1)">, </span> -->
             </span>
 
             <div 
@@ -31,8 +32,6 @@
     import { useMapStore } from '@/stores/mapStore';
     import { useMouse, useElementSize } from '@vueuse/core'
     import { computed, ref } from 'vue';
-
-    const name = "nodetooltip"
     const tooltip = ref(null);
 
     const mapStore = useMapStore();

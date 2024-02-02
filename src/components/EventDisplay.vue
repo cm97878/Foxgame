@@ -7,7 +7,6 @@
 
 <script setup lang="ts">
     import type { AreaEvent }  from '@/types/areaEvent'
-    const name = "EventDisplay"
 
     let props = defineProps<{
         areaEvent: AreaEvent
