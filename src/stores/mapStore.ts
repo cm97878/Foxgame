@@ -31,7 +31,7 @@ export const useMapStore = defineStore('mapStuff', () => {
 
     // -- State --
 
-    //This should be an a group of arrays. Each item should have a Zone and an attached array of enemies as an encounter list for it.
+    //TODO: Properly balance new zone enemies.
     const enemyList = new Map<Zone, Enemy[]>([
         [Zone.FOREST, [{
             name: "Rat",
@@ -59,9 +59,43 @@ export const useMapStore = defineStore('mapStuff', () => {
             spd: 100,
             soulAbsorb: new Decimal("1"),
             soulKill: new Decimal("1"),
-        }],
-
-        ]
+        }]],
+        [Zone.DEEP_FOREST, [{
+            name: "Creeper Vines",
+            attack: new Decimal("35"),
+            defense: new Decimal("45"),
+            maxHP: new Decimal("120"),
+            spd: 300,
+            soulAbsorb: new Decimal("15"),
+            soulKill: new Decimal("15"),
+        },
+        {
+            name: "Stag",
+            attack: new Decimal("50"),
+            defense: new Decimal("35"),
+            maxHP: new Decimal("100"),
+            spd: 300,
+            soulAbsorb: new Decimal("15"),
+            soulKill: new Decimal("15"),
+        }]],
+        [Zone.RIVERBANK, [{
+            name: "Hawk",
+            attack: new Decimal("10"),
+            defense: new Decimal("4"),
+            maxHP: new Decimal("25"),
+            spd: 200,
+            soulAbsorb: new Decimal("5"),
+            soulKill: new Decimal("5"),
+        },
+        {
+            name: "Otter",
+            attack: new Decimal("7"),
+            defense: new Decimal("5"),
+            maxHP: new Decimal("40"),
+            spd: 300,
+            soulAbsorb: new Decimal("5"),
+            soulKill: new Decimal("5"),
+        }]]
     ])
 
     const mapNodes = ref([{
@@ -373,17 +407,27 @@ export const useMapStore = defineStore('mapStuff', () => {
 
     function callRandomEncounter(zone: Zone): void {
         let list = [] as Array<Enemy>;
+        debugger;
         switch(zone) {
             //TODO: Add Deep Forest Zone and spawn list!
-            case Zone.FOREST: { list = enemyList.get(Zone.FOREST) || [] }
-            case Zone.DEEP_FOREST: { list = enemyList.get(Zone.DEEP_FOREST) || [] }
-            case Zone.RIVERBANK: { list = enemyList.get(Zone.RIVERBANK) || [] }
-
-            if(!!list && list.length > 1) {
-                const encounterIdx = Math.floor(Math.random() * list.length );
-                const combatStore = useCombatStore();
-                combatStore.startCombat(list[encounterIdx]);
+            case Zone.FOREST: { 
+                list = enemyList.get(Zone.FOREST) || []
+                break;
             }
+            case Zone.DEEP_FOREST: { 
+                list = enemyList.get(Zone.DEEP_FOREST) || [] 
+                break;
+            }
+            case Zone.RIVERBANK: { 
+                list = enemyList.get(Zone.RIVERBANK) || [] 
+                break;
+            }
+        }
+        if(!!list && list.length > 1) {
+            debugger;
+            const encounterIdx = Math.floor(Math.random() * list.length );
+            const combatStore = useCombatStore();
+            combatStore.startCombat(list[encounterIdx]);
         }
     }
 

@@ -65,7 +65,7 @@ onNodeClick((node) => {
         } else if(!!chosenNode?.data?.customFunc) {
             chosenNode.data.customFunc();
         } else if(!(!!chosenNode?.data?.areaSpecialID)) {
-            mapStore.callRandomEncounter(Zone.FOREST)
+            mapStore.callRandomEncounter(chosenNode.data.zone || Zone.FOREST)
         } 
 
         
