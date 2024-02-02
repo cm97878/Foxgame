@@ -10,8 +10,6 @@ import { usePlayer } from '@/stores/player';
 import { displayDecimal } from '@/utils/utils';
 const player = usePlayer();
 
-const name = "playerHPBar";
-
 </script>
 
 <style>

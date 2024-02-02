@@ -42,8 +42,6 @@ import PlayerHpBar from './playerHPBar.vue';
 import { useGameFlags } from '@/stores/gameFlags';
 import { FlagEnum } from "@/enums/flagEnum"
 
-const name = "basePanel";
-
 const mapStore = useMapStore();
 const player = usePlayer();
 const upgradeStore = useUpgradeStore();

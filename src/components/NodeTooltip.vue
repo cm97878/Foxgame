@@ -32,8 +32,6 @@
     import { useMapStore } from '@/stores/mapStore';
     import { useMouse, useElementSize } from '@vueuse/core'
     import { computed, ref } from 'vue';
-
-    const name = "nodetooltip"
     const tooltip = ref(null);
 
     const mapStore = useMapStore();

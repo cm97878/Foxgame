@@ -144,8 +144,6 @@
     const mapStore = useMapStore();
     const gameFlags = useGameFlags();
 
-    const name = "app";
-
     const activePanel = ref(Panels.WORLD);
     const activeTabOverworld = ref(Tab.COMBAT);
     const activeTabHome = ref(Tab.OVERVIEW);

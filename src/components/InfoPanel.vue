@@ -12,8 +12,6 @@
 import { Tab } from '@/enums/panels';
 import { useMapStore } from '@/stores/mapStore';
 
-const name = "infopanel";
-
 const mapStore = useMapStore();
 
 const props = defineProps({

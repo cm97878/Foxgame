@@ -24,8 +24,6 @@ import { storeToRefs } from 'pinia';
 import { watch } from 'vue';
 import { useCombatStore } from '@/stores/combatStore';
 
-
-const name = "overmappanel";
 const mapStore = useMapStore();
 const player = usePlayer();
 const eventStore = useEventStore();

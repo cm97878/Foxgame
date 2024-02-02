@@ -21,9 +21,6 @@ import { usePlayer } from '@/stores/player';
 import { useUpgradeStore } from '@/stores/upgradeStore';
 import { UpgradeCategory } from '@/types/upgrade';
 
-
-const name = "upgradebutton";
-
 const player = usePlayer();
 const upgrades = useUpgradeStore();
 

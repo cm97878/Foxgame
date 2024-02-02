@@ -14,8 +14,6 @@
     import { computed } from 'vue';
     
     const mapStore = useMapStore();
-
-    const name = "customNode";
     
     //TODO: This wont work. Need to move all the tooltip stuff to the overmap panel, and do something with emitting events for mouse-overe'd nodes
     const props = defineProps({

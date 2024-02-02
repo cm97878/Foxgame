@@ -28,8 +28,6 @@ import { Tab } from '@/enums/panels';
 import { useMapStore } from '@/stores/mapStore';
 import { useDecks } from '@/stores/deckStore';
 
-const name = "areaActionsPanel";
-
 const player = usePlayer();
 const mapStore = useMapStore();
 const exploreDeck = useDecks();

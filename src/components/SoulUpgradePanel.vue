@@ -21,8 +21,6 @@
 import UpgradeButton from './UpgradeButton.vue';
 import { useUpgradeStore } from '@/stores/upgradeStore';
 
-const name = "soulUpgradePanel";
-
 const upgrade = useUpgradeStore();
 
 let props = defineProps({
