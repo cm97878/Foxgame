@@ -440,7 +440,6 @@ export const useMapStore = defineStore('mapStuff', () => {
 
     function callRandomEncounter(zone: Zone): void {
         let list = [] as Array<Enemy>;
-        debugger;
         switch(zone) {
             //TODO: Add Deep Forest Zone and spawn list!
             case Zone.FOREST: { 
@@ -457,7 +456,6 @@ export const useMapStore = defineStore('mapStuff', () => {
             }
         }
         if(!!list && list.length > 1) {
-            debugger;
             const encounterIdx = Math.floor(Math.random() * list.length );
             const combatStore = useCombatStore();
             combatStore.startCombat(list[encounterIdx]);
