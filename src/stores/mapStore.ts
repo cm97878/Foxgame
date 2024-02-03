@@ -29,7 +29,7 @@ export const useMapStore = defineStore('mapStuff', () => {
     const gameFlags = useGameFlags();
     const eventStore = useEventStore();
     const upgradeStore = useUpgradeStore();
-    const { getConnectedEdges, fitView, findNode, setNodes, setEdges, nodes } = useVueFlow({ id:"map"});
+    const { getConnectedEdges, fitView, findNode, setNodes, setEdges, nodes, addNodes } = useVueFlow({ id:"map"});
 
     // -- State --
 
@@ -100,22 +100,34 @@ export const useMapStore = defineStore('mapStuff', () => {
         }]]
     ])
 
-    const mapNodes = ref<GraphNode[]>([]);
-    overworldData.nodes.forEach((item) =>{
-        let temp = {
-            id: item.id,
-            type: "custom",
-            position: structuredClone(item.position),
-            data: {
+    //Can probably remove these, but keeping them for a bit just in case.
+    // const mapNodes = ref<Object[]>([]);
+    // overworldData.nodes.forEach((item) =>{
+    //     let temp = {
+    //         id: item.id,
+    //         type: "custom",
+    //         position: structuredClone(item.position),
+    //         data: {
 
-            }
-        } as GraphNode
-        temp.data = item.data as AreaData;
-        mapNodes.value.push(temp);
-    })
-    console.log(mapNodes);
-    const mapEdges = overworldData.edges;
+    //         }
+    //     } as GraphNode
+    //     temp.data = item.data as AreaData;
+    //     addNodes(temp)
+    // })
 
+
+    const mapNodes = ref(overworldData.nodes);
+    const mapEdges = ref(overworldData.edges);
+
+    const setMap = function() {
+        console.log(mapNodes, mapEdges)
+        setNodes(mapNodes.value);
+        setEdges(mapEdges.value);
+    }
+    
+
+    
+    //Keeping this to copy data over when we make the new map file
     // const mapNodes = ref([
     // {
     //     id: '1',
@@ -474,7 +486,7 @@ export const useMapStore = defineStore('mapStuff', () => {
         const startingNode = findNode("Home")!;
         selectedNode.value = startingNode;
         centerMap(startingNode);
-        // selectedNode.value.data.customFunc();
+        // selectedNode.value.data.customFunc(); TODO: fix this
     }
 
     function centerMap(node:GraphNode) {
@@ -500,10 +512,10 @@ export const useMapStore = defineStore('mapStuff', () => {
 
     return {
         //State
-        enemyList, areaData, selectedNode, scouted$, mouseoverNode, mouseoverDelayCheck, mapNodes, mapEdges,
+        enemyList, areaData, selectedNode, scouted$, mouseoverNode, mouseoverDelayCheck, mapEdges, mapNodes,
         //Computed
         isSpecial, getAreaName, getDescription, getDescAppend, getKillCount, isScouted, hasData, totalKills, totalScouted,
         //Actions
-        setTextAppend, callRandomEncounter, addKills, centerMap, returnHome
+        setTextAppend, callRandomEncounter, addKills, centerMap, returnHome, setMap
     }
 })

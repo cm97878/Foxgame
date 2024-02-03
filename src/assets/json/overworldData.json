@@ -38,7 +38,8 @@
 				"handles": [
 					"Home,3",
 					"Home,4",
-					"Home,2"
+					"Home,2",
+					"Home,1"
 				]
 			}
 		},
@@ -57,6 +58,23 @@
 				"handles": [
 					"8295236097844809,1",
 					"8295236097844809,4"
+				]
+			}
+		},
+		{
+			"id": "8256091827996871",
+			"type": "custom",
+			"position": {
+				"x": 409.28183130355063,
+				"y": -517.1730192040683
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+                "killCount": 0,
+                "scoutThreshold": 0,
+				"handles": [
+					"8256091827996871,2"
 				]
 			}
 		}
@@ -89,6 +107,13 @@
 			"target": "39363316563935546",
 			"sourceHandle": "Home,2",
 			"targetHandle": "39363316563935546,4"
+		},
+		{
+			"id": "Home-8256091827996871",
+			"source": "Home",
+			"target": "8256091827996871",
+			"sourceHandle": "Home,1",
+			"targetHandle": "8256091827996871,2"
 		}
 	]
 }

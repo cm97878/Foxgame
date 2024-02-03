@@ -33,12 +33,12 @@ const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick,  findNode,
      addEdges, nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable, panOnDrag, fitView, setMinZoom, setNodes, setEdges } = useVueFlow({ id:"map"});
 
 onPaneReady((instance) => {
+    mapStore.setMap();
     nodes.value.forEach( element => {
         element.hidden = true;
     })
 
-    setNodes(mapStore.mapNodes);
-    setEdges(mapStore.mapEdges);
+    
     nodesDraggable.value = false;
     elementsSelectable.value = true;
     edgesUpdatable.value = false;
@@ -52,19 +52,21 @@ onPaneReady((instance) => {
     mapStore.returnHome()    
 })
 onNodeClick((node) => {
+    console.log(isConnected(node))
+    console.log(!combatStore.getActiveCombat)
     if (isConnected(node) && !combatStore.getActiveCombat) {
         const chosenNode = findNode(node.node.id)!;
 
-        //TODO: Make this check use gameFlags
-        if(player.firstMove) {
-            player.firstMove = false;
-            combatStore.startCombat(mapStore.enemyList.get(Zone.FOREST)![0]);
-            eventStore.callCutscene(eventStore.cutscenes.get("firstMove"));
-        } else if(!!chosenNode?.data?.customFunc) {
-            chosenNode.data.customFunc();
-        } else if(!(!!chosenNode?.data?.areaSpecialID)) {
-            mapStore.callRandomEncounter(chosenNode.data.zone || Zone.FOREST)
-        } 
+        //TODO: Make this check use gameFlags | TODO: customfunc stuff
+        // if(player.firstMove) {
+        //     player.firstMove = false;
+        //     combatStore.startCombat(mapStore.enemyList.get(Zone.FOREST)![0]);
+        //     eventStore.callCutscene(eventStore.cutscenes.get("firstMove"));
+        // } else if(!!chosenNode?.data?.customFunc) {
+        //     chosenNode.data.customFunc();
+        // } else if(!(!!chosenNode?.data?.areaSpecialID)) {
+        //     mapStore.callRandomEncounter(chosenNode.data.zone || Zone.FOREST)
+        // } 
 
         
         mapStore.selectedNode = chosenNode;
@@ -102,6 +104,7 @@ const scoutRevealNodes = function(element:GraphNode) {
 }
 const refreshMap = function() {
     nodes.value.forEach((element: GraphNode) => {
+        console.log(element);
         if(element.data?.killCount >= element.data?.scoutThreshold) {
             element.hidden = false;
             element.data.interactable = true;
