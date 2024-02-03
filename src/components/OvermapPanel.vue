@@ -37,8 +37,8 @@ onPaneReady((instance) => {
         element.hidden = true;
     })
 
-    setNodes(overworldData.nodes);
-    setEdges(overworldData.edges);
+    setNodes(mapStore.mapNodes);
+    setEdges(mapStore.mapEdges);
     nodesDraggable.value = false;
     elementsSelectable.value = true;
     edgesUpdatable.value = false;

@@ -11,7 +11,7 @@
 				"areaName": "Node",
 				"zone": "forest",
                 "killCount": 0,
-                "scoutedThreshold": 0,
+                "scoutThreshold": 0,
 				"handles": [
 					"39363316563935546,2",
 					"39363316563935546,1",
@@ -33,7 +33,7 @@
 				"zone": "forest",
 				"description": "asdg",
                 "killCount": 0,
-                "scoutedThreshold": 0,
+                "scoutThreshold": 0,
 				"interactable": true,
 				"handles": [
 					"Home,3",
@@ -53,7 +53,7 @@
 				"areaName": "Node",
 				"zone": "forest",
                 "killCount": 0,
-                "scoutedThreshold": 0,
+                "scoutThreshold": 0,
 				"handles": [
 					"8295236097844809,1",
 					"8295236097844809,4"

@@ -100,10 +100,20 @@ export const useMapStore = defineStore('mapStuff', () => {
         }]]
     ])
 
-    const mapNodes = overworldData.nodes;
-    mapNodes.forEach((item) =>{
-        item.data = item.data as AreaData
+    const mapNodes = ref<GraphNode[]>([]);
+    overworldData.nodes.forEach((item) =>{
+        let temp = {
+            id: item.id,
+            type: "custom",
+            position: structuredClone(item.position),
+            data: {
+
+            }
+        } as GraphNode
+        temp.data = item.data as AreaData;
+        mapNodes.value.push(temp);
     })
+    console.log(mapNodes);
     const mapEdges = overworldData.edges;
 
     // const mapNodes = ref([
@@ -464,7 +474,7 @@ export const useMapStore = defineStore('mapStuff', () => {
         const startingNode = findNode("Home")!;
         selectedNode.value = startingNode;
         centerMap(startingNode);
-        selectedNode.value.data.customFunc();
+        // selectedNode.value.data.customFunc();
     }
 
     function centerMap(node:GraphNode) {
@@ -490,7 +500,7 @@ export const useMapStore = defineStore('mapStuff', () => {
 
     return {
         //State
-        enemyList, areaData, selectedNode, scouted$, mouseoverNode, mouseoverDelayCheck,
+        enemyList, areaData, selectedNode, scouted$, mouseoverNode, mouseoverDelayCheck, mapNodes, mapEdges,
         //Computed
         isSpecial, getAreaName, getDescription, getDescAppend, getKillCount, isScouted, hasData, totalKills, totalScouted,
         //Actions
