@@ -52,19 +52,19 @@ onPaneReady((instance) => {
     mapStore.returnHome()    
 })
 onNodeClick((node) => {
-    console.log(isConnected(node))
-    console.log(!combatStore.getActiveCombat)
     if (isConnected(node) && !combatStore.getActiveCombat) {
         const chosenNode = findNode(node.node.id)!;
 
         //TODO: Make this check use gameFlags
-        if(player.firstMove) {
+        if(player.firstMove && chosenNode != mapStore.selectedNode) {
             player.firstMove = false;
             combatStore.startCombat(mapStore.enemyList.get(Zone.FOREST)![0]);
             eventStore.callCutscene(eventStore.cutscenes.get("firstMove"));
-        } else if(!!chosenNode?.data?.customFunc) {
-            // chosenNode.data.customFunc();
-        } else if(!(!!chosenNode?.data?.areaSpecialID)) {
+        } 
+        else if(!!chosenNode?.data?.customFunc) {
+            mapStore.callNodeFunc(chosenNode.data.customFunc);
+        } 
+        else if(!(!!chosenNode?.data?.areaSpecialID)) {
             mapStore.callRandomEncounter(chosenNode.data.zone || Zone.FOREST)
         } 
 
@@ -104,7 +104,6 @@ const scoutRevealNodes = function(element:GraphNode) {
 }
 const refreshMap = function() {
     nodes.value.forEach((element: GraphNode) => {
-        console.log(element);
         if(element.data?.killCount >= element.data?.scoutThreshold) {
             element.hidden = false;
             element.data.interactable = true;

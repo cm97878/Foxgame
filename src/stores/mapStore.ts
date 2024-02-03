@@ -120,7 +120,6 @@ export const useMapStore = defineStore('mapStuff', () => {
     const mapEdges = ref(overworldData.edges);
 
     const setMap = function() {
-        console.log(mapNodes, mapEdges)
         setNodes(mapNodes.value);
         setEdges(mapEdges.value);
     }
@@ -365,6 +364,19 @@ export const useMapStore = defineStore('mapStuff', () => {
     // { id: '7-12', source: '7', target: '12' },
     // ];
 
+    const nodeFunctions = new Map<string, Function>([
+        ["home", function() {
+            if(!gameFlags.flagList.get(FlagEnum.SHRINE_UNLOCKED) && 
+            gameFlags.flagList.get(FlagEnum.STATUE_OBTAINED)){
+                eventStore.callCutscene(eventStore.cutscenes.get("idolReturned"))
+                gameFlags.setFlag(FlagEnum.SHRINE_UNLOCKED, true)
+            } 
+        }]
+    ])
+
+    const callNodeFunc = function(id: string) {
+        nodeFunctions.get(id)?.call({});
+    }
 
 
     const areaData = {
@@ -484,16 +496,16 @@ export const useMapStore = defineStore('mapStuff', () => {
         const startingNode = findNode("Home")!;
         selectedNode.value = startingNode;
         centerMap(startingNode);
-        // selectedNode.value.data.customFunc(); TODO: fix this
+        callNodeFunc(startingNode.id);
     }
 
     function centerMap(node:GraphNode) {
         //Not sure why I have to do this, but it's needed to make this work.
-        toRaw(node);
-        const nodes = getConnectedNodes(node.id);
-        nodes.push(node.id)
+        // toRaw(node);
+        const nodesShow = getConnectedNodes(node.id);
+        nodesShow.push(node.id)
         fitView({
-            nodes: nodes,
+            nodes: nodesShow,
             duration: 600
         })
     }
@@ -514,6 +526,6 @@ export const useMapStore = defineStore('mapStuff', () => {
         //Computed
         isSpecial, getAreaName, getDescription, getDescAppend, getKillCount, isScouted, hasData, totalKills, totalScouted,
         //Actions
-        setTextAppend, callRandomEncounter, addKills, centerMap, returnHome, setMap
+        setTextAppend, callRandomEncounter, addKills, centerMap, returnHome, setMap, callNodeFunc,
     }
 })
