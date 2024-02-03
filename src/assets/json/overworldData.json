@@ -1,0 +1,94 @@
+{
+	"nodes": [
+		{
+			"id": "39363316563935546",
+			"type": "custom",
+			"position": {
+				"x": -8.313946994007956,
+				"y": -195.90429567904332
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+                "killCount": 0,
+                "scoutedThreshold": 0,
+				"handles": [
+					"39363316563935546,2",
+					"39363316563935546,1",
+					"39363316563935546,4"
+				]
+			}
+		},
+		{
+			"id": "Home",
+			"type": "custom",
+			"position": {
+				"x": 178.25221755208452,
+				"y": -300.7083960814299
+			},
+			"data": {
+				"areaSpecialID": "Home",
+				"customFunc": "home",
+				"areaName": "Home",
+				"zone": "forest",
+				"description": "asdg",
+                "killCount": 0,
+                "scoutedThreshold": 0,
+				"interactable": true,
+				"handles": [
+					"Home,3",
+					"Home,4",
+					"Home,2"
+				]
+			}
+		},
+		{
+			"id": "8295236097844809",
+			"type": "custom",
+			"position": {
+				"x": -32.84256623711971,
+				"y": 51.611771228720755
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+                "killCount": 0,
+                "scoutedThreshold": 0,
+				"handles": [
+					"8295236097844809,1",
+					"8295236097844809,4"
+				]
+			}
+		}
+	],
+	"edges": [
+		{
+			"id": "39363316563935546-8295236097844809",
+			"source": "39363316563935546",
+			"target": "8295236097844809",
+			"sourceHandle": "39363316563935546,2",
+			"targetHandle": "8295236097844809,1"
+		},
+		{
+			"id": "Home-39363316563935546",
+			"source": "Home",
+			"target": "39363316563935546",
+			"sourceHandle": "Home,3",
+			"targetHandle": "39363316563935546,1"
+		},
+		{
+			"id": "Home-8295236097844809",
+			"source": "Home",
+			"target": "8295236097844809",
+			"sourceHandle": "Home,4",
+			"targetHandle": "8295236097844809,4"
+		},
+		{
+			"id": "Home-39363316563935546",
+			"source": "Home",
+			"target": "39363316563935546",
+			"sourceHandle": "Home,2",
+			"targetHandle": "39363316563935546,4"
+		}
+	]
+}

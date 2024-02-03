@@ -7,12 +7,14 @@ import type { SaveUpgradeArray, SaveKillsArray, SavedGameFlags } from "@/types/s
 import { useMapStore } from "./mapStore";
 import { useGameFlags } from "./gameFlags";
 import type { FlagEnum } from "@/enums/flagEnum";
+import { useVueFlow } from "@vue-flow/core";
 
 export const useSaveStore = defineStore('saveStore', () =>{
     const player = usePlayer();
     const upgrades = useUpgradeStore();
     const mapStore = useMapStore();
     const gameFlags = useGameFlags();
+    const { nodes } = useVueFlow({ id:"map"});
 
     var saveFile = {
         //TODO: gamestage stuff
@@ -95,7 +97,7 @@ export const useSaveStore = defineStore('saveStore', () =>{
                 level: entry[1].level || 1,
             } as SaveUpgradeArray
         })
-        saveFile.kills = Array.from(mapStore.mapNodes).map((entry) => {
+        saveFile.kills = Array.from(nodes.value).map((entry) => {
             return {
                 key: entry.id,
                 kills: entry.data.killCount
@@ -152,7 +154,7 @@ export const useSaveStore = defineStore('saveStore', () =>{
             }
         })
         saveFile.kills.forEach(function(item) {
-            let temp2 = mapStore.mapNodes.find((element) => element.id === item.key)
+            let temp2 = nodes.value.find((element) => element.id === item.key)
             if(temp2) {
                 temp2.data.killCount = item.kills;
             }

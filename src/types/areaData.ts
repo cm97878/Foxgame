@@ -9,4 +9,5 @@ export interface AreaData {
     killCount: number;
     scoutThreshold: number;
     interactable: false;
+    handles: string[];
 }

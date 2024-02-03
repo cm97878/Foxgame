@@ -1,7 +1,7 @@
 <template>
     <div id="maps_container">
         <div id="vf-map">
-            <VueFlow :nodes="mapStore.mapNodes" class="general_outline">
+            <VueFlow class="general_outline">
                 <template #node-custom ="{ data, id }">
                     <CustomNode :data="data" :id="id"></CustomNode>
                 </template>
@@ -30,15 +30,15 @@ const eventStore = useEventStore();
 const combatStore = useCombatStore();
 
 const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick,  findNode, getConnectedEdges,
-     addEdges, nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable, panOnDrag, fitView, setMinZoom } = useVueFlow({ id:"map"});
+     addEdges, nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable, panOnDrag, fitView, setMinZoom, setNodes, setEdges } = useVueFlow({ id:"map"});
 
 onPaneReady((instance) => {
     nodes.value.forEach( element => {
         element.hidden = true;
     })
 
-
-    addEdges(mapStore.mapEdges);
+    setNodes(overworldData.nodes);
+    setEdges(overworldData.edges);
     nodesDraggable.value = false;
     elementsSelectable.value = true;
     edgesUpdatable.value = false;
@@ -58,7 +58,7 @@ onNodeClick((node) => {
         //TODO: Make this check use gameFlags
         if(player.firstMove) {
             player.firstMove = false;
-            combatStore.startCombat(mapStore.enemyList.get(Zone.FOREST)[0]);
+            combatStore.startCombat(mapStore.enemyList.get(Zone.FOREST)![0]);
             eventStore.callCutscene(eventStore.cutscenes.get("firstMove"));
         } else if(!!chosenNode?.data?.customFunc) {
             chosenNode.data.customFunc();
