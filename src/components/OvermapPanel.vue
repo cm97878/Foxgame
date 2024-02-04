@@ -90,7 +90,6 @@ const scoutRevealNodes = function(element:GraphNode) {
     edges.forEach(element => {
         let targNode = findNode(element.target);
         if(targNode) {
-            console.log(targNode.data.areaName)
             targNode.hidden = false;
             targNode.data.interactable = true;
             let secondEdges = getConnectedEdges(targNode.id);
@@ -103,7 +102,6 @@ const scoutRevealNodes = function(element:GraphNode) {
         }
         let sourceNode = findNode(element.source);
         if(sourceNode) {
-            console.log(sourceNode.data.areaName)
             sourceNode.hidden = false;
             sourceNode.data.interactable = true;
             let secondEdges = getConnectedEdges(sourceNode.id);

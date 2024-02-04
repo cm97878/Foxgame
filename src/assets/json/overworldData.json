@@ -206,11 +206,12 @@
 			},
 			"data": {
 				"areaSpecialID": "Clearing",
+                "customFunc": "clearing",
 				"areaName": "Strange Clearing",
 				"zone": "forest",
 				"description": "doesnt matter",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": 1,
 				"handles": [
 					"CrystalClearing,1"
 				]

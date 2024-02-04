@@ -371,6 +371,27 @@ export const useMapStore = defineStore('mapStuff', () => {
                 eventStore.callCutscene(eventStore.cutscenes.get("idolReturned"))
                 gameFlags.setFlag(FlagEnum.SHRINE_UNLOCKED, true)
             } 
+        }],
+        ["clearing", function() {
+            if(!gameFlags.flagList.get(FlagEnum.EXPLORE_UNLOCKED)){
+                eventStore.callCutscene(eventStore.cutscenes.get("idolFind"))
+                gameFlags.setFlag(FlagEnum.EXPLORE_UNLOCKED, true)
+                //TODO: Could probably make helper functions in upgradeStore for this.
+                const ropeUpgrade = upgradeStore.home.get(4)
+                if (!!ropeUpgrade) {
+                    ropeUpgrade.show = true
+                    upgradeStore.home.set(4, ropeUpgrade)
+                }
+            } else if (!gameFlags.flagList.get(FlagEnum.STATUE_OBTAINED) && upgradeStore.home.get(4)?.bought) {
+                eventStore.callCutscene(eventStore.cutscenes.get("idolGet"))
+                gameFlags.setFlag(FlagEnum.STATUE_OBTAINED, true)
+                //TODO: Could probably make helper functions in upgradeStore for this.
+                const ropeUpgrade = upgradeStore.home.get(4)
+                if (!!ropeUpgrade) {
+                    ropeUpgrade.show = false
+                    upgradeStore.home.set(4, ropeUpgrade)
+                }
+            }
         }]
     ])
 
@@ -478,15 +499,15 @@ export const useMapStore = defineStore('mapStuff', () => {
     //
     function addKills(amnt:number) {
         if(hasData) {
-            let node = nodes.value.find(item => item.id === selectedNode.value.id)
+            console.log("addkills");
+            let nodeAdd = findNode(selectedNode.value.id);
+            console.log(nodeAdd)
 
-            if(node) {
+            if(nodeAdd) {
                 totalKills.value += amnt;
-                if(node.data.killCount >= node.data.scoutThreshold) {
-                    scouted$.value = node.id; //TODO: Bit beyond the scope of what I wanted to do with this but we should definitely just change this to update a scouted flag once and then not do it again. Would require a decent bit of refactoring w/ the map refresh and such, though
-                }
-                else {
-                    node.data.killCount += amnt;
+                nodeAdd.data.killCount += amnt;
+                if(nodeAdd.data.killCount >= nodeAdd.data.scoutThreshold) {
+                    scouted$.value = nodeAdd.id; //TODO: Bit beyond the scope of what I wanted to do with this but we should definitely just change this to update a scouted flag once and then not do it again. Would require a decent bit of refactoring w/ the map refresh and such, though
                 }
             }
             else {console.log("Couldn't update killcount. addKills()")}
