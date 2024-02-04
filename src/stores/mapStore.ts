@@ -116,8 +116,8 @@ export const useMapStore = defineStore('mapStuff', () => {
     // })
 
 
-    const mapNodes = ref(overworldData.nodes);
-    const mapEdges = ref(overworldData.edges);
+    const mapNodes = ref(overworldData.nodeSave);
+    const mapEdges = ref(overworldData.edgeSave);
 
     const setMap = function() {
         setNodes(mapNodes.value);

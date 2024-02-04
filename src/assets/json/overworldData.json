@@ -1,119 +1,1593 @@
 {
-	"nodes": [
-		{
-			"id": "39363316563935546",
-			"type": "custom",
-			"position": {
-				"x": -8.313946994007956,
-				"y": -195.90429567904332
-			},
-			"data": {
-				"areaName": "Node",
-				"zone": "forest",
-                "killCount": 0,
-                "scoutThreshold": 0,
-				"handles": [
-					"39363316563935546,2",
-					"39363316563935546,1",
-					"39363316563935546,4"
-				]
-			}
-		},
+	"nodeSave": [
 		{
 			"id": "Home",
 			"type": "custom",
 			"position": {
-				"x": 178.25221755208452,
-				"y": -300.7083960814299
+				"x": -294,
+				"y": -389
 			},
 			"data": {
 				"areaSpecialID": "Home",
 				"customFunc": "home",
 				"areaName": "Home",
 				"zone": "forest",
-				"description": "asdg",
-                "killCount": 0,
-                "scoutThreshold": 0,
+				"description": "doesnt matter",
+				"killCount": 0,
+				"scoutThreshold": 0,
 				"interactable": true,
 				"handles": [
-					"Home,3",
-					"Home,4",
 					"Home,2",
-					"Home,1"
+					"Home,4"
 				]
 			}
 		},
 		{
-			"id": "8295236097844809",
+			"id": "37293844089194006",
 			"type": "custom",
 			"position": {
-				"x": -32.84256623711971,
-				"y": 51.611771228720755
+				"x": 300.09854330953453,
+				"y": -407.2856159490356
 			},
 			"data": {
-				"areaName": "Node",
+				"customFunc": "",
+				"areaName": "Cliffside",
 				"zone": "forest",
-                "killCount": 0,
-                "scoutThreshold": 0,
+				"description": "A narrow path follows the cliffside, between the dense brush and rocky wall. The tendrils of a thicket of brambles further along snake along the side of the path.",
+				"killCount": 0,
+				"scoutThreshold": "1",
 				"handles": [
-					"8295236097844809,1",
-					"8295236097844809,4"
+					"37293844089194006,4",
+					"37293844089194006,3"
 				]
 			}
 		},
 		{
-			"id": "8256091827996871",
+			"id": "24280179992399353",
 			"type": "custom",
 			"position": {
-				"x": 409.28183130355063,
-				"y": -517.1730192040683
+				"x": -503.5344537326103,
+				"y": 55.72265295777829
+			},
+			"data": {
+				"areaName": "Cliffside",
+				"zone": "forest",
+				"description": "The brush here gives way to rocky soil a few feet from the rough cliff. The sharp stones dig into your paws.",
+				"killCount": 0,
+				"scoutThreshold": "1",
+				"handles": [
+					"24280179992399353,2",
+					"24280179992399353,1"
+				]
+			}
+		},
+		{
+			"id": "983369065178444",
+			"type": "custom",
+			"position": {
+				"x": -384.9745786854169,
+				"y": 614.351113243809
+			},
+			"data": {
+				"areaName": "Boulder",
+				"zone": "forest",
+				"description": "A chunk of the cliffside has fallen here, a rockslide that brought a massive boulder to rest. Old trees, knocked down by the shifting earth, have created a rather unpleasant barrier - some thorny plant has overtaken this area. Over the boulder, not around it.",
+				"killCount": 0,
+				"scoutThreshold": "1",
+				"handles": [
+					"983369065178444,1",
+					"983369065178444,2"
+				]
+			}
+		},
+		{
+			"id": "6072341427532297",
+			"type": "custom",
+			"position": {
+				"x": 777.401211958804,
+				"y": -34.98050024207284
+			},
+			"data": {
+				"areaName": "Brambles",
+				"zone": "forest",
+				"description": "A mass of dense brambles lie to the north. You're agile, but not that agile - you would be shredded if you tried to pass through. A well-trod path winds south along the edge.",
+				"killCount": 0,
+				"scoutThreshold": "1",
+				"handles": [
+					"6072341427532297,1",
+					"6072341427532297,2"
+				]
+			}
+		},
+		{
+			"id": "22469823545507805",
+			"type": "custom",
+			"position": {
+				"x": 833.1726036124642,
+				"y": 477.5133690077768
+			},
+			"data": {
+				"areaName": "Underbrush",
+				"zone": "forest",
+				"description": "Sparse underbrush covers the ground here, right up to the brambles to the east. A trail from the north fades away here, but the brush is thin enough to pass through with ease.",
+				"killCount": 0,
+				"scoutThreshold": "1",
+				"handles": [
+					"22469823545507805,1",
+					"22469823545507805,2"
+				]
+			}
+		},
+		{
+			"id": "8076021408077826",
+			"type": "custom",
+			"position": {
+				"x": -311.4862901071383,
+				"y": 1178.2134347616761
+			},
+			"data": {
+				"areaName": "Cliffside",
+				"zone": "forest",
+				"description": "The cliff face continues to the north, and veers to the left as it heads south. A small natural path entices you back into the forest.",
+				"killCount": 0,
+				"scoutThreshold": "1",
+				"handles": [
+					"8076021408077826,1",
+					"8076021408077826,2",
+					"8076021408077826,4"
+				]
+			}
+		},
+		{
+			"id": "9490953537696962",
+			"type": "custom",
+			"position": {
+				"x": -693.4862901071385,
+				"y": 1846.2134347616766
+			},
+			"data": {
+				"areaName": "Cliffside Clearing",
+				"zone": "forest",
+				"description": "The cliff pulls away from the forest and, here, the forest does not follow, creating a rocky clearing.",
+				"killCount": 0,
+				"scoutThreshold": "1",
+				"handles": [
+					"9490953537696962,1",
+					"9490953537696962,3",
+					"9490953537696962,4"
+				]
+			}
+		},
+		{
+			"id": "3845735173265825",
+			"type": "custom",
+			"position": {
+				"x": 536.5137098928619,
+				"y": 1034.2134347616761
+			},
+			"data": {
+				"areaName": "Underbrush",
+				"zone": "forest",
+				"description": "Sparse underbrush covers the ground here. Through it, a natural path runs east to west, winding amongst the foliage.",
+				"killCount": 0,
+				"scoutThreshold": "1",
+				"handles": [
+					"3845735173265825,3",
+					"3845735173265825,4"
+				]
+			}
+		},
+		{
+			"id": "30987922760348297",
+			"type": "custom",
+			"position": {
+				"x": 1938.1015586619635,
+				"y": 929.6216456340644
+			},
+			"data": {
+				"areaName": "Faded Trail (S-E)",
+				"zone": "forest",
+				"description": "A natural trail from the west joins with a more defined path that runs from the south on a gentle eastward curve. This path seems to be marked with stones along the sides, and remains clearly visible despite being rather overgrown. The large thicket of brambles follows the path on the north.",
+				"killCount": 0,
+				"scoutThreshold": "1",
+				"handles": [
+					"30987922760348297,4",
+					"30987922760348297,3",
+					"30987922760348297,2"
+				]
+			}
+		},
+		{
+			"id": "CrystalClearing",
+			"type": "custom",
+			"position": {
+				"x": 1652.8922979003123,
+				"y": 1539.7181587837113
+			},
+			"data": {
+				"areaSpecialID": "Clearing",
+				"areaName": "Strange Clearing",
+				"zone": "forest",
+				"description": "doesnt matter",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"CrystalClearing,1"
+				]
+			}
+		},
+		{
+			"id": "0038482073281062013",
+			"type": "custom",
+			"position": {
+				"x": 2708.2772677315397,
+				"y": 732.298965274179
+			},
+			"data": {
+				"areaName": "Faded Trail (W-E)",
+				"zone": "forest",
+				"description": "A stone-marked trail runs west to east, with thick brambles meandering along to its north.",
+				"killCount": 0,
+				"scoutThreshold": "1",
+				"handles": [
+					"0038482073281062013,3",
+					"0038482073281062013,4",
+					"0038482073281062013,1"
+				]
+			}
+		},
+		{
+			"id": "05584016579255424",
+			"type": "custom",
+			"position": {
+				"x": 3050.3467054894973,
+				"y": 12.122277571175937
 			},
 			"data": {
 				"areaName": "Node",
 				"zone": "forest",
-                "killCount": 0,
-                "scoutThreshold": 0,
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
 				"handles": [
-					"8256091827996871,2"
+					"05584016579255424,2",
+					"05584016579255424,4",
+					"05584016579255424,1",
+					"05584016579255424,3"
+				]
+			}
+		},
+		{
+			"id": "6669848363748472",
+			"type": "custom",
+			"position": {
+				"x": 3493.5942649154886,
+				"y": 462.7098831742279
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"6669848363748472,3",
+					"6669848363748472,1",
+					"6669848363748472,2",
+					"6669848363748472,4"
+				]
+			}
+		},
+		{
+			"id": "1581496896302863",
+			"type": "custom",
+			"position": {
+				"x": 3577.228921292476,
+				"y": 1455.7275682187067
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"1581496896302863,1",
+					"1581496896302863,2"
+				]
+			}
+		},
+		{
+			"id": "09816713390569498",
+			"type": "custom",
+			"position": {
+				"x": 3534.6734277912074,
+				"y": -692.2089809226046
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"09816713390569498,2",
+					"09816713390569498,3",
+					"09816713390569498,4"
+				]
+			}
+		},
+		{
+			"id": "2040898831042839",
+			"type": "custom",
+			"position": {
+				"x": 2666.788647837051,
+				"y": -899.31784886621
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"2040898831042839,2",
+					"2040898831042839,1",
+					"2040898831042839,4"
+				]
+			}
+		},
+		{
+			"id": "6477081884140725",
+			"type": "custom",
+			"position": {
+				"x": 2230.7498368048014,
+				"y": -1660.2329072396844
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"6477081884140725,4",
+					"6477081884140725,2",
+					"6477081884140725,1"
+				]
+			}
+		},
+		{
+			"id": "40824485946067457",
+			"type": "custom",
+			"position": {
+				"x": 1894.7264979424378,
+				"y": -1011.9635244439614
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"40824485946067457,1"
+				]
+			}
+		},
+		{
+			"id": "8583844090689521",
+			"type": "custom",
+			"position": {
+				"x": 2954.8623515225217,
+				"y": -2300.1607691188765
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"8583844090689521,2",
+					"8583844090689521,1"
+				]
+			}
+		},
+		{
+			"id": "36074710112137265",
+			"type": "custom",
+			"position": {
+				"x": 4520.351963350425,
+				"y": -434.47175164956155
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"36074710112137265,3",
+					"36074710112137265,1"
+				]
+			}
+		},
+		{
+			"id": "OldOak",
+			"type": "custom",
+			"position": {
+				"x": 1350.948679503093,
+				"y": 771.6260366021856
+			},
+			"data": {
+				"areaName": "Old Oak",
+				"zone": "forest",
+				"description": "The brush gives way to grass and dirt around a massive oak tree, towering above the rest. There is something different in the air about it; a history here. One from before you arrived, and one that will continue after you have left. You wonder, briefly, what secrets its high branches may hold.",
+				"killCount": 0,
+				"scoutThreshold": "1",
+				"handles": [
+					"OldOak,2",
+					"OldOak,3",
+					"OldOak,4"
+				]
+			}
+		},
+		{
+			"id": "24625167882819143",
+			"type": "custom",
+			"position": {
+				"x": 3106,
+				"y": -3137
+			},
+			"data": {
+				"areaName": "River",
+				"zone": "riverbank",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"24625167882819143,2",
+					"24625167882819143,4",
+					"24625167882819143,1"
+				]
+			}
+		},
+		{
+			"id": "18115816040462862",
+			"type": "custom",
+			"position": {
+				"x": 4070,
+				"y": -3349
+			},
+			"data": {
+				"areaName": "River",
+				"zone": "riverbank",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"18115816040462862,3",
+					"18115816040462862,2",
+					"18115816040462862,4"
+				]
+			}
+		},
+		{
+			"id": "6353264655193619",
+			"type": "custom",
+			"position": {
+				"x": 3996,
+				"y": -2575
+			},
+			"data": {
+				"areaName": "River",
+				"zone": "riverbank",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"6353264655193619,3",
+					"6353264655193619,1",
+					"6353264655193619,4",
+					"6353264655193619,2"
+				]
+			}
+		},
+		{
+			"id": "24369183497537372",
+			"type": "custom",
+			"position": {
+				"x": 4276,
+				"y": -1843
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"24369183497537372,1",
+					"24369183497537372,3"
+				]
+			}
+		},
+		{
+			"id": "9340580198971665",
+			"type": "custom",
+			"position": {
+				"x": 5457.418551148462,
+				"y": -2619.8808370033316
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"9340580198971665,3",
+					"9340580198971665,2"
+				]
+			}
+		},
+		{
+			"id": "4246514185652589",
+			"type": "custom",
+			"position": {
+				"x": 3612,
+				"y": -1349
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"4246514185652589,4"
+				]
+			}
+		},
+		{
+			"id": "8155979884339633",
+			"type": "custom",
+			"position": {
+				"x": 5046.83943791614,
+				"y": -1598.2789297271477
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"8155979884339633,1",
+					"8155979884339633,4",
+					"8155979884339633,3",
+					"8155979884339633,2"
+				]
+			}
+		},
+		{
+			"id": "5918661164152658",
+			"type": "custom",
+			"position": {
+				"x": 6228.012834476789,
+				"y": -2167.0530290741945
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"5918661164152658,4",
+					"5918661164152658,2"
+				]
+			}
+		},
+		{
+			"id": "975512039357625",
+			"type": "custom",
+			"position": {
+				"x": 7369.80789076557,
+				"y": -1776.9609096428726
+			},
+			"data": {
+				"areaName": "Deep",
+				"zone": "deep_forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"975512039357625,3",
+					"975512039357625,4",
+					"975512039357625,2"
+				]
+			}
+		},
+		{
+			"id": "4810732100733651",
+			"type": "custom",
+			"position": {
+				"x": 5840.1360111809745,
+				"y": -3446.9839395007048
+			},
+			"data": {
+				"areaName": "River",
+				"zone": "riverbank",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"4810732100733651,3",
+					"4810732100733651,4"
+				]
+			}
+		},
+		{
+			"id": "3367547116463264",
+			"type": "custom",
+			"position": {
+				"x": 7282.604963527992,
+				"y": -3658.3680343879796
+			},
+			"data": {
+				"areaName": "River",
+				"zone": "riverbank",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"3367547116463264,3",
+					"3367547116463264,4",
+					"3367547116463264,2"
+				]
+			}
+		},
+		{
+			"id": "32182590117737675",
+			"type": "custom",
+			"position": {
+				"x": 8827.05270718309,
+				"y": -3990.0793195372703
+			},
+			"data": {
+				"areaName": "River",
+				"zone": "riverbank",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"32182590117737675,3",
+					"32182590117737675,2",
+					"32182590117737675,4"
+				]
+			}
+		},
+		{
+			"id": "2265335956927651",
+			"type": "custom",
+			"position": {
+				"x": 6936.509055277984,
+				"y": -2847.4066776720397
+			},
+			"data": {
+				"areaName": "River",
+				"zone": "riverbank",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"2265335956927651,1"
+				]
+			}
+		},
+		{
+			"id": "45393758185133115",
+			"type": "custom",
+			"position": {
+				"x": 6247.055065710428,
+				"y": -665.490636144674
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"45393758185133115,3",
+					"45393758185133115,4",
+					"45393758185133115,2"
+				]
+			}
+		},
+		{
+			"id": "7633178101740333",
+			"type": "custom",
+			"position": {
+				"x": 6686.737297719312,
+				"y": 512.2296281648355
+			},
+			"data": {
+				"areaName": "Deep",
+				"zone": "deep_forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": "1",
+				"interactable": false,
+				"handles": [
+					"7633178101740333,1",
+					"7633178101740333,4",
+					"7633178101740333,2",
+					"7633178101740333,3"
+				]
+			}
+		},
+		{
+			"id": "3670916613568139",
+			"type": "custom",
+			"position": {
+				"x": 5770.732647700805,
+				"y": -231.0427164216104
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"3670916613568139,4",
+					"3670916613568139,2",
+					"3670916613568139,3"
+				]
+			}
+		},
+		{
+			"id": "9603634636630359",
+			"type": "custom",
+			"position": {
+				"x": 5909.441923275037,
+				"y": 326.41154201822405
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"9603634636630359,1"
+				]
+			}
+		},
+		{
+			"id": "6148093476528192",
+			"type": "custom",
+			"position": {
+				"x": 4734.3388151084355,
+				"y": 336.8801665898641
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"6148093476528192,1",
+					"6148093476528192,3"
+				]
+			}
+		},
+		{
+			"id": "7911479175977333",
+			"type": "custom",
+			"position": {
+				"x": 7498.055702021418,
+				"y": 88.25033301341216
+			},
+			"data": {
+				"areaName": "Deep",
+				"zone": "deep_forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": "1",
+				"handles": [
+					"7911479175977333,3",
+					"7911479175977333,4",
+					"7911479175977333,1"
+				]
+			}
+		},
+		{
+			"id": "0070842687997619835",
+			"type": "custom",
+			"position": {
+				"x": 7579.187542451628,
+				"y": 658.7903721677968
+			},
+			"data": {
+				"areaName": "Deep",
+				"zone": "deep_forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": "1",
+				"handles": [
+					"0070842687997619835,4",
+					"0070842687997619835,3"
+				]
+			}
+		},
+		{
+			"id": "46848055946096756",
+			"type": "custom",
+			"position": {
+				"x": 8225.625109750405,
+				"y": 266.2169507312936
+			},
+			"data": {
+				"areaName": "Deep",
+				"zone": "deep_forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": "1",
+				"handles": [
+					"46848055946096756,1",
+					"46848055946096756,2"
+				]
+			}
+		},
+		{
+			"id": "37600283904636767",
+			"type": "custom",
+			"position": {
+				"x": 5237.480739950148,
+				"y": 1491.6796423336473
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"37600283904636767,4",
+					"37600283904636767,3",
+					"37600283904636767,2"
+				]
+			}
+		},
+		{
+			"id": "15041086223242262",
+			"type": "custom",
+			"position": {
+				"x": 3449.6282279201914,
+				"y": 2344.4225788897384
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"15041086223242262,1",
+					"15041086223242262,4",
+					"15041086223242262,3"
+				]
+			}
+		},
+		{
+			"id": "3229274921864642",
+			"type": "custom",
+			"position": {
+				"x": 2294.8014780475555,
+				"y": 2179.6695686090998
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"3229274921864642,3",
+					"3229274921864642,4",
+					"3229274921864642,2"
+				]
+			}
+		},
+		{
+			"id": "9134924066282749",
+			"type": "custom",
+			"position": {
+				"x": 1746.3088941892802,
+				"y": 2320.471031848434
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"9134924066282749,3",
+					"9134924066282749,4"
+				]
+			}
+		},
+		{
+			"id": "7446425337606236",
+			"type": "custom",
+			"position": {
+				"x": 905.6472382471323,
+				"y": 2043.2798912404828
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"7446425337606236,3",
+					"7446425337606236,4"
+				]
+			}
+		},
+		{
+			"id": "6247467716127587",
+			"type": "custom",
+			"position": {
+				"x": 251.29438173000096,
+				"y": 2304.566622141421
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"6247467716127587,3",
+					"6247467716127587,4",
+					"6247467716127587,2"
+				]
+			}
+		},
+		{
+			"id": "31885975406340084",
+			"type": "custom",
+			"position": {
+				"x": -1430.0289301542953,
+				"y": 2472.69895332985
+			},
+			"data": {
+				"areaName": "Node",
+				"zone": "forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"31885975406340084,1",
+					"31885975406340084,2"
+				]
+			}
+		},
+		{
+			"id": "3045445752792886",
+			"type": "custom",
+			"position": {
+				"x": 1055.0859460570482,
+				"y": 3644.158082635688
+			},
+			"data": {
+				"areaName": "Deep",
+				"zone": "deep_forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"3045445752792886,3",
+					"3045445752792886,4"
+				]
+			}
+		},
+		{
+			"id": "47219515052171723",
+			"type": "custom",
+			"position": {
+				"x": -2043.468043152858,
+				"y": 3234.237524633467
+			},
+			"data": {
+				"areaName": "Deep",
+				"zone": "deep_forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": "1",
+				"handles": [
+					"47219515052171723,1"
+				]
+			}
+		},
+		{
+			"id": "23228379952662503",
+			"type": "custom",
+			"position": {
+				"x": 6010.267223599447,
+				"y": 2644.8753856249537
+			},
+			"data": {
+				"areaName": "Deep",
+				"zone": "deep_forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": "1",
+				"handles": [
+					"23228379952662503,3"
+				]
+			}
+		},
+		{
+			"id": "7364888258780082",
+			"type": "custom",
+			"position": {
+				"x": 8880.713176526298,
+				"y": -2129.024058608532
+			},
+			"data": {
+				"areaName": "Deep",
+				"zone": "deep_forest",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": 0,
+				"handles": [
+					"7364888258780082,1",
+					"7364888258780082,3"
+				]
+			}
+		},
+		{
+			"id": "24835608771372475",
+			"type": "custom",
+			"position": {
+				"x": 8502.204037292242,
+				"y": -3354.838059981205
+			},
+			"data": {
+				"areaName": "River",
+				"zone": "riverbank",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": "1",
+				"handles": [
+					"24835608771372475,1",
+					"24835608771372475,4"
+				]
+			}
+		},
+		{
+			"id": "4509081187016345",
+			"type": "custom",
+			"position": {
+				"x": 9134.210122985802,
+				"y": -3174.2648926401876
+			},
+			"data": {
+				"areaName": "River",
+				"zone": "riverbank",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": "1",
+				"handles": [
+					"4509081187016345,3",
+					"4509081187016345,2"
+				]
+			}
+		},
+		{
+			"id": "5644618222161053",
+			"type": "custom",
+			"position": {
+				"x": 11092.734476453757,
+				"y": -3886.1398792730433
+			},
+			"data": {
+				"areaName": "River",
+				"zone": "riverbank",
+				"description": "",
+				"killCount": 0,
+				"scoutThreshold": "1",
+				"handles": [
+					"5644618222161053,3"
 				]
 			}
 		}
 	],
-	"edges": [
+	"edgeSave": [
 		{
-			"id": "39363316563935546-8295236097844809",
-			"source": "39363316563935546",
-			"target": "8295236097844809",
-			"sourceHandle": "39363316563935546,2",
-			"targetHandle": "8295236097844809,1"
+			"id": "37293844089194006-6072341427532297",
+			"source": "37293844089194006",
+			"target": "6072341427532297",
+			"sourceHandle": "37293844089194006,4",
+			"targetHandle": "6072341427532297,1"
 		},
 		{
-			"id": "Home-39363316563935546",
-			"source": "Home",
-			"target": "39363316563935546",
-			"sourceHandle": "Home,3",
-			"targetHandle": "39363316563935546,1"
+			"id": "6072341427532297-22469823545507805",
+			"source": "6072341427532297",
+			"target": "22469823545507805",
+			"sourceHandle": "6072341427532297,2",
+			"targetHandle": "22469823545507805,1"
 		},
 		{
-			"id": "Home-8295236097844809",
+			"id": "24280179992399353-983369065178444",
+			"source": "24280179992399353",
+			"target": "983369065178444",
+			"sourceHandle": "24280179992399353,2",
+			"targetHandle": "983369065178444,1"
+		},
+		{
+			"id": "983369065178444-8076021408077826",
+			"source": "983369065178444",
+			"target": "8076021408077826",
+			"sourceHandle": "983369065178444,2",
+			"targetHandle": "8076021408077826,1"
+		},
+		{
+			"id": "8076021408077826-9490953537696962",
+			"source": "8076021408077826",
+			"target": "9490953537696962",
+			"sourceHandle": "8076021408077826,2",
+			"targetHandle": "9490953537696962,1"
+		},
+		{
+			"id": "8076021408077826-3845735173265825",
+			"source": "8076021408077826",
+			"target": "3845735173265825",
+			"sourceHandle": "8076021408077826,4",
+			"targetHandle": "3845735173265825,3"
+		},
+		{
+			"id": "30987922760348297-0038482073281062013",
+			"source": "30987922760348297",
+			"target": "0038482073281062013",
+			"sourceHandle": "30987922760348297,4",
+			"targetHandle": "0038482073281062013,3"
+		},
+		{
+			"id": "0038482073281062013-6669848363748472",
+			"source": "0038482073281062013",
+			"target": "6669848363748472",
+			"sourceHandle": "0038482073281062013,4",
+			"targetHandle": "6669848363748472,3"
+		},
+		{
+			"id": "0038482073281062013-05584016579255424",
+			"source": "0038482073281062013",
+			"target": "05584016579255424",
+			"sourceHandle": "0038482073281062013,1",
+			"targetHandle": "05584016579255424,2"
+		},
+		{
+			"id": "05584016579255424-6669848363748472",
+			"source": "05584016579255424",
+			"target": "6669848363748472",
+			"sourceHandle": "05584016579255424,4",
+			"targetHandle": "6669848363748472,1"
+		},
+		{
+			"id": "1581496896302863-6669848363748472",
+			"source": "1581496896302863",
+			"target": "6669848363748472",
+			"sourceHandle": "1581496896302863,1",
+			"targetHandle": "6669848363748472,2"
+		},
+		{
+			"id": "05584016579255424-09816713390569498",
+			"source": "05584016579255424",
+			"target": "09816713390569498",
+			"sourceHandle": "05584016579255424,1",
+			"targetHandle": "09816713390569498,2"
+		},
+		{
+			"id": "05584016579255424-2040898831042839",
+			"source": "05584016579255424",
+			"target": "2040898831042839",
+			"sourceHandle": "05584016579255424,3",
+			"targetHandle": "2040898831042839,2"
+		},
+		{
+			"id": "2040898831042839-6477081884140725",
+			"source": "2040898831042839",
+			"target": "6477081884140725",
+			"sourceHandle": "2040898831042839,1",
+			"targetHandle": "6477081884140725,4"
+		},
+		{
+			"id": "6477081884140725-40824485946067457",
+			"source": "6477081884140725",
+			"target": "40824485946067457",
+			"sourceHandle": "6477081884140725,2",
+			"targetHandle": "40824485946067457,1"
+		},
+		{
+			"id": "6477081884140725-8583844090689521",
+			"source": "6477081884140725",
+			"target": "8583844090689521",
+			"sourceHandle": "6477081884140725,1",
+			"targetHandle": "8583844090689521,2"
+		},
+		{
+			"id": "09816713390569498-2040898831042839",
+			"source": "09816713390569498",
+			"target": "2040898831042839",
+			"sourceHandle": "09816713390569498,3",
+			"targetHandle": "2040898831042839,4"
+		},
+		{
+			"id": "09816713390569498-36074710112137265",
+			"source": "09816713390569498",
+			"target": "36074710112137265",
+			"sourceHandle": "09816713390569498,4",
+			"targetHandle": "36074710112137265,3"
+		},
+		{
+			"id": "24280179992399353-Home",
+			"source": "24280179992399353",
+			"target": "Home",
+			"sourceHandle": "24280179992399353,1",
+			"targetHandle": "Home,2"
+		},
+		{
+			"id": "Home-37293844089194006",
 			"source": "Home",
-			"target": "8295236097844809",
+			"target": "37293844089194006",
 			"sourceHandle": "Home,4",
-			"targetHandle": "8295236097844809,4"
+			"targetHandle": "37293844089194006,3"
 		},
 		{
-			"id": "Home-39363316563935546",
-			"source": "Home",
-			"target": "39363316563935546",
-			"sourceHandle": "Home,2",
-			"targetHandle": "39363316563935546,4"
+			"id": "3845735173265825-OldOak",
+			"source": "3845735173265825",
+			"target": "OldOak",
+			"sourceHandle": "3845735173265825,4",
+			"targetHandle": "OldOak,2"
 		},
 		{
-			"id": "Home-8256091827996871",
-			"source": "Home",
-			"target": "8256091827996871",
-			"sourceHandle": "Home,1",
-			"targetHandle": "8256091827996871,2"
+			"id": "OldOak-22469823545507805",
+			"source": "OldOak",
+			"target": "22469823545507805",
+			"sourceHandle": "OldOak,3",
+			"targetHandle": "22469823545507805,2"
+		},
+		{
+			"id": "OldOak-30987922760348297",
+			"source": "OldOak",
+			"target": "30987922760348297",
+			"sourceHandle": "OldOak,4",
+			"targetHandle": "30987922760348297,3"
+		},
+		{
+			"id": "CrystalClearing-30987922760348297",
+			"source": "CrystalClearing",
+			"target": "30987922760348297",
+			"sourceHandle": "CrystalClearing,1",
+			"targetHandle": "30987922760348297,2"
+		},
+		{
+			"id": "8583844090689521-24625167882819143",
+			"source": "8583844090689521",
+			"target": "24625167882819143",
+			"sourceHandle": "8583844090689521,1",
+			"targetHandle": "24625167882819143,2"
+		},
+		{
+			"id": "24625167882819143-6353264655193619",
+			"source": "24625167882819143",
+			"target": "6353264655193619",
+			"sourceHandle": "24625167882819143,4",
+			"targetHandle": "6353264655193619,3"
+		},
+		{
+			"id": "24625167882819143-18115816040462862",
+			"source": "24625167882819143",
+			"target": "18115816040462862",
+			"sourceHandle": "24625167882819143,1",
+			"targetHandle": "18115816040462862,3"
+		},
+		{
+			"id": "6353264655193619-18115816040462862",
+			"source": "6353264655193619",
+			"target": "18115816040462862",
+			"sourceHandle": "6353264655193619,1",
+			"targetHandle": "18115816040462862,2"
+		},
+		{
+			"id": "6353264655193619-9340580198971665",
+			"source": "6353264655193619",
+			"target": "9340580198971665",
+			"sourceHandle": "6353264655193619,4",
+			"targetHandle": "9340580198971665,3"
+		},
+		{
+			"id": "6353264655193619-24369183497537372",
+			"source": "6353264655193619",
+			"target": "24369183497537372",
+			"sourceHandle": "6353264655193619,2",
+			"targetHandle": "24369183497537372,1"
+		},
+		{
+			"id": "24369183497537372-4246514185652589",
+			"source": "24369183497537372",
+			"target": "4246514185652589",
+			"sourceHandle": "24369183497537372,3",
+			"targetHandle": "4246514185652589,4"
+		},
+		{
+			"id": "9340580198971665-8155979884339633",
+			"source": "9340580198971665",
+			"target": "8155979884339633",
+			"sourceHandle": "9340580198971665,2",
+			"targetHandle": "8155979884339633,1"
+		},
+		{
+			"id": "5918661164152658-975512039357625",
+			"source": "5918661164152658",
+			"target": "975512039357625",
+			"sourceHandle": "5918661164152658,4",
+			"targetHandle": "975512039357625,3"
+		},
+		{
+			"id": "5918661164152658-8155979884339633",
+			"source": "5918661164152658",
+			"target": "8155979884339633",
+			"sourceHandle": "5918661164152658,2",
+			"targetHandle": "8155979884339633,4"
+		},
+		{
+			"id": "18115816040462862-4810732100733651",
+			"source": "18115816040462862",
+			"target": "4810732100733651",
+			"sourceHandle": "18115816040462862,4",
+			"targetHandle": "4810732100733651,3"
+		},
+		{
+			"id": "4810732100733651-3367547116463264",
+			"source": "4810732100733651",
+			"target": "3367547116463264",
+			"sourceHandle": "4810732100733651,4",
+			"targetHandle": "3367547116463264,3"
+		},
+		{
+			"id": "3367547116463264-32182590117737675",
+			"source": "3367547116463264",
+			"target": "32182590117737675",
+			"sourceHandle": "3367547116463264,4",
+			"targetHandle": "32182590117737675,3"
+		},
+		{
+			"id": "2265335956927651-3367547116463264",
+			"source": "2265335956927651",
+			"target": "3367547116463264",
+			"sourceHandle": "2265335956927651,1",
+			"targetHandle": "3367547116463264,2"
+		},
+		{
+			"id": "8155979884339633-36074710112137265",
+			"source": "8155979884339633",
+			"target": "36074710112137265",
+			"sourceHandle": "8155979884339633,3",
+			"targetHandle": "36074710112137265,1"
+		},
+		{
+			"id": "8155979884339633-45393758185133115",
+			"source": "8155979884339633",
+			"target": "45393758185133115",
+			"sourceHandle": "8155979884339633,2",
+			"targetHandle": "45393758185133115,3"
+		},
+		{
+			"id": "45393758185133115-7633178101740333",
+			"source": "45393758185133115",
+			"target": "7633178101740333",
+			"sourceHandle": "45393758185133115,4",
+			"targetHandle": "7633178101740333,1"
+		},
+		{
+			"id": "45393758185133115-3670916613568139",
+			"source": "45393758185133115",
+			"target": "3670916613568139",
+			"sourceHandle": "45393758185133115,2",
+			"targetHandle": "3670916613568139,4"
+		},
+		{
+			"id": "3670916613568139-9603634636630359",
+			"source": "3670916613568139",
+			"target": "9603634636630359",
+			"sourceHandle": "3670916613568139,2",
+			"targetHandle": "9603634636630359,1"
+		},
+		{
+			"id": "3670916613568139-6148093476528192",
+			"source": "3670916613568139",
+			"target": "6148093476528192",
+			"sourceHandle": "3670916613568139,3",
+			"targetHandle": "6148093476528192,1"
+		},
+		{
+			"id": "6669848363748472-6148093476528192",
+			"source": "6669848363748472",
+			"target": "6148093476528192",
+			"sourceHandle": "6669848363748472,4",
+			"targetHandle": "6148093476528192,3"
+		},
+		{
+			"id": "7633178101740333-7911479175977333",
+			"source": "7633178101740333",
+			"target": "7911479175977333",
+			"sourceHandle": "7633178101740333,4",
+			"targetHandle": "7911479175977333,3"
+		},
+		{
+			"id": "7911479175977333-46848055946096756",
+			"source": "7911479175977333",
+			"target": "46848055946096756",
+			"sourceHandle": "7911479175977333,4",
+			"targetHandle": "46848055946096756,1"
+		},
+		{
+			"id": "46848055946096756-0070842687997619835",
+			"source": "46848055946096756",
+			"target": "0070842687997619835",
+			"sourceHandle": "46848055946096756,2",
+			"targetHandle": "0070842687997619835,4"
+		},
+		{
+			"id": "0070842687997619835-7633178101740333",
+			"source": "0070842687997619835",
+			"target": "7633178101740333",
+			"sourceHandle": "0070842687997619835,3",
+			"targetHandle": "7633178101740333,2"
+		},
+		{
+			"id": "7633178101740333-37600283904636767",
+			"source": "7633178101740333",
+			"target": "37600283904636767",
+			"sourceHandle": "7633178101740333,3",
+			"targetHandle": "37600283904636767,4"
+		},
+		{
+			"id": "1581496896302863-15041086223242262",
+			"source": "1581496896302863",
+			"target": "15041086223242262",
+			"sourceHandle": "1581496896302863,2",
+			"targetHandle": "15041086223242262,1"
+		},
+		{
+			"id": "15041086223242262-37600283904636767",
+			"source": "15041086223242262",
+			"target": "37600283904636767",
+			"sourceHandle": "15041086223242262,4",
+			"targetHandle": "37600283904636767,3"
+		},
+		{
+			"id": "9490953537696962-31885975406340084",
+			"source": "9490953537696962",
+			"target": "31885975406340084",
+			"sourceHandle": "9490953537696962,3",
+			"targetHandle": "31885975406340084,1"
+		},
+		{
+			"id": "9490953537696962-6247467716127587",
+			"source": "9490953537696962",
+			"target": "6247467716127587",
+			"sourceHandle": "9490953537696962,4",
+			"targetHandle": "6247467716127587,3"
+		},
+		{
+			"id": "6247467716127587-7446425337606236",
+			"source": "6247467716127587",
+			"target": "7446425337606236",
+			"sourceHandle": "6247467716127587,4",
+			"targetHandle": "7446425337606236,3"
+		},
+		{
+			"id": "7446425337606236-9134924066282749",
+			"source": "7446425337606236",
+			"target": "9134924066282749",
+			"sourceHandle": "7446425337606236,4",
+			"targetHandle": "9134924066282749,3"
+		},
+		{
+			"id": "9134924066282749-3229274921864642",
+			"source": "9134924066282749",
+			"target": "3229274921864642",
+			"sourceHandle": "9134924066282749,4",
+			"targetHandle": "3229274921864642,3"
+		},
+		{
+			"id": "3229274921864642-15041086223242262",
+			"source": "3229274921864642",
+			"target": "15041086223242262",
+			"sourceHandle": "3229274921864642,4",
+			"targetHandle": "15041086223242262,3"
+		},
+		{
+			"id": "6247467716127587-3045445752792886",
+			"source": "6247467716127587",
+			"target": "3045445752792886",
+			"sourceHandle": "6247467716127587,2",
+			"targetHandle": "3045445752792886,3"
+		},
+		{
+			"id": "3229274921864642-3045445752792886",
+			"source": "3229274921864642",
+			"target": "3045445752792886",
+			"sourceHandle": "3229274921864642,2",
+			"targetHandle": "3045445752792886,4"
+		},
+		{
+			"id": "31885975406340084-47219515052171723",
+			"source": "31885975406340084",
+			"target": "47219515052171723",
+			"sourceHandle": "31885975406340084,2",
+			"targetHandle": "47219515052171723,1"
+		},
+		{
+			"id": "37600283904636767-23228379952662503",
+			"source": "37600283904636767",
+			"target": "23228379952662503",
+			"sourceHandle": "37600283904636767,2",
+			"targetHandle": "23228379952662503,3"
+		},
+		{
+			"id": "32182590117737675-24835608771372475",
+			"source": "32182590117737675",
+			"target": "24835608771372475",
+			"sourceHandle": "32182590117737675,2",
+			"targetHandle": "24835608771372475,1"
+		},
+		{
+			"id": "24835608771372475-4509081187016345",
+			"source": "24835608771372475",
+			"target": "4509081187016345",
+			"sourceHandle": "24835608771372475,4",
+			"targetHandle": "4509081187016345,3"
+		},
+		{
+			"id": "4509081187016345-7364888258780082",
+			"source": "4509081187016345",
+			"target": "7364888258780082",
+			"sourceHandle": "4509081187016345,2",
+			"targetHandle": "7364888258780082,1"
+		},
+		{
+			"id": "975512039357625-7364888258780082",
+			"source": "975512039357625",
+			"target": "7364888258780082",
+			"sourceHandle": "975512039357625,4",
+			"targetHandle": "7364888258780082,3"
+		},
+		{
+			"id": "32182590117737675-5644618222161053",
+			"source": "32182590117737675",
+			"target": "5644618222161053",
+			"sourceHandle": "32182590117737675,4",
+			"targetHandle": "5644618222161053,3"
+		},
+		{
+			"id": "975512039357625-7911479175977333",
+			"source": "975512039357625",
+			"target": "7911479175977333",
+			"sourceHandle": "975512039357625,2",
+			"targetHandle": "7911479175977333,1"
 		}
 	]
 }

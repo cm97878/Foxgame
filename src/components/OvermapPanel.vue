@@ -88,11 +88,25 @@ const isConnected = function(node: any): boolean {
 const scoutRevealNodes = function(element:GraphNode) {
     const edges = getConnectedEdges(element.id);
     edges.forEach(element => {
-        let node = findNode(element.target);
-        if(node) {
-            node.hidden = false;
-            node.data.interactable = true;
-            let secondEdges = getConnectedEdges(node.id);
+        let targNode = findNode(element.target);
+        if(targNode) {
+            console.log(targNode.data.areaName)
+            targNode.hidden = false;
+            targNode.data.interactable = true;
+            let secondEdges = getConnectedEdges(targNode.id);
+            secondEdges.forEach(innerEl => {
+                let innerNode = findNode(innerEl.target);
+                if(innerNode) {
+                    innerNode.hidden = false;
+                }
+            })
+        }
+        let sourceNode = findNode(element.source);
+        if(sourceNode) {
+            console.log(sourceNode.data.areaName)
+            sourceNode.hidden = false;
+            sourceNode.data.interactable = true;
+            let secondEdges = getConnectedEdges(sourceNode.id);
             secondEdges.forEach(innerEl => {
                 let innerNode = findNode(innerEl.target);
                 if(innerNode) {
