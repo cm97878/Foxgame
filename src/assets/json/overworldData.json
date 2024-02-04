@@ -36,6 +36,7 @@
 				"description": "A narrow path follows the cliffside, between the dense brush and rocky wall. The tendrils of a thicket of brambles further along snake along the side of the path.",
 				"killCount": 0,
 				"scoutThreshold": "1",
+				"interactable": true,
 				"handles": [
 					"37293844089194006,4",
 					"37293844089194006,3"
@@ -55,6 +56,7 @@
 				"description": "The brush here gives way to rocky soil a few feet from the rough cliff. The sharp stones dig into your paws.",
 				"killCount": 0,
 				"scoutThreshold": "1",
+				"interactable": true,
 				"handles": [
 					"24280179992399353,2",
 					"24280179992399353,1"
@@ -206,12 +208,11 @@
 			},
 			"data": {
 				"areaSpecialID": "Clearing",
-                "customFunc": "clearing",
 				"areaName": "Strange Clearing",
 				"zone": "forest",
 				"description": "doesnt matter",
 				"killCount": 0,
-				"scoutThreshold": 1,
+				"scoutThreshold": 0,
 				"handles": [
 					"CrystalClearing,1"
 				]
@@ -249,12 +250,13 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"05584016579255424,2",
 					"05584016579255424,4",
 					"05584016579255424,1",
-					"05584016579255424,3"
+					"05584016579255424,3",
+					"05584016579255424,2"
 				]
 			}
 		},
@@ -270,7 +272,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"6669848363748472,3",
 					"6669848363748472,1",
@@ -291,7 +293,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"1581496896302863,1",
 					"1581496896302863,2"
@@ -310,7 +312,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"09816713390569498,2",
 					"09816713390569498,3",
@@ -330,7 +332,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"2040898831042839,2",
 					"2040898831042839,1",
@@ -350,7 +352,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"6477081884140725,4",
 					"6477081884140725,2",
@@ -370,7 +372,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"40824485946067457,1"
 				]
@@ -388,9 +390,10 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"8583844090689521,2",
+					"8583844090689521,1",
 					"8583844090689521,1"
 				]
 			}
@@ -407,7 +410,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"36074710112137265,3",
 					"36074710112137265,1"
@@ -446,7 +449,7 @@
 				"zone": "riverbank",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"24625167882819143,2",
 					"24625167882819143,4",
@@ -466,7 +469,7 @@
 				"zone": "riverbank",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"18115816040462862,3",
 					"18115816040462862,2",
@@ -486,11 +489,12 @@
 				"zone": "riverbank",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"6353264655193619,3",
 					"6353264655193619,1",
 					"6353264655193619,4",
+					"6353264655193619,2",
 					"6353264655193619,2"
 				]
 			}
@@ -507,7 +511,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"24369183497537372,1",
 					"24369183497537372,3"
@@ -526,7 +530,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"9340580198971665,3",
 					"9340580198971665,2"
@@ -545,7 +549,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"4246514185652589,4"
 				]
@@ -563,7 +567,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"8155979884339633,1",
 					"8155979884339633,4",
@@ -584,7 +588,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"5918661164152658,4",
 					"5918661164152658,2"
@@ -603,7 +607,7 @@
 				"zone": "deep_forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"975512039357625,3",
 					"975512039357625,4",
@@ -623,7 +627,7 @@
 				"zone": "riverbank",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"4810732100733651,3",
 					"4810732100733651,4"
@@ -642,7 +646,7 @@
 				"zone": "riverbank",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"3367547116463264,3",
 					"3367547116463264,4",
@@ -662,7 +666,7 @@
 				"zone": "riverbank",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"32182590117737675,3",
 					"32182590117737675,2",
@@ -700,7 +704,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"45393758185133115,3",
 					"45393758185133115,4",
@@ -742,7 +746,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"3670916613568139,4",
 					"3670916613568139,2",
@@ -762,7 +766,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"9603634636630359,1"
 				]
@@ -780,7 +784,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"6148093476528192,1",
 					"6148093476528192,3"
@@ -857,7 +861,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"37600283904636767,4",
 					"37600283904636767,3",
@@ -877,7 +881,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"15041086223242262,1",
 					"15041086223242262,4",
@@ -897,7 +901,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"3229274921864642,3",
 					"3229274921864642,4",
@@ -917,10 +921,11 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"9134924066282749,3",
-					"9134924066282749,4"
+					"9134924066282749,4",
+					"9134924066282749,2"
 				]
 			}
 		},
@@ -936,7 +941,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"7446425337606236,3",
 					"7446425337606236,4"
@@ -955,7 +960,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"6247467716127587,3",
 					"6247467716127587,4",
@@ -975,7 +980,7 @@
 				"zone": "forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"31885975406340084,1",
 					"31885975406340084,2"
@@ -994,7 +999,7 @@
 				"zone": "deep_forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"3045445752792886,3",
 					"3045445752792886,4"
@@ -1049,7 +1054,7 @@
 				"zone": "deep_forest",
 				"description": "",
 				"killCount": 0,
-				"scoutThreshold": 0,
+				"scoutThreshold": "1",
 				"handles": [
 					"7364888258780082,1",
 					"7364888258780082,3"
@@ -1589,6 +1594,20 @@
 			"target": "7911479175977333",
 			"sourceHandle": "975512039357625,2",
 			"targetHandle": "7911479175977333,1"
+		},
+		{
+			"id": "9134924066282749-05584016579255424",
+			"source": "9134924066282749",
+			"target": "05584016579255424",
+			"sourceHandle": "9134924066282749,2",
+			"targetHandle": "05584016579255424,2"
+		},
+		{
+			"id": "6353264655193619-8583844090689521",
+			"source": "6353264655193619",
+			"target": "8583844090689521",
+			"sourceHandle": "6353264655193619,2",
+			"targetHandle": "8583844090689521,1"
 		}
 	]
 }

@@ -86,41 +86,29 @@ const isConnected = function(node: any): boolean {
 //also you cant scroll out very far? we should probably change that at least for now, so we can get a better overview of how it looks as it expands
 //also due to the spacing we may wanna make the text bigger
 const scoutRevealNodes = function(element:GraphNode) {
-    const edges = getConnectedEdges(element.id);
-    edges.forEach(element => {
-        let targNode = findNode(element.target);
-        if(targNode) {
-            targNode.hidden = false;
-            targNode.data.interactable = true;
-            let secondEdges = getConnectedEdges(targNode.id);
-            secondEdges.forEach(innerEl => {
-                let innerNode = findNode(innerEl.target);
-                if(innerNode) {
-                    innerNode.hidden = false;
-                }
-            })
-        }
-        let sourceNode = findNode(element.source);
-        if(sourceNode) {
-            sourceNode.hidden = false;
-            sourceNode.data.interactable = true;
-            let secondEdges = getConnectedEdges(sourceNode.id);
-            secondEdges.forEach(innerEl => {
-                let innerNode = findNode(innerEl.target);
-                if(innerNode) {
-                    innerNode.hidden = false;
-                }
-            })
+    element.data.scouted = true;
+    let scoutNode = mapStore.getConnectedNodes(element.id);
+    scoutNode.forEach((nodeID) => {
+        let node = findNode(nodeID);
+        if(node) {
+            node.data.interactable = true;
+            node.hidden = false;
         }
     })
+
+    //TODO: @malth for some reason this doesn't work. This should re-center the map on scout so that the new node is more easily clickable, but it dosen't seem to work. I gotta get a bit of sleep, have a look at this if you want - we can also just push this as-is as it's not that big a deal
+    mapStore.centerMap(element);
+
 }
+
+//TODO: I'd rather not need something to refresh the map at all, if we can just bind hidden="interactable" it's fixed but it won't work as far as I've made attempts.
 const refreshMap = function() {
     nodes.value.forEach((element: GraphNode) => {
-        if(element.data?.killCount >= element.data?.scoutThreshold) {
+        if(element.data.interactable) {
             element.hidden = false;
-            element.data.interactable = true;
-
-            scoutRevealNodes(element);
+            if(element.data?.killCount >= element.data?.scoutThreshold) {
+                scoutRevealNodes(element);
+            }
         }
     });
 }
@@ -133,9 +121,9 @@ watch(scouted$, (signal) => {
         refreshMap();
     }
     else {
-        let scoutNode = findNode(signal);
-        if(scoutNode) {
-            scoutRevealNodes(scoutNode);
+        let scoutedNode = findNode(signal);
+        if(scoutedNode) {
+            scoutRevealNodes(scoutedNode);
         }
     }
 })
