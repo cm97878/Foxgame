@@ -252,7 +252,6 @@ export const useMapStore = defineStore('mapStuff', () => {
     function centerMap(node:GraphNode) {
         const nodesToShow = getConnectedNodes(node.id);
         nodesToShow.push(node.id)
-        console.log(nodesToShow)
         fitView({
             nodes: nodesToShow,
             duration: 600,
