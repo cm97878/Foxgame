@@ -1,7 +1,7 @@
 <template>
     <div id="maps_container">
         <div id="vf-map">
-            <VueFlow class="general_outline">
+            <VueFlow class="general_outline" :nodes="overworldData.nodeSave" :edges="overworldData.edgeSave">
                 <template #node-custom ="{ data, id }">
                     <CustomNode :data="data" :id="id"></CustomNode>
                 </template>
@@ -10,7 +10,6 @@
         <NodeTooltip/>
     </div>
 </template>
-
 
 <script setup lang="ts">
 import CustomNode from './CustomNode.vue';
@@ -23,6 +22,7 @@ import { Zone } from '@/enums/areaEnums';
 import { storeToRefs } from 'pinia';
 import { watch } from 'vue';
 import { useCombatStore } from '@/stores/combatStore';
+import overworldData from '@/assets/json/overworldData.json';
 
 const mapStore = useMapStore();
 const player = usePlayer();
@@ -33,12 +33,10 @@ const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick,  findNode,
      addEdges, nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable, panOnDrag, fitView, setMinZoom, setNodes, setEdges } = useVueFlow({ id:"map"});
 
 onPaneReady((instance) => {
-    mapStore.setMap();
     nodes.value.forEach( element => {
         element.hidden = true;
     })
 
-    
     nodesDraggable.value = false;
     elementsSelectable.value = true;
     edgesUpdatable.value = false;
@@ -68,7 +66,6 @@ onNodeClick((node) => {
             mapStore.callRandomEncounter(chosenNode.data.zone || Zone.FOREST)
         } 
 
-        
         mapStore.selectedNode = chosenNode;
         mapStore.centerMap(chosenNode)
 
@@ -81,24 +78,19 @@ const isConnected = function(node: any): boolean {
     )
 }
 
-//TODO: Other issues i've noticed while fuckin around:
-//If you scroll in and out you can move the map around in a weird way
-//also you cant scroll out very far? we should probably change that at least for now, so we can get a better overview of how it looks as it expands
-//also due to the spacing we may wanna make the text bigger
-const scoutRevealNodes = function(element:GraphNode) {
+const scoutRevealNodes = function(element:GraphNode, dontCenter?:boolean) {
     element.data.scouted = true;
-    let scoutNode = mapStore.getConnectedNodes(element.id);
-    scoutNode.forEach((nodeID) => {
+    let scoutNodes = mapStore.getConnectedNodes(element.id);
+    scoutNodes.forEach((nodeID) => {
         let node = findNode(nodeID);
         if(node) {
             node.data.interactable = true;
             node.hidden = false;
         }
     })
-
-    //TODO: @malth for some reason this doesn't work. This should re-center the map on scout so that the new node is more easily clickable, but it dosen't seem to work. I gotta get a bit of sleep, have a look at this if you want - we can also just push this as-is as it's not that big a deal
-    mapStore.centerMap(element);
-
+    if(!dontCenter) {
+        mapStore.centerMap(element);
+    }
 }
 
 //TODO: I'd rather not need something to refresh the map at all, if we can just bind hidden="interactable" it's fixed but it won't work as far as I've made attempts.
@@ -107,7 +99,7 @@ const refreshMap = function() {
         if(element.data.interactable) {
             element.hidden = false;
             if(element.data?.killCount >= element.data?.scoutThreshold) {
-                scoutRevealNodes(element);
+                scoutRevealNodes(element, true);
             }
         }
     });
@@ -123,7 +115,7 @@ watch(scouted$, (signal) => {
     else {
         let scoutedNode = findNode(signal);
         if(scoutedNode) {
-            scoutRevealNodes(scoutedNode);
+            scoutRevealNodes(scoutedNode)
         }
     }
 })

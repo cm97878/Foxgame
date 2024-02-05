@@ -10,7 +10,6 @@ import { useGameFlags } from './gameFlags'
 import { useEventStore } from './eventStore'
 import { FlagEnum } from '@/enums/flagEnum'
 import { useUpgradeStore } from './upgradeStore'
-import overworldData from '@/assets/json/overworldData.json';
 
 
 /* LEAVE THIS HERE >:(
@@ -100,16 +99,6 @@ export const useMapStore = defineStore('mapStuff', () => {
         }]]
     ])
 
-
-
-    const mapNodes = ref(overworldData.nodeSave);
-    const mapEdges = ref(overworldData.edgeSave);
-
-    const setMap = function() {
-        setNodes(mapNodes.value);
-        setEdges(mapEdges.value);
-    }
-
     const nodeFunctions = new Map<string, Function>([
         ["home", function() {
             if(!gameFlags.flagList.get(FlagEnum.SHRINE_UNLOCKED) && 
@@ -172,7 +161,7 @@ export const useMapStore = defineStore('mapStuff', () => {
     const getDescription = computed(() => hasData ? selectedNode.value.data.description : "");
     const getDescAppend = computed(() => hasData ? areaData.random.descAppend  : "");
     const getKillCount = computed(() => hasData ? selectedNode.value.data.killCount  : "");
-    
+
     //TODO: actual scouted prop now so we can just check that instead
     const isScouted = computed(() => {
         const x = !!selectedNode.value.data ? selectedNode.value.data.killCount : "";
@@ -242,7 +231,6 @@ export const useMapStore = defineStore('mapStuff', () => {
         if(hasData) {
             console.log("addkills");
             let nodeAdd = findNode(selectedNode.value.id);
-            console.log(nodeAdd)
 
             if(nodeAdd) {
                 totalKills.value += amnt;
@@ -262,21 +250,20 @@ export const useMapStore = defineStore('mapStuff', () => {
     }
 
     function centerMap(node:GraphNode) {
-        //Not sure why I have to do this, but it's needed to make this work.
-        // toRaw(node);
-        const nodesShow = getConnectedNodes(node.id);
-        nodesShow.push(node.id)
+        const nodesToShow = getConnectedNodes(node.id);
+        nodesToShow.push(node.id)
+        console.log(nodesToShow)
         fitView({
-            nodes: nodesShow,
-            duration: 600
+            nodes: nodesToShow,
+            duration: 600,
         })
     }
-
     function getConnectedNodes(id: string): string[] {
         return getConnectedEdges(id).map( 
             edge => edge.target === id ? edge.source : edge.target
         )
     }
+
     const mouseoverNode = ref<GraphNode | undefined>({data: {}} as GraphNode);
     mouseoverNode.value = undefined;
     const mouseoverDelayCheck = "";
@@ -284,10 +271,10 @@ export const useMapStore = defineStore('mapStuff', () => {
 
     return {
         //State
-        enemyList, areaData, selectedNode, scouted$, mouseoverNode, mouseoverDelayCheck, mapEdges, mapNodes,
+        enemyList, areaData, selectedNode, scouted$, mouseoverNode, mouseoverDelayCheck,
         //Computed
         isSpecial, getAreaName, getDescription, getDescAppend, getKillCount, isScouted, hasData, totalKills, totalScouted,
         //Actions
-        setTextAppend, callRandomEncounter, addKills, centerMap, returnHome, setMap, callNodeFunc, getConnectedNodes,
+        setTextAppend, callRandomEncounter, addKills, centerMap, returnHome, callNodeFunc, getConnectedNodes,
     }
 })
