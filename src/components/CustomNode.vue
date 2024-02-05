@@ -5,12 +5,13 @@
     :class="[{ 'selected-node': mapStore.selectedNode.id === props.id}, zoneClass, {'special': specialZone}]">
         {{ data.areaName }}
     </div>
+    <Handle v-for="handle in props.data.handles" :id="handle" :position="handleDirection(handle)"/>
 </template>
 
 <script setup lang="ts">
     import { Zone } from '@/enums/areaEnums';
     import { useMapStore } from '@/stores/mapStore.js';
-    import { useVueFlow, type GraphNode } from '@vue-flow/core';
+    import { useVueFlow, Handle, Position } from '@vue-flow/core';
     import { computed } from 'vue';
     
     const mapStore = useMapStore();
@@ -24,6 +25,15 @@
         },
     }) 
 
+    const handleDirection = function(handle:string) {
+        let direction = handle.split(",")[1];
+        switch(direction) {
+            case "1": return Position.Top;
+            case "2": return Position.Bottom;
+            case "3": return Position.Left;
+            case "4": return Position.Right;
+        }
+    }
     
     const zoneClass = computed(() => {
         const zone = props.data.zone as Zone || Zone.FOREST;
