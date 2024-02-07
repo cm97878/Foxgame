@@ -149,7 +149,6 @@
 			},
 			"data": {
 				"areaName": "Cliffside Clearing",
-				"customFunc": "clearing",
 				"zone": "forest",
 				"description": "The cliff pulls away from the forest and, here, the forest does not follow, creating a rocky clearing.",
 				"killCount": 0,
@@ -209,6 +208,7 @@
 			},
 			"data": {
 				"areaSpecialID": "Clearing",
+				"customFunc": "clearing",
 				"areaName": "Strange Clearing",
 				"zone": "forest",
 				"description": "doesnt matter",
