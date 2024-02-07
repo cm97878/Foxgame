@@ -5,9 +5,12 @@
     :class="[{ 'selected-node': isSelected}, zoneClass, {'special': specialZone}]">
         {{ data.areaName }}
     </div>
-    <Handle v-for="handle in props.data.handles" :id="handle" :position="handleDirection(handle)">
-        <img v-if="isSelected" :class="[handleDirection(handle)]" :src="'./src/assets/mapArrow.gif'">
-    </Handle>
+    <div class="handle">
+        <Handle v-for="handle in props.data.handles" :id="handle" :position="handleDirection(handle)">
+            <img v-if="isSelected" :class="[handleDirection(handle)]" :src="'./src/assets/mapArrow.gif'">
+        </Handle>
+    </div>
+
 </template>
 
 <script setup lang="ts">
@@ -133,5 +136,12 @@
     transform: rotate(0.5turn);
     left: -10px;
     top: 5px;
+  }
+
+  .handle {
+    visibility: hidden;
+    img {
+        visibility:visible;
+    }
   }
 </style>
