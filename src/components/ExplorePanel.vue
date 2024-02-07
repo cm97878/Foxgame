@@ -10,7 +10,6 @@
             </div>
             <div class="area-box">
                 <span>Current deck selected: Exploration  | Cost: 10 Energy per pull.</span>
-                <!-- <span></span> -->
                 <span>Current Energy: {{ player.getEnergyDisplay }}</span>
                 <span>Exploration Progress: {{ mapStore.totalScouted  }} zones scouted.</span>
                 <span>There are currently <b>3</b> types of cards in the deck. Scout more zones to unlock new cards and make them stronger!</span>
@@ -22,7 +21,6 @@
 
 
 <script setup lang="ts">
-import { useCombatStore } from '@/stores/combatStore';
 import { usePlayer } from '@/stores/player';
 import { Tab } from '@/enums/panels';
 import { useMapStore } from '@/stores/mapStore';
@@ -87,7 +85,6 @@ const pullCard = function () {
 
         }
         .deck {
-            /* animation: deck-hover 4s linear infinite; */
             position: absolute;
             animation: deck-hover 4s ease-in-out infinite;
             height: 200px;

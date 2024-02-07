@@ -2,10 +2,12 @@
     <div @mouseenter="nodeMouseover()" 
     @mouseleave="nodeMouseover(true)" 
     class="node-boundary" 
-    :class="[{ 'selected-node': mapStore.selectedNode.id === props.id}, zoneClass, {'special': specialZone}]">
+    :class="[{ 'selected-node': isSelected}, zoneClass, {'special': specialZone}]">
         {{ data.areaName }}
     </div>
-    <Handle v-for="handle in props.data.handles" :id="handle" :position="handleDirection(handle)"/>
+    <Handle v-for="handle in props.data.handles" :id="handle" :position="handleDirection(handle)">
+        <img v-if="isSelected" :class="[handleDirection(handle)]" :src="'./src/assets/mapArrow.gif'">
+    </Handle>
 </template>
 
 <script setup lang="ts">
@@ -46,6 +48,8 @@
         
         return "forest"
     })
+
+    const isSelected = computed(() => mapStore.selectedNode.id === props.id)
 
     const specialZone = computed(() => props.data.areaSpecialID)
 
@@ -102,5 +106,32 @@
 
   .selected-node {
     background-color:rgb(0, 140, 255);
+  }
+
+  .left {
+    position: relative;
+    transform: rotate(-0.25turn);
+    left: -25px;
+    bottom: 10px;
+  }
+
+  .top {
+    position: relative;
+    bottom: 25px;
+    right: 10px;
+  }
+
+  .right {
+    position: relative;
+    transform: rotate(0.25turn);
+    left: 5px;
+    bottom: 10px;
+  }
+
+  .bottom {
+    position: relative;
+    transform: rotate(0.5turn);
+    left: -10px;
+    top: 5px;
   }
 </style>
