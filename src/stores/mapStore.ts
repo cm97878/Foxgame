@@ -28,7 +28,7 @@ export const useMapStore = defineStore('mapStuff', () => {
     const gameFlags = useGameFlags();
     const eventStore = useEventStore();
     const upgradeStore = useUpgradeStore();
-    const { getConnectedEdges, fitView, findNode, setNodes, setEdges, nodes, addNodes } = useVueFlow({ id:"map"});
+    const { getConnectedEdges, fitView, findNode, setNodes, setEdges, nodes, addNodes, updateNodeData } = useVueFlow({ id:"map"});
 
     // -- State --
 
@@ -234,7 +234,7 @@ export const useMapStore = defineStore('mapStuff', () => {
 
             if(nodeAdd) {
                 totalKills.value += amnt;
-                nodeAdd.data.killCount += amnt;
+                updateNodeData(nodeAdd.id, {killCount: nodeAdd.data.killCount+1})
                 if(nodeAdd.data.killCount >= nodeAdd.data.scoutThreshold) {
                     scouted$.value = nodeAdd.id; //TODO: Bit beyond the scope of what I wanted to do with this but we should definitely just change this to update a scouted flag once and then not do it again. Would require a decent bit of refactoring w/ the map refresh and such, though
                 }

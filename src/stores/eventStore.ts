@@ -42,7 +42,7 @@ export const useEventStore = defineStore('eventstore', () => {
                             return "south, sticking close to the cliff in hopes of avoiding the worst of the downpour";
                         }
                         else {
-                            return "[east, darting into the forest and under the thick canopy above, hoping to prevent the worst of the deluge";
+                            return "east, darting into the forest and under the thick canopy above, hoping to prevent the worst of the deluge";
                         }
                     },
                 },

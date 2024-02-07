@@ -29,12 +29,12 @@ const player = usePlayer();
 const eventStore = useEventStore();
 const combatStore = useCombatStore();
 
-const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick,  findNode, getConnectedEdges,
-     addEdges, nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable, panOnDrag, fitView, setMinZoom, setNodes, setEdges } = useVueFlow({ id:"map"});
+const { nodesDraggable, elementsSelectable, onNodeClick,  findNode, getConnectedEdges,
+     nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable, panOnDrag, setMinZoom, updateNodeData, onInit, updateNode } = useVueFlow({ id:"map"});
 
-onPaneReady((instance) => {
-    nodes.value.forEach( element => {
-        element.hidden = true;
+onInit((instance) => {
+    nodes.value.forEach((node) => {
+        updateNode(node.id, {hidden: true})
     })
 
     nodesDraggable.value = false;
@@ -49,6 +49,7 @@ onPaneReady((instance) => {
     refreshMap()
     mapStore.returnHome()    
 })
+
 onNodeClick((node) => {
     if (isConnected(node) && !combatStore.getActiveCombat) {
         const chosenNode = findNode(node.node.id)!;
@@ -79,14 +80,10 @@ const isConnected = function(node: any): boolean {
 }
 
 const scoutRevealNodes = function(element:GraphNode, dontCenter?:boolean) {
-    element.data.scouted = true;
-    let scoutNodes = mapStore.getConnectedNodes(element.id);
-    scoutNodes.forEach((nodeID) => {
-        let node = findNode(nodeID);
-        if(node) {
-            node.data.interactable = true;
-            node.hidden = false;
-        }
+    updateNodeData(element.id, {scouted: true})
+    mapStore.getConnectedNodes(element.id).forEach((id) => {
+        updateNodeData(id, {interactable: true})
+        updateNode(id, {hidden: false})
     })
     if(!dontCenter) {
         mapStore.centerMap(element);
@@ -95,11 +92,12 @@ const scoutRevealNodes = function(element:GraphNode, dontCenter?:boolean) {
 
 //TODO: I'd rather not need something to refresh the map at all, if we can just bind hidden="interactable" it's fixed but it won't work as far as I've made attempts.
 const refreshMap = function() {
-    nodes.value.forEach((element: GraphNode) => {
-        if(element.data.interactable) {
-            element.hidden = false;
-            if(element.data?.killCount >= element.data?.scoutThreshold) {
-                scoutRevealNodes(element, true);
+    console.log(nodes.value);
+    nodes.value.forEach((node: GraphNode) => {
+        if(node.data.interactable) {
+            updateNode(node.id, {hidden: false});
+            if(node.data?.killCount >= node.data?.scoutThreshold) {
+                scoutRevealNodes(node, true);
             }
         }
     });

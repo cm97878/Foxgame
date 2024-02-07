@@ -10,7 +10,7 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false"
   },
   "dependencies": {
-    "@vue-flow/core": "^1.26.0",
+    "@vue-flow/core": "^1.31.0",
     "@vueuse/core": "^10.7.2",
     "break_infinity.js": "^2.2.0",
     "pinia": "^2.1.7",

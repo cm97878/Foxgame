@@ -14,7 +14,7 @@ export const useSaveStore = defineStore('saveStore', () =>{
     const upgrades = useUpgradeStore();
     const mapStore = useMapStore();
     const gameFlags = useGameFlags();
-    const { nodes } = useVueFlow({ id:"map"});
+    const { nodes, updateNodeData } = useVueFlow({ id:"map"});
 
     var saveFile = {
         //TODO: gamestage stuff
@@ -49,6 +49,7 @@ export const useSaveStore = defineStore('saveStore', () =>{
 
 
 
+    //TODO: Save doesn't save interactable and scouted flags. This may not be an issue due to refreshMap being called when the kills *are* updated, though. Needs testing.
     const save = function() {
         console.log(saveFile)
         saveFile = {
@@ -156,7 +157,7 @@ export const useSaveStore = defineStore('saveStore', () =>{
         saveFile.kills.forEach(function(item) {
             let temp2 = nodes.value.find((element) => element.id === item.key)
             if(temp2) {
-                temp2.data.killCount = item.kills;
+                updateNodeData(temp2.id, {killCount: item.kills})
             }
         })
         mapStore.totalKills = saveFile.totalKills || 0;
