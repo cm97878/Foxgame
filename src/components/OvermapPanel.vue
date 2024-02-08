@@ -1,6 +1,7 @@
 <template>
     <div id="maps_container">
         <div id="vf-map">
+            <div class="fow"></div>
             <VueFlow class="general_outline" :nodes="overworldData.nodeSave" :edges="overworldData.edgeSave">
                 <template #node-custom ="{ data, id }">
                     <CustomNode :data="data" :id="id"></CustomNode>
@@ -126,5 +127,14 @@ watch(scouted$, (signal) => {
     #vf-map {
         height: 100%;
         width: 100%;
+        position:relative;     
+    }
+    .fow {
+        position:absolute;
+        background-color: rgba(0,0,0,0.7);
+        z-index: 9;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
     }
 </style>
