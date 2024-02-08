@@ -1,10 +1,13 @@
 <template>
-    <div @mouseenter="nodeMouseover()" 
-    @mouseleave="nodeMouseover(true)" 
-    class="node-boundary" 
-    :class="[{ 'selected-node': isSelected}, zoneClass, {'special': specialZone}]">
-        {{ data.areaName }}
+    <div class="explored-area">
+        <div @mouseenter="nodeMouseover()" 
+            @mouseleave="nodeMouseover(true)" 
+            class="node-boundary" 
+            :class="[{ 'selected-node': isSelected}, zoneClass, {'special': specialZone}]">
+                {{ data.areaName }}
+        </div>
     </div>
+    
     <div class="handle">
         <Handle v-for="handle in props.data.handles" :id="handle" :position="handleDirection(handle)">
             <img v-if="isSelected" :class="[handleDirection(handle)]" :src="'./src/assets/mapArrow.gif'">
@@ -75,73 +78,80 @@
 
 </script>
 <style>
-  .node-boundary {
-    padding: 10px;
-    border-radius: 20px;
-    width: 100px;
-    font-size: 24px;
-    text-align: center;
-    border-style: solid;
-    
-    color: #222; 
-    cursor: pointer;
-  }
+    /* Psuedo fog-of-war reveal */
+    .explored-area {
+        border:40px solid #ebd5b3;
+        background-color: #ebd5b3;
+        border-radius: 80px;
+    }
 
-  .forest {
-    border: 2px solid black;
-    background-color: #9ec93d;
-  }
+    .node-boundary {
+        padding: 10px;
+        border-radius: 20px;
+        width: 100px;
+        font-size: 24px;
+        text-align: center;
+        border-style: solid;
 
-  .deep-forest {
-    border: 2px solid #006608;
-    background-color: #00ba06;
-  }
+        color: #222; 
+        cursor: pointer;
+    }
 
-  .riverbank {
-    border: 2px solid #002861;
-    background-color: #0091ff;
-  }
+    .forest {
+        border: 2px solid black;
+        background-color: #9ec93d;
+    }
 
-  .special {
-    border-width: 4px !important;
-    border-color:rgb(223, 186, 0);
-  }
+    .deep-forest {
+        border: 2px solid #006608;
+        background-color: #00ba06;
+    }
 
-  .selected-node {
-    background-color:rgb(0, 140, 255);
-  }
+    .riverbank {
+        border: 2px solid #002861;
+        background-color: #0091ff;
+    }
 
-  .left {
-    position: relative;
-    transform: rotate(-0.25turn);
-    left: -25px;
-    bottom: 10px;
-  }
+    .special {
+        border-width: 4px !important;
+        border-color:rgb(223, 186, 0);
+    }
 
-  .top {
+    .selected-node {
+        background-color:rgb(0, 140, 255);
+    }
+
+    .left {
+        position: relative;
+        transform: rotate(-0.25turn);
+        left: -25px;
+        bottom: 10px;
+    }
+
+    .top {
     position: relative;
     bottom: 25px;
     right: 10px;
-  }
+    }
 
-  .right {
+    .right {
     position: relative;
     transform: rotate(0.25turn);
     left: 5px;
     bottom: 10px;
-  }
+    }
 
-  .bottom {
+    .bottom {
     position: relative;
     transform: rotate(0.5turn);
     left: -10px;
     top: 5px;
-  }
+    }
 
-  .handle {
+    .handle {
     visibility: hidden;
     img {
         visibility:visible;
     }
-  }
+    }
 </style>

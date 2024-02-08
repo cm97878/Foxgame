@@ -1,8 +1,8 @@
 <template>
     <div id="maps_container">
         <div id="vf-map">
-            <div class="fow"></div>
             <VueFlow class="general_outline" :nodes="overworldData.nodeSave" :edges="overworldData.edgeSave">
+                <div class="fow"></div>
                 <template #node-custom ="{ data, id }">
                     <CustomNode :data="data" :id="id"></CustomNode>
                 </template>
@@ -132,9 +132,12 @@ watch(scouted$, (signal) => {
     .fow {
         position:absolute;
         background-color: rgba(0,0,0,0.7);
-        z-index: 9;
+        z-index: 1;
         width: 100%;
         height: 100%;
         pointer-events: none;
+    }
+    .vue-flow__panel {
+        z-index: 1;
     }
 </style>
