@@ -33,7 +33,9 @@ const combatStore = useCombatStore();
 
 const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick,  findNode, getConnectedEdges,
      addEdges, nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable, panOnDrag, setMinZoom  } = useVueFlow({ id:"map"});
+const { scouted$ } = storeToRefs(mapStore)
 
+// -- EVENT HANDLERS --
 onPaneReady((instance) => {
     nodes.value.forEach( element => {
         element.hidden = true;
@@ -53,25 +55,56 @@ onPaneReady((instance) => {
 })
 onNodeClick((node) => {
     if (isConnected(node) && !combatStore.getActiveCombat) {
-        const chosenNode = findNode(node.node.id)!;
-        onEnterNode(chosenNode)
+        onEnterNode(node.node.id)
     }
 })
 
+watch(scouted$, (signal) => {
+    if(signal === "$REFRESH$") {
+        refreshMap();
+    }
+    else {
+        let scoutedNode = findNode(signal);
+        if(scoutedNode) {
+            scoutRevealNodes(scoutedNode)
+        }
+    }
+})
 
 onKeyDown(['ArrowDown', 's'], (e) => {
-    console.log('pressed!')
     e.preventDefault()
-    if(!combatStore.activeCombat && mapStore.handles.bottom) {
-        //debugger;
-        console.log("moved!")
-        //TODO: Call move function with node the handle points to! -Malt
+    if(!combatStore.activeCombat && !!mapStore.handles?.bottom) {
+        onEnterNode(mapStore.handles.bottomNode)
     }
 }, {dedupe: true})
 
+onKeyDown(['ArrowUp', 'w'], (e) => {
+    e.preventDefault()
+    if(!combatStore.activeCombat && !!mapStore.handles?.top) {
+        onEnterNode(mapStore.handles.topNode)
+    }
+}, {dedupe: true})
+
+onKeyDown(['ArrowLeft', 'a'], (e) => {
+    e.preventDefault()
+    if(!combatStore.activeCombat && !!mapStore.handles?.left) {
+        onEnterNode(mapStore.handles.leftNode)
+    }
+}, {dedupe: true})
+
+onKeyDown(['ArrowRight', 'd'], (e) => {
+    e.preventDefault()
+    if(!combatStore.activeCombat && !!mapStore.handles?.right) {
+        onEnterNode(mapStore.handles.rightNode)
+    }
+}, {dedupe: true})
+
+
+// -- FUNCTIONS --
 //TODO: Move more of this logic into mapStore, if possible. -Malt
-const onEnterNode = function(node: GraphNode): void {
+const onEnterNode = function(id: string): void {
     //TODO: Make this check use gameFlags
+    const node = findNode(id)!;
     if(player.firstMove && node != mapStore.selectedNode) {
             player.firstMove = false;
             combatStore.startCombat(mapStore.enemyList.get(Zone.FOREST)![0]);
@@ -121,19 +154,7 @@ const refreshMap = function() {
 }
 
 
-const { scouted$ } = storeToRefs(mapStore)
 
-watch(scouted$, (signal) => {
-    if(signal === "$REFRESH$") {
-        refreshMap();
-    }
-    else {
-        let scoutedNode = findNode(signal);
-        if(scoutedNode) {
-            scoutRevealNodes(scoutedNode)
-        }
-    }
-})
 
 
 </script>

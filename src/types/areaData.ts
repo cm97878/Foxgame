@@ -14,7 +14,11 @@ export interface AreaData {
 
 export interface HandleRef {
     top: boolean;
+    topNode: string;
     right: boolean;
+    rightNode: string;
     left: boolean;
+    leftNode: string;
     bottom: boolean;
+    bottomNode:string;
 }

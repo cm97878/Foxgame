@@ -162,20 +162,39 @@ export const useMapStore = defineStore('mapStuff', () => {
     const getDescAppend = computed(() => hasData ? areaData.random.descAppend  : "");
     const getKillCount = computed(() => hasData ? selectedNode.value.data.killCount  : "");
     const handles = computed(() => {
-        let x = {} as HandleRef;
-        let y = getConnectedEdges(selectedNode.value.data.id)
-        console.log(y);
-        debugger;
+        let handles = {} as HandleRef;
+        const id = selectedNode.value.id
+        getConnectedEdges(id).forEach( edge => {
+            let handle = "-1";
+            let targetId = "-1";
+            if(!!edge) {
+                //Find which handle is on *our* node, then get the node id from the other one.
+                if(id === edge.source) {
+                    handle = edge?.sourceHandle?.split(',')[1] || "-1"
+                    targetId = edge?.targetHandle?.split(',')[0] || "-1"
+                } else {
+                    handle = edge?.targetHandle?.split(',')[1] || "-1"
+                    targetId = edge?.sourceHandle?.split(',')[0] || "-1"
+                }
+            }
+            switch(handle) {
+                case "1": handles.topNode = targetId;
+                case "2": handles.bottomNode = targetId;
+                case "3": handles.leftNode = targetId;
+                case "4": handles.rightNode = targetId;
+            }
+            
+        })
         selectedNode.value.data.handles?.forEach((element: string) => {
             let direction = element.split(",")[1]
             switch(direction) {
-                case "1": x.top = true;
-                case "2": x.bottom = true;
-                case "3": x.left = true;
-                case "4": x.right = true;
+                case "1": handles.top = true;
+                case "2": handles.bottom = true;
+                case "3": handles.left = true;
+                case "4": handles.right = true;
             }
         });
-        return x
+        return handles
     })
 
     //TODO: actual scouted prop now so we can just check that instead
