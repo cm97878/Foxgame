@@ -10,7 +10,7 @@
     
     <div class="handle">
         <Handle v-for="handle in props.data.handles" :id="handle" :position="handleDirection(handle)">
-            <img v-if="isSelected" :class="[handleDirection(handle)]" :src="'./src/assets/mapArrow.gif'">
+            <img v-if="isSelected && !combatStore.activeCombat" :class="[handleDirection(handle)]" :src="'./src/assets/mapArrow2x.gif'">
         </Handle>
     </div>
 
@@ -18,11 +18,13 @@
 
 <script setup lang="ts">
     import { Zone } from '@/enums/areaEnums';
+    import { useCombatStore } from '@/stores/combatStore';
     import { useMapStore } from '@/stores/mapStore.js';
     import { useVueFlow, Handle, Position } from '@vue-flow/core';
     import { computed } from 'vue';
     
     const mapStore = useMapStore();
+    const combatStore = useCombatStore();
     
     //TODO: This wont work. Need to move all the tooltip stuff to the overmap panel, and do something with emitting events for mouse-overe'd nodes
     const props = defineProps({
@@ -124,34 +126,34 @@
     .left {
         position: relative;
         transform: rotate(-0.25turn);
-        left: -25px;
-        bottom: 10px;
+        left: -45px;
+        bottom: 21px;
     }
 
     .top {
-    position: relative;
-    bottom: 25px;
-    right: 10px;
+        position: relative;
+        bottom: 45px;
+        right: 23px;
     }
 
     .right {
-    position: relative;
-    transform: rotate(0.25turn);
-    left: 5px;
-    bottom: 10px;
+        position: relative;
+        transform: rotate(0.25turn);
+        left: 5px;
+        bottom: 20px;
     }
 
     .bottom {
-    position: relative;
-    transform: rotate(0.5turn);
-    left: -10px;
-    top: 5px;
+        position: relative;
+        transform: rotate(0.5turn);
+        left: -22px;
+        top: 5px;
     }
 
     .handle {
-    visibility: hidden;
-    img {
-        visibility:visible;
-    }
+        visibility: hidden;
+        img {
+            visibility:visible;
+        }
     }
 </style>

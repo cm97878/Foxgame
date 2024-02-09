@@ -1,7 +1,8 @@
 /* Styles needed for Vue Flow to function. */
+@import 'custom-flow-theme.css';
 @import '@vue-flow/core/dist/style.css';
 /* Custom theme */
-@import 'custom-flow-theme.css';
+
 @import 'fonts.css';
 
 
