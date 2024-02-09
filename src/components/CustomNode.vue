@@ -1,5 +1,5 @@
 <template>
-    <div class="explored-area">
+    <div :class="{'explored-area': props.data.killCount >= props.data.scoutThreshold}">
         <div @mouseenter="nodeMouseover()" 
             @mouseleave="nodeMouseover(true)" 
             class="node-boundary" 
