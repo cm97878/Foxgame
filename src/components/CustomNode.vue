@@ -22,9 +22,13 @@
     import { useMapStore } from '@/stores/mapStore.js';
     import { useVueFlow, Handle, Position } from '@vue-flow/core';
     import { computed } from 'vue';
+    import { onKeyDown } from '@vueuse/core'
+    import type { HandleRef } from '@/types/areaData';
     
     const mapStore = useMapStore();
     const combatStore = useCombatStore();
+
+    
     
     //TODO: This wont work. Need to move all the tooltip stuff to the overmap panel, and do something with emitting events for mouse-overe'd nodes
     const props = defineProps({
@@ -35,6 +39,16 @@
         },
     }) 
 
+    onKeyDown(['ArrowDown', 's'], (e) => {
+        console.log('pressed!')
+        //debugger;
+        // e.preventDefault()
+        if(!combatStore.activeCombat && handles.value.top) {
+            //debugger;
+            console.log("moved!")
+        }
+    }, {dedupe: true})
+
     const handleDirection = function(handle:string) {
         let direction = handle.split(",")[1];
         switch(direction) {
@@ -44,6 +58,20 @@
             case "4": return Position.Right;
         }
     }
+
+    const handles = computed(() => {
+        let x = {} as HandleRef;
+        props.data?.handles?.forEach((element: string) => {
+            let direction = element.split(",")[1]
+            switch(direction) {
+                case "1": x.top = true;
+                case "2": x.bottom = true;
+                case "3": x.left = true;
+                case "4": x.right = true;
+            }
+        });
+        return x
+    })
     
     const zoneClass = computed(() => {
         const zone = props.data.zone as Zone || Zone.FOREST;
