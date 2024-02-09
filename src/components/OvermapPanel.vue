@@ -24,6 +24,7 @@ import { storeToRefs } from 'pinia';
 import { watch } from 'vue';
 import { useCombatStore } from '@/stores/combatStore';
 import overworldData from '@/assets/json/overworldData.json';
+import { onKeyDown } from '@vueuse/core';
 
 const mapStore = useMapStore();
 const player = usePlayer();
@@ -31,7 +32,7 @@ const eventStore = useEventStore();
 const combatStore = useCombatStore();
 
 const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick,  findNode, getConnectedEdges,
-     addEdges, nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable, panOnDrag, fitView, setMinZoom, setNodes, setEdges } = useVueFlow({ id:"map"});
+     addEdges, nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable, panOnDrag, setMinZoom  } = useVueFlow({ id:"map"});
 
 onPaneReady((instance) => {
     nodes.value.forEach( element => {
@@ -48,31 +49,44 @@ onPaneReady((instance) => {
     edgeUpdaterRadius.value = 0;
     instance.setCenter(0, 0, {zoom: 1.0})
     refreshMap()
-    mapStore.returnHome()    
+    mapStore.moveToNode(findNode("Home")!)   
 })
 onNodeClick((node) => {
     if (isConnected(node) && !combatStore.getActiveCombat) {
         const chosenNode = findNode(node.node.id)!;
+        onEnterNode(chosenNode)
+    }
+})
 
-        //TODO: Make this check use gameFlags
-        if(player.firstMove && chosenNode != mapStore.selectedNode) {
+
+onKeyDown(['ArrowDown', 's'], (e) => {
+    console.log('pressed!')
+    e.preventDefault()
+    if(!combatStore.activeCombat && mapStore.handles.bottom) {
+        //debugger;
+        console.log("moved!")
+        //TODO: Call move function with node the handle points to! -Malt
+    }
+}, {dedupe: true})
+
+//TODO: Move more of this logic into mapStore, if possible. -Malt
+const onEnterNode = function(node: GraphNode): void {
+    //TODO: Make this check use gameFlags
+    if(player.firstMove && node != mapStore.selectedNode) {
             player.firstMove = false;
             combatStore.startCombat(mapStore.enemyList.get(Zone.FOREST)![0]);
             eventStore.callCutscene(eventStore.cutscenes.get("firstMove"));
         } 
-        else if(!!chosenNode?.data?.customFunc) {
-            mapStore.callNodeFunc(chosenNode.data.customFunc);
+        else if(!!node?.data?.customFunc) {
+            mapStore.callNodeFunc(node.data.customFunc);
         } 
-        else if(!(!!chosenNode?.data?.areaSpecialID)) {
-            mapStore.callRandomEncounter(chosenNode.data.zone || Zone.FOREST)
+        else if(!(!!node?.data?.areaSpecialID)) {
+            mapStore.callRandomEncounter(node.data.zone || Zone.FOREST)
         } 
 
-        mapStore.selectedNode = chosenNode;
-        mapStore.centerMap(chosenNode)
+        mapStore.moveToNode(node) 
+}
 
-        mapStore.setTextAppend()
-    }
-})
 const isConnected = function(node: any): boolean {
     return !!getConnectedEdges(mapStore.selectedNode.id).find( 
         connection => (connection.target === node.node.id || connection.source === node.node.id)

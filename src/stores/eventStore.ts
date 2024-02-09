@@ -154,7 +154,7 @@ export const useEventStore = defineStore('eventstore', () => {
             ],
             cutsceneCallback: function() {
                 callCutscene(cutscenes.get("idolReturned"))
-                mapStore.returnHome();
+                mapStore.moveToId("Home")) 
             },
             chain: true
         }],
