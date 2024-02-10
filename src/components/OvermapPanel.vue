@@ -153,10 +153,6 @@ const refreshMap = function() {
     });
 }
 
-
-
-
-
 </script>
 <style>
     #vf-map {

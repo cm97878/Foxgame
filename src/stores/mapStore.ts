@@ -172,16 +172,28 @@ export const useMapStore = defineStore('mapStuff', () => {
                 if(id === edge.source) {
                     handle = edge?.sourceHandle?.split(',')[1] || "-1"
                     targetId = edge?.targetHandle?.split(',')[0] || "-1"
-                } else {
+                } else if(id === edge.target) {
                     handle = edge?.targetHandle?.split(',')[1] || "-1"
                     targetId = edge?.sourceHandle?.split(',')[0] || "-1"
                 }
             }
             switch(handle) {
-                case "1": handles.topNode = targetId;
-                case "2": handles.bottomNode = targetId;
-                case "3": handles.leftNode = targetId;
-                case "4": handles.rightNode = targetId;
+                case "1": {
+                    handles.topNode = targetId;
+                    break;
+                }
+                case "2": {
+                    handles.bottomNode = targetId;
+                    break;
+                }
+                case "3": {
+                    handles.leftNode = targetId;
+                    break;
+                }
+                case "4": {
+                    handles.rightNode = targetId;
+                    break;
+                }
             }
             
         })
@@ -197,11 +209,6 @@ export const useMapStore = defineStore('mapStuff', () => {
         return handles
     })
 
-    //TODO: actual scouted prop now so we can just check that instead
-    const isScouted = computed(() => {
-        const x = !!selectedNode.value.data ? selectedNode.value.data.killCount : "";
-        return x.gte(selectedNode.value.data.scoutThreshold);
-    });
     const hasData = computed(() => !!selectedNode.value.data);
 
     const totalKills = ref(0);
@@ -315,7 +322,7 @@ export const useMapStore = defineStore('mapStuff', () => {
         //State
         enemyList, areaData, selectedNode, scouted$, mouseoverNode, mouseoverDelayCheck,
         //Computed
-        isSpecial, getAreaName, getDescription, getDescAppend, getKillCount, handles, isScouted, hasData, totalKills, totalScouted,
+        isSpecial, getAreaName, getDescription, getDescAppend, getKillCount, selectedNodeId, handles, hasData, totalKills, totalScouted,
         //Actions
         setTextAppend, callRandomEncounter, addKills, centerMap, moveToNode, moveToId, callNodeFunc, getConnectedNodes,
     }
