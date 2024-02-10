@@ -322,7 +322,7 @@ export const useMapStore = defineStore('mapStuff', () => {
         //State
         enemyList, areaData, selectedNode, scouted$, mouseoverNode, mouseoverDelayCheck,
         //Computed
-        isSpecial, getAreaName, getDescription, getDescAppend, getKillCount, selectedNodeId, handles, hasData, totalKills, totalScouted,
+        isSpecial, getAreaName, getDescription, getDescAppend, getKillCount, handles, hasData, totalKills, totalScouted,
         //Actions
         setTextAppend, callRandomEncounter, addKills, centerMap, moveToNode, moveToId, callNodeFunc, getConnectedNodes,
     }
