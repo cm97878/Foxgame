@@ -62,32 +62,7 @@ button:hover {
     
 }
 
-.combat_graphics_container {
-    display: flex;
-    width: 100%;
 
-    .combat_graphic {
-        width: 37.5%;
-        min-height: 240px;
-        border: 4px ridge rgb(125, 125, 125);
-    }
-    
-    .combat_graphic.not_fighting {
-        background-color: grey;
-    }
-
-    .name_box {
-        font-size: 20px;
-        border-bottom: 2px solid rgb(125, 125, 125);
-    }
-
-    #info_soul_graphic {
-        width: 25%;
-        min-height: 180px;
-        margin-left: 0px;
-        margin-right: 0px;
-    }
-}
 
 #turn_carousel {
     display: flex;
@@ -179,14 +154,16 @@ button:hover {
     justify-content: center;
     align-items: center;
     font-size: 24px;
-    background: rgb(170, 16, 16);
+    background-image: linear-gradient(to right, rgb(44, 0, 0),rgb(90, 0, 0), rgb(170,16,16), rgb(255, 0, 0));
     z-index: 0;
+    border: 3px outset silver;
 }
 
 .hp_bar_background {
     height: 100%;
     width: 100%;
     background-color: rgb(25, 139, 53);
+    background-image: linear-gradient(to right, rgb(9, 53, 0),rgb(18, 109, 0), rgb(29, 175, 0), rgb(44, 190, 15));
     position: absolute;
     top: 0px;
     left: 0px;

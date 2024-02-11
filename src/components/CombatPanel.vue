@@ -4,16 +4,20 @@
         <div class="combat_graphics_container">
             <div id="info_player_graphic" class="combat_graphic">
                 <div class="name_box">{{ player.name }}</div>
+                <div class="battle-background">
+                    <img class="pedestal" :src="'./src/assets/forestPedestal2x.png'">
+                </div>
+                
                 <!-- <Transition name="attack-text">
                     <div v-show="playerDamage">{{ player.getAtkDisplay + " damage!" }}</div>
                 </Transition> -->
             </div>
-            <div id="info_soul_graphic">
-                a lil soul icon will go here <br />
-
-            </div>
+            <div id="info_soul_graphic">Soul</div>
             <div v-if="combatStore.activeCombat" id="info_enemy_graphic" class="combat_graphic">
                 <div class="name_box">{{ combatStore.getOpponentStats.name }}</div>
+                <div class="battle-background">
+                    <img class="pedestal" :src="'./src/assets/forestPedestal2x.png'">
+                </div>
                 <!-- <Transition name="attack-text">
                     <span v-show="enemyDamage">{{ combatStore.getOpponentStats.attack + " damage!" }}</span>
                 </Transition> -->
@@ -47,7 +51,7 @@
             </div>
 
             <div v-show="combatStore.activeCombat" class="stats_container">
-                <div class="general_outline info_hp_bar_outline">
+                <div class="info_hp_bar_outline">
                     <div id="info_enemy_hp_bar_solid" class="hp_bar_background"></div>
                     {{ combatStore.getOpponentHP + " / " + combatStore.getOpponentStats.maxHP }}
                 </div>
@@ -114,5 +118,56 @@ defineExpose({ enemyHpRatio })
     }
     #info_enemy_hp_bar_solid {
         width: v-bind("enemyHpRatio")
+    }
+
+    .combat_graphics_container {
+        display: flex;
+        width: 100%;
+        align-content: stretch;
+
+        .combat_graphic {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            width: 100%;
+            min-height: 200px;
+            border: 4px ridge rgb(125, 125, 125);
+
+            img {
+                position:absolute;
+            }
+
+            .pedestal {
+                /* calc'ed this wrong, make it better later. */
+                margin-left:calc(15% - 160px);
+                margin-top: 90px;
+            }
+        }
+        
+        .combat_graphic.not_fighting {
+            background-color: grey;
+        }
+
+        .name_box {
+            min-height: 22px;
+
+            font-size: 20px;
+            border-bottom: 2px solid rgb(125, 125, 125);
+        }
+
+        #info_soul_graphic {
+            width: 120px;
+            min-width: 120px;
+            min-height: 180px;
+            margin-left: 0px;
+            margin-right: 0px;
+        }
+
+        .battle-background {
+            position:relative;
+            /*background-color: rgb(20, 20, 20);*/
+            background-image: linear-gradient(rgb(20, 20, 20) 42%, #76552b 45%);
+            height: 100%;
+        }
     }
 </style>
