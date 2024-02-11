@@ -1,5 +1,5 @@
 <template>
-    <div :class="{'explored-area': props.data.killCount >= props.data.scoutThreshold}">
+    <div :class="[{'explored-area': scouted}, {'not-explored': !scouted}]">
         <div @mouseenter="nodeMouseover()" 
             @mouseleave="nodeMouseover(true)" 
             class="node-boundary" 
@@ -35,15 +35,9 @@
         },
     }) 
 
-    const handleDirection = function(handle:string) {
-        let direction = handle.split(",")[1];
-        switch(direction) {
-            case "1": return Position.Top;
-            case "2": return Position.Bottom;
-            case "3": return Position.Left;
-            case "4": return Position.Right;
-        }
-    }
+    const isSelected = computed(() => mapStore.selectedNode.id === props.id)
+    const specialZone = computed(() => props.data.areaSpecialID)
+    const scouted = computed(() => props.data.killCount >= props.data.scoutThreshold)
     
     const zoneClass = computed(() => {
         const zone = props.data.zone as Zone || Zone.FOREST;
@@ -57,9 +51,15 @@
         return "forest"
     })
 
-    const isSelected = computed(() => mapStore.selectedNode.id === props.id)
-
-    const specialZone = computed(() => props.data.areaSpecialID)
+    const handleDirection = function(handle:string) {
+        let direction = handle.split(",")[1];
+        switch(direction) {
+            case "1": return Position.Top;
+            case "2": return Position.Bottom;
+            case "3": return Position.Left;
+            case "4": return Position.Right;
+        }
+    }
 
     const nodeMouseover = function(reset?:boolean) {
         if(!reset) {
@@ -85,6 +85,10 @@
         border:40px solid #ebd5b3;
         background-color: #ebd5b3;
         border-radius: 80px;
+    }
+
+    .not-explored {
+        opacity: .35;
     }
 
     .node-boundary {
