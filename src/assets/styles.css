@@ -1,7 +1,8 @@
 /* Styles needed for Vue Flow to function. */
+@import 'custom-flow-theme.css';
 @import '@vue-flow/core/dist/style.css';
 /* Custom theme */
-@import 'custom-flow-theme.css';
+
 @import 'fonts.css';
 
 
@@ -253,8 +254,6 @@ button:hover {
 }
 
 .vue-flow {
-    /* background: #bbeaff; */
-    /* background: #FCF5E5; */
     background: #ebd5b3
 }
 

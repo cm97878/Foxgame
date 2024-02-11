@@ -11,3 +11,14 @@ export interface AreaData {
     interactable: false;
     handles: string[];
 }
+
+export interface HandleRef {
+    top: boolean;
+    topNode: string;
+    right: boolean;
+    rightNode: string;
+    left: boolean;
+    leftNode: string;
+    bottom: boolean;
+    bottomNode:string;
+}

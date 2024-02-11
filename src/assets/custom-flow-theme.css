@@ -3,7 +3,7 @@
 :root {
     --vf-node-bg: #9ec93d;
     --vf-node-text: #222;
-    --vf-connection-path:  #b1b1b7;
+    --vf-connection-path:  red;
     --vf-handle: #555;
   }
 
@@ -11,9 +11,13 @@
     cursor: default;
   }
   
-  .vue-flow__edge.updating .vue-flow__edge-path {
-    stroke: #777;
-  }
+
+ /* Shouldn't need to do this. */
+  .vue-flow__edge-path, .vue-flow__connection-path {
+  stroke: white !important;
+  stroke-width: 4 !important;
+  fill: none;
+}
   
   .vue-flow__edge-text {
     font-size: 10px;

@@ -2,6 +2,7 @@
     <div id="maps_container">
         <div id="vf-map">
             <VueFlow class="general_outline" :nodes="overworldData.nodeSave" :edges="overworldData.edgeSave">
+                <div class="fow"></div>
                 <template #node-custom ="{ data, id }">
                     <CustomNode :data="data" :id="id"></CustomNode>
                 </template>
@@ -23,6 +24,7 @@ import { storeToRefs } from 'pinia';
 import { watch } from 'vue';
 import { useCombatStore } from '@/stores/combatStore';
 import overworldData from '@/assets/json/overworldData.json';
+import { onKeyDown } from '@vueuse/core';
 
 const mapStore = useMapStore();
 const player = usePlayer();
@@ -30,8 +32,10 @@ const eventStore = useEventStore();
 const combatStore = useCombatStore();
 
 const { nodesDraggable, onPaneReady, elementsSelectable, onNodeClick,  findNode, getConnectedEdges,
-     addEdges, nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable, panOnDrag, fitView, setMinZoom, setNodes, setEdges } = useVueFlow({ id:"map"});
+     addEdges, nodes, edgesUpdatable, edgeUpdaterRadius, nodesConnectable, panOnDrag, setMinZoom  } = useVueFlow({ id:"map"});
+const { scouted$ } = storeToRefs(mapStore)
 
+// -- EVENT HANDLERS --
 onPaneReady((instance) => {
     nodes.value.forEach( element => {
         element.hidden = true;
@@ -47,31 +51,75 @@ onPaneReady((instance) => {
     edgeUpdaterRadius.value = 0;
     instance.setCenter(0, 0, {zoom: 1.0})
     refreshMap()
-    mapStore.returnHome()    
+    mapStore.moveToNode(findNode("Home")!)   
 })
 onNodeClick((node) => {
     if (isConnected(node) && !combatStore.getActiveCombat) {
-        const chosenNode = findNode(node.node.id)!;
+        onEnterNode(node.node.id)
+    }
+})
 
-        //TODO: Make this check use gameFlags
-        if(player.firstMove && chosenNode != mapStore.selectedNode) {
+watch(scouted$, (signal) => {
+    if(signal === "$REFRESH$") {
+        refreshMap();
+    }
+    else {
+        let scoutedNode = findNode(signal);
+        if(scoutedNode) {
+            scoutRevealNodes(scoutedNode)
+        }
+    }
+})
+
+onKeyDown(['ArrowDown', 's'], (e) => {
+    e.preventDefault()
+    if(!combatStore.activeCombat && !!mapStore.handles?.bottom) {
+        onEnterNode(mapStore.handles.bottomNode)
+    }
+}, {dedupe: true})
+
+onKeyDown(['ArrowUp', 'w'], (e) => {
+    e.preventDefault()
+    if(!combatStore.activeCombat && !!mapStore.handles?.top) {
+        onEnterNode(mapStore.handles.topNode)
+    }
+}, {dedupe: true})
+
+onKeyDown(['ArrowLeft', 'a'], (e) => {
+    e.preventDefault()
+    if(!combatStore.activeCombat && !!mapStore.handles?.left) {
+        onEnterNode(mapStore.handles.leftNode)
+    }
+}, {dedupe: true})
+
+onKeyDown(['ArrowRight', 'd'], (e) => {
+    e.preventDefault()
+    if(!combatStore.activeCombat && !!mapStore.handles?.right) {
+        onEnterNode(mapStore.handles.rightNode)
+    }
+}, {dedupe: true})
+
+
+// -- FUNCTIONS --
+//TODO: Move more of this logic into mapStore, if possible. -Malt
+const onEnterNode = function(id: string): void {
+    //TODO: Make this check use gameFlags
+    const node = findNode(id)!;
+    if(player.firstMove && node != mapStore.selectedNode) {
             player.firstMove = false;
             combatStore.startCombat(mapStore.enemyList.get(Zone.FOREST)![0]);
             eventStore.callCutscene(eventStore.cutscenes.get("firstMove"));
         } 
-        else if(!!chosenNode?.data?.customFunc) {
-            mapStore.callNodeFunc(chosenNode.data.customFunc);
+        else if(!!node?.data?.customFunc) {
+            mapStore.callNodeFunc(node.data.customFunc);
         } 
-        else if(!(!!chosenNode?.data?.areaSpecialID)) {
-            mapStore.callRandomEncounter(chosenNode.data.zone || Zone.FOREST)
+        else if(!(!!node?.data?.areaSpecialID)) {
+            mapStore.callRandomEncounter(node.data.zone || Zone.FOREST)
         } 
 
-        mapStore.selectedNode = chosenNode;
-        mapStore.centerMap(chosenNode)
+        mapStore.moveToNode(node) 
+}
 
-        mapStore.setTextAppend()
-    }
-})
 const isConnected = function(node: any): boolean {
     return !!getConnectedEdges(mapStore.selectedNode.id).find( 
         connection => (connection.target === node.node.id || connection.source === node.node.id)
@@ -105,26 +153,22 @@ const refreshMap = function() {
     });
 }
 
-
-const { scouted$ } = storeToRefs(mapStore)
-
-watch(scouted$, (signal) => {
-    if(signal === "$REFRESH$") {
-        refreshMap();
-    }
-    else {
-        let scoutedNode = findNode(signal);
-        if(scoutedNode) {
-            scoutRevealNodes(scoutedNode)
-        }
-    }
-})
-
-
 </script>
 <style>
     #vf-map {
         height: 100%;
         width: 100%;
+        position:relative;     
+    }
+    .fow {
+        position:absolute;
+        background-color: rgba(0,0,0,0.7);
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    }
+    .vue-flow__panel {
+        z-index: 1;
     }
 </style>

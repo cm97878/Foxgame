@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import Decimal from 'break_infinity.js'
 import type { Enemy } from '@/types/enemy'
 import { useVueFlow, type GraphNode } from '@vue-flow/core'
-import type { AreaData } from '@/types/areaData'
+import type { AreaData, HandleRef } from '@/types/areaData'
 import { SpecialAreaId, Zone } from '@/enums/areaEnums'
 import { useCombatStore } from '@/stores/combatStore';
 import { computed, ref, toRaw } from 'vue'
@@ -161,12 +161,54 @@ export const useMapStore = defineStore('mapStuff', () => {
     const getDescription = computed(() => hasData ? selectedNode.value.data.description : "");
     const getDescAppend = computed(() => hasData ? areaData.random.descAppend  : "");
     const getKillCount = computed(() => hasData ? selectedNode.value.data.killCount  : "");
+    const handles = computed(() => {
+        let handles = {} as HandleRef;
+        const id = selectedNode.value.id
+        getConnectedEdges(id).forEach( edge => {
+            let handle = "-1";
+            let targetId = "-1";
+            if(!!edge) {
+                //Find which handle is on *our* node, then get the node id from the other one.
+                if(id === edge.source) {
+                    handle = edge?.sourceHandle?.split(',')[1] || "-1"
+                    targetId = edge?.targetHandle?.split(',')[0] || "-1"
+                } else if(id === edge.target) {
+                    handle = edge?.targetHandle?.split(',')[1] || "-1"
+                    targetId = edge?.sourceHandle?.split(',')[0] || "-1"
+                }
+            }
+            switch(handle) {
+                case "1": {
+                    handles.topNode = targetId;
+                    break;
+                }
+                case "2": {
+                    handles.bottomNode = targetId;
+                    break;
+                }
+                case "3": {
+                    handles.leftNode = targetId;
+                    break;
+                }
+                case "4": {
+                    handles.rightNode = targetId;
+                    break;
+                }
+            }
+            
+        })
+        selectedNode.value.data.handles?.forEach((element: string) => {
+            let direction = element.split(",")[1]
+            switch(direction) {
+                case "1": handles.top = true;
+                case "2": handles.bottom = true;
+                case "3": handles.left = true;
+                case "4": handles.right = true;
+            }
+        });
+        return handles
+    })
 
-    //TODO: actual scouted prop now so we can just check that instead
-    const isScouted = computed(() => {
-        const x = !!selectedNode.value.data ? selectedNode.value.data.killCount : "";
-        return x.gte(selectedNode.value.data.scoutThreshold);
-    });
     const hasData = computed(() => !!selectedNode.value.data);
 
     const totalKills = ref(0);
@@ -242,11 +284,19 @@ export const useMapStore = defineStore('mapStuff', () => {
             else {console.log("Couldn't update killcount. addKills()")}
         }
     }
-    function returnHome(): void {
-        const startingNode = findNode("Home")!;
-        selectedNode.value = startingNode;
-        centerMap(startingNode);
-        callNodeFunc(startingNode.id);
+
+    function moveToId(id: string): void {
+        const node = findNode(id)!
+        if(!!node){
+            moveToNode(node)
+        }
+    }
+
+    function moveToNode(node: GraphNode): void {
+        selectedNode.value = node;
+        centerMap(node);
+        callNodeFunc(node.id);
+        setTextAppend()
     }
 
     function centerMap(node:GraphNode) {
@@ -272,8 +322,8 @@ export const useMapStore = defineStore('mapStuff', () => {
         //State
         enemyList, areaData, selectedNode, scouted$, mouseoverNode, mouseoverDelayCheck,
         //Computed
-        isSpecial, getAreaName, getDescription, getDescAppend, getKillCount, isScouted, hasData, totalKills, totalScouted,
+        isSpecial, getAreaName, getDescription, getDescAppend, getKillCount, handles, hasData, totalKills, totalScouted,
         //Actions
-        setTextAppend, callRandomEncounter, addKills, centerMap, returnHome, callNodeFunc, getConnectedNodes,
+        setTextAppend, callRandomEncounter, addKills, centerMap, moveToNode, moveToId, callNodeFunc, getConnectedNodes,
     }
 })
