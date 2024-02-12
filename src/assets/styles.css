@@ -162,7 +162,6 @@ button:hover {
 .hp_bar_background {
     height: 100%;
     width: 100%;
-    background-color: rgb(25, 139, 53);
     background-image: linear-gradient(to right, rgb(9, 53, 0),rgb(18, 109, 0), rgb(29, 175, 0), rgb(44, 190, 15));
     position: absolute;
     top: 0px;
