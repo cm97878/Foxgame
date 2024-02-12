@@ -134,7 +134,9 @@ export const useSaveStore = defineStore('saveStore', () =>{
             defense: new Decimal(saveFile.playerStats.defense),
             maxHealth: new Decimal(saveFile.playerStats.maxHealth),
             currentHealth: new Decimal(saveFile.playerStats.currentHealth),
-            spd: saveFile.playerStats.spd
+            spd: saveFile.playerStats.spd,
+            sp: 1,
+            maxSP: 2
         };
         saveFile.unlocks.playerUpgrades.forEach(function(item) {
             let temp = upgrades.home.get(item.key);
