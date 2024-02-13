@@ -61,12 +61,10 @@
             </div>
         </div>
         <div class="combat_actions">
-            <button @click="playerAction('attack')" :disabled="!combatStore.playerTurn" class="combat_button custom"></button>
-            <button @click="playerAction('attack')" :disabled="!combatStore.playerTurn" class="combat_button custom"></button>
-            <button @click="playerAction('attack')" :disabled="!combatStore.playerTurn" class="combat_button custom"></button>
-            <button @click="playerAction('attack')" :disabled="!combatStore.playerTurn" class="combat_button custom"></button>
-            <!-- <button @click="playerAction('attack')" :disabled="!combatStore.playerTurn" class="combat_button custom"></button> -->
-            <!-- <button @click="playerAction('wait')" :disabled="!combatStore.playerTurn">Wait</button> -->
+            <img @click="playerAction('attack')" :src="'./src/assets/attackOption2x.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
+            <img @click="playerAction('attack')" :src="'./src/assets/attackOption2x.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
+            <img @click="playerAction('attack')" :src="'./src/assets/attackOption2x.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
+            <img @click="playerAction('attack')" :src="'./src/assets/attackOption2x.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
         </div>
 
         <!-- Make this a scrollable area later. -->
@@ -86,6 +84,7 @@ import CarouselIcon from './CarouselIcon.vue';
 import { displayDecimal } from '@/utils/utils';
 import { Tab } from '@/enums/panels';
 import PlayerHpBar from './playerHPBar.vue';
+import { onKeyDown } from '@vueuse/core';
 
 const player = usePlayer();
 const combatStore = useCombatStore();
@@ -93,6 +92,13 @@ const combatStore = useCombatStore();
 const props = defineProps({
     active: String
 })
+
+onKeyDown(['z'], (e) => {
+    e.preventDefault()
+    if(!!combatStore.playerTurn) {
+        playerAction('attack')
+    }
+}, {dedupe: true})
 
 
 const playerAction = function (action: string) {
@@ -114,24 +120,31 @@ defineExpose({ enemyHpRatio })
 </script>
 
 <style>
+
     .combat_actions {
-        button {
-            /* padding: 10px; */
+        width:100%;
+
+        img {
             margin-top: 4px;
             margin-right: 8px;
+            background-color:white;
+            pointer-events:
+        }
+
+        img:hover {
+            background-color: rgb(0, 140, 255);
         }
 
         .combat_button {
             width:128px;
             height:64px;
-            background-image: url('./src/assets/attackOption.png');
             border:none;
             transition: background-color 0.3s;
-            
+            cursor: pointer;  
         }
-
-        .combat_button:hover {
-            background-color: rgb(0, 140, 255);
+        .disabled {
+            background-color: rgb(117, 117, 117) !important;
+            pointer-events: none !important;
         }
     }
     #info_enemy_hp_bar_solid {
