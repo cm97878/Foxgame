@@ -44,10 +44,7 @@
                     Def: {{ displayDecimal(player.getDef) }} <br />
 
                 </div>
-                <div class="combat_actions">
-                    <button @click="playerAction('attack')" :disabled="!combatStore.playerTurn">Attack</button>
-                    <button @click="playerAction('wait')" :disabled="!combatStore.playerTurn">Wait</button>
-                </div>
+                
             </div>
 
             <div v-show="combatStore.activeCombat" class="stats_container">
@@ -62,6 +59,14 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="combat_actions">
+            <button @click="playerAction('attack')" :disabled="!combatStore.playerTurn" class="combat_button custom"></button>
+            <button @click="playerAction('attack')" :disabled="!combatStore.playerTurn" class="combat_button custom"></button>
+            <button @click="playerAction('attack')" :disabled="!combatStore.playerTurn" class="combat_button custom"></button>
+            <button @click="playerAction('attack')" :disabled="!combatStore.playerTurn" class="combat_button custom"></button>
+            <!-- <button @click="playerAction('attack')" :disabled="!combatStore.playerTurn" class="combat_button custom"></button> -->
+            <!-- <button @click="playerAction('wait')" :disabled="!combatStore.playerTurn">Wait</button> -->
         </div>
 
         <!-- Make this a scrollable area later. -->
@@ -111,9 +116,22 @@ defineExpose({ enemyHpRatio })
 <style>
     .combat_actions {
         button {
-            padding: 10px;
+            /* padding: 10px; */
             margin-top: 4px;
             margin-right: 8px;
+        }
+
+        .combat_button {
+            width:128px;
+            height:64px;
+            background-image: url('./src/assets/attackOption.png');
+            border:none;
+            transition: background-color 0.3s;
+            
+        }
+
+        .combat_button:hover {
+            background-color: rgb(0, 140, 255);
         }
     }
     #info_enemy_hp_bar_solid {

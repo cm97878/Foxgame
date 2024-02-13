@@ -120,7 +120,7 @@ export const useCombatStore = defineStore('combat', () => {
             
             
             setTimeout(() => {
-                pushToCombatLog("Player took " + damage + " damage!")
+                pushToCombatLog("Player took " + (Decimal.gt(damage,0) ? damage : "no") + " damage!")
                 repopulateTurns();
                 runTurn();
             }, 300)

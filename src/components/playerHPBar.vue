@@ -41,6 +41,6 @@ const player = usePlayer();
         background-image: radial-gradient(aqua,rgb(0,153,255));
     }
     .spent {
-        background-color: rgb(71,71,71) !important;
+        background-color: rgb(71,71,71);
     }
 </style>
