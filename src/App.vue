@@ -8,7 +8,7 @@
         <div id="left_side_container" class="app_container">
             <div id="info_top_buttons_container">
                 <button @click="showPanel(Panels.WORLD)" class="info_buttons">World</button>
-                <button @click="showPanel(Panels.SOUL)" v-show="gameFlags.flagList.get(FlagEnum.SOUL_UNLOCKED)" class="info_buttons">Soul</button>
+                <button @click="showPanel(Panels.SOUL)" v-show="gameFlags.flagList.get(FlagEnum.STATUE_OBTAINED)" class="info_buttons">{{ gameFlags.flagList.get(FlagEnum.STATUE_INSPECTED) ? 'Soul' : '???' }}</button>
             </div>
             
             <div v-show="activePanel == Panels.WORLD">
@@ -62,12 +62,22 @@
             </div>
 
             <div v-show="activePanel == Panels.SOUL">
-                <div class="tab_container">
+                <div v-show="!gameFlags.flagList.get(FlagEnum.STATUE_INSPECTED)" class="content-container">
+                    [This is a placeholder appearance cause i cba to deal with css rn. This will probs look similar to the event popup, but just in the sidebar. Picture + text + button.]<br /><br />
+                    You feel drawn now, as back in the clearing, to the strange hunk of rock you spent all that time and energy to drag back - although, mercifully, that ache in your teeth, in your skull, has subsided. And that voice...<br /><br />
+                    There's something about it that relaxes you, puts you at peace despite the confusion you feel. You feel like this could be a place to sit, to think, to calm and collect your thoughts.
+                    <div class="tab_container">
+                        <span @click="inspectStatue()" class="tab">
+                            Meditate
+                        </span>
+                    </div>
+                </div>
+                <div v-show="gameFlags.flagList.get(FlagEnum.STATUE_INSPECTED)"  class="tab_container">
                     <span :class="{ 'tab-selected': activeTabSoul === Tab.SOUL_UPGRADES }" @click="showTabSoul(Tab.SOUL_UPGRADES)" class="tab">
                         Soul Upgrades
                     </span>
                 </div>
-                <div class="content-container">
+                <div v-show="gameFlags.flagList.get(FlagEnum.STATUE_INSPECTED)" class="content-container">
                     <SoulUpgradePanel v-bind:active="activeTabSoul" />
                 </div>
             </div>
@@ -179,6 +189,11 @@
 
     function showTabSoul (tab:Tab) {
         activeTabSoul.value = tab;
+    }
+
+    function inspectStatue() {
+        // eventStore.callCutscene(); //This'll call a cutscene but I just wanted to get this up before bed
+        gameFlags.setFlag(FlagEnum.STATUE_INSPECTED, true);
     }
 
 
