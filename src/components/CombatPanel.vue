@@ -61,10 +61,10 @@
             </div>
         </div>
         <div class="combat_actions">
-            <img @click="playerAction('attack')" :src="'./src/assets/attackOption2x.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
-            <img @click="playerAction('attack')" :src="'./src/assets/attackOption2x.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
-            <img @click="playerAction('attack')" :src="'./src/assets/attackOption2x.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
-            <img @click="playerAction('attack')" :src="'./src/assets/attackOption2x.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
+            <img @click="playerAction('attack')" :src="'./src/assets/attackOptionAlt2.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
+            <img @click="playerAction('attack')" :src="'./src/assets/attackOptionAlt2.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
+            <img @click="playerAction('attack')" :src="'./src/assets/attackOptionAlt2.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
+            <img @click="playerAction('attack')" :src="'./src/assets/attackOptionAlt2.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
         </div>
 
         <!-- Make this a scrollable area later. -->
@@ -128,11 +128,13 @@ defineExpose({ enemyHpRatio })
             margin-top: 4px;
             margin-right: 8px;
             background-color:white;
-            pointer-events:
         }
 
         img:hover {
-            background-color: rgb(0, 140, 255);
+            /*background: linear-gradient(blue, rgb(0, 140, 255), aqua, rgb(0, 140, 255), blue);*/
+            background: linear-gradient(rgb(0,98,179), rgb(0, 140, 255), rgb(153,209,255), rgb(0, 140, 255), rgb(0,98,179));
+            background-size: 100% 400%;
+            animation: gradient 5s linear infinite;       
         }
 
         .combat_button {
@@ -201,4 +203,16 @@ defineExpose({ enemyHpRatio })
             height: 100%;
         }
     }
+
+    @keyframes gradient {
+	0% {
+		background-position: 100% 0%;
+	}
+	50% {
+		background-position: 100% 200%;
+	}
+	100% {
+		background-position: 100% 400%;
+	}
+}
 </style>

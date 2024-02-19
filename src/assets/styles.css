@@ -4,6 +4,10 @@
 /* Custom theme */
 
 @import 'fonts.css';
+/* Important colors:
+rgb(0, 140, 255) accent.
+linear-gradient(rgb(53, 53, 53), rgb(25, 25, 25)) the two main colors for the background, both are used in various other portions.
+*/
 
 
 body {
