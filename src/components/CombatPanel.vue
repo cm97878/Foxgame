@@ -60,11 +60,14 @@
                 </div>
             </div>
         </div>
-        <div class="combat_actions">
-            <img @click="playerAction('attack')" :src="'./src/assets/attackButton.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
-            <img @click="playerAction('skill')" :src="'./src/assets/SkillButton.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
-            <img @click="playerAction('item')" :src="'./src/assets/ItemButton.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
-            <img @click="playerAction('wait')" :src="'./src/assets/WaitButton.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
+        <div v-if="combatStore.activeCombat" class="combat_actions">
+            <img @click="playerAction('attack')" :src="'./src/assets/attackButton.png'" class="combat_button" :class="{disabled: !combatStore.playerTurn }">
+            <img @click="playerAction('skill')" :src="'./src/assets/SkillButton.png'" class="combat_button" :class="{disabled: !combatStore.playerTurn }">
+            <img @click="playerAction('item')" :src="'./src/assets/ItemButton.png'" class="combat_button" :class="{disabled: !combatStore.playerTurn }">
+            <img @click="playerAction('wait')" :src="'./src/assets/WaitButton.png'" class="combat_button" :class="{disabled: !combatStore.playerTurn }">
+        </div>
+        <div v-else class="combat_actions">
+            <img @click="mapStore.callRandomEncounter(Zone.FOREST)" :src="'./src/assets/ExploreButton.png'" class="combat_button">
         </div>
 
         <!-- Make this a scrollable area later. -->
@@ -85,9 +88,12 @@ import { displayDecimal } from '@/utils/utils';
 import { Tab } from '@/enums/panels';
 import PlayerHpBar from './playerHPBar.vue';
 import { onKeyDown } from '@vueuse/core';
+import { useMapStore } from '@/stores/mapStore';
+import { Zone } from '@/enums/areaEnums'
 
 const player = usePlayer();
 const combatStore = useCombatStore();
+const mapStore = useMapStore();
 
 const props = defineProps({
     active: String

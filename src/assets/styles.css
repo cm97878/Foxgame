@@ -5,7 +5,9 @@
 
 @import 'fonts.css';
 /* Important colors:
-rgb(0, 140, 255) accent.
+rgb(0, 140, 255) blue accent.
+rgb(0,98,179) accent dark, 
+rgb(153,209,255) accent light
 linear-gradient(rgb(53, 53, 53), rgb(25, 25, 25)) the two main colors for the background, both are used in various other portions.
 */
 
