@@ -61,10 +61,10 @@
             </div>
         </div>
         <div class="combat_actions">
-            <img @click="playerAction('attack')" :src="'./src/assets/attackOptionAlt2.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
-            <img @click="playerAction('attack')" :src="'./src/assets/attackOptionAlt2.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
-            <img @click="playerAction('attack')" :src="'./src/assets/attackOptionAlt2.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
-            <img @click="playerAction('attack')" :src="'./src/assets/attackOptionAlt2.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
+            <img @click="playerAction('attack')" :src="'./src/assets/attackButton.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
+            <img @click="playerAction('skill')" :src="'./src/assets/SkillButton.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
+            <img @click="playerAction('item')" :src="'./src/assets/ItemButton.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
+            <img @click="playerAction('wait')" :src="'./src/assets/WaitButton.png'" class="combat_button custom" :class="{disabled: !combatStore.playerTurn }">
         </div>
 
         <!-- Make this a scrollable area later. -->
@@ -131,7 +131,6 @@ defineExpose({ enemyHpRatio })
         }
 
         img:hover {
-            /*background: linear-gradient(blue, rgb(0, 140, 255), aqua, rgb(0, 140, 255), blue);*/
             background: linear-gradient(rgb(0,98,179), rgb(0, 140, 255), rgb(153,209,255), rgb(0, 140, 255), rgb(0,98,179));
             background-size: 100% 400%;
             animation: gradient 5s linear infinite;       
@@ -141,8 +140,8 @@ defineExpose({ enemyHpRatio })
             width:128px;
             height:64px;
             border:none;
-            transition: background-color 0.3s;
-            cursor: pointer;  
+            cursor: pointer;
+            border-radius: 2px;
         }
         .disabled {
             background-color: rgb(117, 117, 117) !important;
@@ -183,7 +182,6 @@ defineExpose({ enemyHpRatio })
 
         .name_box {
             min-height: 22px;
-
             font-size: 20px;
             border-bottom: 2px solid rgb(125, 125, 125);
         }
