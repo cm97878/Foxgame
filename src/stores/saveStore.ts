@@ -122,6 +122,7 @@ export const useSaveStore = defineStore('saveStore', () =>{
             return false;
         }
 
+        //TODO: Fix this better later.
         saveFile = JSON.parse(localStorage.getItem('kitsune_save'))
         
         const { mapLoaded } = storeToRefs(mapStore)
