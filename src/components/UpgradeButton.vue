@@ -117,6 +117,8 @@ const buy = function() {
 
     .bought {
         background-color: rgb(41, 163, 47) !important;
+        color: white !important;
+        box-shadow: none !important;
     }
 
     .multi-bought {

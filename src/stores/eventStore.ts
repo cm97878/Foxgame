@@ -207,6 +207,50 @@ export const useEventStore = defineStore('eventstore', () => {
             },
             chain: true
         }],
+
+
+        //Meditate at the statue
+        //TODO: Not liking how these sound, I need to re-pass them later. good enough for a rough draft but they feel clunky and too wordy - may be able to condense this into 2 panels instead of 3 as well.
+        ["statueMeditate", {
+            description: "You sit down in front of it and, after a tilt of the head, close your eyes. Immediately, jarringly, the sounds around you seem to fade away into the background. The buzzing of insects outside, the chirps of nearby birds, all dull to nothing more than a distant drone. And yet, as your senses dull, another opens to you as you gradually come to experience the world around you in a whole new way. The walls of your cave feel muffling, like trying to hear with your head buried in sand, but beyond that you can feel the presence of creatures beyond. Some few clusters of light are outside, one up in the branches of a tree you barely recognize as such, and another, smaller, quickly darting along beneath.",
+            choices: [
+                {
+                    id: 1,
+                    label: "Continue"
+                }
+            ],
+            cutsceneCallback: function() {
+                callCutscene(cutscenes.get("statueMeditate2"))
+            },
+            chain: true
+        }],
+        ["statueMeditate2", {
+            description: "Suddenly, you sense the higher light drop, colliding with the glow below it, and the latter snuffs out into wisps. And just as suddenly, you know what you are 'seeing'. That energy you've come to call soul, within those creatures outside. A bird, or a cat, or some other nimble creature leaping onto prey from above! And if you can see those auras even muffled as they are..",
+            choices: [
+                {
+                    id: 1,
+                    label: "Continue"
+                }
+            ],
+            cutsceneCallback: function() {
+                callCutscene(cutscenes.get("statueMeditate3"))
+            },
+            chain: true
+        }],
+        ["statueMeditate3", {
+            description: "You turn your newfound sense inward. Rather than a formless blob, you can 'see' this soul flowing through your body like blood through your veins. Not only that, but you also feel a sense of <i>control</i>. Right now, this power you have is swirling around inside of you, but it does not appear to be doing much of anything at all. And you now know you have the ability to change that, with a bit of effort.<br /><br />[New upgrades unlocked!]",
+            choices: [
+                {
+                    id: 1,
+                    label: "Continue"
+                }
+            ],
+            cutsceneCallback: function() {
+                gameFlags.setFlag(FlagEnum.STATUE_INSPECTED, true);
+                activeScene.value = undefined;
+            },
+            chain: true
+        }],
     ])
 
 

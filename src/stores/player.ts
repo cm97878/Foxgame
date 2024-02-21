@@ -44,7 +44,7 @@ export const usePlayer = defineStore('player', () => {
     const name = ref("Fox")
     const tails = ref(1)
     const playerStats = ref({
-        attack: new Decimal("30"),
+        attack: new Decimal("3"),
         defense: new Decimal("0"),
         maxHealth: new Decimal("15"),
         currentHealth: new Decimal("15"),

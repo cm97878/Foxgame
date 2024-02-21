@@ -51,7 +51,7 @@ onPaneReady((instance) => {
     edgeUpdaterRadius.value = 0;
     instance.setCenter(0, 0, {zoom: 1.0})
     refreshMap()
-    mapStore.moveToNode(findNode("Home")!)   
+    mapStore.mapLoaded = true;
 })
 onNodeClick((node) => {
     if (isConnected(node) && !combatStore.getActiveCombat) {

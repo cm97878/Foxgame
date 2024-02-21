@@ -300,7 +300,11 @@ export const useMapStore = defineStore('mapStuff', () => {
     function moveToId(id: string): void {
         const node = findNode(id)!
         if(!!node){
+            console.log("moving to node id " + id)
             moveToNode(node)
+        }
+        else {
+            console.log("no node of id \"" + id + "\" found")
         }
     }
 
@@ -328,11 +332,14 @@ export const useMapStore = defineStore('mapStuff', () => {
     const mouseoverNode = ref<GraphNode | undefined>({data: {}} as GraphNode);
     mouseoverNode.value = undefined;
     const mouseoverDelayCheck = "";
+
+
+    const mapLoaded = ref(false);
     
 
     return {
         //State
-        enemyList, areaData, selectedNode, scouted$, mouseoverNode, mouseoverDelayCheck,
+        enemyList, areaData, selectedNode, scouted$, mouseoverNode, mouseoverDelayCheck, mapLoaded,
         //Computed
         isSpecial, getAreaName, getDescription, getDescAppend, getKillCount, handles, hasData, totalKills, totalScouted,
         //Actions

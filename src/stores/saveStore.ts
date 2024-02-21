@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+import { defineStore, storeToRefs } from "pinia";
 import { usePlayer } from "./player";
 import { useUpgradeStore } from "./upgradeStore";
 import Decimal from "break_infinity.js";
@@ -8,6 +8,7 @@ import { useMapStore } from "./mapStore";
 import { useGameFlags } from "./gameFlags";
 import type { FlagEnum } from "@/enums/flagEnum";
 import { useVueFlow } from "@vue-flow/core";
+import { watchOnce } from "@vueuse/core";
 
 export const useSaveStore = defineStore('saveStore', () =>{
     const player = usePlayer();
@@ -44,11 +45,12 @@ export const useSaveStore = defineStore('saveStore', () =>{
         kills: [] as Array<SaveKillsArray>,
         totalKills: mapStore.totalKills,
         gameFlags: [] as Array<SavedGameFlags>,
+        location: mapStore.selectedNode?.id,
         version: 1
     }
 
 
-
+    //TODO: Probably wanna make it so you cant save in combat. Would kinda allow for some cheese otherwise
     const save = function() {
         console.log(saveFile)
         saveFile = {
@@ -78,6 +80,7 @@ export const useSaveStore = defineStore('saveStore', () =>{
             kills: [] as Array<SaveKillsArray>,
             totalKills: mapStore.totalKills,
             gameFlags: [] as Array<SavedGameFlags>,
+            location: mapStore.selectedNode.id,
             //Set a version for dealing with breaking changes to saves.
             version: 1
         }
@@ -113,12 +116,23 @@ export const useSaveStore = defineStore('saveStore', () =>{
         console.log(saveFile)
     }
 
-    const load = function() {
+    const load = function(refresh?:boolean) {
+        if(refresh) {
+            location.reload();
+            return false;
+        }
         saveFile = JSON.parse(localStorage.getItem('kitsune_save') ?? "")
+        const { mapLoaded } = storeToRefs(mapStore)
         if(!saveFile || localStorage.getItem('kitsune_save_bool') === "0") {
+            console.log("no save found")
+            watchOnce(mapLoaded, () => {
+                console.log("map loaded");
+                mapStore.moveToId("Home");
+            })
             player.loaded = true;
             return false;
         }
+
         //TODO: gamestage stuff
         player.gameStage = saveFile.gameStage;
         player.furthestStage = saveFile.furthestStage;
@@ -150,7 +164,7 @@ export const useSaveStore = defineStore('saveStore', () =>{
                 temp.show = item.unlocked;
                 temp.bought = item.bought;
                 temp.level = item.level || 1;
-                upgrades.home.set(item.key, temp);
+                upgrades.soul.set(item.key, temp);
             }
         })
         saveFile.kills.forEach(function(item) {
@@ -166,9 +180,14 @@ export const useSaveStore = defineStore('saveStore', () =>{
         })
         gameFlags.flagList = gameFlagsMap
         mapStore.scouted$ = "$REFRESH$"
+        watchOnce(mapLoaded, () => {
+            console.log("map loaded");
+            mapStore.moveToId(saveFile.location);
+        })
         console.log(saveFile)
         
         player.loaded = true;
+        console.log("save file loaded");
         return true;
     }
 
