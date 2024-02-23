@@ -77,6 +77,7 @@ import CarouselIcon from './CarouselIcon.vue';
 import { displayDecimal } from '@/utils/utils';
 import { Tab } from '@/enums/panels';
 import PlayerHpBar from './playerHPBar.vue';
+import { onKeyDown } from '@vueuse/core';
 
 const player = usePlayer();
 const combatStore = useCombatStore();
@@ -99,6 +100,13 @@ const enemyHpRatio = computed((): string => {
         return "0%"
     }
 })
+
+onKeyDown(['z'], (e) => {
+    e.preventDefault()
+    if(!!combatStore.playerTurn) {
+        playerAction('attack')
+    }
+}, {dedupe: true})
 
 defineExpose({ enemyHpRatio })
 

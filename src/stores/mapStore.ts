@@ -31,6 +31,8 @@ export const useMapStore = defineStore('mapStuff', () => {
     const { getConnectedEdges, fitView, findNode, setNodes, setEdges, nodes, addNodes } = useVueFlow({ id:"map"});
 
     // -- State --
+    
+    const mapLoaded = ref(false);
 
     //TODO: Properly balance new zone enemies.
     const enemyList = new Map<Zone, Enemy[]>([
@@ -109,22 +111,22 @@ export const useMapStore = defineStore('mapStuff', () => {
         }],
         ["clearing", function() {
             if(!gameFlags.flagList.get(FlagEnum.EXPLORE_UNLOCKED)){
-                eventStore.callCutscene(eventStore.cutscenes.get("idolFind"))
+                eventStore.callCutscene(eventStore.cutscenes.get("statueFind"))
                 gameFlags.setFlag(FlagEnum.EXPLORE_UNLOCKED, true)
                 //TODO: Could probably make helper functions in upgradeStore for this.
-                const ropeUpgrade = upgradeStore.home.get(4)
+                const ropeUpgrade = upgradeStore.home.get(5)
                 if (!!ropeUpgrade) {
                     ropeUpgrade.show = true
-                    upgradeStore.home.set(4, ropeUpgrade)
+                    upgradeStore.home.set(5, ropeUpgrade)
                 }
-            } else if (!gameFlags.flagList.get(FlagEnum.STATUE_OBTAINED) && upgradeStore.home.get(4)?.bought) {
-                eventStore.callCutscene(eventStore.cutscenes.get("idolGet"))
+            } else if (!gameFlags.flagList.get(FlagEnum.STATUE_OBTAINED) && upgradeStore.home.get(5)?.bought) {
+                eventStore.callCutscene(eventStore.cutscenes.get("statueGet"))
                 gameFlags.setFlag(FlagEnum.STATUE_OBTAINED, true)
                 //TODO: Could probably make helper functions in upgradeStore for this.
-                const ropeUpgrade = upgradeStore.home.get(4)
+                const ropeUpgrade = upgradeStore.home.get(5)
                 if (!!ropeUpgrade) {
                     ropeUpgrade.show = false
-                    upgradeStore.home.set(4, ropeUpgrade)
+                    upgradeStore.home.set(5, ropeUpgrade)
                 }
             }
         }]
@@ -200,10 +202,22 @@ export const useMapStore = defineStore('mapStuff', () => {
         selectedNode.value.data.handles?.forEach((element: string) => {
             let direction = element.split(",")[1]
             switch(direction) {
-                case "1": handles.top = true;
-                case "2": handles.bottom = true;
-                case "3": handles.left = true;
-                case "4": handles.right = true;
+                case "1": {
+                    handles.top = true;
+                    break;
+                }
+                case "2": {
+                    handles.bottom = true;
+                    break;
+                }
+                case "3": {
+                    handles.left = true;
+                    break;
+                }
+                case "4": {
+                    handles.right = true;
+                    break;
+                }
             }
         });
         return handles
@@ -288,7 +302,11 @@ export const useMapStore = defineStore('mapStuff', () => {
     function moveToId(id: string): void {
         const node = findNode(id)!
         if(!!node){
+            console.log("moving to node id " + id)
             moveToNode(node)
+        }
+        else {
+            console.log("no node of id \"" + id + "\" found")
         }
     }
 
@@ -316,11 +334,13 @@ export const useMapStore = defineStore('mapStuff', () => {
     const mouseoverNode = ref<GraphNode | undefined>({data: {}} as GraphNode);
     mouseoverNode.value = undefined;
     const mouseoverDelayCheck = "";
+
+
     
 
     return {
         //State
-        enemyList, areaData, selectedNode, scouted$, mouseoverNode, mouseoverDelayCheck,
+        enemyList, areaData, selectedNode, scouted$, mouseoverNode, mouseoverDelayCheck, mapLoaded,
         //Computed
         isSpecial, getAreaName, getDescription, getDescAppend, getKillCount, handles, hasData, totalKills, totalScouted,
         //Actions

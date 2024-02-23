@@ -8,7 +8,7 @@
         <div id="left_side_container" class="app_container">
             <div id="info_top_buttons_container">
                 <button @click="showPanel(Panels.WORLD)" class="info_buttons">World</button>
-                <button @click="showPanel(Panels.SOUL)" v-show="gameFlags.flagList.get(FlagEnum.SOUL_UNLOCKED)" class="info_buttons">Soul</button>
+                <button @click="showPanel(Panels.SOUL)" v-show="gameFlags.flagList.get(FlagEnum.STATUE_OBTAINED)" class="info_buttons">{{ gameFlags.flagList.get(FlagEnum.STATUE_INSPECTED) ? 'Soul' : '???' }}</button>
             </div>
             
             <div v-show="activePanel == Panels.WORLD">
@@ -48,26 +48,29 @@
                             Explore
                         </span>
                     </div>
+                    <div class="content-container">
+                        <BasePanel v-bind:active="activeTabHome" />
+                        <InventoryPanel v-bind:active="activeTabHome" />
+                        <ExplorePanel v-bind:active="activeTabHome" />
+                    </div>
                 </div>
 
                 <div v-show="mapStore.selectedNode.data.areaSpecialID === SpecialAreaId.CLEARING">
                     <InfoPanel v-bind:active="activeTabOverworld" />
                 </div>
-
-                <div v-show="mapStore.selectedNode.data.areaSpecialID === SpecialAreaId.HOME" class="content-container">
-                    <BasePanel v-bind:active="activeTabHome" />
-                    <InventoryPanel v-bind:active="activeTabHome" />
-                    <ExplorePanel v-bind:active="activeTabHome" />
-                </div>
             </div>
 
             <div v-show="activePanel == Panels.SOUL">
-                <div class="tab_container">
+                <div v-show="!gameFlags.flagList.get(FlagEnum.STATUE_INSPECTED)" class="content-container">
+                    <div v-html="soulPanelIntroText"></div>
+                    <button @click="inspectStatue()" class="info_buttons">Meditate?</button>
+                </div>
+                <div v-show="gameFlags.flagList.get(FlagEnum.STATUE_INSPECTED)"  class="tab_container">
                     <span :class="{ 'tab-selected': activeTabSoul === Tab.SOUL_UPGRADES }" @click="showTabSoul(Tab.SOUL_UPGRADES)" class="tab">
                         Soul Upgrades
                     </span>
                 </div>
-                <div class="content-container">
+                <div v-show="gameFlags.flagList.get(FlagEnum.STATUE_INSPECTED)" class="content-container">
                     <SoulUpgradePanel v-bind:active="activeTabSoul" />
                 </div>
             </div>
@@ -98,8 +101,8 @@
             </div>
 
             <div class="options-box">
-                <button @click="saves.save()">Save</button>
-                <button @click="saves.load()">Load</button>
+                <button @click="saves.save()" :disabled="combatStore.activeCombat">Save</button> 
+                <button @click="saves.load(true)">Load</button>
                 <button @click="player.addSoul(1000000000000000);">add max soul</button>
                 <button @click="loadToggle">{{ toggleState === "1" ? "Using save slot" : "Not using saves" }}</button>
                 <button @click="player.gameStage = GameStage.PRE_TAILS">Set gamestage intro->pre_tails</button>
@@ -162,6 +165,7 @@
         toggleState.value = localStorage.getItem('kitsune_save_bool') ?? "1";
     }
 
+    const soulPanelIntroText = "[This is a placeholder appearance cause i cba to deal with css rn. This will probs look similar to the event popup, but just in the sidebar. Picture + text + button.]<br /><br />You feel drawn now, as back in the clearing, to the strange hunk of rock you spent all that time and energy to drag back - although, mercifully, that ache in your teeth, in your skull, has subsided. And that voice from before...<br /><br />There's something about this thing that relaxes you, puts you at peace despite the confusion. You feel like this could be a place to sit, to think, to calm and collect your thoughts. Perhaps to...<br />"
 
 
     function showPanel (panel:Panels) {
@@ -179,6 +183,10 @@
 
     function showTabSoul (tab:Tab) {
         activeTabSoul.value = tab;
+    }
+
+    function inspectStatue() {
+        eventStore.callCutscene(eventStore.cutscenes.get("statueMeditate"));
     }
 
 
