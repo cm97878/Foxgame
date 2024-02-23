@@ -101,7 +101,7 @@
             </div>
 
             <div class="options-box">
-                <button @click="saves.save()">Save</button> 
+                <button @click="saves.save()" :disabled="combatStore.activeCombat">Save</button> 
                 <button @click="saves.load(true)">Load</button>
                 <button @click="player.addSoul(1000000000000000);">add max soul</button>
                 <button @click="loadToggle">{{ toggleState === "1" ? "Using save slot" : "Not using saves" }}</button>
@@ -186,7 +186,6 @@
     }
 
     function inspectStatue() {
-        // eventStore.callCutscene(); //This'll call a cutscene but I just wanted to get this up before bed
         eventStore.callCutscene(eventStore.cutscenes.get("statueMeditate"));
     }
 

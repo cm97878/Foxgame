@@ -31,6 +31,8 @@ export const useMapStore = defineStore('mapStuff', () => {
     const { getConnectedEdges, fitView, findNode, setNodes, setEdges, nodes, addNodes } = useVueFlow({ id:"map"});
 
     // -- State --
+    
+    const mapLoaded = ref(false);
 
     //TODO: Properly balance new zone enemies.
     const enemyList = new Map<Zone, Enemy[]>([
@@ -334,7 +336,6 @@ export const useMapStore = defineStore('mapStuff', () => {
     const mouseoverDelayCheck = "";
 
 
-    const mapLoaded = ref(false);
     
 
     return {

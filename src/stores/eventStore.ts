@@ -165,7 +165,7 @@ export const useEventStore = defineStore('eventstore', () => {
             chain: true,
         }],
         ["statueFind3", {
-            description: "A strange voice, almost in your ear. You whip around with a snarl, face to face with... nothing. Not even a scent lingers, although you swear for that briefest of moments you could smell something strange... fresh water. You have yet to see any significant source of water, and if there was a river to the south you would have had to have crossed it on your way to this place. Perhaps north, then.<br /><br />Your eyes return to the odd stone in the ground. It seems shaped, and with intent. And that strange sensation... well. It's not like you could lug it back even if you wanted, it's far too big to grab with your teeth. If you wound some vines around it, though...<br /><br />[You have unlocked a new upgrade back at the cave.]",
+            description: "A strange voice, almost in your ear. You whip around with a snarl, face to face with... nothing. Not even a scent lingers, although you swear for that briefest of moments you could smell something strange... water? There's nothing else now, save for the buzzing in the air.<br /><br />Your eyes return to the odd stone in the ground. It seems shaped, and with intent. And that strange sensation... well. It's not like you could lug it back even if you wanted, it's far too big to grab with your teeth. If you wound some vines around it, though...<br /><br />[You have unlocked a new upgrade back at the cave.]",
             choices: [
                 {
                     id: 1,
@@ -180,7 +180,7 @@ export const useEventStore = defineStore('eventstore', () => {
 
         //Obtaining the statue
         ["statueGet", {
-            description: "You trot back into the clearing, a bundle of makeshift rope carried in your mouth. Vines twisted together and clumsily tied with the brambles near your cave. Terrible craftsmanship - and a little blood-speckled, after the brambles - but more than enough to tie around the odd rock. After a great heave, and a moment where you worry the rope will snap, the rock breaks free of the soil and slides along behind you. Now for the journey home. It's relatively flat, but... this will not be an enjoyable trek.",
+            description: "You trot back into the clearing, a bundle of vines carried in your mouth, twisted together and clumsily tied with the brambles near your cave. Terrible craftsmanship - and a little blood-speckled - but more than enough to tie around the odd rock. After a great heave, and a moment where you worry the rope will snap, the rock breaks free of the soil and slides along behind you. Not as heavy as you expected. Now for the journey home. It's relatively flat, but... you've a feeling that this will not be an enjoyable trek.",
             choices: [
                 {
                     id: 1,
@@ -194,7 +194,7 @@ export const useEventStore = defineStore('eventstore', () => {
             chain: true
         }],
         ["statueGet2", {
-            description: "And a long trek it is. Damnable thing got caught on every rock, stump, branch, and bush it could find. But it's back with you now, and you were (barely) able to roll it through the crevice. You can get a better look at it, now.<br /><br />It's a statue of some sort. The details have been worn away by time, but even from the details that remain, it looks like it must have been quite the work of art long ago. And not just because the shape reminds you, even if only faintly, of a fox like yourself.",
+            description: "And you were spot-on. Damnable thing got caught on every rock, stump, branch, and bush it could find. But it's back with you now, and you were (barely) able to roll it through the crevice. You can get a better look at it, now.<br /><br />It's a statue of some sort. The details have been worn away by time, but even from the details that remain, it looks like it must have been quite the work of art long ago. And not just because the shape reminds you, even if only faintly, of a fox like yourself.",
             choices: [
                 {
                     id: 1,
