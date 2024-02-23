@@ -23,9 +23,8 @@ export const useUpgradeStore = defineStore('upgradeStore', {
             }
         */
 
-        //TODO: add this to saving functionality.
-        //TODO @Mak: set the show here to false and programmatically turn it on once you've got the events set up.
-       soul: new Map<number, Upgrade>([
+        //TODO: @malth the costfunc here is terribly redundant, we should probably rework how this is done. Pass in a base cost and a scalar for repeatable upgrades, etc
+        soul: new Map<number, Upgrade>([
             [1, {
                 show: true,
                 bought: false,
@@ -39,7 +38,7 @@ export const useUpgradeStore = defineStore('upgradeStore', {
                 costFunc: (buyCheck: boolean, level?: number) => {
                     const player = usePlayer();
                     if(!level) { return false; }
-                    const cost = parseFloat(Math.pow(1.7, level).toPrecision(1))
+                    const cost = Math.pow(1.7, level)
                     const canBuy = player.enoughSoul(cost)
   
                     if(buyCheck) {
@@ -72,7 +71,7 @@ export const useUpgradeStore = defineStore('upgradeStore', {
                 costFunc: (buyCheck: boolean, level?: number) => {
                     const player = usePlayer();
                     if(!level) { return false; }
-                    const cost = parseFloat(Math.pow(1.7, level).toPrecision(1))
+                    const cost = Math.pow(1.7, level)
                     const canBuy = player.enoughSoul(cost)
   
                     if(buyCheck) {
@@ -104,7 +103,7 @@ export const useUpgradeStore = defineStore('upgradeStore', {
                 costFunc: (buyCheck: boolean, level?: number) => {
                     const player = usePlayer();
                     if(!level) { return false; }
-                    const cost = parseFloat(Math.pow(1.5, level).toPrecision(1))
+                    const cost = Math.pow(1.5, level)
                     const canBuy = player.enoughSoul(cost)
   
                     if(buyCheck) {
