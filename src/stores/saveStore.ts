@@ -121,7 +121,10 @@ export const useSaveStore = defineStore('saveStore', () =>{
             location.reload();
             return false;
         }
-        saveFile = JSON.parse(localStorage.getItem('kitsune_save') ?? "")
+
+        //TODO: Fix this better later.
+        saveFile = JSON.parse(localStorage.getItem('kitsune_save'))
+        
         const { mapLoaded } = storeToRefs(mapStore)
         if(!saveFile || localStorage.getItem('kitsune_save_bool') === "0") {
             console.log("no save found")
