@@ -122,7 +122,6 @@ export const usePlayer = defineStore('player', () => {
         let orbArray = [] as boolean[];
         let i: number = 0;
         let orbNum: number = 0;
-        debugger;
         while (i<playerStats.value.maxSP) {
             if(orbNum<playerStats.value.sp) {
                 orbArray.push(true)
@@ -134,7 +133,6 @@ export const usePlayer = defineStore('player', () => {
             }
         }
         return orbArray;
-        // return [true, true]
     })
 
 
