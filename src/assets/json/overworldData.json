@@ -444,6 +444,7 @@
 				"y": -3137
 			},
 			"data": {
+				"customFunc": "firstRiver",
 				"areaName": "River",
 				"zone": "riverbank",
 				"description": "",
@@ -484,6 +485,7 @@
 				"y": -2575
 			},
 			"data": {
+				"customFunc": "firstRiver",
 				"areaName": "River",
 				"zone": "riverbank",
 				"description": "",

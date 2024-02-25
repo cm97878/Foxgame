@@ -210,7 +210,6 @@ export const useEventStore = defineStore('eventstore', () => {
 
 
         //Meditate at the statue
-        //TODO: Not liking how these sound, I need to re-pass them later. good enough for a rough draft but they feel clunky and too wordy - may be able to condense this into 2 panels instead of 3 as well.
         ["statueMeditate", {
             description: "You sit down in front of it and, after a tilt of the head, close your eyes. Immediately, jarringly, the sounds around you seem to fade away into the background. The buzzing of insects outside, the chirps of nearby birds, all dull to nothing more than a distant drone. And yet, as your senses dull, another opens to you as you gradually come to experience the world around you in a whole new way. The walls of your cave feel muffling, like trying to hear with your head buried in sand, but beyond that you can feel the presence of creatures beyond. Some few clusters of light are outside, one up in the branches of a tree you barely recognize as such, and another, smaller, quickly darting along beneath.",
             choices: [
@@ -249,6 +248,34 @@ export const useEventStore = defineStore('eventstore', () => {
                 gameFlags.setFlag(FlagEnum.STATUE_INSPECTED, true);
                 activeScene.value = undefined;
             },
+            chain: true
+        }],
+
+
+        //First time visiting the river
+        ["firstRiver", {
+            description: "The faint scent you've been picking up is no longer faint, and is accompanied by a sound - that of fast-flowing water. $STATUE$ You step forwards [and whoever this is will step out from behind a rock on the bank]",
+            choices: [
+                {
+                    id: 1,
+                    label: "Continue"
+                }
+            ],
+            cutsceneCallback: function() {
+                gameFlags.setFlag(FlagEnum.STATUE_INSPECTED, true);
+                activeScene.value = undefined;
+            },
+            textReplace: [
+                {
+                    toReplace: "$STATUE$",
+                    replacement: function () {
+                        if(gameFlags.flagList.get(FlagEnum.STATUE_INSPECTED)) {
+                            return "And an odd twinge of familiarity. You're certain now, that scent you caught before wasn't just water, it was this water specifically.";
+                        }
+                        else return "";
+                    },
+                },
+            ],
             chain: true
         }],
     ])

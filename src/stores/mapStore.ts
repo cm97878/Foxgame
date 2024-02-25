@@ -129,6 +129,15 @@ export const useMapStore = defineStore('mapStuff', () => {
                     upgradeStore.home.set(5, ropeUpgrade)
                 }
             }
+        }],
+        ["firstRiver", function() {
+            if(gameFlags.flagList.get(FlagEnum.FIRST_RIVER)) {
+                callRandomEncounter(selectedNode.value.data.zone || Zone.FOREST)
+            }
+            else {
+                eventStore.callCutscene(eventStore.cutscenes.get("firstRiver"))
+                gameFlags.flagList.set(FlagEnum.FIRST_RIVER, true);
+            }
         }]
     ])
 
