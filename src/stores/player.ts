@@ -49,6 +49,8 @@ export const usePlayer = defineStore('player', () => {
         maxHealth: new Decimal("15"),
         currentHealth: new Decimal("15"),
         spd: 200,
+        sp: 2,
+        maxSP: 2
     })
     const baseStats = ref({
         hpRegen: .5,
@@ -71,6 +73,7 @@ export const usePlayer = defineStore('player', () => {
             const stats = playerStats.value
             const bStats = baseStats.value
             const energy = currencies.value
+            playerStats.value.sp = playerStats.value.maxSP;
             if (stats.currentHealth.lt(stats.maxHealth)) {
                 if(Decimal.add(stats.currentHealth, bStats.hpRegen).gte(stats.maxHealth)) {
                     playerStats.value.currentHealth = stats.maxHealth
@@ -115,6 +118,22 @@ export const usePlayer = defineStore('player', () => {
 
     const getHPRegen = computed(() => baseStats.value.hpRegen)
     const getEnergyRegen = computed(() => baseStats.value.energyRegen)
+    const soulOrbs = computed(() => {
+        let orbArray = [] as boolean[];
+        let i: number = 0;
+        let orbNum: number = 0;
+        while (i<playerStats.value.maxSP) {
+            if(orbNum<playerStats.value.sp) {
+                orbArray.push(true)
+                i++;
+                orbNum++;
+            } else {
+                orbArray.push(false)
+                i++;
+            }
+        }
+        return orbArray;
+    })
 
 
     // -- Actions --
@@ -232,15 +251,27 @@ export const usePlayer = defineStore('player', () => {
         }
     }
 
+    function paySP(amnt: number): boolean {
+        if(playerStats.value.sp >= amnt) {
+            playerStats.value.sp = playerStats.value.sp - amnt;
+            return true;
+        }
+        return false;
+    }
+
+    function refillSP() {
+        playerStats.value.sp = playerStats.value.maxSP;
+    }
+
     return {
         //Stats
         currencies, name, tails, playerStats, gameStage, furthestStage, loaded, firstMove, deniedSoul, resources,
         //Computeds
         getAtk, getDef, getHpCurr, getHpMax, getSpd, getSoul, getMaxSoul, getEnergyDisplay, playerHpRatio, getFood,
-        getHPRegen, getEnergyRegen,
+        getHPRegen, getEnergyRegen, soulOrbs,
         // Actions
         addSoul, subtractSoul, damage, payEnergy, enoughSoul, enoughScouted, enoughKills, enoughEnergy, addBaseAtk, addBaseDef,
         addBaseHealth, modifySpeed, modifyMaxSoul, addTail, addFood, addHPRegen, addEnergyRegen, checkResourceCost, payResource,
-        gainResource
+        gainResource, paySP, refillSP
     }
 })
