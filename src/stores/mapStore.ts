@@ -28,7 +28,7 @@ export const useMapStore = defineStore('mapStuff', () => {
     const gameFlags = useGameFlags();
     const eventStore = useEventStore();
     const upgradeStore = useUpgradeStore();
-    const { getConnectedEdges, fitView, findNode, setNodes, setEdges, nodes, addNodes } = useVueFlow({ id:"map"});
+    const { getConnectedEdges, fitView, findNode, nodes } = useVueFlow({ id:"map"});
 
     // -- State --
     
