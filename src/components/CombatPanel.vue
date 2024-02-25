@@ -37,6 +37,7 @@
 
 
         <div class="stats_flex_container">
+            <SkillsMenu :open="skillsMenuActive"></SkillsMenu>
             <div class="stats_container">
                 <PlayerHpBar />
                 <div class="general_outline combat_stats">
@@ -48,6 +49,7 @@
             </div>
 
             <div v-show="combatStore.activeCombat" class="stats_container">
+                
                 <div class="info_hp_bar_outline">
                     <div id="info_enemy_hp_bar_solid" class="hp_bar_background"></div>
                     {{ combatStore.getOpponentHP + " / " + combatStore.getOpponentStats.maxHP }}
@@ -62,7 +64,7 @@
         </div>
         <div v-if="combatStore.activeCombat" class="combat_actions">
             <img @click="playerAction('attack')" :src="'./src/assets/attackButton.png'" class="combat_button" :class="{disabled: !combatStore.playerTurn }">
-            <img @click="playerAction('skill')" :src="'./src/assets/SkillButton.png'" class="combat_button" :class="{disabled: !combatStore.playerTurn }">
+            <img @click="toggleMenu()" :src="'./src/assets/SkillButton.png'" class="combat_button" :class="{disabled: !combatStore.playerTurn }">
             <img @click="playerAction('item')" :src="'./src/assets/ItemButton.png'" class="combat_button" :class="{disabled: !combatStore.playerTurn }">
             <img @click="playerAction('wait')" :src="'./src/assets/WaitButton.png'" class="combat_button" :class="{disabled: !combatStore.playerTurn }">
         </div>
@@ -82,7 +84,7 @@
 <script setup lang="ts">
 import { usePlayer } from '@/stores/player';
 import { useCombatStore } from '@/stores/combatStore';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import CarouselIcon from './CarouselIcon.vue';
 import { displayDecimal } from '@/utils/utils';
 import { Tab } from '@/enums/panels';
@@ -90,6 +92,7 @@ import PlayerHpBar from './playerHPBar.vue';
 import { onKeyDown } from '@vueuse/core';
 import { useMapStore } from '@/stores/mapStore';
 import { Zone } from '@/enums/areaEnums'
+import SkillsMenu from './SkillsMenu.vue';
 
 const player = usePlayer();
 const combatStore = useCombatStore();
@@ -106,6 +109,14 @@ onKeyDown(['z'], (e) => {
     }
 }, {dedupe: true})
 
+onKeyDown(['x'], (e) => {
+    e.preventDefault()
+    if(!!combatStore.playerTurn) {
+        skillsMenuActive.value = true;
+    }
+}, {dedupe: true})
+
+
 
 const playerAction = function (action: string) {
     combatStore.processPlayerTurn(action);
@@ -121,11 +132,43 @@ const enemyHpRatio = computed((): string => {
     }
 })
 
+const toggleMenu = function(state?: boolean) {
+    if(state){
+        skillsMenuActive.value = state
+    } else {
+        //toggle to the opposite state
+        skillsMenuActive.value = !skillsMenuActive.value
+    }
+}
+
+const skillsMenuActive= ref(false);
+
 defineExpose({ enemyHpRatio })
 
 </script>
 
 <style>
+    .stats_flex_container {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        position:relative;
+        gap: 10px;
+    }
+
+    .stats_container {
+        min-width: 180px;
+        width:100%;
+        min-height: 100px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        margin: 0 4px;
+    }
+
+    .combat_stats {
+        font-size: 24px;
+    }
 
     .combat_actions {
         width:100%;
