@@ -62,13 +62,13 @@
                 </div>
             </div>
         </div>
-        <div v-if="combatStore.activeCombat" class="combat_actions">
+        <div v-show="combatStore.activeCombat" class="combat_actions">
             <img @click="playerAction('attack')" :src="'./src/assets/attackButton.png'" class="combat_button" :class="{disabled: !combatStore.playerTurn }">
             <img @click="toggleMenu()" :src="'./src/assets/SkillButton.png'" class="combat_button" :class="{disabled: !combatStore.playerTurn }">
             <img @click="playerAction('item')" :src="'./src/assets/ItemButton.png'" class="combat_button" :class="{disabled: true }">
             <img @click="playerAction('wait')" :src="'./src/assets/WaitButton.png'" class="combat_button" :class="{disabled: !combatStore.playerTurn }">
         </div>
-        <div v-else class="combat_actions">
+        <div v-show="!combatStore.activeCombat" class="combat_actions">
             <img @click="mapStore.callRandomEncounter(Zone.FOREST)" :src="'./src/assets/ExploreButton.png'" class="combat_button">
         </div>
 

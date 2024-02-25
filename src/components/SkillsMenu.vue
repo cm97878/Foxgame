@@ -32,7 +32,7 @@
 .skill {
     display:flex;
     justify-content: space-between;
-    flex-basis:48%;
+    flex-basis:47%;
     color: white;
     margin:0 4px;
     padding: 0 4px;
