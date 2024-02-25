@@ -8,6 +8,7 @@
     </div>
 </template>
 <script setup lang="ts">
+    //TODO: Make this actually do something.
     let props = defineProps<{
         open: boolean
     }>()

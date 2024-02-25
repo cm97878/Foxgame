@@ -21,7 +21,7 @@ body {
 }
 
 
-button:not(.custom) {
+button {
     outline: 1px solid rgb(0, 140, 255);
     border: none;
     background-color: rgb(71, 71, 71);
@@ -31,7 +31,7 @@ button:not(.custom) {
     font-size: 1em; 
 }
 
-button:not(.custom):active {
+button:active {
     box-shadow: inset 0px 0px 5px rgb(15, 15, 15);
 }
 
@@ -40,7 +40,7 @@ button[disabled] {
     pointer-events: none;
 }
 
-button:not(.custom):hover {
+button:hover {
     background-color: rgb(0, 140, 255);
     color: rgb(12, 12, 12);
 }

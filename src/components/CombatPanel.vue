@@ -5,7 +5,7 @@
             <div id="info_player_graphic" class="combat_graphic">
                 <div class="name_box">{{ player.name }}</div>
                 <div class="battle-background">
-                    <img class="pedestal" :src="'./src/assets/forestPedestal2x.png'">
+                    <img class="pedestal" :src="'./src/assets/forestPedestal.png'">
                 </div>
                 
                 <!-- <Transition name="attack-text">
@@ -16,7 +16,7 @@
             <div v-if="combatStore.activeCombat" id="info_enemy_graphic" class="combat_graphic">
                 <div class="name_box">{{ combatStore.getOpponentStats.name }}</div>
                 <div class="battle-background">
-                    <img class="pedestal" :src="'./src/assets/forestPedestal2x.png'">
+                    <img class="pedestal" :src="'./src/assets/forestPedestal.png'">
                 </div>
                 <!-- <Transition name="attack-text">
                     <span v-show="enemyDamage">{{ combatStore.getOpponentStats.attack + " damage!" }}</span>
@@ -65,7 +65,7 @@
         <div v-if="combatStore.activeCombat" class="combat_actions">
             <img @click="playerAction('attack')" :src="'./src/assets/attackButton.png'" class="combat_button" :class="{disabled: !combatStore.playerTurn }">
             <img @click="toggleMenu()" :src="'./src/assets/SkillButton.png'" class="combat_button" :class="{disabled: !combatStore.playerTurn }">
-            <img @click="playerAction('item')" :src="'./src/assets/ItemButton.png'" class="combat_button" :class="{disabled: !combatStore.playerTurn }">
+            <img @click="playerAction('item')" :src="'./src/assets/ItemButton.png'" class="combat_button" :class="{disabled: true }">
             <img @click="playerAction('wait')" :src="'./src/assets/WaitButton.png'" class="combat_button" :class="{disabled: !combatStore.playerTurn }">
         </div>
         <div v-else class="combat_actions">

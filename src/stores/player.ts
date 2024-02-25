@@ -73,6 +73,7 @@ export const usePlayer = defineStore('player', () => {
             const stats = playerStats.value
             const bStats = baseStats.value
             const energy = currencies.value
+            playerStats.value.sp = playerStats.value.maxSP;
             if (stats.currentHealth.lt(stats.maxHealth)) {
                 if(Decimal.add(stats.currentHealth, bStats.hpRegen).gte(stats.maxHealth)) {
                     playerStats.value.currentHealth = stats.maxHealth
