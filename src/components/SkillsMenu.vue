@@ -1,24 +1,25 @@
 <template>
     <div v-if="props.open" class="skill-menu">
-        <div class="skill"><span>Ultima</span><span>SP2</span></div>
-        <div class="skill"><span>Flare</span><span>SP4</span></div>
-        <div class="skill"><span>Firaga</span><span>SP3</span></div>
-        <div class="skill"><span>Stop</span><span>SP1</span></div>
+        <div v-for="(skill) in skills.getAvailableSkills" class="skill">
+            <span>{{ skill[1].displayName }}</span><span>{{ "SP" + skill[1].cost }}</span>
+        </div>
         
     </div>
 </template>
 <script setup lang="ts">
-    //TODO: Make this actually do something.
+    import { useSkills } from '@/stores/skillsStore';
     let props = defineProps<{
         open: boolean
     }>()
+
+    const skills = useSkills();
 </script>
 <style>
 .skill-menu {
     position:absolute;
     width: 100%;
     min-height: 94px;
-    background-image: linear-gradient(rgb(0, 83, 173), rgb(0, 27, 133));
+    background-image: linear-gradient(rgb(173, 173, 173), rgb(85, 85, 133));
     border: 3px white outset;
     z-index: 3;
     display:flex;

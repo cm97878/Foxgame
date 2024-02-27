@@ -10,3 +10,15 @@ export interface Enemy {
     soulAbsorb: Decimal;
     soulKill: Decimal;
 }
+
+export interface Skill {
+    cost: number;
+    obtained: boolean;
+    displayName: string;
+    effect: Function;
+}
+
+export enum SkillEnum {
+    MEDITATION = 1,
+    DEBUG_METEOR = 2
+}
