@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { Enemy } from '@/types/enemy'
+import type { Enemy, SkillEnum } from '@/types/enemy'
 import Decimal from 'break_infinity.js'
 import { computed, ref } from 'vue';
 import { usePlayer } from '@/stores/player';
@@ -7,10 +7,14 @@ import type { CarouselItem } from '../types/carouselItem';
 import { useMapStore } from './mapStore';
 import { GameStage } from '@/enums/gameStage';
 import { useVueFlow } from '@vue-flow/core';
+import { useSkills } from './skillsStore';
 
 export const useCombatStore = defineStore('combat', () => {
     let turnNumber = 0
     const { findNode } = useVueFlow({ id:"map"});
+    const mapStore = useMapStore();
+    const player = usePlayer();
+    const skills = useSkills();
 
     // -- State --
     const activeCombat = ref(false)
@@ -28,8 +32,6 @@ export const useCombatStore = defineStore('combat', () => {
     const carouselArray = ref<CarouselItem[]>([])
     const logFeed = ref<string[]>([""])
 
-    const mapStore = useMapStore();
-
     // -- Getters/Computeds --
     const getOpponentStats = computed(() => currentOpponent.value)
     const getOpponentHP = computed(() => currentHP.value)
@@ -39,7 +41,6 @@ export const useCombatStore = defineStore('combat', () => {
     // -- Actions --
     function startCombat(enemy: Enemy): void {
         //Load new enemy into memory
-        const player = usePlayer();
         activeCombat.value = true;
         currentOpponent.value = enemy;
         currentHP.value = enemy.maxHP;
@@ -74,23 +75,37 @@ export const useCombatStore = defineStore('combat', () => {
         pushToCombatLog( currentOpponent.value.name + " took " + damage + " damage!" );
     }
 
-    function processPlayerTurn(action: string): void {
-        const player = usePlayer();
+    function processPlayerTurn(action: string, skillNum?: SkillEnum): boolean {
         switch(action) {
             case "attack": {
                 dealDamage(player.getAtk)
+            }
+            case "skill": {
+                if(!!skillNum) {
+                    const skill = skills.skillList.get(skillNum)
+                    if( !!skill && skill.cost <= player.getSP) {
+                        player.paySP(skill.cost)
+                        skill.effect();
+                    }
+                    else { 
+                        return false; 
+                    }
+                } else { 
+                    return false;
+                }
+                
             }
             case "wait": {
                 //nothing, possibly add a regen later.
             }
         }
         repopulateTurns();
-        runTurn(); 
+        runTurn();
+        return true; 
     }
 
     // -- Private functions --
     function runTurn(): void {
-        const player = usePlayer();
         //Check for battle end.
         if(player.getHpCurr.lte(0)){
             pushToCombatLog("Defeat..")
@@ -129,7 +144,6 @@ export const useCombatStore = defineStore('combat', () => {
 
     //shifts array, loops turnTimer (battle turn timer) until another turn is added
     function repopulateTurns() {
-        const player = usePlayer();
         carouselArray.value.shift();
         for(; carouselArray.value.length < 8; turnNumber++) {
             if(turnNumber%player.getSpd === 0) {

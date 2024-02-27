@@ -1,18 +1,30 @@
 <template>
     <div v-if="props.open" class="skill-menu">
-        <div v-for="(skill) in skills.getAvailableSkills" class="skill">
+        <div v-for="(skill) in skills.getAvailableSkills" class="skill" :disabled="player.getSP<skill[1].cost" @click="useSkill(skill[0])">
             <span>{{ skill[1].displayName }}</span><span>{{ "SP" + skill[1].cost }}</span>
         </div>
         
     </div>
 </template>
 <script setup lang="ts">
+    import { useCombatStore } from '@/stores/combatStore';
+    import { usePlayer } from '@/stores/player';
     import { useSkills } from '@/stores/skillsStore';
+    import { SkillEnum } from '@/types/enemy';
     let props = defineProps<{
         open: boolean
     }>()
 
     const skills = useSkills();
+    const combatStore = useCombatStore();
+    const player = usePlayer();
+
+    const useSkill = function (skill: SkillEnum) {
+        const skillUsed = combatStore.processPlayerTurn("skill", skill)
+        if (skillUsed) {
+            // props.open = false;
+        }
+    }
 </script>
 <style>
 .skill-menu {

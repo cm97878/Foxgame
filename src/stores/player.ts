@@ -118,6 +118,7 @@ export const usePlayer = defineStore('player', () => {
 
     const getHPRegen = computed(() => baseStats.value.hpRegen)
     const getEnergyRegen = computed(() => baseStats.value.energyRegen)
+    const getSP = computed(() => playerStats.value.sp)
     const soulOrbs = computed(() => {
         let orbArray = [] as boolean[];
         let i: number = 0;
@@ -270,7 +271,7 @@ export const usePlayer = defineStore('player', () => {
         currencies, name, tails, playerStats, gameStage, furthestStage, loaded, firstMove, deniedSoul, resources,
         //Computeds
         getAtk, getDef, getHpCurr, getHpMax, getSpd, getSoul, getMaxSoul, getEnergyDisplay, playerHpRatio, getFood,
-        getHPRegen, getEnergyRegen, soulOrbs,
+        getSP, getHPRegen, getEnergyRegen, soulOrbs,
         // Actions
         addSoul, subtractSoul, damage, payEnergy, enoughSoul, enoughScouted, enoughKills, enoughEnergy, addBaseAtk, addBaseDef,
         addBaseHealth, modifySpeed, modifyMaxSoul, addTail, addFood, addHPRegen, addEnergyRegen, checkResourceCost, payResource,

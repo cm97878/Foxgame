@@ -1,8 +1,12 @@
 import { SkillEnum, type Skill } from "@/types/enemy"
 import { defineStore } from "pinia"
 import { computed, ref } from "vue"
+import { useCombatStore } from "./combatStore";
+import Decimal from "break_infinity.js";
 
 export const useSkills = defineStore('skillsStore', () => {
+
+    const combatStore = useCombatStore();
 
 	// --- State ---
     const skillList = ref<Map<SkillEnum, Skill>>(new Map<SkillEnum, Skill>([
@@ -15,11 +19,12 @@ export const useSkills = defineStore('skillsStore', () => {
             }
         }],
         [SkillEnum.DEBUG_METEOR, {
-            cost: 5,
+            cost: 1,
             obtained: true,
             displayName: "Meteo",
             effect: function () {
-                console.log('test!')
+                combatStore.pushToCombatLog("A large meteor impacts the earth!")
+                combatStore.dealDamage(new Decimal(100000))
             }
         }]
     ]))
