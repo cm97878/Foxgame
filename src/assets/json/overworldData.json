@@ -1124,7 +1124,7 @@
 				"y": 3951.4002128046627
 			},
 			"data": {
-				"areaSpecialID": "",
+				"areaSpecialID": "combatTest",
 				"customFunc": "combatTest",
 				"areaName": "Zone 1",
 				"zone": "forest",
@@ -1146,7 +1146,7 @@
 				"y": 3950.859546128366
 			},
 			"data": {
-				"areaSpecialID": "",
+				"areaSpecialID": "combatTest",
 				"customFunc": "combatTest",
 				"areaName": "Zone 2",
 				"zone": "forest",
@@ -1169,6 +1169,7 @@
 				"y": 3948.8870807193794
 			},
 			"data": {
+				"areaSpecialID": "combatTest",
 				"customFunc": "combatTest",
 				"areaName": "Zone 3",
 				"zone": "forest",
@@ -1192,6 +1193,7 @@
 				"y": 3944.9421499014056
 			},
 			"data": {
+				"areaSpecialID": "combatTest",
 				"customFunc": "combatTest",
 				"areaName": "Zone 6",
 				"zone": "forest",
@@ -1214,6 +1216,7 @@
 				"y": 3818.704363726256
 			},
 			"data": {
+				"areaSpecialID": "combatTest",
 				"customFunc": "combatTest",
 				"areaName": "Zone 4",
 				"zone": "forest",
@@ -1236,6 +1239,7 @@
 				"y": 4084.9871939394634
 			},
 			"data": {
+				"areaSpecialID": "combatTest",
 				"customFunc": "combatTest",
 				"areaName": "Zone 5",
 				"zone": "forest",

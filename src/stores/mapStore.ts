@@ -138,6 +138,28 @@ export const useMapStore = defineStore('mapStuff', () => {
                 eventStore.callCutscene(eventStore.cutscenes.get("firstRiver"))
                 gameFlags.flagList.set(FlagEnum.FIRST_RIVER, true);
             }
+        }],
+        ["combatTest", function() {
+            switch(selectedNode.value.id) {
+                case "zone1": {
+                    
+                }
+                case "zone2": {
+                    
+                }
+                case "zone3": {
+                    
+                }
+                case "zone4": {
+                    
+                }
+                case "zone5": {
+                    
+                }
+                case "zone6": {
+                    
+                }
+            }
         }]
     ])
 

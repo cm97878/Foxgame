@@ -55,8 +55,15 @@
                     </div>
                 </div>
 
+                <!-- Clearing node -->
                 <div v-show="mapStore.selectedNode.data.areaSpecialID === SpecialAreaId.CLEARING">
                     <InfoPanel v-bind:active="activeTabOverworld" />
+                    <button @click="mapStore.moveToId('zone1')" class="info_buttons">Warp</button>
+                </div>
+
+                <!-- Combat test node -->
+                <div v-show="mapStore.selectedNode.data.areaSpecialID === SpecialAreaId.COMBAT_TEST">
+                    <CombatPanel2 />
                 </div>
             </div>
 
@@ -125,6 +132,7 @@
     import CutsceneModal from './components/CutsceneModal.vue';
     import BasePanel from './components/BasePanel.vue';
     import InfoPanel from './components/InfoPanel.vue';
+    import CombatPanel2 from './components/CombatPanel2.vue';
     import { Panels, Tab } from './enums/panels';
     import { usePlayer } from './stores/player';
     import { onMounted, ref } from 'vue';
