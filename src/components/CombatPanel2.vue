@@ -207,7 +207,7 @@ const currentOpponent = ref<Enemy2>({
     soulAbsorb: new Decimal("1"),
     soulKill: new Decimal("1"),
     aiType: AI_Type.AGGRO,
-    moveList: [] as Move[],
+    moveList: [] as string[],
 })
 const currentHP = ref<Decimal>(new Decimal("0"))
 const carouselArray = ref<CarouselItem[]>([])
