@@ -25,6 +25,7 @@
     
     const mapStore = useMapStore();
     const combatStore = useCombatStore();
+    const { findNode } = useVueFlow({ id:"map"});
 
     //TODO: This wont work. Need to move all the tooltip stuff to the overmap panel, and do something with emitting events for mouse-overe'd nodes
     const props = defineProps({
@@ -54,10 +55,22 @@
     const handleDirection = function(handle:string) {
         let direction = handle.split(",")[1];
         switch(direction) {
-            case "1": return Position.Top;
-            case "2": return Position.Bottom;
-            case "3": return Position.Left;
-            case "4": return Position.Right;
+            case "1": {
+                return Position.Top;
+                break;
+            }
+            case "2": {
+                return Position.Bottom;
+                break;
+            }
+            case "3": {
+                return Position.Left;
+                break;
+            }
+            case "4": {
+                return Position.Right;
+                break;
+            }
         }
     }
 
@@ -65,7 +78,6 @@
         if(!reset) {
             if(props.id) {
                 mapStore.mouseoverDelayCheck = props.id;
-                const { findNode } = useVueFlow({ id:"map"});
                 setTimeout(() => { 
                     if(mapStore.mouseoverDelayCheck === props.id) {
                         mapStore.mouseoverNode = findNode(props.id)!;
